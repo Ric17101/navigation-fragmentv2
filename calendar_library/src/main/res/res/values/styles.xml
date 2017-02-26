@@ -1,0 +1,30 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppBaseTheme" parent="android:Theme.Light" />
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:actionMenuTextColor">@color/roboto_calendar_background</item>
+    </style>
+
+    <style name="RobotoCalendarMonthText">
+        <item name="android:textSize">@dimen/roboto_calendar_month_font</item>
+        <item name="android:textColor">@color/roboto_calendar_day_of_the_week_font</item>
+    </style>
+
+    <style name="RobotoCalendarMonthArrow">
+        <item name="android:tint">@color/roboto_calendar_day_of_the_week_font</item>
+    </style>
+
+    <style name="RobotoCalendarDayOfTheWeekText">
+        <item name="android:textSize">@dimen/roboto_calendar_day_of_week_font</item>
+        <item name="android:textColor">@color/roboto_calendar_day_of_the_month_font</item>
+    </style>
+
+    <style name="RobotoCalendarDayOfTheMonthText">
+        <item name="android:textSize">@dimen/roboto_calendar_day_of_the_month_font</item>
+        <item name="android:textColor">@color/roboto_calendar_day_of_the_month_font</item>
+    </style>
+
+</resources>

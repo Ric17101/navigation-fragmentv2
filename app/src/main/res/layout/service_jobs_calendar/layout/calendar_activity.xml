@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20sp">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frameLayoutCalendar">
+
+        <com.marcohc.robotocalendar.RobotoCalendarView
+            android:id="@+id/robotoCalendarPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:id="@+id/frameLayoutButton"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="TEST RANDOM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/markDayButton" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:id="@+id/frameLayoutListOfServices">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/calendar_service_job_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:clipToPadding="false"
+            android:paddingTop="10sp" />
+    </FrameLayout>
+
+
+</LinearLayout>

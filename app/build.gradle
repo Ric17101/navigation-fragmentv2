@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "admin4.techelm.com.techelmtechnologies"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res/layout/fragment_samples',
+                    'src/main/res/layout/service_jobs_calendar',
+                    'src/main/res/layout/menu',
+                    'src/main/res/layout/login',
+                    'src/main/res/layout',
+                    'src/main/res'
+            ]
+        }
+    }
+
+    useLibrary 'org.apache.http.legacy'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    testCompile 'junit:junit:4.12'
+
+    compile 'com.android.support:design:25.1.0'
+
+    // NavigationDrawer/CheeseCake Dependencies
+    compile 'com.android.support:cardview-v7:25.1.0'
+
+    // SQLite Dependency
+    compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
+
+    // Calendar Dependencies
+    compile 'com.github.bumptech.glide:glide:3.6.0'
+    compile 'de.hdodenhof:circleimageview:1.3.0'
+    compile project(path: ':calendar_library')
+
+    // GSON for JSON parsing
+    compile 'com.google.code.gson:gson:2.8.0'
+}

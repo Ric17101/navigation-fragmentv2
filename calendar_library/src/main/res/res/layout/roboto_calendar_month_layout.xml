@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/robotoCalendarDateTitleContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:paddingBottom="10dp"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:id="@+id/rightButton"
+        style="@style/RobotoCalendarMonthArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/roboto_calendar_padding"
+        android:layout_marginRight="@dimen/roboto_calendar_padding"
+        app:srcCompat="@drawable/ic_arrow_right" />
+
+    <ImageView
+        android:id="@+id/leftButton"
+        style="@style/RobotoCalendarMonthArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/roboto_calendar_padding"
+        android:layout_marginRight="@dimen/roboto_calendar_padding"
+        app:srcCompat="@drawable/ic_arrow_left" />
+
+    <TextView
+        android:id="@+id/monthText"
+        style="@style/RobotoCalendarMonthText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="dateTitle"
+        android:text="MONTH YEAR"
+        android:textAllCaps="true"
+        android:textColor="@color/roboto_calendar_day_of_the_week_font"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+
+</RelativeLayout>

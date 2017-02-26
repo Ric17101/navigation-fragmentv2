@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_servicejobs"
+            android:checked="true"
+            android:icon="@mipmap/nav1_icon"
+            android:title="SERVICES JOB" />
+        <item
+            android:id="@+id/nav_checklist"
+            android:icon="@mipmap/nav2_icon"
+            android:title="SIT WALK CHECKLIST" />
+        <item
+            android:id="@+id/nav_process_pe"
+            android:icon="@mipmap/nav3_icon"
+            android:title="SITE IN PROCESS INSPECTION (PE)" />
+        <item
+            android:id="@+id/nav_process_eps"
+            android:icon="@mipmap/nav4_icon"
+            android:title="SITE IN PROCESS INSPECTION (EPS WORKS)" />
+        <item
+            android:id="@+id/nav_toolbox"
+            android:icon="@mipmap/nav5_icon"
+            android:title="TOOLBOX MEETING" />
+    </group>
+
+</menu>

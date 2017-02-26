@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary1">#005A99</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#13507D</color>
+
+    <color name="colorBlueThemed">#173E74</color>
+    <color name="colorBlueThemed1">#1B3D61</color>
+    <color name="colorBlueCalendarPicker">#1A3E62</color>
+    <color name="colorDarckBlueThemed">#1A3E62</color>
+    <color name="colorBlueButtonThemed">#005A99</color>
+    <color name="textColorWhite">#FFF</color>
+
+    <color name="black">#000</color>
+    <color name="orange">#FA0</color>
+    <color name="white">#FFF</color>
+</resources>
