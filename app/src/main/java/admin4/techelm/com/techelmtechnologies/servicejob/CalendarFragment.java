@@ -16,6 +16,8 @@ import android.widget.Button;
 import com.marcohc.robotocalendar.RobotoCalendarView;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
+import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,8 +26,6 @@ import java.util.Random;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-
-//import android.app.Fragment;
 
 public class CalendarFragment extends Fragment implements
         RobotoCalendarView.RobotoCalendarListener,
@@ -86,6 +86,7 @@ public class CalendarFragment extends Fragment implements
     public void onResume() {
         super.onResume();
     }*/
+
     /**
      * These Two Lines should be included on every Fragment to maintain the state and donnot load again
      *
@@ -228,15 +229,7 @@ public class CalendarFragment extends Fragment implements
     }
 
     private void populateCardList() {
-        // Data to be Fetch to the CardView
-        // List<ServiceJobWrapper> results = null;//getAllData(this.getContext());
-        /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });*/
-        results = getAllDetailsOfLetters();
+        results = new Calendar_ServiceJob_DBUtil(context).getAllDetailsOfServiceJob();
         mSearchResultsList.setHasFixedSize(true);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(context));
         mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
@@ -263,31 +256,6 @@ public class CalendarFragment extends Fragment implements
             //textView.setText(result);
         }
     }*/
-
-    /***********************************
-     * TEST
-     ***********************************/
-
-    // Getting Details Data of all ALPHABET
-    public List<ServiceJobWrapper> getAllDetailsOfLetters() {
-        ArrayList<ServiceJobWrapper> translationList = new ArrayList<>();
-        int x = 0;
-        do {
-            ServiceJobWrapper alpha = new ServiceJobWrapper();
-            alpha.setID(Integer.parseInt(x + ""));
-            alpha.setDay(x + "");
-            alpha.setDate("TestDate" + x);
-            alpha.setServiceNumber("00" + x);
-            alpha.setCustomer("Customer" + x);
-            alpha.setEngineer("Engineer" + x);
-            alpha.setStatus((x % 2 == 1) ? "Pending" : "Completed");
-            translationList.add(alpha);
-            x++;
-        } while (x != 10);
-
-        return translationList;
-    }
-
 
     @Override
     public void onClick(ServiceJobWrapper colorWrapper) {

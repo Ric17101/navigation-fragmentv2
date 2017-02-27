@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20sp">
+
+    <ImageButton
+        android:id="@+id/buttonViewUploadImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="false"
+        android:background="@mipmap/upload_icon"
+        android:clickable="true"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="20sp" />
+
+    <TextView
+        android:text="UPLOAD IMAGE"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView13"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textStyle="normal|bold" />
+
+</LinearLayout>

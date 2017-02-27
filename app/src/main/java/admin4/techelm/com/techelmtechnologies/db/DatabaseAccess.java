@@ -8,6 +8,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import admin4.techelm.com.techelmtechnologies.model.TranslateModel;
+
 public class DatabaseAccess {
     private static final String TABLE_USER = "user";
     private static final String TABLE_USER_GROUP = "user_group";

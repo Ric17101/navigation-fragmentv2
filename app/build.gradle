@@ -21,6 +21,7 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                    'src/main/res/layout/service_reports',
                     'src/main/res/layout/fragment_samples',
                     'src/main/res/layout/service_jobs_calendar',
                     'src/main/res/layout/menu',

@@ -21,10 +21,10 @@ import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdap
 import admin4.techelm.com.techelmtechnologies.fragment_sample.PrimaryFragment;
 import admin4.techelm.com.techelmtechnologies.fragment_sample.SentFragment;
 import admin4.techelm.com.techelmtechnologies.fragment_sample.TabFragment;
-import admin4.techelm.com.techelmtechnologies.fragment_sample.UpdatesFragment;
 import admin4.techelm.com.techelmtechnologies.login.LoginActivity2;
+import admin4.techelm.com.techelmtechnologies.service_report.ServiceReport_1;
 import admin4.techelm.com.techelmtechnologies.servicejob.ServiceJobFragmentTab;
-import admin4.techelm.com.techelmtechnologies.servicejob.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
 
 public class MainActivity extends AppCompatActivity implements
@@ -137,8 +137,8 @@ public class MainActivity extends AppCompatActivity implements
                         fragmentProcessTransaction.replace(R.id.containerView, new PrimaryFragment()).commit();
                         break;
                     case R.id.nav_process_eps:
-                        FragmentTransaction fragmentEpsTransaction = mFragmentManager.beginTransaction();
-                        fragmentEpsTransaction.replace(R.id.containerView, new UpdatesFragment()).commit();
+                        startActivity(new Intent(MainActivity.this, ServiceReport_1.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         break;
                     case R.id.nav_toolbox:
                         FragmentTransaction sampleFragmentTransaction = mFragmentManager.beginTransaction();

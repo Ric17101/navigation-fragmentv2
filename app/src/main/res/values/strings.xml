@@ -37,4 +37,8 @@
     <string name="techheml_technologies">TECHHEML TECHNOLOGIES</string>
     <string name="welcome_to">WELCOME TO</string>
 
+    <string name="title_activity_service_report">Service Report</string>
+    <string name="title_activity_part_replacement">Part Replacement</string>
+    <string name="title_activity_add_replacement_part">Add Replacement Part</string>
+    <string name="title_activity_service_report__task_completed">ServiceReport Task Completed</string>
 </resources>

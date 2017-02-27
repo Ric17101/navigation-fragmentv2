@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+
+    <Button
+        android:id="@+id/button_back"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorBlueThemed"
+        android:contentDescription="@string/app_name"
+        android:text="BACK"
+        android:textColor="@color/textColorWhite" />
+
+    <Button
+        android:id="@+id/button_next"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorBlueThemed"
+        android:contentDescription="@string/app_name"
+        android:text="NEXT"
+        android:textColor="@color/textColorWhite" />
+</LinearLayout>

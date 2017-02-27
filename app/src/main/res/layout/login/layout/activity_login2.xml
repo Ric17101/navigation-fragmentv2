@@ -91,7 +91,7 @@
                         android:drawableStart="@mipmap/user_icon"
                         android:hint="@string/prompt_email"
                         android:inputType="textEmailAddress"
-                        android:maxLines="1"/>
+                        android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
             </FrameLayout>
 
@@ -116,7 +116,7 @@
                         android:imeActionLabel="@string/action_sign_in_short"
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
-                        android:maxLines="1"/>
+                        android:maxLines="1" />
 
                 </android.support.design.widget.TextInputLayout>
             </FrameLayout>
@@ -125,18 +125,16 @@
                 android:layout_width="@dimen/framelayout_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-
-
-                android:background="@color/colorBlueThemed"
                 android:layout_marginBottom="@dimen/margin_login_components">
+
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:attr/borderlessButtonStyle"
-                    android:contentDescription="@string/app_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/login"
                     android:background="@color/colorBlueThemed"
+                    android:contentDescription="@string/app_name"
+                    android:text="@string/login"
                     android:textColor="@color/textColorWhite" />
             </FrameLayout>
         </LinearLayout>

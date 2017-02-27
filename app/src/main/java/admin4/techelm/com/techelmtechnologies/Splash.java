@@ -41,8 +41,7 @@ public class Splash extends Activity {
 					Intent i = new Intent(Splash.this, MainActivity.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 					startActivity(i);
-					overridePendingTransition(R.anim.abc_popup_enter,
-							R.anim.abc_popup_exit);
+					overridePendingTransition(R.anim.enter, R.anim.exit);
 
 				}
 			}

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.servicejob.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapter.ViewHolder> {
 

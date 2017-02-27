@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/calendar_library/calendar_library.iml" filepath="$PROJECT_DIR$/calendar_library/calendar_library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/navigation-fragment.iml" filepath="$PROJECT_DIR$/navigation-fragment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/navigation-fragmentv2-master.iml" filepath="$PROJECT_DIR$/navigation-fragmentv2-master.iml" />
     </modules>
   </component>
 </project>

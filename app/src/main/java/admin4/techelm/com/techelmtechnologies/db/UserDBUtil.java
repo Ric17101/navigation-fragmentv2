@@ -6,8 +6,8 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import admin4.techelm.com.techelmtechnologies.login.UserGroupWrapper;
-import admin4.techelm.com.techelmtechnologies.login.UserLoginWrapper;
+import admin4.techelm.com.techelmtechnologies.model.UserGroupWrapper;
+import admin4.techelm.com.techelmtechnologies.model.UserLoginWrapper;
 
 /**
  * Created by admin 4 on 21/02/2017.

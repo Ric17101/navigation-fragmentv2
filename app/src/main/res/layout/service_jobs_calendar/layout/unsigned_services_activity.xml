@@ -11,13 +11,13 @@
         android:id="@+id/frameLayoutListOfServices">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/unsigned_service_job_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:clipToPadding="false"
-            android:paddingTop="10sp" />
+        android:id="@+id/unsigned_service_job_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:clipToPadding="false"
+        android:paddingTop="10sp" />
     </FrameLayout>
 
 
