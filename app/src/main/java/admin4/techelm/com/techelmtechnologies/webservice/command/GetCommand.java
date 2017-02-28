@@ -25,7 +25,7 @@ public class GetCommand implements WebCommand {
 			String result = UtilNetConnection.inputStreamToString(con.getInputStream());
 			/*set data*/
 			response.setResponseCode(responseCode);
-			response.setStringResponse(result);
+			response.setStringResponse(result); // response.setInputResponse(con.getInputStream()); // For Login only
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

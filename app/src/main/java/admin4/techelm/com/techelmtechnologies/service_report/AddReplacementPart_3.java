@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -32,6 +31,12 @@ public class AddReplacementPart_3 extends AppCompatActivity {
         initButton();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+    }
+
     private void initButton() {
         /** BUTTON BACK */
         Button button_back = (Button) findViewById(R.id.button_back);
@@ -40,7 +45,7 @@ public class AddReplacementPart_3 extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(AddReplacementPart_3.this, PartReplacement_2.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                // overridePendingTransition(R.anim.enter, R.anim.exit);
+                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
             }
         });
 
@@ -52,13 +57,9 @@ public class AddReplacementPart_3 extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(AddReplacementPart_3.this, SigningOff_4.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                // overridePendingTransition(R.anim.enter, R.anim.exit);
+                overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
-
-        /** VIEW DETAILS */
-        ImageButton buttonViewDetails = (ImageButton) findViewById(R.id.buttonViewDetails);
-        buttonViewDetails.setVisibility(View.GONE);
     }
 
     /**

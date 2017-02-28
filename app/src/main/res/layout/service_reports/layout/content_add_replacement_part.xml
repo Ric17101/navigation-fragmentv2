@@ -91,13 +91,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <include
-                    layout="@layout/button_previous_next"
-                    android:layout_width="match_parent" />
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-
+    <include layout="@layout/button_previous_next" />
 </RelativeLayout>

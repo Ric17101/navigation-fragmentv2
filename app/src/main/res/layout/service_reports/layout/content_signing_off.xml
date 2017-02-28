@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -9,7 +9,7 @@
     tools:context="admin4.techelm.com.techelmtechnologies.service_report.SigningOff_4"
     tools:showIn="@layout/activity_signing_off_end_task">
 
-    <RelativeLayout
+    <ScrollView
         android:id="@+id/content_signing_off"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,25 +18,17 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            <include layout="@layout/i_labels_report_details" />
 
-                <include layout="@layout/i_labels_report_details" />
+            <include layout="@layout/i_total_amount_labels" />
+        </LinearLayout>
 
-                <include layout="@layout/i_total_amount_labels" />
+    </ScrollView>
 
-                <include layout="@layout/button_previous_next" />
-            </LinearLayout>
-        </FrameLayout>
-
-    </RelativeLayout>
-</ScrollView>
+    <include layout="@layout/button_previous_next" />
+</RelativeLayout>

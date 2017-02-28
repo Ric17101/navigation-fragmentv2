@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements
                     case R.id.nav_process_eps:
                         startActivity(new Intent(MainActivity.this, ServiceReport_1.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        overridePendingTransition(R.anim.enter, R.anim.exit);
                         break;
                     case R.id.nav_toolbox:
                         FragmentTransaction sampleFragmentTransaction = mFragmentManager.beginTransaction();

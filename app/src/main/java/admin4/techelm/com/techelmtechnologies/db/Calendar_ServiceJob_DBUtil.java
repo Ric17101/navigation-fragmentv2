@@ -29,8 +29,9 @@ public class Calendar_ServiceJob_DBUtil extends DatabaseAccess {
     }
 
     /**************************
-     * WORK Details Query
+     * WORK Details Query     *
      **************************/
+    // TODO: make clean up code
     public List<WorkCalendarWrapper> getAllWorks() {
         ArrayList<WorkCalendarWrapper> userList = new ArrayList<WorkCalendarWrapper>();
         String selectQuery = "SELECT * FROM " + TABLE_WORK;
@@ -62,7 +63,7 @@ public class Calendar_ServiceJob_DBUtil extends DatabaseAccess {
 
 
     /**************************
-     * SERVICE Details Query
+     * SERVICE Details Query  *
      **************************/
     public List<ServiceWrapper> getAllServices() {
         ArrayList<ServiceWrapper> userList = new ArrayList<ServiceWrapper>();

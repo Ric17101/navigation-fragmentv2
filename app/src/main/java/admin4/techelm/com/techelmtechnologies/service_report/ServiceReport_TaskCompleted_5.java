@@ -30,6 +30,12 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
 
         initButton();
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+    }
+
     private void initButton() {
 
         /** BUTTON VIEW DETAILS */
@@ -39,7 +45,7 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(ServiceReport_TaskCompleted_5.this, MainActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                // overridePendingTransition(R.anim.enter, R.anim.exit);
+                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
             }
         });
     }

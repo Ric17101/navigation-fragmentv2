@@ -68,6 +68,10 @@ public class UtilNetConnection {
         }
         return builder.toString();
     }
+    /*InputStream To String*/
+    public static InputStream inputStreamReturn(InputStream inputStream){
+        return inputStream;
+    }
     public static void writeParam(HttpURLConnection urlConnection,String param){
         try {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));

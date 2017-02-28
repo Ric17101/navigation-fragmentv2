@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="admin4.techelm.com.techelmtechnologies.login.LoginActivity2">
 
     <!-- Login progress -->
@@ -30,7 +26,11 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
 
             <TextView
                 android:id="@+id/textViewwelcome"
@@ -91,7 +91,11 @@
                         android:drawableStart="@mipmap/user_icon"
                         android:hint="@string/prompt_email"
                         android:inputType="textEmailAddress"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:nextFocusDown="@+id/password"
+                        android:imeOptions="actionNext" >
+                        <requestFocus />
+                    </AutoCompleteTextView>
                 </android.support.design.widget.TextInputLayout>
             </FrameLayout>
 

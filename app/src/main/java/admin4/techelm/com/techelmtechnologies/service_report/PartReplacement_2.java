@@ -22,7 +22,11 @@ public class PartReplacement_2 extends AppCompatActivity {
 
         initButton();
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+    }
     private void initButton() {
 
         /** BUTTON BACK */
@@ -32,7 +36,7 @@ public class PartReplacement_2 extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(PartReplacement_2.this, ServiceReport_1.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                // overridePendingTransition(R.anim.enter, R.anim.exit);
+                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
             }
         });
 
@@ -43,18 +47,20 @@ public class PartReplacement_2 extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(PartReplacement_2.this, AddReplacementPart_3.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                // overridePendingTransition(R.anim.enter, R.anim.exit);
+                overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
 
         /** BUTTON VIEW DETAILS */
         ImageButton buttonViewDetails = (ImageButton) findViewById(R.id.buttonViewDetails);
+        if (!buttonViewDetails.isShown())
+            buttonViewDetails.setVisibility(View.VISIBLE);
         buttonViewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PartReplacement_2.this, SigningOff_4.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                // overridePendingTransition(R.anim.enter, R.anim.exit);
+                overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
 
