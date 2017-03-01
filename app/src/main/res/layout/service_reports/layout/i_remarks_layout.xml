@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20sp">
+    android:padding="20sp"
+    android:weightSum="1">
 
     <TextView
         android:text="Remarks"
@@ -19,6 +20,7 @@
         android:inputType="textMultiLine"
         android:ems="10"
         android:lines="3"
-        android:id="@+id/editText" />
+        android:id="@+id/editText"
+        android:layout_weight="1.66" />
 
 </LinearLayout>

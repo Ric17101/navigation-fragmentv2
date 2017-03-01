@@ -8,12 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.marcohc.robotocalendar.RobotoCalendarView;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
@@ -31,13 +34,15 @@ public class ServiceJobFragment extends Fragment implements
         RobotoCalendarView.RobotoCalendarListener,
         ServiceJobListAdapter.OnItemClickListener
 {
+    private static final String TAG = CalendarFragment.class.getSimpleName();
+    private static final int REQUEST_CODE = 1234;
 
     private RobotoCalendarView robotoCalendarView;
-    private Context context;
+    private SlidingUpPanelLayout mLayout;
 
+    private Context context;
     private ServiceJobListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
-    private static final int REQUEST_CODE = 1234;
 
     private List<ServiceJobWrapper> results = null;
 
@@ -49,19 +54,12 @@ public class ServiceJobFragment extends Fragment implements
                 R.layout.servicejob_activity, container, false);
         setContext(container.getContext());
 
+        setupSlidingPanel(view);
+
         setUpCalendarView(view);
 
         setUpRecyclerView(view);
         setupResultsList(view);
-
-        /*final View view2 = view;
-        new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });*/
-
 
         if (results == null) {
 
@@ -166,6 +164,33 @@ public class ServiceJobFragment extends Fragment implements
         robotoCalendarView.showDateTitle(true);
 
         robotoCalendarView.updateView();
+    }
+
+    private void setupSlidingPanel(View view) {
+        /** Listeners and Instanstiation */
+        mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout_calendar);
+        mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                Log.i(TAG, "onPanelStateChanged " + newState);
+            }
+        });
+        mLayout.setFadeOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+
+        /** Set up Sliding Panel height to ANCHORED... */
+        mLayout.setAnchorPoint(0.6f);
+        // mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
     @Override

@@ -14,6 +14,9 @@ buildscript {
 
         // Calendar Roboto
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+
+        // Signature Pad
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 
 

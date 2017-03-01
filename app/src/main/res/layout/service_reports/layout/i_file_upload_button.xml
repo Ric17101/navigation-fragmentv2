@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="20sp">
+    android:clickable="true"
+    card_view:cardCornerRadius="0dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true">
 
-    <TextView
-        android:text="NEW REPLACEMENT PART"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView16"
-        android:textStyle="normal|bold"
-        android:textSize="14sp" />
+        android:orientation="vertical"
+        android:padding="20sp">
 
-    <ImageButton
-        android:id="@+id/buttonViewUploadFile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:adjustViewBounds="false"
-        android:background="@mipmap/replacepart_icon"
-        android:clickable="true"
-        android:padding="0dp"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="20sp" />
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NEW REPLACEMENT PART"
+            android:textSize="14sp"
+            android:textStyle="normal|bold" />
 
-    <TextView
-        android:text="CREATE NEW"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView13"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        android:textStyle="normal|bold" />
+        <ImageButton
+            android:id="@+id/buttonViewUploadFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20sp"
+            android:adjustViewBounds="false"
+            android:background="@mipmap/replacepart_icon"
+            android:clickable="true"
+            android:padding="0dp"
+            android:scaleType="fitCenter" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CREATE NEW"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="normal|bold" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

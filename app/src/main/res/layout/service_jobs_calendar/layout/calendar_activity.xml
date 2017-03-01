@@ -1,49 +1,98 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout_calendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20sp">
+    android:gravity="bottom"
+    sothree:umanoDragView="@+id/dragView"
+    sothree:umanoOverlay="true"
+    sothree:umanoPanelHeight="68dp"
+    sothree:umanoParallaxOffset="100dp"
+    sothree:umanoScrollableView="@+id/list"
+    sothree:umanoShadowHeight="4dp">
 
-
+    <!-- MAIN CONTENT -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/frameLayoutCalendar">
-
-        <com.marcohc.robotocalendar.RobotoCalendarView
-            android:id="@+id/robotoCalendarPicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:id="@+id/frameLayoutButton"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:text="TEST RANDOM"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/markDayButton" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:isScrollContainer="true"
-        android:id="@+id/frameLayoutListOfServices">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20sp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/calendar_service_job_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:clipToPadding="false"
-            android:paddingTop="10sp" />
+            android:paddingTop="10sp"
+            android:paddingBottom="50sp"/>
+
     </FrameLayout>
 
+    <!-- SLIDING LAYOUT -->
+    <LinearLayout
+        android:id="@+id/dragView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:clickable="true"
+        android:focusable="false"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:background="@color/colorBlueThemed"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:text="CALENDAR VIEW"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:textStyle="normal|bold"
+                android:textColor="@color/textColorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/frameLayoutCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.marcohc.robotocalendar.RobotoCalendarView
+                android:id="@+id/robotoCalendarPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/frameLayoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/markDayButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEST RANDOM" />
+
+            <Button
+                android:id="@+id/buttonShowHideCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+

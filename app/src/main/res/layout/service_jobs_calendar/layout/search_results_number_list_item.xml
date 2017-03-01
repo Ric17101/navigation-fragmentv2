@@ -40,11 +40,11 @@
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="10dp">
 
                     <RelativeLayout
-                        android:layout_width="100dp"
+                        android:layout_width="60dp"
                         android:layout_height="match_parent">
 
                         <TextView
@@ -66,7 +66,7 @@
                             android:textAlignment="center"
                             android:textColor="@android:color/black"
                             android:textStyle="normal|bold"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                         <TextView
                             android:id="@+id/textViewDay"
@@ -78,7 +78,7 @@
                             android:text="Day"
                             android:textAlignment="center"
                             android:textStyle="italic"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </RelativeLayout>
 
@@ -93,7 +93,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="93dp"
+                    android:layout_height="match_parent"
                     android:padding="10dp">
 
                     <LinearLayout
@@ -117,7 +117,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="Service No."
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/textView6"
@@ -128,7 +128,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="Customer"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/textView7"
@@ -139,7 +139,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="Engineer"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/textView2"
@@ -150,7 +150,7 @@
                                 android:layout_weight="1"
                                 android:gravity="fill_vertical"
                                 android:text="Status"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                         </LinearLayout>
 
@@ -170,7 +170,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text=":"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/textView9"
@@ -181,7 +181,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text=":"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/textView10"
@@ -192,7 +192,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text=":"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/textView11"
@@ -203,13 +203,13 @@
                                 android:layout_weight="1"
                                 android:gravity="fill_vertical"
                                 android:text=":"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/textViewLabelLayout"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:padding="5sp"
@@ -226,7 +226,7 @@
                                 android:gravity="center_vertical"
                                 android:text="SEV00001"
                                 android:textStyle="normal|bold"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/textViewCustomer"
@@ -238,7 +238,7 @@
                                 android:gravity="center_vertical"
                                 android:text="John Doe"
                                 android:textStyle="normal|bold"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/textViewEngineer"
@@ -250,7 +250,7 @@
                                 android:gravity="center_vertical"
                                 android:text="Leonard Lee"
                                 android:textStyle="normal|bold"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                             <TextView
                                 android:id="@+id/textViewStatus"
@@ -262,21 +262,21 @@
                                 android:gravity="center_vertical"
                                 android:text="Pending/Completed"
                                 android:textStyle="normal|bold"
-                                android:textSize="10sp" />
+                                android:textSize="8sp" />
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
                             <TableLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="match_parent">
 
                                 <TableRow
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:gravity="right|center_vertical"
                                     android:layout_weight="1">
@@ -302,11 +302,11 @@
                                         android:id="@+id/textViewEditDetails"
                                         android:clickable="true"
                                         android:textColorLink="@color/colorAccent"
-                                        android:textSize="10sp" />
+                                        android:textSize="8sp" />
                                 </TableRow>
 
                                 <TableRow
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:gravity="end|center_vertical"
                                     android:layout_weight="1">
@@ -336,7 +336,7 @@
                                         android:id="@+id/textViewViewDetails"
                                         android:clickable="true"
                                         android:textColorLink="@color/colorAccent"
-                                        android:textSize="10sp" />
+                                        android:textSize="8sp" />
                                 </TableRow>
 
                             </TableLayout>

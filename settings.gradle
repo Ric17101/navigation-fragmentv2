@@ -1,1 +1,4 @@
-include ':app', ':calendar_library'
+include ':app',
+        ':calendar_library',
+        ':sliding_panel_library',
+        ':signature_pad_library'

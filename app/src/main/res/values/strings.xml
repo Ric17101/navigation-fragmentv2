@@ -41,4 +41,10 @@
     <string name="title_activity_part_replacement">Part Replacement</string>
     <string name="title_activity_add_replacement_part">Add Replacement Part</string>
     <string name="title_activity_service_report__task_completed">ServiceReport Task Completed</string>
+
+    <!-- Signature String Val-->
+    <string name="i_agree_the_terms_and_conditions">I agree the terms and conditions.</string>
+    <string name="clear_signature">CLEAR SIGNATURE</string>
+    <string name="save_signature">SAVE SIGNATURE</string>
+
 </resources>

@@ -58,4 +58,10 @@ dependencies {
 
     // GSON for JSON parsing
     compile 'com.google.code.gson:gson:2.8.0'
+
+    // Sliding up panel
+    compile project(path: ':sliding_panel_library')
+
+    // Signature Pad
+    compile project(path: ':signature_pad_library')
 }

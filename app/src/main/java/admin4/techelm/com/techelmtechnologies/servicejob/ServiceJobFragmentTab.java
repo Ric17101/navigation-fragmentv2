@@ -12,13 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.fragment_sample.SocialFragment;
 
 public class ServiceJobFragmentTab extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    public static int int_items = 4;
+    public static int int_items = 3;
 
     @Nullable
     @Override
@@ -26,9 +25,9 @@ public class ServiceJobFragmentTab extends Fragment {
         /**
          *Inflate tab_layout and setup Views.
          */
-        View x = inflater.inflate(R.layout.tab_layout, null); // View x = inflater.inflate(R.layout.tab_layout, container, false);
-        tabLayout = (TabLayout) x.findViewById(R.id.tabs);
-        viewPager = (ViewPager) x.findViewById(R.id.viewpager);
+        View view = inflater.inflate(R.layout.tab_layout, null); // View x = inflater.inflate(R.layout.tab_layout, container, false);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
 
         /**
          *Set an Apater for the View Pager
@@ -47,7 +46,7 @@ public class ServiceJobFragmentTab extends Fragment {
             }
         });
 
-        return x;
+        return view;
     }
 
     class MyAdapter extends FragmentPagerAdapter {
@@ -64,15 +63,10 @@ public class ServiceJobFragmentTab extends Fragment {
             switch (position) {
                 case 0:
                     return new CalendarFragment();
-                   // return new ServiceJobFragment();
                 case 1:
                     return new UnsignedServicesFragment();
                 case 2:
                     return new ServiceJobFragment();
-                    //return new UnsignedServicesFragment();
-                case 3:
-                    return new SocialFragment();
-                    //return new JSONFragment();
             }
             return null;
         }
@@ -96,8 +90,6 @@ public class ServiceJobFragmentTab extends Fragment {
                     return "Un-signed services form";
                 case 2:
                     return "Service Jobs";
-                case 3:
-                    return "Social";
             }
             return null;
         }

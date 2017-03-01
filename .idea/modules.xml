@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/calendar_library/calendar_library.iml" filepath="$PROJECT_DIR$/calendar_library/calendar_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/navigation-fragmentv2-master.iml" filepath="$PROJECT_DIR$/navigation-fragmentv2-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/signature_pad_library/signature_pad_library.iml" filepath="$PROJECT_DIR$/signature_pad_library/signature_pad_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sliding_panel_library/sliding_panel_library.iml" filepath="$PROJECT_DIR$/sliding_panel_library/sliding_panel_library.iml" />
     </modules>
   </component>
 </project>

@@ -95,15 +95,16 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
             String str = "";
 
             JSONArray articles = json.getJSONArray("userId");
+            // {"status":200,"message":"Successfully login.","id":"2","password":"password","username":"@dev"}
             str += "articles length = " + json.getJSONArray("id").length();
             str += "\n--------\n";
             str += "names: " + articles.getJSONObject(0).names();
             str += "\n--------\n";
-            str += "url: " + articles.getJSONObject(0).getString("title");
+            str += "password: " + articles.getJSONObject(0).getString("password");
 
             Log.e(TAG, "parseJSON: " + str);
             //etResponse.setText(json.toString(1));
-            //mCallback.onHandleShowDetails(str);
+            mCallback.onHandleShowDetails(str);
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -112,10 +113,12 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
         }
     }
 
+    // TODO: Network API activity
     public void postLogin(String email, String password) {
         /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        String url = "http://jsonplaceholder.typicode.com/posts";
+        // String url = "http://jsonplaceholder.typicode.com/posts";
+        String url = "http://192.168.13.12/CI/simple-codeigniter-rest-api-master/index.php/auth/user?user=@dev&password=password";
         webServiceInfo.setUrl(url);
 
         /*add parameter*/
@@ -135,16 +138,16 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
                 Log.e(TAG, "WebResponse: " + response.getStringResponse());
                 // textView23.setText(response.getStringResponse());
                 // USER_CREDENTIALS = response.getStringResponse();
-                // parseJSON(response.getStringResponse());
+                parseJSON(response.getStringResponse());
             }
         });
     }
 
-    /*@Override
+    @Override
     protected void onPreExecute() {
         super.onPreExecute();
         // postLogin(mEmail, mPassword);
-    }*/
+    }
 
     @Override
     protected Boolean doInBackground(Void... params) {

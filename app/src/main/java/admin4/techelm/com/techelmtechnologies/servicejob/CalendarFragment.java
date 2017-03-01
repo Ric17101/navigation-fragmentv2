@@ -8,18 +8,20 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.marcohc.robotocalendar.RobotoCalendarView;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -33,12 +35,16 @@ public class CalendarFragment extends Fragment implements
         //ServiceJobListAdapter.CallbackInterface
 {
 
-    private RobotoCalendarView robotoCalendarView;
-    private Context context;
-
-    private CalendarListAdapter mListAdapter;
-    private RecyclerView mSearchResultsList;
+    private static final String TAG = CalendarFragment.class.getSimpleName();
     private static final int REQUEST_CODE = 1234;
+
+    private RobotoCalendarView robotoCalendarView;
+    private SlidingUpPanelLayout mLayout;
+
+    private Context context;
+    private CalendarListAdapter mListAdapter;
+    private RecyclerView mCalendarResultsList;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     private List<ServiceJobWrapper> results = null;
 
@@ -50,21 +56,47 @@ public class CalendarFragment extends Fragment implements
                 R.layout.calendar_activity, container, false);
         setContext(container.getContext());
 
+        setupSlidingPanel(view);
+
         setUpCalendarView(view);
         setUpRecyclerView(view);
 
         setupResultsList(view);
 
-        /*setUpRecyclerView(view);
-
-        setupResultsList(view);*/
         if (results == null) {
-//            UpdateJobServiceTask task = new UpdateJobServiceTask(view);
-//            task.execute("");
             populateCardList();
         }
+
         return view;
     }
+
+    private void setupSlidingPanel(View view) {
+        /** Listeners and Instanstiation */
+        mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout_calendar);
+        mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                Log.i(TAG, "onPanelStateChanged " + newState);
+            }
+        });
+        mLayout.setFadeOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED); // mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+            }
+        });
+
+        /** Set up Sliding Panel height to ANCHORED... */
+        mLayout.setAnchorPoint(0.6f);
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +127,7 @@ public class CalendarFragment extends Fragment implements
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        setRetainInstance(true);
+        // setRetainInstance(true);
         System.out.println("CalendarFragment: I'm on the onSaveInstanceState");
     }
 
@@ -117,13 +149,14 @@ public class CalendarFragment extends Fragment implements
     }
 
     public void setUpRecyclerView(View upRecyclerView) {
-        mSearchResultsList = (RecyclerView) upRecyclerView.findViewById(R.id.calendar_service_job_list);
+        mCalendarResultsList = (RecyclerView) upRecyclerView.findViewById(R.id.calendar_service_job_list);
     }
 
     public void setupResultsList(View view) {
         mListAdapter = new CalendarListAdapter(view.getContext());
-        mSearchResultsList.setAdapter(mListAdapter);
-        mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mCalendarResultsList.setAdapter(mListAdapter);
+        mLayoutManager = new LinearLayoutManager(view.getContext());
+        mCalendarResultsList.setLayoutManager(mLayoutManager);
     }
 
     /**
@@ -230,9 +263,9 @@ public class CalendarFragment extends Fragment implements
 
     private void populateCardList() {
         results = new Calendar_ServiceJob_DBUtil(context).getAllDetailsOfServiceJob();
-        mSearchResultsList.setHasFixedSize(true);
-        mSearchResultsList.setLayoutManager(new LinearLayoutManager(context));
-        mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
+        mCalendarResultsList.setHasFixedSize(true);
+        mCalendarResultsList.setLayoutManager(new LinearLayoutManager(context));
+        mCalendarResultsList.setItemAnimator(new DefaultItemAnimator());
         mListAdapter.swapData(results);
 
     }
