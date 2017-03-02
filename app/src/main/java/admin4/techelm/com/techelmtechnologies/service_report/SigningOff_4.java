@@ -79,7 +79,7 @@ public class SigningOff_4 extends AppCompatActivity {
 
                 View popUp = layFlator.inflate(R.layout.i_pop_up_signature, null);
 
-                final PopupWindow popupWindow = new PopupWindow(popUp, 750, 680, true);
+                final PopupWindow popupWindow = new PopupWindow(popUp, 700, 680, true);
                 // popupWindow.setAnimationStyle(R.style.PopupAnimation);
                 popupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER, 0, 0);
                 popupWindow.showAsDropDown(popUp, 50, -30);
