@@ -21,7 +21,7 @@ import java.io.InputStreamReader;
  */
 
 public class JSONHelper {
-
+    
     public static String GET(String url){
         InputStream inputStream = null;
         String result = "";
@@ -40,10 +40,12 @@ public class JSONHelper {
             if(inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
-                result = "Did not work!";
+                result = "null"; // result = "Did not work!";
 
+            Log.d("InputStream",result);
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
+            result = "error";
         }
 
         return result;

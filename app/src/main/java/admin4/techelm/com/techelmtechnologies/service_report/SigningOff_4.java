@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -35,7 +36,7 @@ public class SigningOff_4 extends AppCompatActivity {
 
         initButton();
 
-         initSignaturePadPopUp();
+        initSignaturePadPopUp();
     }
 
     @Override
@@ -66,8 +67,41 @@ public class SigningOff_4 extends AppCompatActivity {
         ImageButton buttonViewDetails = (ImageButton) findViewById(R.id.buttonViewDetails);
         buttonViewDetails.setVisibility(View.GONE);
     }
+
     private void initSignaturePadPopUp() {
+        imageButtonViewSignature = (ImageButton) findViewById(R.id.imageButtonViewSignature);
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);
+        // Set a click listener for the text view
+        imageButtonViewSignature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layFlator = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                View popUp = layFlator.inflate(R.layout.i_pop_up_signature, null);
+
+                final PopupWindow popupWindow = new PopupWindow(popUp, 750, 680, true);
+                // popupWindow.setAnimationStyle(R.style.PopupAnimation);
+                popupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER, 0, 0);
+                popupWindow.showAsDropDown(popUp, 50, -30);
+
+                ImageButton btnHybrid = (ImageButton) popUp.findViewById(R.id.ib_close);
+                btnHybrid.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("hybrid", "called");
+                        popupWindow.dismiss();
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void initSignaturePadPopUp2() {
         // Get the widgets reference from XML layout
+        final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View customView = inflater.inflate(R.layout.i_pop_up_signature, null);
+
         mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);
         imageButtonViewSignature = (ImageButton) findViewById(R.id.imageButtonViewSignature);
 
@@ -76,10 +110,10 @@ public class SigningOff_4 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Initialize a new instance of LayoutInflater service
-                LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
 
                 // Inflate the custom layout/view
-                View customView = inflater.inflate(R.layout.i_pop_up_signature, null);
+
 
                 // Initialize a new instance of popup window
                 mPopupWindow = new PopupWindow(

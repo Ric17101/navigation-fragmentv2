@@ -33,4 +33,5 @@
     </ScrollView>
 
     <include layout="@layout/button_previous_next" />
+
 </RelativeLayout>

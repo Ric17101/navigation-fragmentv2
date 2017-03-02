@@ -36,6 +36,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import admin4.techelm.com.techelmtechnologies.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.db.UserDBUtil;
@@ -90,6 +91,20 @@ public class LoginActivity2 extends AppCompatActivity implements
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void initializedConnection() {
+        // check if you are connected or not
+        if (new JSONHelper().isConnected(this)) {
+            //tvIsConnected.setBackgroundColor(0xFF00CC00);
+            //tvIsConnected.setText("You are conncted");
+        } else {
+            //tvIsConnected.setText("You are NOT connected");
+        }
+
+
+        // call AsynTask to perform network operation on separate thread
+        // new HttpAsyncTask().execute("http://hmkcode.appspot.com/rest/controller/get.json");
     }
 
     /**
@@ -230,8 +245,6 @@ public class LoginActivity2 extends AppCompatActivity implements
     @Override
     public void onHandleShowDetails(String details) {
         Toast.makeText(this, details, Toast.LENGTH_LONG).show();
-        mPasswordView.setError(details);
-        mPasswordView.requestFocus();
     }
     /**
      * UpdateJobServiceTask task = new UpdateJobServiceTask(view);
