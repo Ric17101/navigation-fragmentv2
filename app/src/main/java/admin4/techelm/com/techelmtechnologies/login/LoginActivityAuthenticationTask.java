@@ -187,6 +187,13 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
         super.onPreExecute();
     }
 
+    /**
+     * 0 - no user existed
+     * 1 - success login
+     * 2 - invalid password but correct username
+     * 3 - no response
+     * 4 - no internet??? or blank reponse
+     */
     @Override
     protected Boolean doInBackground(Void... params) {
         String parsedUser = "";
@@ -250,6 +257,7 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
         // TO DO: register the new account here. But since it was said that it is happening on the back end, ignore this
         // return true;
     }
+
 
     @Override
     protected void onPostExecute(final Boolean success) {
