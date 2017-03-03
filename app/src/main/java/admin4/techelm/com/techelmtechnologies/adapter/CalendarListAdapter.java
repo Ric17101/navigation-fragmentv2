@@ -74,10 +74,11 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewDateNumber.setText(serviceJobDataSet.getDay());
+        // holder.textViewDateNumber.setText((serviceJobDataSet.getDay() != "") ? serviceJobDataSet.getDay().split("-")[2] : position + "");
+        holder.textViewDateNumber.setText(position+1 + "");
         holder.textViewDate.setText(serviceJobDataSet.getDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
         holder.textViewCustomer.setText(serviceJobDataSet.getCustomer());
@@ -195,8 +196,11 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
                 }
+            } else if (v.getId() == buttonEditDetails.getId()) {
+                if (mCallback != null) {
+                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 3);
+                }
             }
-
         }
     }
 }

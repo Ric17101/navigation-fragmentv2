@@ -28,6 +28,7 @@ public class ServiceReport_1 extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }
+
     private void initButton() {
         /** BUTTON BACK */
         Button button_back = (Button) findViewById(R.id.button_back);

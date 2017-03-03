@@ -1,10 +1,8 @@
-package admin4.techelm.com.techelmtechnologies.login;
+package admin4.techelm.com.techelmtechnologies.task;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,14 +10,11 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.db.UserDBUtil;
 import admin4.techelm.com.techelmtechnologies.json.JSONHelper;
-import admin4.techelm.com.techelmtechnologies.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.UserLoginWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
-import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceListener;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
@@ -52,7 +47,7 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
     // POST Command for User Login Authentication
     private GetCommand postCommand;
 
-    LoginActivityAuthenticationTask(String email, String password, Context context) {
+    public LoginActivityAuthenticationTask(String email, String password, Context context) {
         mEmail = email;
         mPassword = password;
 
@@ -231,7 +226,6 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
                     case "2" :
                     case "0" :
                     case "" :
-                        return false;
                     default :
                         return false;
                 }

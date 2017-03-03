@@ -34,7 +34,7 @@ public class ServiceJobWrapper implements Parcelable {
         }
     };
 
-    //private variables
+    //private variables 14
     public int _id;
     public String _day;
     public String _date;

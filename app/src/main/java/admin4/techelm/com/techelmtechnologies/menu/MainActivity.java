@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
@@ -193,6 +194,12 @@ public class MainActivity extends AppCompatActivity implements
     public void onHandleSelection(int position, ServiceJobWrapper serviceJob, int mode) {
         String strOut = "Position: " + position + " \nService Job:" + serviceJob.toString() + "\nMode: " + mode;
         System.out.print(strOut);
+
+        switch(mode) {
+            case 3 :
+                Toast.makeText(getApplicationContext(), serviceJob.toString(), Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
 
