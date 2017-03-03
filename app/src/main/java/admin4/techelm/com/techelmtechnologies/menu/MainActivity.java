@@ -197,6 +197,9 @@ public class MainActivity extends AppCompatActivity implements
 
         switch(mode) {
             case 3 :
+                // TODO : Edit Details
+                break;
+            case 2 :
                 Toast.makeText(getApplicationContext(), serviceJob.toString(), Toast.LENGTH_SHORT).show();
                 break;
         }

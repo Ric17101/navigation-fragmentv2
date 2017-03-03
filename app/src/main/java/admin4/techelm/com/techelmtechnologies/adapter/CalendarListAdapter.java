@@ -192,7 +192,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
                 }
             } else*/
 
-            if (v.getId() == buttonEditDetails.getId() || v.getId() == textViewEditDetails.getId()) {
+            if (v.getId() == buttonViewDetails.getId()) {
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
                 }

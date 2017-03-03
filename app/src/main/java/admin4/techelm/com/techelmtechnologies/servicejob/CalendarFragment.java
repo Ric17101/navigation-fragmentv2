@@ -464,7 +464,6 @@ public class CalendarFragment extends Fragment implements
 
                 Log.d(TAG, "parseJSON: " + str);
 
-
                 // jsonLen += 1;
                 int i = 0;
                 do {
