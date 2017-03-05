@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20sp">
+    android:padding="@dimen/recycler_view_list_padding">
 
     <FrameLayout
         android:id="@+id/frameLayoutListOfServices"
@@ -14,11 +14,9 @@
             android:id="@+id/unsigned_service_job_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:clipToPadding="false"
-            android:paddingBottom="50sp"
-            android:paddingTop="10sp" />
+            android:paddingBottom="20sp"
+            android:paddingTop="4sp" />
     </FrameLayout>
 
 

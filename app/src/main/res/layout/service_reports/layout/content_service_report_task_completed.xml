@@ -77,7 +77,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBlueThemed"
+            android:background="@color/colorBlueButtonThemed"
             android:contentDescription="@string/app_name"
             android:text="BACK TO TASK"
             android:textColor="@color/textColorWhite" />
