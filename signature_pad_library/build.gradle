@@ -1,0 +1,110 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+dependencies {
+
+}
+
+Properties properties = new Properties()
+final def bintrayPropertiesFile = project.rootProject.file('bintray.properties')
+if (bintrayPropertiesFile.exists()) properties.load(bintrayPropertiesFile.newDataInputStream())
+
+android {
+    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "android-signaturepad"
+        desc = "A custom Android View to capture signatures"
+        websiteUrl = "https://github.com/gcacace/android-signaturepad"
+        vcsUrl = "https://github.com/gcacace/android-signaturepad"
+        licenses = ["Apache-2.0"]
+        publish = true
+
+        version {
+            gpg {
+                sign = true
+                passphrase = properties.getProperty("bintray.gpg.passphrase")
+            }
+            mavenCentralSync {
+                sync = true
+                user = properties.getProperty("oss.userToken")
+                password = properties.getProperty("oss.userTokenValue")
+                close = '1'
+            }
+        }
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+
+                // Add your description here
+                description "A custom Android View to capture signatures"
+                name "Signature Pad"
+                url "https://github.com/gcacace/android-signaturepad"
+
+                // Set your license
+                licenses {
+                    license {
+                        name "The Apache Software License, Version 2.0"
+                        url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id "gcacace"
+                        name "Gianluca Cacace"
+                    }
+                }
+                scm {
+                    connection "https://github.com/gcacace/android-signaturepad"
+                    developerConnection "scm:git@github.com:gcacace/android-signaturepad.git"
+                    url "https://github.com/gcacace/android-signaturepad"
+
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
