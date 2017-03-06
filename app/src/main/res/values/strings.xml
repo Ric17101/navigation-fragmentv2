@@ -43,9 +43,10 @@
     <string name="title_activity_service_report__task_completed">ServiceReport Task Completed</string>
 
     <!-- Signature String Val-->
-    <string name="i_agree_the_terms_and_conditions">I agree the terms and conditions.</string>
-    <string name="clear_signature">CLEAR SIGNATURE</string>
-    <string name="save_signature">SAVE SIGNATURE</string>
+    <string name="i_agree_the_terms_and_conditions_old">I agree the terms and conditions.</string>
+    <string name="i_agree_the_terms_and_conditions">Sign and save to end task.</string>
+    <string name="clear_signature">CLEAR</string>
+    <string name="save_signature">SAVE</string>
 
     <string name="test_fragment">Test Fragment\nJarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
         cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian

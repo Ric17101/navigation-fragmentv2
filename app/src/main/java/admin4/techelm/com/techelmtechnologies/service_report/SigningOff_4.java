@@ -1,14 +1,20 @@
 package admin4.techelm.com.techelmtechnologies.service_report;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -17,15 +23,26 @@ import android.view.LayoutInflater;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.gcacace.signaturepad.views.SignaturePad;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
 
 public class SigningOff_4 extends AppCompatActivity {
 
     private RelativeLayout mRelativeLayout;
-    private ImageButton imageButtonViewSignature;
 
-    private PopupWindow mPopupWindow;
+    private ImageButton imageButtonViewSignature;
+    private SignaturePad mSignaturePad;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private Button mClearButton;
+    private Button mSaveButton;
+    private View mPopUpSignature;
+    private PopupWindow mPopupWindow; // TODO : Cancel this onBackPress
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +63,18 @@ public class SigningOff_4 extends AppCompatActivity {
         // TODO: Notify user Here that he is already finished submitting the data
     }
 
+    private Point getWindowSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        /**If you're not in an Activity you can get the default Display via WINDOW_SERVICE: */
+        /*WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();*/
+        return size;
+    }
     private void initButton() {
         /** BUTTON BACK */
         Button button_back = (Button) findViewById(R.id.button_back);
@@ -68,6 +97,76 @@ public class SigningOff_4 extends AppCompatActivity {
         buttonViewDetails.setVisibility(View.GONE);
     }
 
+    public MaterialDialog showRecordDialog() {
+        final SignatureUtil sign = new SignatureUtil(SigningOff_4.this, mSignaturePad);
+        boolean wrapInScrollView = false;
+        MaterialDialog md = new MaterialDialog.Builder(this)
+                .title("Signature.")
+                .customView(R.layout.i_pop_up_signature, wrapInScrollView)
+                .positiveText("Close")
+                .neutralText("Save")
+                .negativeText("Clear")
+                .iconRes(R.drawable.composea)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mSignaturePad = (SignaturePad) dialog.getCustomView().findViewById(R.id.signature_pad);
+                        mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
+                            @Override
+                            public void onStartSigning() {
+                                Toast.makeText(SigningOff_4.this, "OnStartSigning", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSigned() {
+                                /*mSaveButton.setEnabled(true);
+                                mClearButton.setEnabled(true);*/
+                            }
+
+                            @Override
+                            public void onClear() {
+                                /*mSaveButton.setEnabled(false);
+                                mClearButton.setEnabled(false);*/
+                            }
+                        });
+                        Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
+                        if (sign.addJpgSignatureToGallery(signatureBitmap)) {
+                            Toast.makeText(SigningOff_4.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SigningOff_4.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
+                        }
+
+                        /*if (sign.addSvgSignatureToGallery(mSignaturePad.getSignatureSvg())) {
+                            Toast.makeText(SigningOff_4.this, "SVG Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SigningOff_4.this, "Unable to store the SVG signature", Toast.LENGTH_SHORT).show();
+                        }*/
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mSignaturePad.clear();
+                    }
+                })
+                .show();
+
+        return md;
+        /*new MaterialDialog.Builder(this)
+                .title(getString(R.string.about_dialog_title, VERSION))
+                .positiveText(R.string.dismiss)
+                .content(Html.fromHtml(getString(R.string.about_body)))
+                .iconRes(R.drawable.ic_translate)
+                .show();*/
+    }
+
     private void initSignaturePadPopUp() {
         imageButtonViewSignature = (ImageButton) findViewById(R.id.imageButtonViewSignature);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);
@@ -75,29 +174,37 @@ public class SigningOff_4 extends AppCompatActivity {
         imageButtonViewSignature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater layFlator = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                MaterialDialog mDialog = showRecordDialog();
 
-                View popUp = layFlator.inflate(R.layout.i_pop_up_signature, null);
-
-                final PopupWindow popupWindow = new PopupWindow(popUp, 700, 680, true);
-                // popupWindow.setAnimationStyle(R.style.PopupAnimation);
-                popupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER, 0, 0);
-                popupWindow.showAsDropDown(popUp, 50, -30);
-
-                ImageButton btnHybrid = (ImageButton) popUp.findViewById(R.id.ib_close);
+                /*ImageButton btnHybrid = (ImageButton) vDialog.findViewById(R.id.ib_close);
                 btnHybrid.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Log.d("hybrid", "called");
-                        popupWindow.dismiss();
+                        mPopupWindow.dismiss();
                     }
-                });
+                });*/
 
+                // initSignatureFunction(mDialog);
             }
         });
     }
 
-    private void initSignaturePadPopUp2() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length <= 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(SigningOff_4.this, "Cannot write images to external storage", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    /*private void initSignaturePadPopUp2() {
         // Get the widgets reference from XML layout
         final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customView = inflater.inflate(R.layout.i_pop_up_signature, null);
@@ -144,7 +251,7 @@ public class SigningOff_4 extends AppCompatActivity {
                 mPopupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER,0,0);
             }
         });
-    }
+    }*/
 
 
 }

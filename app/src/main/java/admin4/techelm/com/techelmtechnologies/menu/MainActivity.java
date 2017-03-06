@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import admin4.techelm.com.techelmtechnologies.BuildConfig;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements
         ServiceJobListAdapter.CallbackInterface,
         CalendarListAdapter.CallbackInterface,
         UnsignedServiceJobListAdapter.CallbackInterface {
+
+    private static final String VERSION = BuildConfig.VERSION_NAME;
 
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
