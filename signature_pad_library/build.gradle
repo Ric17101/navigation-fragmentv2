@@ -31,7 +31,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "Signature Pad"
+        name = "android-signaturepad"
         desc = "A custom Android View to capture signatures"
         websiteUrl = "https://github.com/gcacace/android-signaturepad"
         vcsUrl = "https://github.com/gcacace/android-signaturepad"

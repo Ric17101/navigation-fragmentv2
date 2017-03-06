@@ -2,5 +2,5 @@ package android.databinding.layouts;
 
 import android.databinding.BindingBuildInfo;
 
-@BindingBuildInfo(buildId="2f6145ee-4bca-46d4-958f-28d23ffb05c5", modulePackage="com.github.gcacace.signaturepad", sdkRoot="C:\\Users\\admin 4\\AppData\\Local\\Android\\Sdk",layoutInfoDir="C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\signature_pad_library\\build\\intermediates\\data-binding-info\\debug",exportClassListTo="C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\signature_pad_library\\build\\intermediates\\data-binding-info\\debug\\_generated.txt",isLibrary=true,minSdk=9,enableDebugLogs=false,printEncodedError=true)
+@BindingBuildInfo(buildId="f88fea5c-5812-41e4-b5bc-ad6b69c8a933", modulePackage="com.github.gcacace.signaturepad", sdkRoot="C:\\Users\\RIchard\\AppData\\Local\\Android\\Sdk",layoutInfoDir="C:\\Users\\RIchard\\PROJECT\\navigation-fragmentv2\\signature_pad_library\\build\\intermediates\\data-binding-info\\debug",exportClassListTo="C:\\Users\\RIchard\\PROJECT\\navigation-fragmentv2\\signature_pad_library\\build\\intermediates\\data-binding-info\\debug\\_generated.txt",isLibrary=true,minSdk=9,enableDebugLogs=false,printEncodedError=true)
 public class DataBindingInfo {}

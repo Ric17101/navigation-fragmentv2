@@ -15,4 +15,5 @@
     <dimen name="fab_margin">16sp</dimen>
     <dimen name="list_item_avatar_size">40sp</dimen>
 
+    <dimen name="recycler_view_list_padding">4sp</dimen>
 </resources>
