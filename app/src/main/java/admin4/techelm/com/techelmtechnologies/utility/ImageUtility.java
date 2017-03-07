@@ -15,7 +15,6 @@ import java.io.IOException;
 
 /**
  * Created by admin 4 on 22/02/2017.
- * Class for handling the UI Thread which is asynchronous
  * USAGE:
      * To save:
          new ImageSaver(context).

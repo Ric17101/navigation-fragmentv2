@@ -5,24 +5,17 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -101,8 +94,8 @@ public class SigningOff_4 extends AppCompatActivity {
         final SignatureUtil sign = new SignatureUtil(SigningOff_4.this, mSignaturePad);
         boolean wrapInScrollView = false;
         MaterialDialog md = new MaterialDialog.Builder(this)
-                .title("Signature.")
-                .customView(R.layout.i_pop_up_signature, wrapInScrollView)
+                .title("SIGNATURE.")
+                .customView(R.layout.m_signing_off_signature, wrapInScrollView)
                 .positiveText("Close")
                 .neutralText("Save")
                 .negativeText("Clear")
@@ -111,6 +104,7 @@ public class SigningOff_4 extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mSignaturePad = null;
                         dialog.dismiss();
                     }
                 })
@@ -137,8 +131,11 @@ public class SigningOff_4 extends AppCompatActivity {
                             }
                         });
                         Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
-                        if (sign.addJpgSignatureToGallery(signatureBitmap)) {
-                            Toast.makeText(SigningOff_4.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
+                        // TODO: Add AsyncTask Here...
+                        if (sign.addJpgSignatureToGallery(signatureBitmap, "signature")) {
+                            Toast.makeText(SigningOff_4.this, "Signature saved into the Gallery:" + sign.getFilePath(),
+                                    Toast.LENGTH_SHORT).show();
+                            setDrawableImageSignature(sign.loadBitmap());
                         } else {
                             Toast.makeText(SigningOff_4.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
                         }
@@ -153,6 +150,7 @@ public class SigningOff_4 extends AppCompatActivity {
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mSignaturePad = (SignaturePad) dialog.getCustomView().findViewById(R.id.signature_pad);
                         mSignaturePad.clear();
                     }
                 })
@@ -204,10 +202,15 @@ public class SigningOff_4 extends AppCompatActivity {
         }
     }
 
+    private void setDrawableImageSignature(Bitmap drawableImageSignature) {
+        BitmapDrawable ob = new BitmapDrawable(getResources(), drawableImageSignature);
+        imageButtonViewSignature.setBackgroundDrawable(ob);
+    }
+
     /*private void initSignaturePadPopUp2() {
         // Get the widgets reference from XML layout
         final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View customView = inflater.inflate(R.layout.i_pop_up_signature, null);
+        final View customView = inflater.inflate(R.layout.m_signing_off_signature, null);
 
         mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);
         imageButtonViewSignature = (ImageButton) findViewById(R.id.imageButtonViewSignature);

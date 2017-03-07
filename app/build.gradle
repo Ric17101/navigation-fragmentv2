@@ -68,4 +68,7 @@ dependencies {
     // Dialog
     compile 'com.afollestad.material-dialogs:core:0.9.3.0'
     compile 'com.afollestad.material-dialogs:commons:0.9.3.0'
+
+    // Image
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

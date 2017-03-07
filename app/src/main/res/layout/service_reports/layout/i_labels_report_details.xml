@@ -21,8 +21,8 @@
                 android:id="@+id/textViewLabel18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".3"
                 android:gravity="fill_vertical"
@@ -45,8 +45,8 @@
                 android:id="@+id/textViewLabelCustomerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="1.6"
                 android:gravity="fill_vertical"
@@ -75,8 +75,8 @@
                 android:id="@+id/textViewLabel19"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -88,8 +88,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -99,8 +99,8 @@
                 android:id="@+id/textViewLabelJobSite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -116,8 +116,8 @@
                 android:id="@+id/textViewLabel20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -129,8 +129,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -140,8 +140,8 @@
                 android:id="@+id/textViewLabelServiceNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -157,8 +157,8 @@
                 android:id="@+id/textViewLabel21"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="fill_vertical"
@@ -170,8 +170,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -181,8 +181,8 @@
                 android:id="@+id/textViewLabelTypeOfService"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -198,8 +198,8 @@
                 android:id="@+id/textViewLabel22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -211,8 +211,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -222,8 +222,8 @@
                 android:id="@+id/textViewLabelTelephone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -239,8 +239,8 @@
                 android:id="@+id/textViewLabel23"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -252,8 +252,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -263,8 +263,8 @@
                 android:id="@+id/textViewLabelFax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -280,8 +280,8 @@
                 android:id="@+id/textViewLabel24"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -293,8 +293,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -304,8 +304,8 @@
                 android:id="@+id/textViewLabelEquipmentType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -321,8 +321,8 @@
                 android:id="@+id/textViewLabel25"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="fill_vertical"
@@ -334,8 +334,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -345,8 +345,8 @@
                 android:id="@+id/textViewLabelModel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                
+                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -361,10 +361,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:orientation="vertical"
-        android:paddingEnd="18dp"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:paddingStart="18dp">
+        android:layout_margin="10sp">
 
         <TextView
             android:id="@+id/textView12"

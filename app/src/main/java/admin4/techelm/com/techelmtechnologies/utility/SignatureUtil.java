@@ -30,6 +30,8 @@ public class SignatureUtil {
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private SignaturePad mSignaturePad;
     private Activity activity;
+    private Bitmap signatureBitmap;
+    private FileUtility mFileUtil;
 
     public SignatureUtil(Activity act, SignaturePad signaturePad) {
         mSignaturePad = signaturePad;
@@ -46,6 +48,15 @@ public class SignatureUtil {
         return file;
     }
 
+    public Bitmap loadBitmap() {
+        return this.signatureBitmap;
+    }
+
+    public String getFilePath() {
+        //return this.mFileUtil.getFile().getPath();
+        return this.mFileUtil.getFile().toString();
+    }
+
     public void saveBitmapToJPG(Bitmap bitmap, File photo) throws IOException {
         Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(newBitmap);
@@ -56,7 +67,22 @@ public class SignatureUtil {
         stream.close();
     }
 
-    public boolean addJpgSignatureToGallery(Bitmap signature) {
+    public boolean addJpgSignatureToGallery(Bitmap signature, String folder) {
+        mFileUtil = new FileUtility(activity.getApplicationContext());
+        mFileUtil.setDirectoryName(folder)
+                .setExternal(true)
+                .setFileName(String.format("Signature_%d.jpg", System.currentTimeMillis()));
+
+        boolean result = mFileUtil.saveImage(signature);
+        Log.e("SignaturePad", "Directory :" + mFileUtil.getFileName());
+
+        this.signatureBitmap = mFileUtil.loadImage();
+
+        scanMediaFile(mFileUtil.getFile());
+        return result;
+    }
+
+    public boolean addJpgSignatureToGallery_v1(Bitmap signature) {
         boolean result = false;
         try {
             File photo = new File(getAlbumStorageDir("SignaturePad"), String.format("Signature_%d.jpg", System.currentTimeMillis()));

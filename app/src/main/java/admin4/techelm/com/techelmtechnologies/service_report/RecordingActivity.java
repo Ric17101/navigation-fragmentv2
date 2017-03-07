@@ -75,7 +75,7 @@ public class RecordingActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("Voice Recorder", "output: " + getOutputFile());
+        Log.d("VoiceRecorder", "output: " + getOutputFile());
         startRecording();
     }
 
