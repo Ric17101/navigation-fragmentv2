@@ -126,6 +126,7 @@ public class ServiceJobFragment extends Fragment implements
     }
 
     /**
+     * CALENDAR VIEW
      * Set up the Calendar View Listener on Click of the Date/Month
      *
      * @param view
@@ -166,6 +167,10 @@ public class ServiceJobFragment extends Fragment implements
         robotoCalendarView.updateView();
     }
 
+    /**
+     * SLIDING PANEL
+     * @param view
+     */
     private void setupSlidingPanel(View view) {
         /** Listeners and Instanstiation */
         mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout_calendar);
@@ -213,6 +218,7 @@ public class ServiceJobFragment extends Fragment implements
         System.out.println("onLeftButtonClick!");
         // Toast.makeText(this.context, "onLeftButtonClick!", Toast.LENGTH_SHORT).show();
     }
+    /*** SLIDING PANEL END */
 
     private void activityResultIntent() {
         Intent check = new Intent();

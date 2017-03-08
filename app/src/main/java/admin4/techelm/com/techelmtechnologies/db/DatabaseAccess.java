@@ -17,14 +17,19 @@ public class DatabaseAccess {
     private static DatabaseAccess instance;
     private DatabaseOpenHelper openHelper;
     private SQLiteDatabase database;
-
+    private Context mContext;
     /**
      * Private constructor to aboid object creation from outside classes.
      *
      * @param context
      */
     public DatabaseAccess(Context context) {
+        this.mContext = context;
         this.openHelper = new DatabaseOpenHelper(context);
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     /**

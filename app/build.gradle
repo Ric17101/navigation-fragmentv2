@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "admin4.techelm.com.techelmtechnologies"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -71,4 +71,7 @@ dependencies {
 
     // Image
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    // Recording
+    compile 'com.melnykov:floatingactionbutton:1.1.0'
 }

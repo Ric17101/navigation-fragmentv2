@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- File Management -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="true" />
 
@@ -64,6 +64,8 @@
             android:name=".service_report.ServiceReport_TaskCompleted_5"
             android:label="@string/title_activity_service_report__task_completed"
             android:theme="@style/AppTheme" />
+
+        <service android:name=".utility.RecordingService" />
     </application>
 
 </manifest>

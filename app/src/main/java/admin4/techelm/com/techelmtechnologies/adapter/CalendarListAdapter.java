@@ -77,7 +77,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
-        // holder.textViewDateNumber.setText((serviceJobDataSet.getDay() != "") ? serviceJobDataSet.getDay().split("-")[2] : position + "");
+        // holder.textViewNameRecord.setText((serviceJobDataSet.getDay() != "") ? serviceJobDataSet.getDay().split("-")[2] : position + "");
         holder.textViewDateNumber.setText(position+1 + "");
         holder.textViewDate.setText(serviceJobDataSet.getDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
@@ -98,7 +98,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
             @Override
             public void onClick(View v) {
                 if(mCallback != null){
-                    mCallback.onHandleSelection(position, mDataSet.get(position));
+                    mCallback.onHandleRecordingsSelection(position, mDataSet.get(position));
                     Toast.makeText(v.getContext(), "Item " + position, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -187,7 +187,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
         public void onClick(View v) {
             /*if (v.getId() == buttonSpeakAlphabet.getId()) {
                 if (mCallback != null){
-                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
+                    mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
                     //Toast.makeText(v.getContext(), "TEST: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 }
             } else*/

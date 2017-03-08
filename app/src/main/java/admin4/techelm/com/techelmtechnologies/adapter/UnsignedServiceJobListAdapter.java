@@ -97,7 +97,7 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
             @Override
             public void onClick(View v) {
                 if(mCallback != null){
-                    mCallback.onHandleSelection(position, mDataSet.get(position));
+                    mCallback.onHandleRecordingsSelection(position, mDataSet.get(position));
                     Toast.makeText(v.getContext(), "Item " + position, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -186,7 +186,7 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
         public void onClick(View v) {
             /*if (v.getId() == buttonSpeakAlphabet.getId()) {
                 if (mCallback != null){
-                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
+                    mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
                     //Toast.makeText(v.getContext(), "TEST: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 }
             } else*/

@@ -294,14 +294,14 @@
                                     android:layout_width="30dp"
                                     android:layout_height="40dp"
                                     android:layout_gravity="end"
+                                    android:layout_marginLeft="10sp"
+                                    android:layout_marginRight="10sp"
                                     android:adjustViewBounds="false"
                                     android:background="?selectableItemBackgroundBorderless"
                                     android:clickable="true"
                                     android:padding="4sp"
                                     android:scaleType="centerInside"
-                                    android:src="@mipmap/begin_icon"
-                                    android:layout_marginLeft="10sp"
-                                    android:layout_marginRight="10sp" />
+                                    android:src="@mipmap/begin_icon" />
 
                                 <TextView
                                     android:id="@+id/textViewTask"

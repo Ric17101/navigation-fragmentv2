@@ -96,19 +96,6 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
         }
-
-        // Use your listener to pass back the data used FOR callback
-        // Can be Implemented here or at the ViewHolder
-        /*holder.buttonSpeakAlphabet.onClick(new View.onClick() {
-            @Override
-            public void onClick(View v) {
-                if(mCallback != null){
-                    mCallback.onHandleSelection(position, mDataSet.get(position));
-                    Toast.makeText(v.getContext(), "Item " + position, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
-
     }
 
     @Override
@@ -185,7 +172,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         public void onClick(View v) {
             /*if (v.getId() == buttonSpeakAlphabet.getId()) {
                 if (mCallback != null){
-                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
+                    mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
                     //Toast.makeText(v.getContext(), "TEST: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 }
             } else*/

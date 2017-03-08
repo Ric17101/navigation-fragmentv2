@@ -57,31 +57,24 @@
         cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
         bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
         cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
-        the big cheese.\n
-    Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
-        cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
-        bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
-        cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
-        the big cheese.\n
-    Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
-        cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
-        bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
-        cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
-        the big cheese.\n
-    Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
-        cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
-        bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
-        cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
-        the big cheese.\n
-    Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
-        cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
-        bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
-        cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
-        the big cheese.\n
-    Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
-        cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
-        bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
-        cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
         the big cheese.\n</string>
+
+    <!-- Recordings -->
+    <string name="no_saved_recordings_message">No saved recordings</string>
+    <string name="pause_recording_button">Pause</string>
+    <string name="resume_recording_button">Resume</string>
+    <string name="default_file_name">MyRecording</string>
+    <string name="record_prompt">Tap the button to start recording</string>
+    <string name="record_in_progress">Recording</string>
+    <string name="notification_recording">Recording...</string>
+    <string name="toast_recording_start">Recording started</string>
+    <string name="toast_recording_finish">Recording saved to</string>
+    <string name="toast_file_delete">%1$s successfully deleted</string>
+    <string name="toast_file_exists">The file %1$s already exists. Please choose a different file name.</string>
+
+
+    <!-- UPLOAD AT ServiceReport_1 -->
+    <string name="image_name_jpg_uploaded">Image_Name.jpg uploaded.</string>
+    <string name="delete">Delete.</string>
 
 </resources>

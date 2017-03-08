@@ -286,7 +286,7 @@ public class MainActivity_old extends AppCompatActivity implements ServiceJobLis
      *//*
 
     @Override
-    public void onHandleSelection(int position, ServiceJobWrapper servicejob, int mode) {
+    public void onHandleRecordingsSelection(int position, ServiceJobWrapper servicejob, int mode) {
         System.out.println("I'm in onActivityResult" + position + " Data: " + servicejob + " Mode: " + mode);
     }
 

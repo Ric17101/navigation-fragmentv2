@@ -59,7 +59,7 @@ public class RecordingActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.m_signing_off_record_voice);
+        setContentView(R.layout.m_signing_off_record_voice2);
 
         this.mTimerTextView = (TextView) this.findViewById(R.id.timer);
         this.mCancelButton = (Button) this.findViewById(R.id.cancel_button);

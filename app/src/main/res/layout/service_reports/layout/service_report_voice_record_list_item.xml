@@ -10,13 +10,13 @@
     card_view:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.88">
 
             <TableRow
@@ -25,36 +25,39 @@
                 android:layout_margin="5sp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    card_view:srcCompat="@mipmap/uploaded_icon"
                     android:id="@+id/imageView2"
-                    android:layout_weight=".01" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".01"
+                    android:contentDescription="@string/app_name"
+                    card_view:srcCompat="@mipmap/uploaded_icon" />
 
                 <TextView
-                    android:text="Image_Name.jpg uploaded."
-                    android:layout_width="match_parent"
+                    android:id="@+id/textViewNameRecord"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView14"
                     android:layout_weight="0.88"
-                    android:textSize="10sp" />
+                    android:text="@string/image_name_jpg_uploaded"
+                    android:textSize="12sp" />
 
-                <ImageView
+                <ImageButton
+                    android:id="@+id/imageButtonDelete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    card_view:srcCompat="@mipmap/del_icon"
-                    android:id="@+id/imageView3"
-                    android:padding="1sp" />
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:padding="3sp"
+                    android:contentDescription="@string/app_name"
+                    card_view:srcCompat="@mipmap/del_icon" />
 
                 <TextView
-                    android:text="Delete"
+                    android:id="@+id/textViewDeleteRecord"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textViewDeleteRecordVoice"
-                    android:textSize="10sp"
-                    android:layout_marginLeft="5sp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginEnd="10sp"
-                    android:layout_marginRight="10sp" />
+                    android:layout_marginRight="10sp"
+                    android:text="@string/delete"
+                    android:textSize="12sp" />
             </TableRow>
 
         </TableLayout>
