@@ -20,6 +20,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import com.melnykov.fab.FloatingActionButton;
 
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -50,6 +52,7 @@ import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
 import admin4.techelm.com.techelmtechnologies.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.RecordingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
+import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
 
 import static android.Manifest.permission.CAMERA;
@@ -513,42 +516,13 @@ public class ServiceReport_1 extends AppCompatActivity implements
         MaterialDialog md = new MaterialDialog.Builder(this)
                 .title("RECORD.")
                 .customView(R.layout.m_signing_off_recording, wrapInScrollView)
-                .neutralText("Capture")
-                .negativeText("Close")
-                .positiveText("Save")
-                .iconRes(R.mipmap.ic_media_camera)
+                .positiveText("Close")
+                .iconRes(R.mipmap.ic_media_mic_blk)
                 .autoDismiss(false)
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        startActivityForResult(getPickImageChooserIntent(), 200);
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        if (mBitmap != null && mPicUri != null) {
-                            // TODO: Save image captured here...
-                            // TODO: Add AsyncTask Here...
-                            // mBitmap
-                            /*if (camU.addJpgSignatureToGallery(mBitmap, "upload")) {
-                                Toast.makeText(ServiceReport_1.this, "Image saved into the Gallery: " + camU.getFilePath(),
-                                        Toast.LENGTH_SHORT).show();
-                                // camU.loadBitmap();
-                            } else {
-                                Toast.makeText(ServiceReport_1.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
-                            }*/
-                            dialog.dismiss();
-                        } else {
-                            Toast.makeText(ServiceReport_1.this,
-                                    "No image to save", Toast.LENGTH_LONG).show();
-                        }
+                        dialog.dismiss();
                     }
                 })
                 .show();
@@ -563,8 +537,8 @@ public class ServiceReport_1 extends AppCompatActivity implements
         mRecordingPrompt = (TextView) recordView.findViewById(R.id.recording_status_text);
 
         mRecordButton = (FloatingActionButton) recordView.findViewById(R.id.btnRecord);
-        mRecordButton.setBackgroundColor(getResources().getColor(R.color.black));
-//        mRecordButton.setColorPressed(getResources().getColor(R.color.primary_dark));
+        // mRecordButton.setBackgroundColor(getResources().getColor(R.color.black));
+        mRecordButton.setColorPressed(getResources().getColor(R.color.colorPrimary1));
         mRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -649,21 +623,21 @@ public class ServiceReport_1 extends AppCompatActivity implements
             //pause recording
             mPauseButton.setCompoundDrawablesWithIntrinsicBounds
                     (R.mipmap.ic_media_play ,0 ,0 ,0);
-            mRecordingPrompt.setText((String)getString(R.string.resume_recording_button).toUpperCase());
+            mRecordingPrompt.setText(getString(R.string.resume_recording_button).toUpperCase());
             timeWhenPaused = mChronometer.getBase() - SystemClock.elapsedRealtime();
             mChronometer.stop();
         } else {
             //resume recording
             mPauseButton.setCompoundDrawablesWithIntrinsicBounds
                     (R.mipmap.ic_media_pause ,0 ,0 ,0);
-            mRecordingPrompt.setText((String)getString(R.string.pause_recording_button).toUpperCase());
+            mRecordingPrompt.setText(getString(R.string.pause_recording_button).toUpperCase());
             mChronometer.setBase(SystemClock.elapsedRealtime() + timeWhenPaused);
             mChronometer.start();
         }
     }
 
     @Override
-    public void onHandleRecordingsSelection(int position, RecordingWrapper recodingWrapper, int mode) {
+    public void onHandleRecordingsSelection(int position, RecordingWrapper recordingWrapper, int mode) {
 
     }
 
@@ -673,6 +647,24 @@ public class ServiceReport_1 extends AppCompatActivity implements
         db.open();
         db.removeItemWithId(id);
         db.close();
+    }
+
+    @Override
+    public void onHandlePlayFromListSelection(RecordingWrapper recordingWrapper) {
+        try {
+            PlaybackFragment playbackFragment =
+                    new PlaybackFragment().newInstance(recordingWrapper);
+
+            // FragmentTransaction transaction = ((FragmentActivity)ServiceReport_1.this)
+            FragmentTransaction transaction = (ServiceReport_1.this)
+                    .getSupportFragmentManager()
+                    .beginTransaction();
+
+            playbackFragment.show(transaction, "dialog_playback");
+
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "exception", e);
+        }
     }
 
     @Override

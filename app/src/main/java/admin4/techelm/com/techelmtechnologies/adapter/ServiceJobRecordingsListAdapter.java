@@ -7,6 +7,8 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.model.RecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 
 public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<ServiceJobRecordingsListAdapter.ViewHolder> {
 
@@ -79,6 +82,26 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
         // holder.textViewDeleteRecord.setText(serviceJobDataSet.getServiceNumber());
         // holder.imageButtonDelete.setOnClickListener(this);
 
+        // define an on click listener to open PlaybackFragment
+        /*holder.imageButtonUploaded.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    PlaybackFragment playbackFragment =
+                            new PlaybackFragment().newInstance(serviceJobDataSet);
+
+                    FragmentTransaction transaction = ((FragmentActivity) mContext)
+                            .getSupportFragmentManager()
+                            .beginTransaction();
+
+                    playbackFragment.show(transaction, "dialog_playback");
+
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "exception", e);
+                }
+            }
+        });*/
+
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
                 serviceJobDataSet.getFilePath() + serviceJobDataSet.getName());
         if (mLastAnimatedItemPosition < position) {
@@ -92,7 +115,7 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
         return mDataSet.size();
     }
 
-    public static int getScreenHeight() {
+    private static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
@@ -111,10 +134,11 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
          * Callback invoked when clicked
          *
          * @param position - the position
-         * @param servicejob     - the text to pass back
+         * @param recordingWrapper - the text to pass back
          */
-        void onHandleRecordingsSelection(int position, RecordingWrapper servicejob, int mode);
+        void onHandleRecordingsSelection(int position, RecordingWrapper recordingWrapper, int mode);
         void onHandleDeleteRecordingsFromListSelection(int id);
+        void onHandlePlayFromListSelection(RecordingWrapper recordingWrapper);
     }
 
     public interface OnItemClickListener {
@@ -126,6 +150,7 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
         TextView textViewDeleteRecord;
 
         ImageButton imageButtonDelete;
+        ImageButton imageButtonUploaded;
 
         public ViewHolder(View view) {
             super(view);
@@ -138,6 +163,8 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
             imageButtonDelete = (ImageButton) view.findViewById(R.id.imageButtonDelete);
             imageButtonDelete.setOnClickListener(this);
 
+            imageButtonUploaded = (ImageButton) view.findViewById(R.id.imageButtonUploaded);
+            imageButtonUploaded.setOnClickListener(this);
         }
 
         @Override
@@ -154,6 +181,12 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
                     // mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
                     mCallback.onHandleDeleteRecordingsFromListSelection(mDataSet.get(getAdapterPosition()).getId());
                 }
+            } else if (v.getId() == imageButtonUploaded.getId()) {
+                if (mCallback != null) {
+                    // mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
+                    mCallback.onHandlePlayFromListSelection(mDataSet.get(getAdapterPosition()));
+                }
+
             }
 
         }

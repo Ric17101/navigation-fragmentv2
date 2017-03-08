@@ -24,11 +24,12 @@
                 android:layout_height="match_parent"
                 android:layout_margin="5sp">
 
-                <ImageView
-                    android:id="@+id/imageView2"
+                <ImageButton
+                    android:id="@+id/imageButtonUploaded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".01"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:padding="3sp"
                     android:contentDescription="@string/app_name"
                     card_view:srcCompat="@mipmap/uploaded_icon" />
 
