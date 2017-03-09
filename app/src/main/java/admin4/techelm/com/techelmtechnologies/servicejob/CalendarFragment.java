@@ -1,14 +1,9 @@
 package admin4.techelm.com.techelmtechnologies.servicejob;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.adapters.AdapterViewBindingAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.marcohc.robotocalendar.RobotoCalendarView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -31,7 +25,6 @@ import org.json.JSONObject;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
-import admin4.techelm.com.techelmtechnologies.db.UserDBUtil;
 import admin4.techelm.com.techelmtechnologies.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
@@ -40,16 +33,11 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -544,16 +532,16 @@ public class CalendarFragment extends Fragment implements
 
                 sw.setID(Integer.parseInt(pieces[0]));
                 sw.setServiceNumber(pieces[1]);
-                sw.setCustomer(pieces[2]);
+                sw.setCustomerID(pieces[2]);
                 sw.setServiceNumber(pieces[3]);
-                sw.setEngineer(pieces[4]);
+                sw.setEngineerID(pieces[4]);
                 sw.setTypeOfService(pieces[5]);
                 sw.setComplaintsOrSymptoms(pieces[6]);
                 sw.setActionsOrRemarks(pieces[7]);
                 sw.setEquipmentType(pieces[8]);
                 sw.setModelOrSerial(pieces[9]);
-                sw.setDate(pieces[10]);
-                sw.setDay(pieces[11]);
+                sw.setStartDate(pieces[10]);
+                sw.setEndDate(pieces[11]);
                 Log.d("SERVICE_JOBS", sw.toString());
                 translationList.add(sw);
             }

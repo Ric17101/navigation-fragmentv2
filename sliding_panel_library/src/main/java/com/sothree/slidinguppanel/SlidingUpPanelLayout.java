@@ -790,7 +790,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
             int childHeightSpec;
             if (lp.height == LayoutParams.WRAP_CONTENT) {
-                childHeightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST);
+                childHeightSpec = MeasureSpec.makeMeasureSpec((int)height, MeasureSpec.AT_MOST);
             } else {
                 // Modify the height based on the weight.
                 if (lp.weight > 0 && lp.weight < 1) {
@@ -798,7 +798,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 } else if (lp.height != LayoutParams.MATCH_PARENT) {
                     height = lp.height;
                 }
-                childHeightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+                childHeightSpec = MeasureSpec.makeMeasureSpec((int)height, MeasureSpec.EXACTLY);
             }
 
             child.measure(childWidthSpec, childHeightSpec);

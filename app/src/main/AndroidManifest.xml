@@ -65,7 +65,6 @@
             android:label="@string/title_activity_service_report__task_completed"
             android:theme="@style/AppTheme" />
 
-        <service android:name=".utility.RecordingService" />
+        <service android:name="admin4.techelm.com.techelmtechnologies.utility.RecordingService" />
     </application>
-
 </manifest>

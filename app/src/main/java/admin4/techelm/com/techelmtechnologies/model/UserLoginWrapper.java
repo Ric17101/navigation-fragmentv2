@@ -34,19 +34,25 @@ public class UserLoginWrapper implements Parcelable {
         }
     };
     //private variables 12
-    public int _id;
-    public String _user_group_id;
-    public String _role;
-    public String _fullname;
+    private int _id;
+    private String _user_group_id;
+    private String _role;
+    private String _fullname;
     /** USER and PASSWORD DETAILS */
-    public String _username;
-    public String _password;
-    public String _auth_key;
-    public String _password_hash;
-    public String _password_reset_token;
-    public String _photo;
-    public int _status;
-    public int _deleted;
+    private String _username;
+    private String _password;
+    private String _email;
+    private String _fax;
+    private String _phone_no;
+    private String _race;
+    private String _auth_key;
+    private String _password_hash;
+    private String _password_reset_token;
+    private String _photo;
+    private int _status;
+    private int _deleted;
+    private String _created_at;
+    private String _created_by;
 
     // Empty constructor
     public UserLoginWrapper() {
@@ -165,6 +171,18 @@ public class UserLoginWrapper implements Parcelable {
     public String getPassword() { return this._password; }
     public void setPassword(String data) { this._password = data; }
 
+    public String getEmail() { return this._email; }
+    public void setEmail(String data) { this._email = data; }
+
+    public String getFax() { return this._fax; }
+    public void setFax(String data) { this._fax = data; }
+
+    public String getPhoneNo() { return this._phone_no; }
+    public void setPhoneNo(String data) { this._phone_no = data; }
+
+    public String getRace() { return this._race; }
+    public void setRace(String data) { this._race = data; }
+
     public String getAuthKey() { return this._auth_key; }
     public void setAuthKey(String data) { this._auth_key = data; }
 
@@ -183,4 +201,9 @@ public class UserLoginWrapper implements Parcelable {
     public int getDeleted() { return this._deleted; }
     public void setDeleted(int data ) { this._deleted = data; }
 
+    public String getCreatedAt() { return this._created_at; }
+    public void setCreatedAt(String data) { this._created_at = data; }
+
+    public String getCreatedBy() { return this._created_by; }
+    public void setCreatedBy(String data) { this._created_by = data; }
 }

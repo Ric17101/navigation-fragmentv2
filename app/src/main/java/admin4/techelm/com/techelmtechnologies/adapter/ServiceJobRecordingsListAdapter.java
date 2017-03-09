@@ -7,8 +7,6 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,16 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.RecordingWrapper;
-import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
 
 public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<ServiceJobRecordingsListAdapter.ViewHolder> {
 
     private static final String LOG_TAG = "RecordingsListAdapter";
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
-    private List<RecordingWrapper> mDataSet = new ArrayList<>();
-    private RecordingWrapper serviceJobDataSet;
+    private List<ServiceJobRecordingWrapper> mDataSet = new ArrayList<>();
+    private ServiceJobRecordingWrapper serviceJobDataSet;
     private CallbackInterface mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
@@ -53,12 +50,12 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
         // System.gc();
     }
 
-    public ServiceJobRecordingsListAdapter(List<RecordingWrapper> serviceJobList) {
+    public ServiceJobRecordingsListAdapter(List<ServiceJobRecordingWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }
 
-    public void swapData(List<RecordingWrapper> mNewDataSet) {
+    public void swapData(List<ServiceJobRecordingWrapper> mNewDataSet) {
         mDataSet = mNewDataSet;
         notifyDataSetChanged();
     }
@@ -134,15 +131,15 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
          * Callback invoked when clicked
          *
          * @param position - the position
-         * @param recordingWrapper - the text to pass back
+         * @param serviceJobRecordingWrapper - the text to pass back
          */
-        void onHandleRecordingsSelection(int position, RecordingWrapper recordingWrapper, int mode);
+        void onHandleRecordingsSelection(int position, ServiceJobRecordingWrapper serviceJobRecordingWrapper, int mode);
         void onHandleDeleteRecordingsFromListSelection(int id);
-        void onHandlePlayFromListSelection(RecordingWrapper recordingWrapper);
+        void onHandlePlayFromListSelection(ServiceJobRecordingWrapper serviceJobRecordingWrapper);
     }
 
     public interface OnItemClickListener {
-        void onClick(RecordingWrapper colorWrapper);
+        void onClick(ServiceJobRecordingWrapper colorWrapper);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

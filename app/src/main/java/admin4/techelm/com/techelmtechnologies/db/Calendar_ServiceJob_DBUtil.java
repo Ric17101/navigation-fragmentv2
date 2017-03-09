@@ -33,7 +33,7 @@ public class Calendar_ServiceJob_DBUtil extends DatabaseAccess {
      **************************/
     // TODO: make clean up code
     public List<WorkCalendarWrapper> getAllWorks() {
-        ArrayList<WorkCalendarWrapper> userList = new ArrayList<WorkCalendarWrapper>();
+        ArrayList<WorkCalendarWrapper> list = new ArrayList<WorkCalendarWrapper>();
         String selectQuery = "SELECT * FROM " + TABLE_WORK;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
         WorkCalendarWrapper user = new WorkCalendarWrapper();
@@ -49,7 +49,7 @@ public class Calendar_ServiceJob_DBUtil extends DatabaseAccess {
                 user.setStartDate(cursor.getString(6));
                 user.setEndDate(cursor.getString(7));
                 user.setStatus(cursor.getInt(8));
-                userList.add(user);
+                list.add(user);
             } while (cursor.moveToNext());
         }
 
@@ -57,7 +57,7 @@ public class Calendar_ServiceJob_DBUtil extends DatabaseAccess {
             cursor.close();
         }
         // return data list
-        return userList;
+        return list;
     }
 
 
@@ -106,11 +106,11 @@ public class Calendar_ServiceJob_DBUtil extends DatabaseAccess {
         do {
             ServiceJobWrapper alpha = new ServiceJobWrapper();
             alpha.setID(Integer.parseInt(x + ""));
-            alpha.setDay(x + "");
-            alpha.setDate("TestDate" + x);
+            alpha.setEndDate(x + "");
+            alpha.setStartDate("TestDate" + x);
             alpha.setServiceNumber("00" + x);
-            alpha.setCustomer("Customer" + x);
-            alpha.setEngineer("Engineer" + x);
+            alpha.setCustomerID("Customer" + x);
+            alpha.setEngineerID("Engineer" + x);
             alpha.setStatus((x % 2 == 1) ? "Pending" : "Completed");
             translationList.add(alpha);
             x++;

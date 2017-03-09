@@ -22,14 +22,14 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.RecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
 
 public class PlaybackFragment extends DialogFragment {
 
     private static final String LOG_TAG = "PlaybackFragment";
 
     private static final String ARG_ITEM = "recording_item";
-    private RecordingWrapper item;
+    private ServiceJobRecordingWrapper item;
 
     private Handler mHandler = new Handler();
 
@@ -48,7 +48,7 @@ public class PlaybackFragment extends DialogFragment {
     long minutes = 0;
     long seconds = 0;
 
-    public PlaybackFragment newInstance(RecordingWrapper item) {
+    public PlaybackFragment newInstance(ServiceJobRecordingWrapper item) {
         PlaybackFragment f = new PlaybackFragment();
         Bundle b = new Bundle();
         b.putParcelable(ARG_ITEM, item);

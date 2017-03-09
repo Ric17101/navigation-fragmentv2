@@ -226,16 +226,16 @@ public class CalendarServiceJobTask extends AsyncTask<Void, Void, List<ServiceJo
 
             sw.setID(Integer.parseInt(pieces[0]));
             sw.setServiceNumber(pieces[1]);
-            sw.setCustomer(pieces[2]);
+            sw.setCustomerID(pieces[2]);
             sw.setServiceNumber(pieces[3]);
-            sw.setEngineer(pieces[4]);
+            sw.setEngineerID(pieces[4]);
             sw.setTypeOfService(pieces[5]);
             sw.setComplaintsOrSymptoms(pieces[6]);
             sw.setActionsOrRemarks(pieces[7]);
             sw.setEquipmentType(pieces[8]);
             sw.setModelOrSerial(pieces[9]);
-            sw.setDate(pieces[10]);
-            sw.setDay(pieces[11]);
+            sw.setStartDate(pieces[10]);
+            sw.setEndDate(pieces[11]);
             Log.d("SERVICE_JOBS", sw.toString());
         }
         return translationList;

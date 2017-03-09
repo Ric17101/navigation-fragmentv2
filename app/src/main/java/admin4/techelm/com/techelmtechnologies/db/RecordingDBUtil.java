@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import admin4.techelm.com.techelmtechnologies.model.RecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
 
 /**
  * Created by admin 4 on 21/02/2017.
@@ -21,11 +21,10 @@ public class RecordingDBUtil extends DatabaseAccess {
 
     private static final String LOG_TAG = "RecordingDBUtil";
 
-    private OnDatabaseChangedListener mCallback;
-
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "servicejob_recordings";
         public static final String COLUMN_NAME_RECORDING_ID = "id";
+        public static final String COLUMN_NAME_RECORDING_SERVICE_ID = "servicejob_id";
         public static final String COLUMN_NAME_RECORDING_NAME = "recording_name";
         public static final String COLUMN_NAME_RECORDING_FILE_PATH = "file_path";
         public static final String COLUMN_NAME_RECORDING_LENGTH = "length";
@@ -58,19 +57,31 @@ public class RecordingDBUtil extends DatabaseAccess {
         System.gc();
     }
 
-    public List<RecordingWrapper> getAllRecordings() {
-        ArrayList<RecordingWrapper> list = new ArrayList<RecordingWrapper>();
+    /**
+     * This can be used if you don't want to implement the interfaces
+     * or You are using a non-activity class
+     * @param context - context you passed in
+     * @param message - message from the calling class of instantiation
+     */
+    public RecordingDBUtil(Context context, String message) {
+        super(context);
+        Log.e(LOG_TAG, message);
+    }
+
+    public List<ServiceJobRecordingWrapper> getAllRecordings() {
+        ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<ServiceJobRecordingWrapper>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                RecordingWrapper recordItem = new RecordingWrapper();
+                ServiceJobRecordingWrapper recordItem = new ServiceJobRecordingWrapper();
                 recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setName(cursor.getString(1));
-                recordItem.setFilePath(cursor.getString(2));
-                recordItem.setLength(cursor.getInt(3));
-                recordItem.setTime(cursor.getLong(4));
+                recordItem.setServiceId(cursor.getString(1));
+                recordItem.setName(cursor.getString(2));
+                recordItem.setFilePath(cursor.getString(3));
+                recordItem.setLength(cursor.getInt(4));
+                recordItem.setTime(cursor.getLong(5));
                 list.add(recordItem);
             } while (cursor.moveToNext());
         }
@@ -82,19 +93,20 @@ public class RecordingDBUtil extends DatabaseAccess {
         return list;
     }
 
-    public List<RecordingWrapper> getAllRecordingsByID(String  id) {
-        ArrayList<RecordingWrapper> list = new ArrayList<RecordingWrapper>();
-        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
+    public List<ServiceJobRecordingWrapper> getAllRecordingsByID(int  id) {
+        ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<ServiceJobRecordingWrapper>();
+        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE servicejob_id="+id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                RecordingWrapper recordItem = new RecordingWrapper();
+                ServiceJobRecordingWrapper recordItem = new ServiceJobRecordingWrapper();
                 recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setName(cursor.getString(1));
-                recordItem.setFilePath(cursor.getString(2));
-                recordItem.setLength(cursor.getInt(3));
-                recordItem.setTime(cursor.getLong(4));
+                recordItem.setServiceId(cursor.getString(1));
+                recordItem.setName(cursor.getString(2));
+                recordItem.setFilePath(cursor.getString(3));
+                recordItem.setLength(cursor.getInt(4));
+                recordItem.setTime(cursor.getLong(5));
                 list.add(recordItem);
             } while (cursor.moveToNext());
         }
@@ -106,10 +118,10 @@ public class RecordingDBUtil extends DatabaseAccess {
         return list;
     }
 
-    public RecordingWrapper getItemAt(int position) {
+    public ServiceJobRecordingWrapper getItemAt(int position) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        RecordingWrapper recordItem = new RecordingWrapper();
+        ServiceJobRecordingWrapper recordItem = new ServiceJobRecordingWrapper();
         if (cursor.moveToPosition(position)) {
             recordItem.setId(Integer.parseInt(cursor.getString(0)));
             recordItem.setName(cursor.getString(1));
@@ -147,32 +159,32 @@ public class RecordingDBUtil extends DatabaseAccess {
         return count;
     }
 
-    public class RecordingComparator implements Comparator<RecordingWrapper> {
-        public int compare(RecordingWrapper item1, RecordingWrapper item2) {
+    public class RecordingComparator implements Comparator<ServiceJobRecordingWrapper> {
+        public int compare(ServiceJobRecordingWrapper item1, ServiceJobRecordingWrapper item2) {
             Long o1 = item1.getTime();
             Long o2 = item2.getTime();
             return o2.compareTo(o1);
         }
     }
 
-    public int addRecording(String recordingName, String filePath, long length) {
+    public int addRecording(String recordingName, String filePath, long length, int serviceId) {
 
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
+        cv.put(DBHelperItem.COLUMN_NAME_RECORDING_SERVICE_ID, serviceId);
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_NAME, recordingName);
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_FILE_PATH, filePath);
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_LENGTH, length);
         cv.put(DBHelperItem.COLUMN_NAME_TIME_ADDED, System.currentTimeMillis());
-        db.insert(DBHelperItem.TABLE_NAME, null, cv);
-        int rowId = 1;
+        long idInserted = db.insert(DBHelperItem.TABLE_NAME, null, cv);
+        int rowId = (int)idInserted;
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onNewRecordingsEntryAdded(recordingName);
         }
-
         return rowId;
     }
 
-    public void renameItem(RecordingWrapper item, String recordingName, String filePath) {
+    public void renameItem(ServiceJobRecordingWrapper item, String recordingName, String filePath) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_NAME, recordingName);
@@ -185,7 +197,7 @@ public class RecordingDBUtil extends DatabaseAccess {
         }
     }
 
-    public long restoreRecording(RecordingWrapper item) {
+    public long restoreRecording(ServiceJobRecordingWrapper item) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_NAME, item.getName());

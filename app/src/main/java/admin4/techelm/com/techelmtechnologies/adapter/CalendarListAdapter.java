@@ -79,9 +79,9 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
         // holder.textViewNameRecord.setText((serviceJobDataSet.getDay() != "") ? serviceJobDataSet.getDay().split("-")[2] : position + "");
         holder.textViewDateNumber.setText(position+1 + "");
-        holder.textViewDate.setText(serviceJobDataSet.getDate());
+        holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewCustomer.setText(serviceJobDataSet.getCustomer());
+        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerID());
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineer());
         holder.textViewStatus.setText(serviceJobDataSet.getStatus());
         holder.textViewStatus.setTextColor((serviceJobDataSet.getID()%2 == 1) ? Color.RED : Color.BLUE);

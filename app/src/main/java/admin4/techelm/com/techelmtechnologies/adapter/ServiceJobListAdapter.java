@@ -78,10 +78,10 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewDateNumber.setText(serviceJobDataSet.getDay());
-        holder.textViewDate.setText(serviceJobDataSet.getDate());
+        holder.textViewDateNumber.setText(serviceJobDataSet.getServiceID());
+        holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewCustomer.setText(serviceJobDataSet.getCustomer());
+        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerID());
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineer());
         holder.textViewStatus.setText(serviceJobDataSet.getStatus());
         holder.textViewStatus.setTextColor((serviceJobDataSet.getID()%2 == 1) ? Color.RED : Color.BLUE);

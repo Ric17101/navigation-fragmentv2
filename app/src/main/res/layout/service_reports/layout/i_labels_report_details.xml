@@ -5,6 +5,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <ImageButton
+        android:id="@+id/buttonViewDetails"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end"
+        android:layout_margin="10dp"
+        android:adjustViewBounds="false"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="Edit"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/edit_icon_list" />
 
     <TableLayout
         android:id="@+id/TableLayoutLabels"
@@ -21,10 +33,8 @@
                 android:id="@+id/textViewLabel18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
-                android:layout_weight=".3"
+                android:layout_weight=".2"
                 android:gravity="fill_vertical"
                 android:text="Customer Name"
                 android:textStyle="normal|bold" />
@@ -34,8 +44,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="fill_vertical"
@@ -45,25 +53,10 @@
                 android:id="@+id/textViewLabelCustomerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
-                android:layout_weight="1.6"
+                android:layout_weight="2"
                 android:gravity="fill_vertical"
                 android:text="Text" />
-
-            <ImageButton
-                android:id="@+id/buttonViewDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|start"
-                android:layout_weight="1"
-                android:adjustViewBounds="false"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:contentDescription="Edit"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/edit_icon_list" />
         </TableRow>
 
         <TableRow
@@ -75,8 +68,6 @@
                 android:id="@+id/textViewLabel19"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -88,8 +79,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -99,8 +88,6 @@
                 android:id="@+id/textViewLabelJobSite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -116,8 +103,6 @@
                 android:id="@+id/textViewLabel20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -129,8 +114,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -140,8 +123,6 @@
                 android:id="@+id/textViewLabelServiceNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -157,8 +138,6 @@
                 android:id="@+id/textViewLabel21"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="fill_vertical"
@@ -170,8 +149,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -181,8 +158,6 @@
                 android:id="@+id/textViewLabelTypeOfService"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -198,8 +173,6 @@
                 android:id="@+id/textViewLabel22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -211,8 +184,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -222,8 +193,6 @@
                 android:id="@+id/textViewLabelTelephone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -239,8 +208,6 @@
                 android:id="@+id/textViewLabel23"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -252,8 +219,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -263,8 +228,6 @@
                 android:id="@+id/textViewLabelFax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -280,8 +243,6 @@
                 android:id="@+id/textViewLabel24"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
@@ -293,8 +254,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -304,8 +263,6 @@
                 android:id="@+id/textViewLabelEquipmentType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -321,8 +278,6 @@
                 android:id="@+id/textViewLabel25"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="fill_vertical"
@@ -334,8 +289,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
@@ -345,8 +298,6 @@
                 android:id="@+id/textViewLabelModel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
-                
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
@@ -360,8 +311,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:orientation="vertical"
-        android:layout_margin="10sp">
+        android:layout_margin="10sp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView12"
@@ -371,7 +322,7 @@
             android:textStyle="normal|bold" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/textViewComplaints"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
@@ -385,7 +336,7 @@
             android:textStyle="normal|bold" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textViewRemarksActions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />

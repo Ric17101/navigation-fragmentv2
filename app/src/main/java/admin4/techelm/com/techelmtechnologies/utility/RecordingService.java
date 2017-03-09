@@ -8,11 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +26,9 @@ import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
 import admin4.techelm.com.techelmtechnologies.service_report.ServiceReport_1;
 
 public class RecordingService extends Service {
+
+    private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
+    private int mServiceID;
 
     private static final String LOG_TAG = "RecordingService";
     private static final SimpleDateFormat mTimerFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
@@ -51,18 +54,31 @@ public class RecordingService extends Service {
         return null;
     }
 
+    // This not working??? I dont know why, is it because this class is only a Service Class???
     public interface OnTimerChangedListener {
         void onTimerChanged(int seconds);
+        // RecordingDBUtil onHandleGetDB();
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mDatabase = new RecordingDBUtil(getApplication());
+        try {
+            // onTimerChangedListener = (OnTimerChangedListener) getApplication();
+            mDatabase = new RecordingDBUtil(getApplicationContext(),
+                    "From Recording service, can't implement Interface here.");
+        } catch (ClassCastException ex) {
+            //.. should log the error or throw and exception
+            Log.e(LOG_TAG, "Must implement the CallbackInterface in the Activity", ex);
+        }
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Bundle bundle = intent.getExtras();
+        mServiceID = bundle.getInt(RECORD_SERVICE_KEY);
+
         try {
             startRecording();
         } catch (IOException e) {
@@ -132,7 +148,7 @@ public class RecordingService extends Service {
         mRecorder.stop();
         mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);
         mRecorder.release();
-        Toast.makeText(this, getString(R.string.toast_recording_finish) + " " + mFilePath, Toast.LENGTH_LONG).show();
+        Log.e(LOG_TAG, getString(R.string.toast_recording_finish) + " " + mFilePath);
 
         //remove notification
         if (mIncrementTimerTask != null) {
@@ -141,15 +157,16 @@ public class RecordingService extends Service {
         }
 
         mRecorder = null;
-
+        int idInserted = 0;
         try {
+            // mDatabase = onTimerChangedListener.onHandleGetDB();
             mDatabase.open();
-            mDatabase.addRecording(mFileName, mFilePath, mElapsedMillis);
+            idInserted = mDatabase.addRecording(mFileName, mFilePath, mElapsedMillis, mServiceID);
             mDatabase.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e(LOG_TAG, "exception", e);
         }
-        Log.e(LOG_TAG, "Stop recording");
+        Log.e(LOG_TAG, "Stop recording, inserted ID:" + idInserted);
     }
 
     private void startTimer() {
