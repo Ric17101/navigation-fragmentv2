@@ -100,6 +100,7 @@ public class FileUtility {
         return result;
     }
 
+
     @NonNull
     private File createFile() {
         File directory;
@@ -113,8 +114,11 @@ public class FileUtility {
     }
 
     private File getAlbumStorageDir(String albumName) {
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName);
+        /* File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), albumName); */
+        String mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFilePath += "/TELCHEM/" + albumName;
+        File file = new File(mFilePath);
         if (!file.mkdirs()) {
             Log.e("ImageUtility", "Directory not created, or already existed");
         }

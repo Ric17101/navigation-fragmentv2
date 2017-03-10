@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import admin4.techelm.com.techelmtechnologies.R;
+
 public class CameraUtil {
     
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -50,6 +52,10 @@ public class CameraUtil {
         return this.mFileUtil.getFile().toString();
     }
 
+    public String getFileName() {
+        return this.mFileUtil.getFileName();
+    }
+
 
     public void saveBitmapToJPG(Bitmap bitmap, File photo) throws IOException {
         Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -57,15 +63,15 @@ public class CameraUtil {
         canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(bitmap, 0, 0, null);
         OutputStream stream = new FileOutputStream(photo);
-        newBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+        newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         stream.close();
     }
 
-    public boolean addJpgSignatureToGallery(Bitmap signature, String folder) {
+    public boolean addJpgUploadToGallery(Bitmap signature, String folder) {
         mFileUtil = new FileUtility(activity.getApplicationContext());
         mFileUtil.setDirectoryName(folder)
                 .setExternal(true)
-                .setFileName(String.format("Camera_Upload_%d.jpg", System.currentTimeMillis()));
+                .setFileName(String.format("CAPTURE_%d.jpg", System.currentTimeMillis()));
 
         boolean result = mFileUtil.saveImage(signature);
         Log.e("upload", "Directory :" + mFileUtil.getFileName());
@@ -79,7 +85,7 @@ public class CameraUtil {
     public boolean addJpgSignatureToGallery_v1(Bitmap signature) {
         boolean result = false;
         try {
-            File photo = new File(getAlbumStorageDir("upload"), String.format("Signature_%d.jpg", System.currentTimeMillis()));
+            File photo = new File(getAlbumStorageDir("upload"), String.format("CAPTURE_%d.jpg", System.currentTimeMillis()));
             saveBitmapToJPG(signature, photo);
             scanMediaFile(photo);
             result = true;

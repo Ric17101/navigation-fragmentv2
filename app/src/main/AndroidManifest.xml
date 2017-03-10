@@ -7,8 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- File Management -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="true" />
 
@@ -40,10 +41,13 @@
             android:label="Webservice"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".login.LoginActivity2"
+            android:label="@string/title_activity_service_report"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".service_report.RecordingActivity2"
             android:label="@string/title_activity_service_report"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".service_report.PartReplacement_2"
             android:label="@string/title_activity_part_replacement"
@@ -51,10 +55,6 @@
         <activity
             android:name=".service_report.AddReplacementPart_3"
             android:label="@string/title_activity_add_replacement_part"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".login.LoginActivity2"
-            android:label="Signing Off"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".service_report.SigningOff_4"

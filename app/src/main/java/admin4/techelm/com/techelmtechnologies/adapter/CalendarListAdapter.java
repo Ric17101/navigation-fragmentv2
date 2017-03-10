@@ -185,7 +185,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
 
         @Override
         public void onClick(View v) {
-            /*if (v.getId() == buttonSpeakAlphabet.getId()) {
+            /*if (v.getID() == buttonSpeakAlphabet.getID()) {
                 if (mCallback != null){
                     mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
                     //Toast.makeText(v.getContext(), "TEST: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();

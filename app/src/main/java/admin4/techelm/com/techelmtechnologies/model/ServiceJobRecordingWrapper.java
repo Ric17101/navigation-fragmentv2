@@ -47,7 +47,7 @@ public class ServiceJobRecordingWrapper implements Parcelable {
         return 0;
     }
 
-    public int getId() {
+    public int getID() {
         return mId;
     }
     public void setId(int id) {

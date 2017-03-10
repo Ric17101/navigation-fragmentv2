@@ -5,16 +5,16 @@ import android.os.Parcelable;
 
 public class ServiceJobUploadsWrapper implements Parcelable {
     private int mId;                //id in database
-    private String mServiceID;      // servicejob id in database
-    private String mSignatureName;  // file name
+    private int mServiceID;      // servicejob id in database
+    private String mUploadName;  // file name
     private String mFilePath;       //file path
 
     public ServiceJobUploadsWrapper() { }
 
     public ServiceJobUploadsWrapper(Parcel in) {
         mId = in.readInt();
-        mServiceID = in.readString();
-        mSignatureName = in.readString();
+        mServiceID = in.readInt();
+        mUploadName = in.readString();
         mFilePath = in.readString();
     }
 
@@ -31,9 +31,9 @@ public class ServiceJobUploadsWrapper implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mId);
-        dest.writeString(mServiceID);
+        dest.writeInt(mServiceID);
         dest.writeString(mFilePath);
-        dest.writeString(mSignatureName);
+        dest.writeString(mUploadName);
     }
 
     @Override
@@ -41,19 +41,17 @@ public class ServiceJobUploadsWrapper implements Parcelable {
         return 0;
     }
 
-    public int getId() {
+    public int getID() {
         return mId;
     }
     public void setId(int id) {
         mId = id;
     }
 
-    public String getServiceId() {
+    public int getServiceId() {
         return mServiceID;
     }
-    public void setServiceId(String serviceId) {
-        mServiceID = serviceId;
-    }
+    public void setServiceId(int serviceId) { mServiceID = serviceId; }
 
     public String getFilePath() {
         return mFilePath;
@@ -62,15 +60,15 @@ public class ServiceJobUploadsWrapper implements Parcelable {
         mFilePath = filePath;
     }
 
-    public String getSignatureName() { return mSignatureName; }
-    public void setSignatureName(String name) {
-        mSignatureName = name;
+    public String getUploadName() { return mUploadName; }
+    public void setUploadName(String name) {
+        mUploadName = name;
     }
 
     public String toString() {
         return "ID : " + this.mId +
                 "\nService ID : " + this.mServiceID +
                 "\nFile Path : " + this.mFilePath +
-                "\nFile Name" + this.mSignatureName;
+                "\nFile Name : " + this.mUploadName;
     }
 }

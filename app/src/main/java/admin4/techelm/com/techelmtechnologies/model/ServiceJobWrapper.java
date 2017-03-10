@@ -60,6 +60,7 @@ public class ServiceJobWrapper implements Parcelable {
     /** MY COLUMNS */
     private String _telephone;
     private String _fax;
+    private String _race;
     private String _type_of_service;
     private String _signature_file_path;
 
@@ -250,6 +251,9 @@ public class ServiceJobWrapper implements Parcelable {
     public void setFax(String val) {
         this._fax = val;
     }
+
+    public String getRace() { return this._race; }
+    public void setRace(String val) {this._race = val; }
 
     public String getTypeOfService() {
         return this._type_of_service;

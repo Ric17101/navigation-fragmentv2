@@ -31,7 +31,13 @@
 
                 <include layout="@layout/i_image_upload_button" />
 
-                <include layout="@layout/service_report_image_upload_list_item" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/upload_results_service_job_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingTop="4sp"
+                    android:paddingBottom="70sp"/>
 
                 <include layout="@layout/i_voice_record_button" />
 

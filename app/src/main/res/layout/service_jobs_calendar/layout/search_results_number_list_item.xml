@@ -65,8 +65,8 @@
                             android:text="DD/MM/YYYY"
                             android:textAlignment="center"
                             android:textColor="@android:color/black"
-                            android:textStyle="normal|bold"
-                            android:textSize="8sp" />
+                            android:textSize="8sp"
+                            android:textStyle="normal|bold" />
 
                         <TextView
                             android:id="@+id/textViewDay"
@@ -77,8 +77,8 @@
                             android:layout_below="@+id/textViewDateNumber"
                             android:text="Day"
                             android:textAlignment="center"
-                            android:textStyle="italic"
-                            android:textSize="8sp" />
+                            android:textSize="8sp"
+                            android:textStyle="italic" />
 
                     </RelativeLayout>
 
@@ -225,8 +225,8 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="SEV00001"
-                                android:textStyle="normal|bold"
-                                android:textSize="8sp" />
+                                android:textSize="8sp"
+                                android:textStyle="normal|bold" />
 
                             <TextView
                                 android:id="@+id/textViewCustomer"
@@ -237,8 +237,8 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="John Doe"
-                                android:textStyle="normal|bold"
-                                android:textSize="8sp" />
+                                android:textSize="8sp"
+                                android:textStyle="normal|bold" />
 
                             <TextView
                                 android:id="@+id/textViewEngineer"
@@ -249,8 +249,8 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="Leonard Lee"
-                                android:textStyle="normal|bold"
-                                android:textSize="8sp" />
+                                android:textSize="8sp"
+                                android:textStyle="normal|bold" />
 
                             <TextView
                                 android:id="@+id/textViewStatus"
@@ -261,8 +261,8 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="Pending/Completed"
-                                android:textStyle="normal|bold"
-                                android:textSize="8sp" />
+                                android:textSize="8sp"
+                                android:textStyle="normal|bold" />
 
                         </LinearLayout>
 
@@ -278,8 +278,8 @@
                                 <TableRow
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:gravity="right|center_vertical"
-                                    android:layout_weight="1">
+                                    android:layout_weight="1"
+                                    android:gravity="right|center_vertical">
 
                                     <ImageButton
                                         android:id="@+id/buttonEditDetails"
@@ -296,11 +296,11 @@
                                         android:src="@mipmap/edit_icon" />
 
                                     <TextView
-                                        android:text="Edit"
+                                        android:id="@+id/textViewEditDetails"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:id="@+id/textViewEditDetails"
                                         android:clickable="true"
+                                        android:text="Edit"
                                         android:textColorLink="@color/colorAccent"
                                         android:textSize="8sp" />
                                 </TableRow>
@@ -308,8 +308,8 @@
                                 <TableRow
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:gravity="end|center_vertical"
-                                    android:layout_weight="1">
+                                    android:layout_weight="1"
+                                    android:gravity="end|center_vertical">
 
                                     <ImageButton
                                         android:id="@+id/buttonViewDetails"
@@ -330,11 +330,11 @@
                                         android:src="@mipmap/view_icon" />
 
                                     <TextView
-                                        android:text="View"
+                                        android:id="@+id/textViewViewDetails"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:id="@+id/textViewViewDetails"
                                         android:clickable="true"
+                                        android:text="View"
                                         android:textColorLink="@color/colorAccent"
                                         android:textSize="8sp" />
                                 </TableRow>

@@ -40,8 +40,9 @@ public class SignatureUtil {
 
     public File getAlbumStorageDir(String albumName) {
         // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName);
+        String mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFilePath += "/TELCHEM/" + albumName;
+        File file = new File(mFilePath);
         if (!file.mkdirs()) {
             Log.e("SignaturePad", "Directory not created");
         }
@@ -71,7 +72,7 @@ public class SignatureUtil {
         mFileUtil = new FileUtility(activity.getApplicationContext());
         mFileUtil.setDirectoryName(folder)
                 .setExternal(true)
-                .setFileName(String.format("Signature_%d.jpg", System.currentTimeMillis()));
+                .setFileName(String.format("SIGNATURE_%d.jpg", System.currentTimeMillis()));
 
         boolean result = mFileUtil.saveImage(signature);
         Log.e("SignaturePad", "Directory :" + mFileUtil.getFileName());
@@ -85,7 +86,7 @@ public class SignatureUtil {
     public boolean addJpgSignatureToGallery_v1(Bitmap signature) {
         boolean result = false;
         try {
-            File photo = new File(getAlbumStorageDir("SignaturePad"), String.format("Signature_%d.jpg", System.currentTimeMillis()));
+            File photo = new File(getAlbumStorageDir("signature"), String.format("SIGNATURE_%d.jpg", System.currentTimeMillis()));
             saveBitmapToJPG(signature, photo);
             scanMediaFile(photo);
             result = true;
@@ -105,7 +106,7 @@ public class SignatureUtil {
     public boolean addSvgSignatureToGallery(String signatureSvg) {
         boolean result = false;
         try {
-            File svgFile = new File(getAlbumStorageDir("SignaturePad"), String.format("Signature_%d.svg", System.currentTimeMillis()));
+            File svgFile = new File(getAlbumStorageDir("signature"), String.format("Signature_%d.svg", System.currentTimeMillis()));
             verifyStoragePermissions(this.activity);
             OutputStream stream = new FileOutputStream(svgFile);
             OutputStreamWriter writer = new OutputStreamWriter(stream);

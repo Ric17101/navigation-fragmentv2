@@ -181,7 +181,7 @@ public class MainActivity_old extends AppCompatActivity implements ServiceJobLis
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int id = v.getId();
+                        int id = v.getID();
                         switch (id) {
                             case R.id.imageButtonCloseNav:
                                 mDrawerLayout.closeDrawer(GravityCompat.START);

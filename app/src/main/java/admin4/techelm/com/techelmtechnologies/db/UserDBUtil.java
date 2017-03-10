@@ -2,6 +2,7 @@ package admin4.techelm.com.techelmtechnologies.db;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,38 @@ public class UserDBUtil extends DatabaseAccess {
         }
         // return data list
         return userList;
+    }
+
+    public UserLoginWrapper getUserInfoByEngineerID(String engineer_id, SQLiteDatabase db) {
+        String selectQuery = "SELECT * FROM user WHERE id=" + engineer_id;
+        Cursor cursor = db.rawQuery(selectQuery, null); //getDB()
+
+        UserLoginWrapper user = new UserLoginWrapper();
+        if (cursor.moveToFirst()) {
+            user.setID(Integer.parseInt(cursor.getString(0)));
+            user.setUserGroupId(cursor.getString(1));
+            user.setRole(cursor.getString(2));
+            user.setFullname(cursor.getString(3));
+            user.setUsername(cursor.getString(4));
+            user.setPassword(cursor.getString(5));
+            user.setEmail(cursor.getString(6));
+            user.setFax(cursor.getString(7));
+            user.setPhoneNo(cursor.getString(8));
+            user.setRace(cursor.getString(9));
+            user.setAuthKey(cursor.getString(10));
+            user.setPasswordHash(cursor.getString(11));
+            user.setPasswordResetToken(cursor.getString(12));
+            user.setPhoto(cursor.getString(13));
+            user.setStatus(Integer.parseInt(cursor.getString(14)));
+            user.setDeleted(Integer.parseInt(cursor.getString(15)));
+            user.setCreatedAt(cursor.getString(16));
+            user.setCreatedBy(cursor.getString(17));
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return user;
     }
 
     /**************************

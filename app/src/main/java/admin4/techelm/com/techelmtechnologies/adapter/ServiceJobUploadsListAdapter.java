@@ -20,15 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
 
-public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<ServiceJobRecordingsListAdapter.ViewHolder> {
+public class ServiceJobUploadsListAdapter extends RecyclerView.Adapter<ServiceJobUploadsListAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = "RecordingsListAdapter";
+    private static final String LOG_TAG = "UplaodsListAdapter";
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
-    private List<ServiceJobRecordingWrapper> mDataSet = new ArrayList<>();
-    private ServiceJobRecordingWrapper serviceJobDataSet;
+    private List<ServiceJobUploadsWrapper> mDataSet = new ArrayList<>();
+    private ServiceJobUploadsWrapper serviceUploadDataSet;
     private CallbackInterface mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
@@ -37,7 +37,7 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
     private OnItemClickListener mItemsOnClickListener;
     private int counterOnBindViewHolder = 0;
 
-    public ServiceJobRecordingsListAdapter(Activity context) {
+    public ServiceJobUploadsListAdapter(Activity context) {
         mContext = context;
 
         // .. Attach the interface
@@ -50,12 +50,12 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
         // System.gc();
     }
 
-    public ServiceJobRecordingsListAdapter(List<ServiceJobRecordingWrapper> serviceJobList) {
+    public ServiceJobUploadsListAdapter(List<ServiceJobUploadsWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }
 
-    public void swapData(List<ServiceJobRecordingWrapper> mNewDataSet) {
+    public void swapData(List<ServiceJobUploadsWrapper> mNewDataSet) {
         mDataSet = mNewDataSet;
         notifyDataSetChanged();
     }
@@ -74,33 +74,11 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewNameRecord.setText(serviceJobDataSet.getName() + " uploaded.");
-        // holder.textViewDeleteRecord.setText(serviceJobDataSet.getServiceNumber());
-        // holder.imageButtonDelete.setOnClickListener(this);
-
-        // define an on click listener to open PlaybackFragment
-        /*holder.imageButtonUploaded.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    PlaybackFragment playbackFragment =
-                            new PlaybackFragment().newInstance(serviceJobDataSet);
-
-                    FragmentTransaction transaction = ((FragmentActivity) mContext)
-                            .getSupportFragmentManager()
-                            .beginTransaction();
-
-                    playbackFragment.show(transaction, "dialog_playback");
-
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "exception", e);
-                }
-            }
-        });*/
+        serviceUploadDataSet = mDataSet.get(holder.getAdapterPosition());
+        holder.textViewNameRecord.setText(serviceUploadDataSet.getUploadName() + " uploaded.");
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
-                serviceJobDataSet.getFilePath() + serviceJobDataSet.getName());
+                serviceUploadDataSet.getFilePath() + serviceUploadDataSet.getUploadName());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
@@ -133,17 +111,17 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
          * @param position - the position
          * @param serviceJobRecordingWrapper - the text to pass back
          */
-        void onHandleRecordingsSelection(int position, ServiceJobRecordingWrapper serviceJobRecordingWrapper, int mode);
-        void onHandleDeleteRecordingsFromListSelection(int id);
-        void onHandlePlayFromListSelection(ServiceJobRecordingWrapper serviceJobRecordingWrapper);
+        void onHandleUploadsSelection(int position, ServiceJobUploadsWrapper serviceJobRecordingWrapper, int mode);
+        void onHandleDeleteUploadsFromListSelection(int id);
+        void onHandleViewUploadFromListSelection(ServiceJobUploadsWrapper serviceJobRecordingWrapper);
     }
 
     public interface OnItemClickListener {
-        void onClick(ServiceJobRecordingWrapper colorWrapper);
+        void onClick(ServiceJobUploadsWrapper colorWrapper);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textViewNameRecord;
+        final TextView textViewNameRecord;
         TextView textViewDeleteRecord;
 
         ImageButton imageButtonDelete;
@@ -158,16 +136,17 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
                 @Override
                 public void onClick(View v) {
                     if (mCallback != null) {
-                        mCallback.onHandlePlayFromListSelection(mDataSet.get(getAdapterPosition()));
+                        mCallback.onHandleViewUploadFromListSelection(mDataSet.get(getAdapterPosition()));
                     }
                 }
+
             });
             textViewDeleteRecord = (TextView) view.findViewById(R.id.textViewDeleteRecord);
             textViewDeleteRecord.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mCallback != null) {
-                        mCallback.onHandleDeleteRecordingsFromListSelection(mDataSet.get(getAdapterPosition()).getID());
+                        mCallback.onHandleDeleteUploadsFromListSelection(mDataSet.get(getAdapterPosition()).getID());
                     }
                 }
             });
@@ -182,22 +161,14 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
 
         @Override
         public void onClick(View v) {
-            /*if (v.getID() == buttonSpeakAlphabet.getID()) {
-                if (mCallback != null){
-                    mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
-                    //Toast.makeText(v.getContext(), "TEST: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                }
-            } else*/
-
             if (v.getId() == imageButtonDelete.getId()) {
                 if (mCallback != null) {
                     // mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
-                    mCallback.onHandleDeleteRecordingsFromListSelection(mDataSet.get(getAdapterPosition()).getID());
+                    mCallback.onHandleDeleteUploadsFromListSelection(mDataSet.get(getAdapterPosition()).getID());
                 }
             } else if (v.getId() == imageButtonUploaded.getId()) {
                 if (mCallback != null) {
-                    // mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
-                    mCallback.onHandlePlayFromListSelection(mDataSet.get(getAdapterPosition()));
+                    mCallback.onHandleViewUploadFromListSelection(mDataSet.get(getAdapterPosition()));
                 }
 
             }

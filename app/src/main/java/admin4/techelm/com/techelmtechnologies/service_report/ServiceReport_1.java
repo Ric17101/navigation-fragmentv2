@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -26,13 +28,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,10 +52,13 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobRecordingsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobUploadsListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
 import admin4.techelm.com.techelmtechnologies.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
@@ -59,15 +68,21 @@ import static android.Manifest.permission.CAMERA;
 
 public class ServiceReport_1 extends AppCompatActivity implements
         ServiceJobRecordingsListAdapter.CallbackInterface,
-        RecordingDBUtil.OnDatabaseChangedListener,
+        ServiceJobUploadsListAdapter.CallbackInterface,
         RecordingService.OnTimerChangedListener,
-        ServiceJobDBUtil.OnDatabaseChangedListener {
+        RecordingDBUtil.OnDatabaseChangedListener,
+        ServiceJobDBUtil.OnDatabaseChangedListener,
+        UploadsDBUtil.OnDatabaseChangedListener {
 
     private static final String LOG_TAG = "ServiceReport_1";
     private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
 
-    // CAMERA Controls
+    // A. SERVICE ID INFO
+    ServiceJobDBUtil mSJDB;
+    private List<ServiceJobWrapper> mSJResultList = null;
+
+    // B. CAMERA Controls
     MaterialDialog mCameraDialog;
     Bitmap mBitmap;
     Uri mPicUri;
@@ -78,7 +93,12 @@ public class ServiceReport_1 extends AppCompatActivity implements
 
     private final static int ALL_PERMISSIONS_RESULT = 107;
 
-    //Recording controls
+    private ServiceJobUploadsListAdapter mUploadListAdapter; // ListView Setup
+    private RecyclerView mUploadResultsList;
+    private List<ServiceJobUploadsWrapper> mUploadResults = null;
+    UploadsDBUtil mUploadsDB;
+
+    // C. Recording controls
     MaterialDialog mRecordingDialog;
     private FloatingActionButton mRecordButton = null;
     private Button mPauseButton = null;
@@ -92,22 +112,22 @@ public class ServiceReport_1 extends AppCompatActivity implements
     private Chronometer mChronometer = null;
     long timeWhenPaused = 0; //stores time when user clicks pause button
 
-    private ServiceJobRecordingsListAdapter mListAdapter;
+    private ServiceJobRecordingsListAdapter mListAdapter; // ListView Setup
     private RecyclerView mRecordResultsList;
-    private List<ServiceJobRecordingWrapper> results = null;
-    private List<ServiceJobWrapper> sjResultList = null;
-    RecordingDBUtil RecodingDB;
-    ServiceJobDBUtil sjDB;
+    private List<ServiceJobRecordingWrapper> mResultsList = null;
+    RecordingDBUtil mRecodingDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_report);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         // mServiceID = savedInstanceState.getInt(RECORD_SERVICE_KEY);
         mServiceID = 2;
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
+
 
         populateServiceJobDetails(mServiceID);
 
@@ -115,11 +135,18 @@ public class ServiceReport_1 extends AppCompatActivity implements
 
         initPermission();
 
-        setUpRecyclerView();
-        setupResultsList();
+        // Recording List
+        setUpRecordingsRecyclerView();
+        setupRecordingsResultsList();
+        if (mResultsList == null) {
+            populateRecordingsCardList();
+        }
 
-        if (results == null) {
-            populateCardList();
+        // Upload List
+        setUpUploadsRecyclerView();
+        setupUploadsResultsList();
+        if (mUploadResults == null) {
+            populateUploadsCardList();
         }
     }
 
@@ -192,7 +219,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
         buttonViewDetails.setVisibility(View.GONE);
     }
 
-    /*********** SERVICE DETAILS ***********/
+    /*********** A. SERVICE DETAILS ***********/
     @Override
     public void onNewSJEntryAdded(String serviceNum) {
 
@@ -222,30 +249,111 @@ public class ServiceReport_1 extends AppCompatActivity implements
         TextView textViewComplaints = (TextView) findViewById(R.id.textViewComplaints);
         TextView textViewRemarksActions = (TextView) findViewById(R.id.textViewRemarksActions);
 
-        sjDB = new ServiceJobDBUtil(ServiceReport_1.this);
-        sjDB.open();
-        sjResultList = sjDB.getAllRecordingsByID(serviceID);
-        sjDB.close();
+        mSJDB = new ServiceJobDBUtil(ServiceReport_1.this);
+        mSJDB.open();
+        mSJResultList = mSJDB.getAllRecordingsByID(serviceID);
+        mSJDB.close();
 
-        for (int i = 0; i < sjResultList.size(); i++) {
-            Log.e(LOG_TAG, "DATA: " + sjResultList.get(i).toString());
-            textViewLabelCustomerName.setText(sjResultList.get(i).getCustomerID());
-            textViewLabelJobSite.setText(sjResultList.get(i).getActionsOrRemarks());
-            textViewLabelServiceNo.setText(sjResultList.get(i).getServiceNumber());
-            textViewLabelTypeOfService.setText(sjResultList.get(i).getTypeOfService());
-            textViewLabelTelephone.setText(sjResultList.get(i).getTelephone());
-            textViewLabelFax.setText(sjResultList.get(i).getFax());
-            textViewLabelEquipmentType.setText(sjResultList.get(i).getEquipmentType());
-            textViewLabelModel.setText(sjResultList.get(i).getModelOrSerial());
-            textViewComplaints.setText(sjResultList.get(i).getComplaintsOrSymptoms());
-            textViewRemarksActions.setText(sjResultList.get(i).getActionsOrRemarks());
+        for (int i = 0; i < mSJResultList.size(); i++) {
+            Log.e(LOG_TAG, "DATA: " + mSJResultList.get(i).toString());
+            textViewLabelCustomerName.setText(mSJResultList.get(i).getCustomerID());
+            textViewLabelJobSite.setText(mSJResultList.get(i).getActionsOrRemarks());
+            textViewLabelServiceNo.setText(mSJResultList.get(i).getServiceNumber());
+            textViewLabelTypeOfService.setText(mSJResultList.get(i).getTypeOfService());
+            textViewLabelTelephone.setText(mSJResultList.get(i).getTelephone());
+            textViewLabelFax.setText(mSJResultList.get(i).getFax());
+            textViewLabelEquipmentType.setText(mSJResultList.get(i).getEquipmentType());
+            textViewLabelModel.setText(mSJResultList.get(i).getModelOrSerial());
+            textViewComplaints.setText(mSJResultList.get(i).getComplaintsOrSymptoms());
+            textViewRemarksActions.setText(mSJResultList.get(i).getActionsOrRemarks());
         }
     }
 
-    /*********** END SERVICE DETAILS ***********/
+    /*********** A. END SERVICE DETAILS ***********/
 
 
-    /*********** CAMERA SETUP ***********/
+    /*********** B. CAMERA SETUP ***********/
+    public void setUpUploadsRecyclerView() {
+        mUploadResultsList = (RecyclerView) findViewById(R.id.upload_results_service_job_list);
+    }
+
+    public void setupUploadsResultsList() {
+        mUploadListAdapter = new ServiceJobUploadsListAdapter(ServiceReport_1.this);
+        mUploadResultsList.setAdapter(mUploadListAdapter);
+        mUploadResultsList.setLayoutManager(new LinearLayoutManager(ServiceReport_1.this));
+    }
+
+    private void populateUploadsCardList() {
+        mUploadsDB = new UploadsDBUtil(ServiceReport_1.this);
+        mUploadsDB.open();
+        mUploadResults = mUploadsDB.getAllUploadsBySJID(mServiceID);
+        mUploadsDB.close();
+
+        for (int i = 0; i < mUploadResults.size(); i++) {
+            Log.e(LOG_TAG, "DATA: " + mUploadResults.get(i).toString());
+        }
+
+        mUploadResultsList.setHasFixedSize(true);
+        mUploadResultsList.setLayoutManager(new LinearLayoutManager(ServiceReport_1.this));
+        mUploadResultsList.setItemAnimator(new DefaultItemAnimator());
+        mUploadListAdapter.swapData(mUploadResults);
+        /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });*/
+    }
+
+    public MaterialDialog showUploadDialog2(ServiceJobUploadsWrapper serviceJobRecordingWrapper) {
+        boolean wrapInScrollView = false;
+        MaterialDialog md = new MaterialDialog.Builder(this)
+                .title("CAPTURED IMAGE.")
+                .customView(R.layout.m_service_report_image_view, wrapInScrollView)
+                .positiveText("Close")
+                .iconRes(R.mipmap.ic_media_camera)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+
+        // Setting image View based on the FilePath
+        ImageView MyImageView = (ImageView) md.findViewById(R.id.imageViewUpload);
+        Drawable d = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
+                serviceJobRecordingWrapper.getUploadName());
+        MyImageView.setImageDrawable(d);
+
+        return md;
+    }
+
+    private void showUploadDialog(final ServiceJobUploadsWrapper serviceJobRecordingWrapper) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        final AlertDialog dialog = builder.create();
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogLayout = inflater.inflate(R.layout.m_service_report_image_view, null);
+        dialog.setView(dialogLayout);
+        dialog.setTitle("IMAGE CAPTURED");
+        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        ImageView image = (ImageView) dialogLayout.findViewById(R.id.imageViewUpload);
+        Drawable draw = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
+                serviceJobRecordingWrapper.getUploadName());
+        image.setImageDrawable(draw);
+
+        dialog.show();
+    }
+
+
     public MaterialDialog showCameraDialog() {
         final CameraUtil camU = new CameraUtil(ServiceReport_1.this);
         boolean wrapInScrollView = false;
@@ -276,10 +384,18 @@ public class ServiceReport_1 extends AppCompatActivity implements
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         if (mBitmap != null && mPicUri != null) {
-                            // TODO: Save image captured here...
-                            // TODO: Add AsyncTask Here...
-                            // mBitmap
-                            if (camU.addJpgSignatureToGallery(mBitmap, "upload")) {
+                            if (camU.addJpgUploadToGallery(mBitmap, "upload")) {
+                                // Save tp DB
+                                ServiceJobUploadsWrapper sjUp = new ServiceJobUploadsWrapper();
+                                sjUp.setUploadName(camU.getFileName());
+                                sjUp.setFilePath(camU.getFilePath());
+                                sjUp.setServiceId(mServiceID);
+
+                                mUploadsDB.open();
+                                mUploadsDB.addUpload(sjUp);
+                                mUploadsDB.close();
+                                // TODO: Add AsyncTask Here...
+
                                 Toast.makeText(ServiceReport_1.this, "Image saved into the Gallery: " + camU.getFilePath(),
                                         Toast.LENGTH_SHORT).show();
                                 // camU.loadBitmap();
@@ -438,7 +554,6 @@ public class ServiceReport_1 extends AppCompatActivity implements
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
-
     /**
      * Get the URI of the selected image from {@link #getPickImageChooserIntent()}.<br/>
      * Will return the correct URI for camera and gallery image.
@@ -536,34 +651,88 @@ public class ServiceReport_1 extends AppCompatActivity implements
                 break;
         }
     }
-    /*********** END CAMERA SETUP ***********/
+
+    @Override
+    public void onNewUploadsEntryAdded(String fileName) {
+        populateUploadsCardList();
+    }
+
+    @Override
+    public void onUploadsEntryRenamed(String fileName) {
+
+    }
+
+    @Override
+    public void onUploadsEntryDeleted() {
+        populateUploadsCardList();
+    }
+
+    @Override
+    public void onHandleUploadsSelection(int position, ServiceJobUploadsWrapper serviceJobRecordingWrapper, int mode) {
+
+    }
+
+    @Override
+    public void onHandleDeleteUploadsFromListSelection(final int id) {
+        new MaterialDialog.Builder(this)
+                .title("COMFIRM DELETE IMAGE.")
+                .positiveText("Delete")
+                .negativeText("Close")
+                .iconRes(R.mipmap.del_icon)
+                .autoDismiss(false)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mUploadsDB = new UploadsDBUtil(ServiceReport_1.this);
+                        mUploadsDB.open();
+                        mUploadsDB.removeItemWithId(id);
+                        mUploadsDB.close();
+                    }
+                })
+                .show();
+
+    }
+
+    @Override
+    public void onHandleViewUploadFromListSelection(ServiceJobUploadsWrapper serviceJobRecordingWrapper) {
+        showUploadDialog(serviceJobRecordingWrapper);
+    }
 
 
-    /*********** SOUND RECORDING ***********/
-    public void setUpRecyclerView() {
+    /*********** B. END CAMERA SETUP ***********/
+
+
+    /*********** C. SOUND RECORDING ***********/
+    public void setUpRecordingsRecyclerView() {
         mRecordResultsList = (RecyclerView) findViewById(R.id.recording_results_service_job_list);
     }
 
-    public void setupResultsList() {
+    public void setupRecordingsResultsList() {
         mListAdapter = new ServiceJobRecordingsListAdapter(ServiceReport_1.this);
         mRecordResultsList.setAdapter(mListAdapter);
         mRecordResultsList.setLayoutManager(new LinearLayoutManager(ServiceReport_1.this));
     }
 
-    private void populateCardList() {
-        RecodingDB = new RecordingDBUtil(ServiceReport_1.this);
-        RecodingDB.open();
-        results = RecodingDB.getAllRecordingsByID(mServiceID);
-        RecodingDB.close();
+    private void populateRecordingsCardList() {
+        mRecodingDB = new RecordingDBUtil(ServiceReport_1.this);
+        mRecodingDB.open();
+        mResultsList = mRecodingDB.getAllRecordingsBySJID(mServiceID);
+        mRecodingDB.close();
 
-        for (int i = 0; i < results.size(); i++) {
-            Log.e(LOG_TAG, "DATA: " + results.get(i).toString());
+        for (int i = 0; i < mResultsList.size(); i++) {
+            Log.e(LOG_TAG, "DATA: " + mResultsList.get(i).toString());
         }
 
         mRecordResultsList.setHasFixedSize(true);
         mRecordResultsList.setLayoutManager(new LinearLayoutManager(ServiceReport_1.this));
         mRecordResultsList.setItemAnimator(new DefaultItemAnimator());
-        mListAdapter.swapData(results);
+        mListAdapter.swapData(mResultsList);
         /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -704,11 +873,29 @@ public class ServiceReport_1 extends AppCompatActivity implements
     }
 
     @Override
-    public void onHandleDeleteRecordingsFromListSelection(int id) {
-        RecodingDB = new RecordingDBUtil(ServiceReport_1.this);
-        RecodingDB.open();
-        RecodingDB.removeItemWithId(id);
-        RecodingDB.close();
+    public void onHandleDeleteRecordingsFromListSelection(final int id) {
+        new MaterialDialog.Builder(this)
+            .title("COMFIRM DELETE RECORDING.")
+            .positiveText("Delete")
+            .negativeText("Close")
+            .iconRes(R.mipmap.del_icon)
+            .autoDismiss(false)
+            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    dialog.dismiss();
+                }
+            })
+            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    mRecodingDB = new RecordingDBUtil(ServiceReport_1.this);
+                    mRecodingDB.open();
+                    mRecodingDB.removeItemWithId(id);
+                    mRecodingDB.close();
+                }
+            })
+            .show();
     }
 
     @Override
@@ -733,7 +920,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     public void onNewRecordingsEntryAdded(String fileName) {
         Toast.makeText(ServiceReport_1.this, "Recording " + fileName + " has been added.",
                 Toast.LENGTH_SHORT).show();
-        populateCardList();
+        populateRecordingsCardList();
     }
 
     @Override
@@ -746,16 +933,13 @@ public class ServiceReport_1 extends AppCompatActivity implements
     public void onRecordingsEntryDeleted() {
         Toast.makeText(ServiceReport_1.this, "Delete successful.",
                 Toast.LENGTH_SHORT).show();
-        populateCardList();
+        populateRecordingsCardList();
     }
 
     @Override
     public void onTimerChanged(int seconds) { // TODO: If you can implement from Service Class to Activity
     }
 
-
-
-
-    /*********** END SOUND RECORDING ***********/
+    /*********** C. END SOUND RECORDING ***********/
 
 }

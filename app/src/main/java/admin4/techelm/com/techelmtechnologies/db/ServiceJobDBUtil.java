@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.UserLoginWrapper;
 
 /**
  * Created by admin 4 on 21/02/2017.
@@ -44,9 +45,9 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         public static final String COLUMN_NAME_SJ_OTHERS = "others";
         public static final String COLUMN_NAME_SJ_SIGNATURE_NAME = "signature_name";
 
-
         public static final String COLUMN_NAME_SJ_TELEPHONE = "telephone";
         public static final String COLUMN_NAME_SJ_FAX = "fax";
+        public static final String COLUMN_NAME_SJ_RACE = "race";
         public static final String COLUMN_NAME_SJ_TYPEOFSERVICE = "type_of_service";
         public static final String COLUMN_NAME_SJ_SIGNATURE_FILE_PATH = "signature_file_path";
     }
@@ -149,6 +150,26 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         return list;
     }
 
+    private String getCustomerNameByID(String id) {
+        String selectQuery = "SELECT * FROM customer WHERE id=" + id;
+        Cursor cursor = getDB().rawQuery(selectQuery, null);
+
+        String customerName = "";
+        if (cursor.moveToFirst()) {
+            customerName = cursor.getString(1);
+        }
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return customerName;
+    }
+
+    private UserLoginWrapper getUserDetails(String engineerID, SQLiteDatabase db) {
+        UserLoginWrapper user = new UserDBUtil(getContext()).getUserInfoByEngineerID(engineerID, db);
+        Log.e(LOG_TAG, "getUserDetails: " + user.toString());
+        return user;
+    }
+
     public List<ServiceJobWrapper> getAllRecordingsByID(int  id) {
         ArrayList<ServiceJobWrapper> list = new ArrayList<ServiceJobWrapper>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE id="+id;
@@ -159,9 +180,12 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 ServiceJobWrapper recordItem = new ServiceJobWrapper();
                 recordItem.setID(Integer.parseInt(cursor.getString(0)));
                 recordItem.setServiceNumber(cursor.getString(1));
-                recordItem.setCustomerID(cursor.getString(2));
+                recordItem.setCustomerID(getCustomerNameByID(cursor.getString(2)));
                 recordItem.setServiceID(cursor.getString(3));
-                recordItem.setEngineerID(cursor.getString(4));
+
+                String engineerID = cursor.getString(4);
+                recordItem.setEngineerID(engineerID);
+
                 recordItem.setPriceID(cursor.getString(5));
                 recordItem.setComplaintsOrSymptoms(cursor.getString(6));
                 recordItem.setActionsOrRemarks(cursor.getString(7));
@@ -177,10 +201,16 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 recordItem.setWarrantyRepair(cursor.getString(17));
                 recordItem.setOthers(cursor.getString(18));
                 recordItem.setSignatureName(cursor.getString(19));
-                recordItem.setTelephone(cursor.getString(20));
-                recordItem.setFax(cursor.getString(21));
-                recordItem.setTypeOfService(cursor.getString(22));
-                recordItem.setSignaturePath(cursor.getString(23));
+
+                SQLiteDatabase db = getDB();
+                UserLoginWrapper user = getUserDetails(engineerID, db);
+                recordItem.setTelephone(user.getPhoneNo());
+                recordItem.setFax(user.getFax());
+                recordItem.setRace(user.getRace());
+
+                /*recordItem.setTypeOfService(cursor.getString(23));
+                recordItem.setSignaturePath(cursor.getString(24));*/
+
                 list.add(recordItem);
             } while (cursor.moveToNext());
         }

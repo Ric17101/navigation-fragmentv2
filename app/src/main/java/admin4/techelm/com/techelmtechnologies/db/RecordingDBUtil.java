@@ -93,7 +93,7 @@ public class RecordingDBUtil extends DatabaseAccess {
         return list;
     }
 
-    public List<ServiceJobRecordingWrapper> getAllRecordingsByID(int  id) {
+    public List<ServiceJobRecordingWrapper> getAllRecordingsBySJID(int  id) {
         ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<ServiceJobRecordingWrapper>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE servicejob_id="+id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
@@ -190,7 +190,7 @@ public class RecordingDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_NAME, recordingName);
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_FILE_PATH, filePath);
         db.update(DBHelperItem.TABLE_NAME, cv,
-                DBHelperItem.COLUMN_NAME_RECORDING_ID + "=" + item.getId(), null);
+                DBHelperItem.COLUMN_NAME_RECORDING_ID + "=" + item.getID(), null);
 
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onRecordingsEntryRenamed(item.getName());
@@ -204,7 +204,7 @@ public class RecordingDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_FILE_PATH, item.getFilePath());
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_LENGTH, item.getLength());
         cv.put(DBHelperItem.COLUMN_NAME_TIME_ADDED, item.getTime());
-        cv.put(DBHelperItem.COLUMN_NAME_RECORDING_ID, item.getId());
+        cv.put(DBHelperItem.COLUMN_NAME_RECORDING_ID, item.getID());
         long rowId = db.insert(DBHelperItem.TABLE_NAME, null, cv);
         if (mOnDatabaseChangedListener != null) {
             //mOnDatabaseChangedListener.onNewRecordingsEntryAdded();

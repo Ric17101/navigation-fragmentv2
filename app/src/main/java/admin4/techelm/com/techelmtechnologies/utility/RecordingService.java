@@ -127,21 +127,38 @@ public class RecordingService extends Service {
         }
     }
 
-    public File setFileNameAndPath(){
+    private File getAlbumStorageDir(String albumName) {
+        /* File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), albumName); */
+        String mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFilePath += "/TELCHEM/" + albumName;
+        File file = new File(mFilePath);
+        if (!file.mkdirs()) {
+            Log.e("ImageUtility", "Directory not created, or already existed");
+        }
+        return file;
+    }
+
+    public File setFileNameAndPath() {
         int count = 0;
-        File f;
+        File file;
 
         do { // Redo Creating of file if file Already exist
             count++;
 
             mFileName = getString(R.string.default_file_name)
-                    + count /*System.currentTimeMillis()*/ + ".3gp";
+                    +"_" + count + System.currentTimeMillis() + ".3gp";
             mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mFilePath += "/SoundRecorder/" + mFileName;
+            mFilePath += "/TELCHEM/";
 
-            f = new File(mFilePath);
-        } while (f.exists() && !f.isDirectory());
-        return f;
+            File f = new File(mFilePath);
+            if (!f.mkdirs()) {
+                Log.e("RecordingDIR", "Directory not created");
+            }
+            file = new File(mFilePath, mFileName);
+
+        } while (file.exists() && !file.isDirectory());
+        return file;
     }
 
     public void stopRecording() {
@@ -161,7 +178,8 @@ public class RecordingService extends Service {
         try {
             // mDatabase = onTimerChangedListener.onHandleGetDB();
             mDatabase.open();
-            idInserted = mDatabase.addRecording(mFileName, mFilePath, mElapsedMillis, mServiceID);
+            // idInserted = mDatabase.addRecording(mFileName, mFilePath, mElapsedMillis, mServiceID);
+            idInserted = mDatabase.addRecording(mFileName, mOutputFile.getAbsolutePath(), mElapsedMillis, mServiceID);
             mDatabase.close();
         } catch (Exception e) {
             Log.e(LOG_TAG, "exception", e);

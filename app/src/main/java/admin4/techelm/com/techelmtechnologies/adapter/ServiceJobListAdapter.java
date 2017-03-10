@@ -78,7 +78,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewDateNumber.setText(serviceJobDataSet.getServiceID());
+        holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
         holder.textViewCustomer.setText(serviceJobDataSet.getCustomerID());
@@ -170,7 +170,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
 
         @Override
         public void onClick(View v) {
-            /*if (v.getId() == buttonSpeakAlphabet.getId()) {
+            /*if (v.getID() == buttonSpeakAlphabet.getID()) {
                 if (mCallback != null){
                     mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
                     //Toast.makeText(v.getContext(), "TEST: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
