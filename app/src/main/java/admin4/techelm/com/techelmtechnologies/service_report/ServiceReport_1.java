@@ -13,6 +13,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -361,8 +362,8 @@ public class ServiceReport_1 extends AppCompatActivity implements
                 .title("UPLOAD IMAGE.")
                 .customView(R.layout.m_service_report_camera, wrapInScrollView)
                 .neutralText("Capture")
-                .negativeText("Close")
-                .positiveText("Save")
+                .negativeText("Save")
+                .positiveText("Close")
                 .iconRes(R.mipmap.ic_media_camera)
                 .autoDismiss(false)
                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
@@ -374,34 +375,10 @@ public class ServiceReport_1 extends AppCompatActivity implements
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        // mSignaturePad.clear();
-                        mBitmap = null;
-                        mPicUri = null;
-                        dialog.dismiss();
-                    }
-                })
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         if (mBitmap != null && mPicUri != null) {
-                            if (camU.addJpgUploadToGallery(mBitmap, "upload")) {
-                                // Save tp DB
-                                ServiceJobUploadsWrapper sjUp = new ServiceJobUploadsWrapper();
-                                sjUp.setUploadName(camU.getFileName());
-                                sjUp.setFilePath(camU.getFilePath());
-                                sjUp.setServiceId(mServiceID);
+                            ImageSaveOperation ops = new ImageSaveOperation();
+                            ops.execute(camU);
 
-                                mUploadsDB.open();
-                                mUploadsDB.addUpload(sjUp);
-                                mUploadsDB.close();
-                                // TODO: Add AsyncTask Here...
-
-                                Toast.makeText(ServiceReport_1.this, "Image saved into the Gallery: " + camU.getFilePath(),
-                                        Toast.LENGTH_SHORT).show();
-                                // camU.loadBitmap();
-                            } else {
-                                Toast.makeText(ServiceReport_1.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
-                            }
                             dialog.dismiss();
                         } else {
                             Toast.makeText(ServiceReport_1.this,
@@ -409,9 +386,53 @@ public class ServiceReport_1 extends AppCompatActivity implements
                         }
                     }
                 })
-                .show();
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
+                        // mSignaturePad.clear();
+                        mBitmap = null;
+                        mPicUri = null;
+                        dialog.dismiss();
+                    }
+                }).show();
         return md;
+    }
+
+    private class ImageSaveOperation extends AsyncTask<CameraUtil, Void, ServiceJobUploadsWrapper> {
+        private CameraUtil camU;
+        @Override
+        protected ServiceJobUploadsWrapper doInBackground(CameraUtil... params) {
+            camU = params[0];
+            if (camU.addJpgUploadToGallery(mBitmap, "upload")) {
+                // Save tp DB
+                ServiceJobUploadsWrapper sjUp = new ServiceJobUploadsWrapper();
+                sjUp.setUploadName(camU.getFileName());
+                sjUp.setFilePath(camU.getFilePath());
+                sjUp.setServiceId(mServiceID);
+                return sjUp;
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ServiceJobUploadsWrapper result) {
+            if (result != null) {
+                mUploadsDB.open();
+                mUploadsDB.addUpload(result);
+                mUploadsDB.close();
+                Toast.makeText(ServiceReport_1.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ServiceReport_1.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
     }
 
     /**
@@ -693,10 +714,10 @@ public class ServiceReport_1 extends AppCompatActivity implements
                         mUploadsDB.open();
                         mUploadsDB.removeItemWithId(id);
                         mUploadsDB.close();
+                        dialog.dismiss();
                     }
                 })
                 .show();
-
     }
 
     @Override

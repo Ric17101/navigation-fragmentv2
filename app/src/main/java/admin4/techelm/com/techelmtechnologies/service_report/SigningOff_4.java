@@ -97,8 +97,8 @@ public class SigningOff_4 extends AppCompatActivity {
                 .title("SIGNATURE.")
                 .customView(R.layout.m_signing_off_signature, wrapInScrollView)
                 .positiveText("Close")
-                .neutralText("Save")
-                .negativeText("Clear")
+                .neutralText("Clear")
+                .negativeText("Save")
                 .iconRes(R.drawable.composea)
                 .autoDismiss(false)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -109,6 +109,13 @@ public class SigningOff_4 extends AppCompatActivity {
                     }
                 })
                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mSignaturePad = (SignaturePad) dialog.getCustomView().findViewById(R.id.signature_pad);
+                        mSignaturePad.clear();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         mSignaturePad = (SignaturePad) dialog.getCustomView().findViewById(R.id.signature_pad);
@@ -145,13 +152,6 @@ public class SigningOff_4 extends AppCompatActivity {
                         } else {
                             Toast.makeText(SigningOff_4.this, "Unable to store the SVG signature", Toast.LENGTH_SHORT).show();
                         }*/
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mSignaturePad = (SignaturePad) dialog.getCustomView().findViewById(R.id.signature_pad);
-                        mSignaturePad.clear();
                     }
                 })
                 .show();

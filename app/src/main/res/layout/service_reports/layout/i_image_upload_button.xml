@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    card_view:cardCornerRadius="0dp"
-    card_view:cardElevation="0dp"
-    card_view:cardUseCompatPadding="true">
+    android:orientation="vertical"
+    android:padding="20sp">
 
-    <LinearLayout
+    <ImageButton
+        android:id="@+id/buttonViewUploadImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20sp"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/app_name"
+        android:background="@mipmap/upload_icon"
+        android:clickable="true"
+        android:padding="0dp"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/textView13"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20sp">
+        android:text="UPLOAD IMAGE"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textStyle="normal|bold" />
 
-        <ImageButton
-            android:id="@+id/buttonViewUploadImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20sp"
-            android:adjustViewBounds="false"
-            android:background="@mipmap/upload_icon"
-            android:clickable="true"
-            android:padding="0dp"
-            android:scaleType="fitCenter" />
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="UPLOAD IMAGE"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            android:textStyle="normal|bold" />
-
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+</LinearLayout>
