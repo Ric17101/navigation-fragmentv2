@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
@@ -33,13 +32,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +73,6 @@ public class ServiceReport_1 extends AppCompatActivity implements
         UploadsDBUtil.OnDatabaseChangedListener {
 
     private static final String LOG_TAG = "ServiceReport_1";
-    private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
 
     // A. SERVICE ID INFO
@@ -84,6 +80,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     private List<ServiceJobWrapper> mSJResultList = null;
 
     // B. CAMERA Controls
+    private static final String IMAGE_DIRECTORY = "upload";
     MaterialDialog mCameraDialog;
     Bitmap mBitmap;
     Uri mPicUri;
@@ -100,6 +97,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     UploadsDBUtil mUploadsDB;
 
     // C. Recording controls
+    private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
     MaterialDialog mRecordingDialog;
     private FloatingActionButton mRecordButton = null;
     private Button mPauseButton = null;
@@ -252,7 +250,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
 
         mSJDB = new ServiceJobDBUtil(ServiceReport_1.this);
         mSJDB.open();
-        mSJResultList = mSJDB.getAllRecordingsByID(serviceID);
+        mSJResultList = mSJDB.getAllJSDetailsByID(serviceID);
         mSJDB.close();
 
         for (int i = 0; i < mSJResultList.size(); i++) {
@@ -356,7 +354,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
 
 
     public MaterialDialog showCameraDialog() {
-        final CameraUtil camU = new CameraUtil(ServiceReport_1.this);
+        final CameraUtil camU = new CameraUtil(ServiceReport_1.this, "CAPTURE");
         boolean wrapInScrollView = false;
         MaterialDialog md = new MaterialDialog.Builder(this)
                 .title("UPLOAD IMAGE.")
@@ -404,7 +402,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
         @Override
         protected ServiceJobUploadsWrapper doInBackground(CameraUtil... params) {
             camU = params[0];
-            if (camU.addJpgUploadToGallery(mBitmap, "upload")) {
+            if (camU.addJpgUploadToGallery(mBitmap, IMAGE_DIRECTORY)) {
                 // Save tp DB
                 ServiceJobUploadsWrapper sjUp = new ServiceJobUploadsWrapper();
                 sjUp.setUploadName(camU.getFileName());
@@ -725,7 +723,6 @@ public class ServiceReport_1 extends AppCompatActivity implements
         showUploadDialog(serviceJobRecordingWrapper);
     }
 
-
     /*********** B. END CAMERA SETUP ***********/
 
 
@@ -846,7 +843,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
                 }
             });
 
-            intent.putExtra(RECORD_SERVICE_KEY, mServiceID);
+            intent.putExtra(RECORD_SERVICE_KEY, mServiceID); // Param to Service on RecodingService
             //start RecordingService
             this.startService(intent);
             //keep screen on while recording

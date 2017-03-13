@@ -361,6 +361,10 @@ public class RobotoCalendarView extends LinearLayout {
         updateView();
     }
 
+    public Calendar getCurrentCalendar() {
+        return this.currentCalendar;
+    }
+
     /**
      * Update the calendar view
      */

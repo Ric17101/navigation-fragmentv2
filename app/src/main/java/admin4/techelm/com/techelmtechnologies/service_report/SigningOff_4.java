@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -16,17 +17,28 @@ import android.widget.ImageButton;
 
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 
+import java.util.List;
+
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
 
-public class SigningOff_4 extends AppCompatActivity {
+public class SigningOff_4 extends AppCompatActivity implements
+        ServiceJobDBUtil.OnDatabaseChangedListener {
 
+    // A. SERVICE ID INFO
+    ServiceJobDBUtil mSJDB;
+    private List<ServiceJobWrapper> mSJResultList = null;
+
+    // B. SIGNATURE PAD
     private RelativeLayout mRelativeLayout;
 
     private ImageButton imageButtonViewSignature;
@@ -36,6 +48,11 @@ public class SigningOff_4 extends AppCompatActivity {
     private Button mSaveButton;
     private View mPopUpSignature;
     private PopupWindow mPopupWindow; // TODO : Cancel this onBackPress
+
+    private static final String LOG_TAG = "TaskCompleted_5";
+    private int mServiceID; // For DB Purpose to save the file on the ServiceID
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +64,10 @@ public class SigningOff_4 extends AppCompatActivity {
         initButton();
 
         initSignaturePadPopUp();
+
+        // mServiceID = savedInstanceState.getInt(RECORD_SERVICE_KEY);
+        mServiceID = 2;
+        populateServiceJobDetails(mServiceID);
     }
 
     @Override
@@ -255,6 +276,55 @@ public class SigningOff_4 extends AppCompatActivity {
             }
         });
     }*/
+    /*********** A. SERVICE DETAILS ***********/
+    @Override
+    public void onNewSJEntryAdded(String serviceNum) {
 
+    }
+
+    @Override
+    public void onSJEntryRenamed(String fileName) {
+
+    }
+
+    @Override
+    public void onSJEntryDeleted() {
+
+    }
+
+    private void populateServiceJobDetails(int serviceID) {
+
+        // SERVICE JOB Controls
+        TextView textViewLabelCustomerName = (TextView) findViewById(R.id.textViewLabelCustomerName);
+        TextView textViewLabelJobSite = (TextView) findViewById(R.id.textViewLabelJobSite);
+        TextView textViewLabelServiceNo = (TextView) findViewById(R.id.textViewLabelServiceNo);
+        TextView textViewLabelTypeOfService = (TextView) findViewById(R.id.textViewLabelTypeOfService);
+        TextView textViewLabelTelephone = (TextView) findViewById(R.id.textViewLabelTelephone);
+        TextView textViewLabelFax = (TextView) findViewById(R.id.textViewLabelFax);
+        TextView textViewLabelEquipmentType = (TextView) findViewById(R.id.textViewLabelEquipmentType);
+        TextView textViewLabelModel = (TextView) findViewById(R.id.textViewLabelModel);
+        TextView textViewComplaints = (TextView) findViewById(R.id.textViewComplaints);
+        TextView textViewRemarksActions = (TextView) findViewById(R.id.textViewRemarksActions);
+
+        mSJDB = new ServiceJobDBUtil(SigningOff_4.this);
+        mSJDB.open();
+        mSJResultList = mSJDB.getAllJSDetailsByID(serviceID);
+        mSJDB.close();
+
+        for (int i = 0; i < mSJResultList.size(); i++) {
+            Log.e(LOG_TAG, "DATA: " + mSJResultList.get(i).toString());
+            textViewLabelCustomerName.setText(mSJResultList.get(i).getCustomerID());
+            textViewLabelJobSite.setText(mSJResultList.get(i).getActionsOrRemarks());
+            textViewLabelServiceNo.setText(mSJResultList.get(i).getServiceNumber());
+            textViewLabelTypeOfService.setText(mSJResultList.get(i).getTypeOfService());
+            textViewLabelTelephone.setText(mSJResultList.get(i).getTelephone());
+            textViewLabelFax.setText(mSJResultList.get(i).getFax());
+            textViewLabelEquipmentType.setText(mSJResultList.get(i).getEquipmentType());
+            textViewLabelModel.setText(mSJResultList.get(i).getModelOrSerial());
+            textViewComplaints.setText(mSJResultList.get(i).getComplaintsOrSymptoms());
+            textViewRemarksActions.setText(mSJResultList.get(i).getActionsOrRemarks());
+        }
+    }
+    /*********** A. END SERVICE DETAILS ***********/
 
 }

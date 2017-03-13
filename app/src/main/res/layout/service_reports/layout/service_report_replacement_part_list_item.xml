@@ -10,11 +10,20 @@
     card_view:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
         android:layout_marginEnd="10sp"
-        android:layout_marginBottom="10sp">
+        android:layout_marginRight="10sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewPartDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.88"
+            android:text="Text"
+            android:textSize="10sp" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -26,58 +35,41 @@
                 android:layout_height="match_parent"
                 android:layout_margin="5sp">
 
+                <ImageButton
+                    android:id="@+id/imageButtonEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/app_name"
+                    android:padding="3sp"
+                    card_view:srcCompat="@mipmap/edit_icon_list" />
+
                 <TextView
-                    android:text="Text"
+                    android:id="@+id/textViewEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView14"
                     android:layout_weight="0.88"
+                    android:text="Edit"
                     android:textSize="10sp" />
 
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.88" >
-
-                <ImageView
+                <ImageButton
+                    android:id="@+id/imageButtonDeletes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    card_view:srcCompat="@mipmap/edit_icon_list"
-                    android:id="@+id/imageView3"
-                    android:padding="1sp"
-                    android:layout_marginStart="10sp"
-                    android:layout_marginLeft="10sp" />
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/app_name"
+                    android:padding="3sp"
+                    card_view:srcCompat="@mipmap/del_icon" />
 
                 <TextView
-                    android:text="Edit"
+                    android:id="@+id/textViewDelete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView15"
-                    android:textSize="10sp"
-                    android:layout_marginLeft="5sp"
                     android:layout_marginEnd="10sp"
-                    android:layout_marginRight="10sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    card_view:srcCompat="@mipmap/del_icon"
-                    android:id="@+id/imageView3"
-                    android:padding="1sp"
-                    android:layout_marginStart="10sp"
-                    android:layout_marginLeft="10sp" />
-
-                <TextView
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
                     android:text="Delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView15"
-                    android:textSize="10sp"
-                    android:layout_marginLeft="5sp"
-                    android:layout_marginEnd="10sp"
-                    android:layout_marginRight="10sp" />
+                    android:textSize="10sp" />
             </TableRow>
 
         </TableLayout>

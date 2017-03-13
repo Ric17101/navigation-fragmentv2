@@ -20,6 +20,11 @@ import java.io.OutputStreamWriter;
 
 import admin4.techelm.com.techelmtechnologies.R;
 
+/**
+ * Used by
+ *  ServiceReport_1 Class
+ *  PartReplacement_2 Class
+ */
 public class CameraUtil {
     
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -27,9 +32,11 @@ public class CameraUtil {
     private Activity activity;
     private Bitmap cameraImageBitmap;
     private FileUtility mFileUtil;
+    private String mImageName = "CAPTURE";
 
-    public CameraUtil(Activity act) {
+    public CameraUtil(Activity act, String imageName) {
         activity = act;
+        mImageName = imageName;
     }
 
     public File getAlbumStorageDir(String albumName) {
@@ -37,7 +44,7 @@ public class CameraUtil {
         File file = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), albumName);
         if (!file.mkdirs()) {
-            Log.e("upload", "Directory not created");
+            Log.e("upload", "Directory "+ albumName +" not created");
         }
         return file;
     }
@@ -71,7 +78,7 @@ public class CameraUtil {
         mFileUtil = new FileUtility(activity.getApplicationContext());
         mFileUtil.setDirectoryName(folder)
                 .setExternal(true)
-                .setFileName(String.format("CAPTURE_%d.jpg", System.currentTimeMillis()));
+                .setFileName(String.format(mImageName +"_%d.jpg", System.currentTimeMillis()));
 
         boolean result = mFileUtil.saveImage(signature);
         Log.e("upload", "Directory :" + mFileUtil.getFileName());
@@ -105,7 +112,7 @@ public class CameraUtil {
     public boolean addSvgSignatureToGallery(String signatureSvg) {
         boolean result = false;
         try {
-            File svgFile = new File(getAlbumStorageDir("upload"), String.format("Signature_%d.svg", System.currentTimeMillis()));
+            File svgFile = new File(getAlbumStorageDir("upload"), String.format(mImageName + "_%d.svg", System.currentTimeMillis()));
             verifyStoragePermissions(this.activity);
             OutputStream stream = new FileOutputStream(svgFile);
             OutputStreamWriter writer = new OutputStreamWriter(stream);

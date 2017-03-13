@@ -170,7 +170,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         return user;
     }
 
-    public List<ServiceJobWrapper> getAllRecordingsByID(int  id) {
+    public List<ServiceJobWrapper> getAllJSDetailsByID(int  id) {
         ArrayList<ServiceJobWrapper> list = new ArrayList<ServiceJobWrapper>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE id="+id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);

@@ -45,7 +45,13 @@
 
                     <include layout="@layout/service_report_file_upload_list_item" />
 
-                    <include layout="@layout/service_report_replacement_part_list_item" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/upload_file_results_service_job_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:paddingBottom="70sp"
+                        android:paddingTop="4sp" />
 
 
                 </LinearLayout>

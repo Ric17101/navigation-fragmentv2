@@ -76,11 +76,11 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewNameRecord.setText(serviceJobDataSet.getName() + " uploaded.");
-        // holder.textViewDeleteRecord.setText(serviceJobDataSet.getServiceNumber());
-        // holder.imageButtonDelete.setOnClickListener(this);
+        // holder.textViewDelete.setText(serviceJobDataSet.getServiceNumber());
+        // holder.imageButtonDeletes.setOnClickListener(this);
 
         // define an on click listener to open PlaybackFragment
-        /*holder.imageButtonUploaded.setOnClickListener(new View.OnClickListener() {
+        /*holder.imageButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {

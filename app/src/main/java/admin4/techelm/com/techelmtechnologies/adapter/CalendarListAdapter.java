@@ -77,7 +77,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
-        // holder.textViewNameRecord.setText((serviceJobDataSet.getDay() != "") ? serviceJobDataSet.getDay().split("-")[2] : position + "");
+        // holder.textViewEdit.setText((serviceJobDataSet.getDay() != "") ? serviceJobDataSet.getDay().split("-")[2] : position + "");
         holder.textViewDateNumber.setText(position+1 + "");
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());

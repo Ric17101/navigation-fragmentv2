@@ -27,7 +27,7 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
 
     public static final String TAG = LoginActivityAuthenticationTask.class.getSimpleName();
     public static final String LOGIN_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/simple-codeigniter-rest-api-master/index.php/auth/user";
+            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/auth/user";
     private String[] USER_CREDENTIALS = new String[]{""};
     private static final String[] DUMMY_CREDENTIALS = new String[] {
             "foo@example.com:hello", "bar@example.com:world", "@dev:password:"

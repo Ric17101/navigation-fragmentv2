@@ -2,6 +2,7 @@ package admin4.techelm.com.techelmtechnologies.servicejob;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,10 +30,13 @@ import admin4.techelm.com.techelmtechnologies.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
+import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceListener;
+import admin4.techelm.com.techelmtechnologies.webservice.interfaces.WebCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +51,8 @@ public class CalendarFragment extends Fragment implements
         RobotoCalendarView.RobotoCalendarListener,
         CalendarListAdapter.OnItemClickListener
 {
-
+    private static final String SERVICE_JOB_URL =
+            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/";
     private static final String TAG = CalendarFragment.class.getSimpleName();
     private static final int REQUEST_CODE = 1234;
 
@@ -84,7 +89,7 @@ public class CalendarFragment extends Fragment implements
         setupResultsList(view);
 
         if (results == null) {
-            populateCardList();
+            // populateCardList();
         }
 
         return view;
@@ -172,7 +177,7 @@ public class CalendarFragment extends Fragment implements
         if (results == null) { // If Data is Null then fetch the Data List again
 //            UpdateJobServiceTask task = new UpdateJobServiceTask(this.getView());
 //            task.execute("");
-            populateCardList();
+            //populateCardList();
         } else { // Restore the Data List again
             mListAdapter.swapData(results);
         }
@@ -203,7 +208,11 @@ public class CalendarFragment extends Fragment implements
         // Gets the calendar from the view
         robotoCalendarView = (RobotoCalendarView) view.findViewById(R.id.robotoCalendarPicker);
         Button markDayButton = (Button) view.findViewById(R.id.markDayButton);
-        markDayButton.setOnClickListener(new View.OnClickListener() {
+
+        Calendar calendar = Calendar.getInstance();
+        new CalendarServiceJobDatesDots_POST().post(Calendar.MONTH + 1, calendar.get(Calendar.YEAR));
+
+        /*markDayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
@@ -223,7 +232,7 @@ public class CalendarFragment extends Fragment implements
                         break;
                 }
             }
-        });
+        });*/
 
         // Set listener, in this case, the same activity
         robotoCalendarView.setRobotoCalendarListener(this);
@@ -269,14 +278,20 @@ public class CalendarFragment extends Fragment implements
 
     @Override
     public void onRightButtonClick() {
-        System.out.println("onRightButtonClick!");
+        int month = robotoCalendarView.getCurrentCalendar().getTime().getMonth();
+        int year = robotoCalendarView.getCurrentCalendar().getTime().getYear();
+        System.out.println("onRightButtonClick! MONTH " + month + "YEAR " + year);
+        new CalendarServiceJobDatesDots_POST().post(month, year);
     }
 
     @Override
     public void onLeftButtonClick() {
-        System.out.println("onLeftButtonClick!");
-        // Toast.makeText(this.mContext, "onLeftButtonClick!", Toast.LENGTH_SHORT).show();
+        int month = robotoCalendarView.getCurrentCalendar().getTime().getMonth();
+        int year = robotoCalendarView.getCurrentCalendar().getTime().getYear();
+        System.out.println("onLeftButtonClick! MONTH " + month + "YEAR " + year);
+        new CalendarServiceJobDatesDots_POST().post(month, year);
     }
+
     private void activityResultIntent() {
         Intent check = new Intent();
         startActivityForResult(check, REQUEST_CODE);
@@ -354,11 +369,122 @@ public class CalendarFragment extends Fragment implements
 
     }
 
-    public class CalendarServiceJobTask2 extends AsyncTask<Void, Void, List<ServiceJobWrapper>> {
+    /**
+     * To be implemented at Fragments later
+     * or Use a another class uusing CallbackInterface for more modularity
+     */
+    private class CalendarServiceJobDatesDots_POST {
+        private PostCommand postCommand;
+        public static final String TAG = "CALENDAR_POST";
+
+        public void cancel(View v) {
+            postCommand.cancel();
+        }
+
+        public void post(final int month, final int year) {
+        /*web info*/
+            WebServiceInfo webServiceInfo = new WebServiceInfo();
+            String url = SERVICE_JOB_URL + "get_date_services_by_month";
+            webServiceInfo.setUrl(url);
+
+        /*add parameter*/
+            webServiceInfo.addParam("month", month+"");
+            webServiceInfo.addParam("year", year+"");
+
+        /*post command*/
+            postCommand = new PostCommand(webServiceInfo);
+
+        /*request*/
+            WebServiceRequest webServiceRequest = new WebServiceRequest(postCommand);
+            webServiceRequest.execute();
+            webServiceRequest.setOnServiceListener(new OnServiceListener() {
+                @Override
+                public void onServiceCallback(WebResponse response) {
+                    Log.e(TAG, "WebResponse: " + response.getStringResponse());
+                    // textView23.setText(response.getStringResponse());
+                    // TODO: Add this inside the Asynctask
+                    //parseServiceListJSON(response.getStringResponse());
+                    new ParseJasonToDateDotsTask().execute(response.getStringResponse());
+
+                }
+            });
+        }
+    }
+
+    /**
+     * Called on Change of Date CalendarView Month DOTS
+     */
+    private class ParseJasonToDateDotsTask extends AsyncTask<String, Void, List<ServiceJobWrapper>> {
+        protected List<ServiceJobWrapper> doInBackground(String... urls) {
+            if (urls[0] == "")
+                return null;
+            return parseServiceListJSON(urls[0]);
+        }
+
+        protected void onPostExecute(List<ServiceJobWrapper> list) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd");
+            for (ServiceJobWrapper sjw : list) {
+                Calendar calendar = Calendar.getInstance();
+                try {
+                    Date date = formatter.parse(sjw.getStartDate());
+                    calendar.set(Calendar.DAY_OF_MONTH, date.getDate());
+                    robotoCalendarView.markCircleImage1(calendar);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+        private ArrayList<ServiceJobWrapper> parseServiceListJSON(String JSONResult) {
+            ArrayList<ServiceJobWrapper> translationList = new ArrayList<>();
+            try {
+                JSONObject json = new JSONObject(JSONResult);
+                String str = "";
+
+                JSONArray jsonArray = json.getJSONArray("servicelist");
+                int jsonLen = json.getJSONArray("servicelist").length();
+                if (jsonLen == 0)
+                    return null;
+
+                Log.d(TAG, "parseJSON: " + str);
+
+                int i = 0;
+                do {
+                    ServiceJobWrapper sw = new ServiceJobWrapper();
+                    sw.setID(Integer.parseInt(jsonArray.getJSONObject(i).getString("id")));
+                    sw.setServiceNumber(jsonArray.getJSONObject(i).getString("service_no"));
+                    sw.setCustomerID(jsonArray.getJSONObject(i).getString("customer_id"));
+                    sw.setServiceID(jsonArray.getJSONObject(i).getString("service_id"));
+                    sw.setEngineerID(jsonArray.getJSONObject(i).getString("engineer_id"));
+                    sw.setTypeOfService(jsonArray.getJSONObject(i).getString("price_id"));
+                    sw.setComplaintsOrSymptoms(jsonArray.getJSONObject(i).getString("complaint"));
+                    sw.setActionsOrRemarks(jsonArray.getJSONObject(i).getString("remarks"));
+                    sw.setEquipmentType(jsonArray.getJSONObject(i).getString("equipment_type"));
+                    sw.setModelOrSerial(jsonArray.getJSONObject(i).getString("serial_no"));
+                    sw.setStartDate(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0]);
+                    sw.setEndDate(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0]);
+                    sw.setStatus(jsonArray.getJSONObject(i).getString("status"));
+                    Log.d("SERVICE_JOBS", sw.toString());
+                    translationList.add(sw);
+                    i++;
+                } while (jsonLen > i);
+
+                return translationList;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                // mCallback.onHandleShowDetails(e.toString());
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Called on click of Date CAlendar the render a list of Services at CardView
+     */
+    private class CalendarServiceJobTask2 extends AsyncTask<Void, Void, List<ServiceJobWrapper>> {
 
         public final String TAG = CalendarFragment.class.getSimpleName();
-        public final String SERVICE_JOB_URL =
-                "http://enercon714.firstcomdemolinks.com/sampleREST/simple-codeigniter-rest-api-master/index.php/servicejob/";
 
         private String mDate;
         private String mID;
@@ -386,21 +512,6 @@ public class CalendarFragment extends Fragment implements
             sb.append("detail/" + mID);
             return sb.toString();
         }
-
-        /**
-         * Get User Credentials from DB
-         *
-         * @return List of Credentials
-         */
-        /*private List<String> getUserCredentials() {
-            UserDBUtil db = new UserDBUtil(mContext);
-            db.open();
-
-            List<String> userCredential = db.getUserCredentials();
-
-            db.close();
-            return userCredential;
-        }*/
 
         /**
          *
@@ -478,7 +589,23 @@ public class CalendarFragment extends Fragment implements
                             .append(":")
                             .append(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0])
                             .append(":")
-                            .append(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0]);
+                            .append(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0])
+                            .append(":")
+                            .append(jsonArray.getJSONObject(i).getString("status"))
+                            .append(":")
+                            .append(jsonArray.getJSONObject(i).getString("contract_servicing"))
+                            .append(":")
+                            .append(jsonArray.getJSONObject(i).getString("warranty_servicing"))
+                            .append(":")
+                            .append(jsonArray.getJSONObject(i).getString("charges"))
+                            .append(":")
+                            .append(jsonArray.getJSONObject(i).getString("contract_repair"))
+                            .append(":")
+                            .append(jsonArray.getJSONObject(i).getString("warranty_repair"))
+                            .append(":")
+                            .append(jsonArray.getJSONObject(i).getString("others"))
+                            .append(":")
+                            .append(jsonArray.getJSONObject(i).getString("signature_name"));
                     serviceList.add(jsonRes.toString());
                     i++;
                 } while (jsonLen > i);
@@ -533,15 +660,24 @@ public class CalendarFragment extends Fragment implements
                 sw.setID(Integer.parseInt(pieces[0]));
                 sw.setServiceNumber(pieces[1]);
                 sw.setCustomerID(pieces[2]);
-                sw.setServiceNumber(pieces[3]);
+                sw.setServiceID(pieces[3]);
                 sw.setEngineerID(pieces[4]);
-                sw.setTypeOfService(pieces[5]);
+                sw.setPriceID(pieces[5]);
                 sw.setComplaintsOrSymptoms(pieces[6]);
                 sw.setActionsOrRemarks(pieces[7]);
                 sw.setEquipmentType(pieces[8]);
                 sw.setModelOrSerial(pieces[9]);
                 sw.setStartDate(pieces[10]);
                 sw.setEndDate(pieces[11]);
+                sw.setStatus(pieces[12]);
+                sw.setContractServicing(pieces[13]);
+                sw.setWarrantyServicing(pieces[14]);
+                sw.setCharges(pieces[15]);
+                sw.setContractRepair(pieces[16]);
+                sw.setWarrantyRepair(pieces[17]);
+                sw.setOthers(pieces[18]);
+                // sw.setSignatureName(pieces[19]);
+                // sw.setContractServicing(pieces[20]);
                 Log.d("SERVICE_JOBS", sw.toString());
                 translationList.add(sw);
             }
