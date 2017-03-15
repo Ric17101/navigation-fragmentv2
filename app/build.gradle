@@ -74,4 +74,7 @@ dependencies {
 
     // Recording
     compile 'com.melnykov:floatingactionbutton:1.1.0'
+
+    // TABSTRIP
+    compile 'com.jpardogo.materialtabstrip:library:1.1.1'
 }

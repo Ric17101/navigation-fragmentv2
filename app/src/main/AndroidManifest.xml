@@ -65,6 +65,12 @@
             android:label="@string/title_activity_service_report__task_completed"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".service_report.ViewPagerActivity"
+            android:label="SAMPLE VIEW PAGER"
+            android:theme="@style/AppTheme" />
+
+
         <service android:name="admin4.techelm.com.techelmtechnologies.utility.RecordingService" />
     </application>
 </manifest>

@@ -75,7 +75,7 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewNameRecord.setText(serviceJobDataSet.getName() + " uploaded.");
+        holder.textViewNameRecord.setText(serviceJobDataSet.getName() + " recorded.");
         // holder.textViewDelete.setText(serviceJobDataSet.getServiceNumber());
         // holder.imageButtonDeletes.setOnClickListener(this);
 

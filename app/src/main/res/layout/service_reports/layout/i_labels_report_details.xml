@@ -325,6 +325,7 @@
             android:id="@+id/textViewComplaints"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
             android:text="TextView" />
 
         <TextView
@@ -339,6 +340,7 @@
             android:id="@+id/textViewRemarksActions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
             android:text="TextView" />
     </LinearLayout>
 

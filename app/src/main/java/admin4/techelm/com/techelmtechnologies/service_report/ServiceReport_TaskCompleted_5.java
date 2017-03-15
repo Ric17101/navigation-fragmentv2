@@ -4,17 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
-import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.menu.MainActivity;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
 

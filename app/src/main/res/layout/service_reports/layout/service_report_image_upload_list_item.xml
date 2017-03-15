@@ -29,32 +29,36 @@
                     android:layout_height="wrap_content"
                     card_view:srcCompat="@mipmap/uploaded_icon"
                     android:id="@+id/imageView2"
+                    android:paddingRight="4sp"
+                    android:paddingLeft="4sp"
                     android:layout_weight=".01" />
 
                 <TextView
-                    android:text="Image_Name.jpg uploaded."
+                    android:id="@+id/textView14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView14"
                     android:layout_weight="0.88"
-                    android:textSize="10sp" />
+                    android:text="Image_Name.jpg uploaded."
+                    android:textSize="12sp" />
 
                 <ImageView
+                    android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    card_view:srcCompat="@mipmap/del_icon"
-                    android:id="@+id/imageView3"
-                    android:padding="1sp" />
+                    android:layout_marginLeft="4sp"
+                    android:layout_marginRight="4sp"
+                    android:padding="1sp"
+                    card_view:srcCompat="@mipmap/del_icon" />
 
                 <TextView
-                    android:text="Delete"
+                    android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView15"
-                    android:textSize="10sp"
-                    android:layout_marginLeft="5sp"
                     android:layout_marginEnd="10sp"
-                    android:layout_marginRight="10sp" />
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:text="Delete"
+                    android:textSize="12sp" />
             </TableRow>
 
         </TableLayout>

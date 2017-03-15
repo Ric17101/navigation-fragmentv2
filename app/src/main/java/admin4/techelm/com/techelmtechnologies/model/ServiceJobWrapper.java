@@ -70,17 +70,30 @@ public class ServiceJobWrapper implements Parcelable {
 
     protected ServiceJobWrapper(Parcel in) {
         _id = in.readInt();
-        _start_date = in.readString();
-        _end_date = in.readString();
         _service_no = in.readString();
-        _service_id = in.readString();
         _customer_id = in.readString();
+        _service_id = in.readString();
         _engineer_id = in.readString();
-        _status = in.readString();
-        _equipment_type = in.readString();
-        _model_or_serial_num = in.readString();
+        _price_id = in.readString();
         _complaints_or_symptoms = in.readString();
         _actions_or_remarks = in.readString();
+        _equipment_type = in.readString();
+        _model_or_serial_num = in.readString();
+        _start_date = in.readString();
+        _end_date = in.readString();
+        _status = in.readString();
+        _contract_servicing = in.readString();
+        _warranty_servicing = in.readString();
+        _charges = in.readString();
+        _contract_repair = in.readString();
+        _warranty_repair = in.readString();
+        _others = in.readString();
+        _signature_name = in.readString();
+        _telephone = in.readString();
+        _fax = in.readString();
+        _race = in.readString();
+        _type_of_service = in.readString();
+        _signature_file_path = in.readString();
     }
 
     // constructor
@@ -95,17 +108,30 @@ public class ServiceJobWrapper implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(_id);
-        dest.writeString(_start_date);
-        dest.writeString(_end_date);
         dest.writeString(_service_no);
-        dest.writeString(_service_id);
         dest.writeString(_customer_id);
+        dest.writeString(_service_id);
         dest.writeString(_engineer_id);
-        dest.writeString(_status);
-        dest.writeString(_equipment_type);
-        dest.writeString(_model_or_serial_num);
+        dest.writeString(_price_id);
         dest.writeString(_complaints_or_symptoms);
         dest.writeString(_actions_or_remarks);
+        dest.writeString(_equipment_type);
+        dest.writeString(_model_or_serial_num);
+        dest.writeString(_start_date);
+        dest.writeString(_end_date);
+        dest.writeString(_status);
+        dest.writeString(_contract_servicing);
+        dest.writeString(_warranty_servicing);
+        dest.writeString(_charges);
+        dest.writeString(_contract_repair);
+        dest.writeString(_warranty_repair);
+        dest.writeString(_others);
+        dest.writeString(_signature_name);
+        dest.writeString(_telephone);
+        dest.writeString(_fax);
+        dest.writeString(_race);
+        dest.writeString(_type_of_service);
+        dest.writeString(_signature_file_path);
     }
 
     @Override

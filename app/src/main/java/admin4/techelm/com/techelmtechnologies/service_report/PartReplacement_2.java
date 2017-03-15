@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -47,6 +48,7 @@ import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobPartsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 
 public class PartReplacement_2 extends AppCompatActivity implements
@@ -54,18 +56,20 @@ public class PartReplacement_2 extends AppCompatActivity implements
         ServiceJobDBUtil.OnDatabaseChangedListener,
         PartsDBUtil.OnDatabaseChangedListener {
 
-    private static final String LOG_TAG = "PartReplacement_2";
+    private static final String TAG = "PartReplacement_2";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
 
     // A. SERVICE ID INFO
-    ServiceJobDBUtil mSJDB;
+    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
+    private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
+    private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
     // B. CAMERA Controls
     private static final String IMAGE_DIRECTORY = "part_replacement";
-    MaterialDialog mCameraDialog;
-    Bitmap mBitmap;
-    Uri mPicUri;
+    private MaterialDialog mCameraDialog;
+    private Bitmap mBitmap;
+    private Uri mPicUri;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -76,7 +80,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
     private ServiceJobPartsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
     private List<ServiceJobPartsWrapper> mUploadResults = null;
-    PartsDBUtil mPartsDB;
+    private PartsDBUtil mPartsDB;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,17 +91,39 @@ public class PartReplacement_2 extends AppCompatActivity implements
 
         initButton();
 
-        // mServiceID = savedInstanceState.getInt(RECORD_SERVICE_KEY);
-        mServiceID = 2;
-        populateServiceJobDetails(mServiceID);
+        if (fromBundle() != null) { // if Null don't show anything
+            mServiceID = mServiceJobFromBundle.getID();
 
-        // Upload List
-        setUpUploadsRecyclerView();
-        setupUploadsResultsList();
-        if (mUploadResults == null) {
-            populateUploadsCardList();
+            // ServiceJob Details
+            new PopulateServiceJobViewDetails()
+                    .populateServiceJobDetails(
+                            this.findViewById(android.R.id.content),
+                            mServiceJobFromBundle,
+                            View.VISIBLE,
+                            TAG);
+            // mServiceID = savedInstanceState.getInt(RECORD_SERVICE_KEY);
+            // mServiceID = 2;
+            // populateServiceJobDetails(mServiceID);
+
+            // Upload List
+            setUpUploadsRecyclerView();
+            setupUploadsResultsList();
+            if (mUploadResults == null) {
+                populateUploadsCardList();
+            }
         }
     }
+
+    /**
+     * PARSING data ServiceJob from Bundle passed by the
+     *      ServiceReport_1 => PartReplacement_2
+     * @return - ServiceJobWrapper | NULL if no data has been submitted
+     */
+    private ServiceJobWrapper fromBundle() {
+        Intent intent = getIntent();
+        return mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(RECORD_JOB_SERVICE_KEY);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -112,7 +138,8 @@ public class PartReplacement_2 extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PartReplacement_2.this, ServiceReport_1.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
             }
         });
@@ -123,7 +150,8 @@ public class PartReplacement_2 extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PartReplacement_2.this, AddReplacementPart_3.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
@@ -135,9 +163,9 @@ public class PartReplacement_2 extends AppCompatActivity implements
         buttonViewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PartReplacement_2.this, SigningOff_4.class)
+                /*startActivity(new Intent(PartReplacement_2.this, SigningOff_4.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                overridePendingTransition(R.anim.enter, R.anim.exit);
+                overridePendingTransition(R.anim.enter, R.anim.exit);*/
             }
         });
 
@@ -190,7 +218,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
         mSJDB.close();
 
         for (int i = 0; i < mSJResultList.size(); i++) {
-            Log.e(LOG_TAG, "DATA: " + mSJResultList.get(i).toString());
+            Log.e(TAG, "DATA: " + mSJResultList.get(i).toString());
             textViewLabelCustomerName.setText(mSJResultList.get(i).getCustomerID());
             textViewLabelJobSite.setText(mSJResultList.get(i).getActionsOrRemarks());
             textViewLabelServiceNo.setText(mSJResultList.get(i).getServiceNumber());
@@ -224,7 +252,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
         mPartsDB.close();
 
         for (int i = 0; i < mUploadResults.size(); i++) {
-            Log.e(LOG_TAG, "DATA: " + mUploadResults.get(i).toString());
+            Log.e(TAG, "DATA: " + mUploadResults.get(i).toString());
         }
 
         mUploadResultsList.setHasFixedSize(true);
@@ -314,8 +342,9 @@ public class PartReplacement_2 extends AppCompatActivity implements
 
                             dialog.dismiss();
                         } else {
-                            Toast.makeText(PartReplacement_2.this,
-                                    "No image to save", Toast.LENGTH_LONG).show();
+                            // Toast.makeText(PartReplacement_2.this, "No image to save", Toast.LENGTH_LONG).show();
+                            Snackbar.make(findViewById(android.R.id.content), "No image to save", Snackbar.LENGTH_LONG)
+                                    .setAction("OK", null).show();
                         }
                     }
                 })
@@ -355,9 +384,17 @@ public class PartReplacement_2 extends AppCompatActivity implements
                 mPartsDB.open();
                 mPartsDB.addUpload(result);
                 mPartsDB.close();
-                Toast.makeText(PartReplacement_2.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Image saved into the Gallery: " + camU.getFilePath(),
+                        Snackbar.LENGTH_LONG)
+                        .setAction("OK", null).show();
+                // Toast.makeText(PartReplacement_2.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(PartReplacement_2.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Unable to store the signature",
+                        Snackbar.LENGTH_LONG)
+                        .setAction("OK", null).show();
+                // Toast.makeText(PartReplacement_2.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
             }
         }
 

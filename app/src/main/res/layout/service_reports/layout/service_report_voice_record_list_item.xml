@@ -24,13 +24,16 @@
                 android:layout_height="match_parent"
                 android:layout_margin="5sp">
 
+
                 <ImageButton
                     android:id="@+id/imageButtonUploaded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center|end"
                     android:background="?selectableItemBackgroundBorderless"
-                    android:padding="3sp"
-                    android:contentDescription="@string/app_name"
+                    android:clickable="true"
+                    android:contentDescription="Upload"
+                    android:scaleType="fitCenter"
                     card_view:srcCompat="@mipmap/uploaded_icon" />
 
                 <TextView
@@ -38,16 +41,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.88"
+                    android:gravity="center_vertical"
                     android:text="@string/image_name_jpg_uploaded"
                     android:textSize="12sp" />
 
+
                 <ImageButton
                     android:id="@+id/imageButtonDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center|end"
                     android:background="?selectableItemBackgroundBorderless"
-                    android:padding="3sp"
-                    android:contentDescription="@string/app_name"
+                    android:clickable="true"
+                    android:contentDescription="Upload"
+                    android:scaleType="fitCenter"
                     card_view:srcCompat="@mipmap/del_icon" />
 
                 <TextView
@@ -57,6 +64,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginEnd="10sp"
                     android:layout_marginRight="10sp"
+                    android:gravity="center_vertical"
                     android:text="@string/delete"
                     android:textSize="12sp" />
             </TableRow>

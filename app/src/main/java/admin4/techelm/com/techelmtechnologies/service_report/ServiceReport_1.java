@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import com.melnykov.fab.FloatingActionButton;
 
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +39,6 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -58,6 +58,7 @@ import admin4.techelm.com.techelmtechnologies.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
@@ -72,18 +73,21 @@ public class ServiceReport_1 extends AppCompatActivity implements
         ServiceJobDBUtil.OnDatabaseChangedListener,
         UploadsDBUtil.OnDatabaseChangedListener {
 
-    private static final String LOG_TAG = "ServiceReport_1";
+    private static final String TAG = "ServiceReport_1";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
 
     // A. SERVICE ID INFO
-    ServiceJobDBUtil mSJDB;
+    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
+    private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
+    private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
+    private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
     // B. CAMERA Controls
     private static final String IMAGE_DIRECTORY = "upload";
-    MaterialDialog mCameraDialog;
-    Bitmap mBitmap;
-    Uri mPicUri;
+    private MaterialDialog mCameraDialog;
+    private Bitmap mBitmap;
+    private Uri mPicUri;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -94,11 +98,10 @@ public class ServiceReport_1 extends AppCompatActivity implements
     private ServiceJobUploadsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
     private List<ServiceJobUploadsWrapper> mUploadResults = null;
-    UploadsDBUtil mUploadsDB;
+    private UploadsDBUtil mUploadsDB;
 
     // C. Recording controls
-    private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
-    MaterialDialog mRecordingDialog;
+    private MaterialDialog mRecordingDialog;
     private FloatingActionButton mRecordButton = null;
     private Button mPauseButton = null;
 
@@ -114,7 +117,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     private ServiceJobRecordingsListAdapter mListAdapter; // ListView Setup
     private RecyclerView mRecordResultsList;
     private List<ServiceJobRecordingWrapper> mResultsList = null;
-    RecordingDBUtil mRecodingDB;
+    private RecordingDBUtil mRecodingDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,29 +127,47 @@ public class ServiceReport_1 extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // mServiceID = savedInstanceState.getInt(RECORD_SERVICE_KEY);
-        mServiceID = 2;
-
-
-        populateServiceJobDetails(mServiceID);
-
         initButton();
-
         initPermission();
 
-        // Recording List
-        setUpRecordingsRecyclerView();
-        setupRecordingsResultsList();
-        if (mResultsList == null) {
-            populateRecordingsCardList();
-        }
+        if (fromBundle() != null) { // if Null don't show anything
+            mServiceID = mServiceJobFromBundle.getID();
 
-        // Upload List
-        setUpUploadsRecyclerView();
-        setupUploadsResultsList();
-        if (mUploadResults == null) {
-            populateUploadsCardList();
+            // ServiceJob Details
+            new PopulateServiceJobViewDetails()
+                    .populateServiceJobDetails(
+                            this.findViewById(android.R.id.content),
+                            mServiceJobFromBundle,
+                            View.GONE,
+                            TAG);
+
+            // Recording List
+            setUpRecordingsRecyclerView();
+            setupRecordingsResultsList();
+            if (mResultsList == null) {
+                populateRecordingsCardList();
+            }
+
+            // Upload List
+            setUpUploadsRecyclerView();
+            setupUploadsResultsList();
+            if (mUploadResults == null) {
+                populateUploadsCardList();
+            }
+        } else {
+            Snackbar.make(this.findViewById(android.R.id.content), "No data selected from calendar.", Snackbar.LENGTH_LONG)
+                    .setAction("OK", null).show();
         }
+    }
+
+    /**
+     * PARSING data ServiceJob from Bundle passed by the
+     *      MainActivity => CalendarFragment
+     * @return - ServiceJobWrapper | NULL if no data has been submitted
+     */
+    private ServiceJobWrapper fromBundle() {
+        Intent intent = getIntent();
+        return mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(RECORD_JOB_SERVICE_KEY);
     }
 
     private void initPermission() {
@@ -184,8 +205,13 @@ public class ServiceReport_1 extends AppCompatActivity implements
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ServiceReport_1.this, PartReplacement_2.class)
+                /*startActivity(new Intent(ServiceReport_1.this, PartReplacement_2.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                overridePendingTransition(R.anim.enter, R.anim.exit);*/
+
+                startActivity(new Intent(ServiceReport_1.this, PartReplacement_2.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
@@ -234,6 +260,10 @@ public class ServiceReport_1 extends AppCompatActivity implements
 
     }
 
+    /**
+     * Load SJ from Database
+     * @param serviceID
+     */
     private void populateServiceJobDetails(int serviceID) {
 
         // SERVICE JOB Controls
@@ -253,8 +283,8 @@ public class ServiceReport_1 extends AppCompatActivity implements
         mSJResultList = mSJDB.getAllJSDetailsByID(serviceID);
         mSJDB.close();
 
-        for (int i = 0; i < mSJResultList.size(); i++) {
-            Log.e(LOG_TAG, "DATA: " + mSJResultList.get(i).toString());
+        for (int i = 0; i < mSJResultList.size(); i++) { // Only one is enough
+            Log.e(TAG, "DATA: " + mSJResultList.get(i).toString());
             textViewLabelCustomerName.setText(mSJResultList.get(i).getCustomerID());
             textViewLabelJobSite.setText(mSJResultList.get(i).getActionsOrRemarks());
             textViewLabelServiceNo.setText(mSJResultList.get(i).getServiceNumber());
@@ -289,7 +319,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
         mUploadsDB.close();
 
         for (int i = 0; i < mUploadResults.size(); i++) {
-            Log.e(LOG_TAG, "DATA: " + mUploadResults.get(i).toString());
+            Log.e(TAG, "DATA: " + mUploadResults.get(i).toString());
         }
 
         mUploadResultsList.setHasFixedSize(true);
@@ -379,8 +409,12 @@ public class ServiceReport_1 extends AppCompatActivity implements
 
                             dialog.dismiss();
                         } else {
-                            Toast.makeText(ServiceReport_1.this,
-                                    "No image to save", Toast.LENGTH_LONG).show();
+                            Snackbar.make(findViewById(android.R.id.content),
+                                    "No image to save",
+                                    Snackbar.LENGTH_LONG)
+                                    .setAction("OK", null).show();
+                            /*Toast.makeText(ServiceReport_1.this,
+                                    "No image to save", Toast.LENGTH_LONG).show();*/
                         }
                     }
                 })
@@ -420,9 +454,17 @@ public class ServiceReport_1 extends AppCompatActivity implements
                 mUploadsDB.open();
                 mUploadsDB.addUpload(result);
                 mUploadsDB.close();
-                Toast.makeText(ServiceReport_1.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Image saved into the Gallery: " + camU.getFilePath(),
+                        Snackbar.LENGTH_LONG)
+                        .setAction("OK", null).show();
+                // Toast.makeText(ServiceReport_1.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(ServiceReport_1.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Unable to store the signature",
+                        Snackbar.LENGTH_LONG)
+                        .setAction("OK", null).show();
+                // Toast.makeText(ServiceReport_1.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -673,6 +715,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
 
     @Override
     public void onNewUploadsEntryAdded(String fileName) {
+        mCameraDialog.dismiss();
         populateUploadsCardList();
     }
 
@@ -744,7 +787,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
         mRecodingDB.close();
 
         for (int i = 0; i < mResultsList.size(); i++) {
-            Log.e(LOG_TAG, "DATA: " + mResultsList.get(i).toString());
+            Log.e(TAG, "DATA: " + mResultsList.get(i).toString());
         }
 
         mRecordResultsList.setHasFixedSize(true);
@@ -817,7 +860,11 @@ public class ServiceReport_1 extends AppCompatActivity implements
             // start recording
             mRecordButton.setImageResource(R.mipmap.ic_media_stop);
             //mPauseButton.setVisibility(View.VISIBLE);
-            Toast.makeText(ServiceReport_1.this ,R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content),
+                    R.string.toast_recording_start,
+                    Snackbar.LENGTH_LONG)
+                    .setAction("OK", null).show();
+            // Toast.makeText(ServiceReport_1.this ,R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
             File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
             if (!folder.exists()) {
                 //folder /SoundRecorder doesn't exist, then create the folder
@@ -930,27 +977,38 @@ public class ServiceReport_1 extends AppCompatActivity implements
             playbackFragment.show(transaction, "dialog_playback");
 
         } catch (Exception e) {
-            Log.e(LOG_TAG, "exception", e);
+            Log.e(TAG, "exception", e);
         }
     }
 
     @Override
     public void onNewRecordingsEntryAdded(String fileName) {
-        Toast.makeText(ServiceReport_1.this, "Recording " + fileName + " has been added.",
-                Toast.LENGTH_SHORT).show();
+        mRecordingDialog.dismiss();
+        Snackbar.make(findViewById(android.R.id.content),
+                "Recording " + fileName + " has been added.",
+                Snackbar.LENGTH_LONG)
+                .setAction("OK", null).show();
+        /*Toast.makeText(ServiceReport_1.this, "Recording " + fileName + " has been added.",
+                Toast.LENGTH_SHORT).show();*/
         populateRecordingsCardList();
     }
 
     @Override
     public void onRecordingsEntryRenamed(String fileName) {
-        Toast.makeText(ServiceReport_1.this, "Recording " + fileName + " has been renamed.",
-                Toast.LENGTH_SHORT).show();
+        Snackbar.make(findViewById(android.R.id.content),
+                "Recording " + fileName + " has been renamed.",
+                Snackbar.LENGTH_LONG)
+                .setAction("OK", null).show();
     }
 
     @Override
     public void onRecordingsEntryDeleted() {
-        Toast.makeText(ServiceReport_1.this, "Delete successful.",
-                Toast.LENGTH_SHORT).show();
+        /*Toast.makeText(ServiceReport_1.this, "Delete successful.",
+                Toast.LENGTH_SHORT).show();*/
+        Snackbar.make(findViewById(android.R.id.content),
+                "Delete successful.",
+                Snackbar.LENGTH_LONG)
+                .setAction("OK", null).show();
         populateRecordingsCardList();
     }
 

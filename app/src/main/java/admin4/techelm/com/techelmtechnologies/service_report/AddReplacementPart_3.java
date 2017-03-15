@@ -12,13 +12,20 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 public class AddReplacementPart_3 extends AppCompatActivity {
+
+    private static final String TAG = "AddReplacementPart_3";
 
     private Spinner spinnerReplacementParts;
     private Spinner spinnerQuantity;
     private Spinner spinnerUnitPrice;
     private Spinner spinnerTotalPrice;
+
+    // A. SERVICE ID INFO
+    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
+    private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +36,20 @@ public class AddReplacementPart_3 extends AppCompatActivity {
 
         initSpinner();
         initButton();
+
+        fromBundle();
     }
+
+    /**
+     * PARSING data ServiceJob from Bundle passed by the
+     *      PartReplacement_2 => AddReplacementPart_3
+     * @return - ServiceJobWrapper | NULL if no data has been submitted
+     */
+    private ServiceJobWrapper fromBundle() {
+        Intent intent = getIntent();
+        return mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(RECORD_JOB_SERVICE_KEY);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -44,7 +64,8 @@ public class AddReplacementPart_3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(AddReplacementPart_3.this, PartReplacement_2.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
             }
         });
@@ -56,7 +77,8 @@ public class AddReplacementPart_3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(AddReplacementPart_3.this, SigningOff_4.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });

@@ -2,9 +2,9 @@ package admin4.techelm.com.techelmtechnologies.servicejob;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,13 +26,13 @@ import org.json.JSONObject;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
+import admin4.techelm.com.techelmtechnologies.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceListener;
-import admin4.techelm.com.techelmtechnologies.webservice.interfaces.WebCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
@@ -42,14 +42,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class CalendarFragment extends Fragment implements
         RobotoCalendarView.RobotoCalendarListener,
-        CalendarListAdapter.OnItemClickListener
+        CalendarListAdapter.OnItemClickListener // not used onClick Interface
 {
     private static final String SERVICE_JOB_URL =
             "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/";
@@ -81,9 +80,10 @@ public class CalendarFragment extends Fragment implements
                 R.layout.calendar_activity, container, false);
         setContext(container.getContext());
 
+        setUpCalendarView(view);
+
         setupSlidingPanel(view);
 
-        setUpCalendarView(view);
         setUpRecyclerView(view);
 
         setupResultsList(view);
@@ -136,6 +136,7 @@ public class CalendarFragment extends Fragment implements
     private void collapseCalendarPanel(SlidingUpPanelLayout.PanelState state) {
         mLayout.setPanelState(state);
         // mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+        displayDotsPerMonth("setUpCalendarView"); //new CalendarServiceJobDatesDots_POST().post(Calendar.MONTH + 1, Calendar.getInstance().get(Calendar.YEAR));
     }
 
     @Override
@@ -209,8 +210,10 @@ public class CalendarFragment extends Fragment implements
         robotoCalendarView = (RobotoCalendarView) view.findViewById(R.id.robotoCalendarPicker);
         Button markDayButton = (Button) view.findViewById(R.id.markDayButton);
 
-        Calendar calendar = Calendar.getInstance();
-        new CalendarServiceJobDatesDots_POST().post(Calendar.MONTH + 1, calendar.get(Calendar.YEAR));
+        /*Calendar calendar = Calendar.getInstance();
+        new CalendarServiceJobDatesDots_POST().post(Calendar.MONTH + 1, calendar.get(Calendar.YEAR));*/
+
+        displayDotsPerMonth("setUpCalendarView");
 
         /*markDayButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,18 +281,26 @@ public class CalendarFragment extends Fragment implements
 
     @Override
     public void onRightButtonClick() {
-        int month = robotoCalendarView.getCurrentCalendar().getTime().getMonth();
-        int year = robotoCalendarView.getCurrentCalendar().getTime().getYear();
-        System.out.println("onRightButtonClick! MONTH " + month + "YEAR " + year);
-        new CalendarServiceJobDatesDots_POST().post(month, year);
+        displayDotsPerMonth("onRightButtonClick");
     }
 
     @Override
     public void onLeftButtonClick() {
-        int month = robotoCalendarView.getCurrentCalendar().getTime().getMonth();
-        int year = robotoCalendarView.getCurrentCalendar().getTime().getYear();
-        System.out.println("onLeftButtonClick! MONTH " + month + "YEAR " + year);
-        new CalendarServiceJobDatesDots_POST().post(month, year);
+        displayDotsPerMonth("onLeftButtonClick");
+    }
+
+    /**
+     * Display Dots on the Calendar on Click
+     * @param msgStr
+     */
+    private void displayDotsPerMonth(String msgStr) {
+        Date date= robotoCalendarView.getCurrentCalendar().getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        new CalendarServiceJobDatesDots_POST().post(month +1, year);
+        System.out.println(msgStr + "! MONTH " + month + "YEAR " + year);
     }
 
     private void activityResultIntent() {
@@ -360,13 +371,18 @@ public class CalendarFragment extends Fragment implements
         }
     }*/
 
+    private void noInternetSnackBar() {
+        Snackbar.make(getView(), "No internet connection.", Snackbar.LENGTH_LONG)
+                .setAction("OK", null).show();
+    }
+
     public void messageFromTask(String message) {
-        System.out.println("CalendarFragment: I'm on the onActivityCreated");
+        System.out.println("CalendarFragment: I'm on the onActivityCreated " + message);
     }
 
     @Override
     public void onClick(ServiceJobWrapper colorWrapper) {
-
+        System.out.println(TAG + "CalendarFragment: I'm on the onClick Interface from CalendarListAddapter");
     }
 
     /**
@@ -403,9 +419,8 @@ public class CalendarFragment extends Fragment implements
                     Log.e(TAG, "WebResponse: " + response.getStringResponse());
                     // textView23.setText(response.getStringResponse());
                     // TODO: Add this inside the Asynctask
-                    //parseServiceListJSON(response.getStringResponse());
+                    //getListSJ(response.getStringResponse());
                     new ParseJasonToDateDotsTask().execute(response.getStringResponse());
-
                 }
             });
         }
@@ -415,69 +430,60 @@ public class CalendarFragment extends Fragment implements
      * Called on Change of Date CalendarView Month DOTS
      */
     private class ParseJasonToDateDotsTask extends AsyncTask<String, Void, List<ServiceJobWrapper>> {
-        protected List<ServiceJobWrapper> doInBackground(String... urls) {
-            if (urls[0] == "")
+
+        private boolean hasResutFlag = true; // Set to 1 if no result
+        /**
+         * Converstion of JSON string to ServiceJob Wrapper
+         * TODO: Need to store at sqlite on edit/start
+         * DOING in Background...
+         * @param JSONResult
+         * @return
+         */
+        private ArrayList<ServiceJobWrapper> getListSJ(String JSONResult) {
+            if (JSONResult == null) // No Connection or server is off
                 return null;
-            return parseServiceListJSON(urls[0]);
-        }
 
-        protected void onPostExecute(List<ServiceJobWrapper> list) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd");
-            for (ServiceJobWrapper sjw : list) {
-                Calendar calendar = Calendar.getInstance();
-                try {
-                    Date date = formatter.parse(sjw.getStartDate());
-                    calendar.set(Calendar.DAY_OF_MONTH, date.getDate());
-                    robotoCalendarView.markCircleImage1(calendar);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-
-        private ArrayList<ServiceJobWrapper> parseServiceListJSON(String JSONResult) {
-            ArrayList<ServiceJobWrapper> translationList = new ArrayList<>();
             try {
-                JSONObject json = new JSONObject(JSONResult);
-                String str = "";
-
-                JSONArray jsonArray = json.getJSONArray("servicelist");
-                int jsonLen = json.getJSONArray("servicelist").length();
-                if (jsonLen == 0)
-                    return null;
-
-                Log.d(TAG, "parseJSON: " + str);
-
-                int i = 0;
-                do {
-                    ServiceJobWrapper sw = new ServiceJobWrapper();
-                    sw.setID(Integer.parseInt(jsonArray.getJSONObject(i).getString("id")));
-                    sw.setServiceNumber(jsonArray.getJSONObject(i).getString("service_no"));
-                    sw.setCustomerID(jsonArray.getJSONObject(i).getString("customer_id"));
-                    sw.setServiceID(jsonArray.getJSONObject(i).getString("service_id"));
-                    sw.setEngineerID(jsonArray.getJSONObject(i).getString("engineer_id"));
-                    sw.setTypeOfService(jsonArray.getJSONObject(i).getString("price_id"));
-                    sw.setComplaintsOrSymptoms(jsonArray.getJSONObject(i).getString("complaint"));
-                    sw.setActionsOrRemarks(jsonArray.getJSONObject(i).getString("remarks"));
-                    sw.setEquipmentType(jsonArray.getJSONObject(i).getString("equipment_type"));
-                    sw.setModelOrSerial(jsonArray.getJSONObject(i).getString("serial_no"));
-                    sw.setStartDate(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0]);
-                    sw.setEndDate(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0]);
-                    sw.setStatus(jsonArray.getJSONObject(i).getString("status"));
-                    Log.d("SERVICE_JOBS", sw.toString());
-                    translationList.add(sw);
-                    i++;
-                } while (jsonLen > i);
-
-                return translationList;
+                ConvertJSON cJSON = new ConvertJSON();
+                hasResutFlag = cJSON.hasResult();
+                return cJSON.parseServiceListJSON(JSONResult);
             } catch (JSONException e) {
                 e.printStackTrace();
                 // mCallback.onHandleShowDetails(e.toString());
             }
             return null;
         }
+
+        protected List<ServiceJobWrapper> doInBackground(String... urls) {
+            if (urls[0] == "")
+                return null;
+            return getListSJ(urls[0]);
+        }
+
+        protected void onPostExecute(List<ServiceJobWrapper> list) {
+            if (list != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd");
+                Calendar calendar = Calendar.getInstance();
+
+                for (ServiceJobWrapper sjw : list) {
+                    try {
+                        Date date = formatter.parse(sjw.getStartDate()); // Proper conversion of Date
+                        calendar.setTime(date);
+                        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DATE));
+                        robotoCalendarView.markCircleImage2(calendar);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            } else {
+                if (hasResutFlag) // Has no result, else do nothing
+                    noInternetSnackBar();
+            }
+        }
     }
+
+
 
     /**
      * Called on click of Date CAlendar the render a list of Services at CardView
@@ -522,6 +528,8 @@ public class CalendarFragment extends Fragment implements
          *      String - successful result
          */
         private String parseServiceListJSON(String JSONResult) {
+            if (JSONResult == null || JSONResult == "")
+                return "";
             try {
                 JSONObject json = new JSONObject(JSONResult);
                 String str = "";
@@ -736,6 +744,7 @@ public class CalendarFragment extends Fragment implements
                 default :
                     mCalendarResultsList.setVisibility(View.GONE);
                     messageFromTask("Error Check your Internet Connection " + mDate + " ID:" + mID);
+                    noInternetSnackBar();
                     break;
             }
         }

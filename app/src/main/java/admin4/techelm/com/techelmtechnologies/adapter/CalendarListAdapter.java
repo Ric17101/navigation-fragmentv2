@@ -17,7 +17,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
@@ -77,14 +81,14 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
-        // holder.textViewEdit.setText((serviceJobDataSet.getDay() != "") ? serviceJobDataSet.getDay().split("-")[2] : position + "");
-        holder.textViewDateNumber.setText(position+1 + "");
+        //holder.textViewDateNumber.setText(getCalendarDate(serviceJobDataSet.getStartDate()));
+        holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
         holder.textViewCustomer.setText(serviceJobDataSet.getCustomerID());
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineer());
-        holder.textViewStatus.setText(serviceJobDataSet.getStatus());
-        holder.textViewStatus.setTextColor((serviceJobDataSet.getID()%2 == 1) ? Color.RED : Color.BLUE);
+        holder.textViewStatus.setText(setStatus(serviceJobDataSet.getStatus()));
+        holder.textViewStatus.setTextColor(setColor(serviceJobDataSet.getStatus()));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
         if (mLastAnimatedItemPosition < position) {
@@ -122,6 +126,63 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
                 .setInterpolator(new DecelerateInterpolator(3.f))
                 .setDuration(700)
                 .start();
+    }
+
+    public String getCalendarDate(String strDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = dateFormat.parse(strDate);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int day = cal.get(Calendar.DATE);
+            return day + "";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return strDate.split("-")[2];
+    }
+    public String setStatus(String status) {
+        switch (status) {
+            /*
+                0 - Unsigned
+                1 - Completed
+                2 - Pending
+                3 - New - Begin Task
+                4 - Incomplete
+            * */
+            case "0" : status = "Unsigned";
+                break;
+            case "1" : status = "Completed";
+                break;
+            case "2" : status = "Pending";
+                break;
+            case "3" : status = "New";
+                break;
+            case "4" : status = "Incomplete";
+                break;
+            default : status = "";
+                break;
+        }
+        return status;
+    }
+
+    public int setColor(String status) {
+        switch (status) {
+            /*
+                0 - Unsigned
+                1 - Completed
+                2 - Pending
+                3 - New - Begin Task
+                4 - Incomplete
+            * */
+            case "1" : return Color.BLUE;
+            case "0" :
+            case "2" :
+            case "3" :
+            case "4" : return Color.RED;
+        }
+        return Color.BLACK;
     }
 
     public interface CallbackInterface {

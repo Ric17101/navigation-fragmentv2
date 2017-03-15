@@ -29,6 +29,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".01"
+                    android:paddingRight="4sp"
+                    android:paddingLeft="4sp"
                     card_view:srcCompat="@mipmap/uploaded_icon" />
 
                 <TextView
@@ -37,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.88"
                     android:text="New Replacement Part Added."
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="normal|bold|italic" />
 
             </TableRow>

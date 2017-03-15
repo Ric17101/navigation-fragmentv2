@@ -2,18 +2,24 @@ package admin4.techelm.com.techelmtechnologies.menu;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import admin4.techelm.com.techelmtechnologies.BuildConfig;
 import admin4.techelm.com.techelmtechnologies.R;
@@ -25,16 +31,21 @@ import admin4.techelm.com.techelmtechnologies.fragment_sample.SentFragment;
 import admin4.techelm.com.techelmtechnologies.fragment_sample.TabFragment;
 import admin4.techelm.com.techelmtechnologies.login.LoginActivity2;
 import admin4.techelm.com.techelmtechnologies.service_report.ServiceReport_1;
+import admin4.techelm.com.techelmtechnologies.service_report.ViewPagerActivity;
+import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.servicejob.ServiceJobFragmentTab;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends FragmentActivity implements
         ServiceJobListAdapter.CallbackInterface,
         CalendarListAdapter.CallbackInterface,
         UnsignedServiceJobListAdapter.CallbackInterface {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private static final String VERSION = BuildConfig.VERSION_NAME;
+    private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
+    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
 
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
@@ -48,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);*/
 
         new UIThreadHandler(this).runOnUiThread(new Runnable() {
             @Override
@@ -136,11 +147,20 @@ public class MainActivity extends AppCompatActivity implements
                         serviceJobFragmentTransaction.replace(R.id.containerView, new ServiceJobFragmentTab()).commit();
                         break;
                     case R.id.nav_checklist:
-                        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.containerView, new SentFragment()).commit();
+                        /*FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.containerView, new SentFragment().newInstance(getSupportFragmentManager())).commit();*/
+
+                        startActivity(new Intent(MainActivity.this, ViewPagerActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        overridePendingTransition(R.anim.enter, R.anim.exit);
                         break;
                     case R.id.nav_process_pe:
                         FragmentTransaction fragmentProcessTransaction = mFragmentManager.beginTransaction();
+
+                        /*Bundle arguments = new Bundle();
+                        arguments.putBundle(FRAGMENT_TRANSACTION_KEY, getFragmentManager());
+                        fragmentProcessTransaction.setArguments(arguments);*/
+
                         fragmentProcessTransaction.replace(R.id.containerView, new PrimaryFragment()).commit();
                         break;
                     case R.id.nav_process_eps:
@@ -194,6 +214,8 @@ public class MainActivity extends AppCompatActivity implements
      *
      * @param position   - the position
      * @param serviceJob - the text to pass back
+     *                   3 - Show Details on ServiceReport_1
+     *                   2 - Show Details on SJ MDialog
      * @param mode
      */
     @Override
@@ -202,13 +224,76 @@ public class MainActivity extends AppCompatActivity implements
         System.out.print(strOut);
 
         switch(mode) {
-            case 3 :
-                // TODO : Edit Details
+            case 3 : // Show Details on ServiceReport_1 View
+                startActivity(new Intent(MainActivity.this, ServiceReport_1.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(RECORD_JOB_SERVICE_KEY, serviceJob));
+                overridePendingTransition(R.anim.enter, R.anim.exit);
                 break;
-            case 2 :
-                Toast.makeText(getApplicationContext(), serviceJob.toString(), Toast.LENGTH_SHORT).show();
+            case 2 : // Show Details of SJ on MDialog
+                showMDialogSJDetails(serviceJob);
+                // Toast.makeText(getApplicationContext(), serviceJob.toString(), Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    /**
+     * View on the CalendarFragment onClick View
+     * @param serviceJob - ServiceJob Wrapper from CalendarFragment
+     */
+    private void showMDialogSJDetails(ServiceJobWrapper serviceJob) {
+        MaterialDialog md = new MaterialDialog.Builder(this)
+                .title("SERVICE JOB " + serviceJob.getServiceNumber())
+                .customView(R.layout.i_labels_report_details, true)
+                .limitIconToDefaultSize()
+                .positiveText("OK")
+                .iconRes(R.mipmap.view_icon)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).build();
+
+        new PopulateServiceJobViewDetails()
+                .populateServiceJobDetails(md.getCustomView(), serviceJob, View.GONE, TAG);
+        md.show();
+    }
+
+    /**
+     * View on the CalendarFragment onClick View
+     * @param vDialog - view of the Material View
+     * @param serviceJob - ServiceJob Wrapper from CalendarFragment
+     */
+    private void populateServiceJobDetails(View vDialog, ServiceJobWrapper serviceJob) {
+
+        // SERVICE JOB Controls
+        ImageButton buttonViewDetails = (ImageButton) vDialog.findViewById(R.id.buttonViewDetails);
+        TextView textViewLabelCustomerName = (TextView) vDialog.findViewById(R.id.textViewLabelCustomerName);
+        TextView textViewLabelJobSite = (TextView) vDialog.findViewById(R.id.textViewLabelJobSite);
+        TextView textViewLabelServiceNo = (TextView) vDialog.findViewById(R.id.textViewLabelServiceNo);
+        TextView textViewLabelTypeOfService = (TextView) vDialog.findViewById(R.id.textViewLabelTypeOfService);
+        TextView textViewLabelTelephone = (TextView) vDialog.findViewById(R.id.textViewLabelTelephone);
+        TextView textViewLabelFax = (TextView) vDialog.findViewById(R.id.textViewLabelFax);
+        TextView textViewLabelEquipmentType = (TextView) vDialog.findViewById(R.id.textViewLabelEquipmentType);
+        TextView textViewLabelModel = (TextView) vDialog.findViewById(R.id.textViewLabelModel);
+        TextView textViewComplaints = (TextView) vDialog.findViewById(R.id.textViewComplaints);
+        TextView textViewRemarksActions = (TextView) vDialog.findViewById(R.id.textViewRemarksActions);
+
+
+        Log.e(TAG, "DATA: " + serviceJob.toString());
+        buttonViewDetails.setVisibility(View.GONE);
+        textViewLabelCustomerName.setText(serviceJob.getCustomerID());
+        textViewLabelJobSite.setText(serviceJob.getActionsOrRemarks());
+        textViewLabelServiceNo.setText(serviceJob.getServiceNumber());
+        textViewLabelTypeOfService.setText(serviceJob.getTypeOfService());
+        textViewLabelTelephone.setText(serviceJob.getTelephone());
+        textViewLabelFax.setText(serviceJob.getFax());
+        textViewLabelEquipmentType.setText(serviceJob.getEquipmentType());
+        textViewLabelModel.setText(serviceJob.getModelOrSerial());
+        textViewComplaints.setText(serviceJob.getComplaintsOrSymptoms());
+        textViewRemarksActions.setText(serviceJob.getActionsOrRemarks());
     }
 
 
@@ -217,13 +302,13 @@ public class MainActivity extends AppCompatActivity implements
      * UITask mAuthTask = new UITask();
         mAuthTask.execute((Void) null);
      */
-    public class UITask extends AsyncTask<Void, Void, Boolean> {
+    /*public class UITask extends AsyncTask<Void, Void, Boolean> {
         UITask() {
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // TO DO: attempt authentication against a network service.
 
             try {
                 // Simulate network access.
@@ -234,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements
             }
 
 
-            // TODO: register the new account here.
+            // TO DO: register the new account here.
             return true;
         }
 
@@ -245,5 +330,5 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         protected void onCancelled() {
         }
-    }
+    }*/
 }
