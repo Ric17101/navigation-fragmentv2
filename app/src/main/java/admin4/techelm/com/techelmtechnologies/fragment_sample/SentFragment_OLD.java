@@ -28,10 +28,6 @@ public class SentFragment_OLD extends Fragment {
         return (frag);
     }
 
-    public SentFragment_OLD() {
-
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

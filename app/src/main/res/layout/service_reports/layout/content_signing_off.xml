@@ -7,13 +7,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="admin4.techelm.com.techelmtechnologies.service_report.SigningOff_4"
+    tools:context="admin4.techelm.com.techelmtechnologies.service_report_fragment.SigningOff_FRGMT_4"
     tools:showIn="@layout/activity_signing_off_end_task">
 
     <ScrollView
         android:id="@+id/content_signing_off"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:scrollbars="none">
 
         <LinearLayout

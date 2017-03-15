@@ -29,10 +29,6 @@ public class UpdatesFragment extends Fragment {
         return (frag);
     }
 
-    public UpdatesFragment() {
-
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

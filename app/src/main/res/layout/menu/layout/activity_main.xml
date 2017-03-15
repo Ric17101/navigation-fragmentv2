@@ -21,8 +21,18 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary1"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:title="TECHELM TECHNOLOGIES" />
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="TECHELM TECHNOLOGIES"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

@@ -22,8 +22,8 @@ import admin4.techelm.com.techelmtechnologies.R;
 
 /**
  * Used by
- *  ServiceReport_1 Class
- *  PartReplacement_2 Class
+ *  ServiceReport_FRGMT_1 Class
+ *  PartReplacement_FRGMT_2 Class
  */
 public class CameraUtil {
     

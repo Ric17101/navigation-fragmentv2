@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
     defaultConfig {
         applicationId "admin4.techelm.com.techelmtechnologies"
         minSdkVersion 16
@@ -52,7 +53,7 @@ dependencies {
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
 
     // Calendar Dependencies
-    compile 'com.github.bumptech.glide:glide:3.6.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'de.hdodenhof:circleimageview:1.3.0'
     compile project(path: ':calendar_library')
 
@@ -76,5 +77,8 @@ dependencies {
     compile 'com.melnykov:floatingactionbutton:1.1.0'
 
     // TABSTRIP
-    compile 'com.jpardogo.materialtabstrip:library:1.1.1'
+    compile 'com.android.support:support-v13:25.2.0'
+    compile project(path: ':page_tab_library')
+    // compile 'com.jpardogo.materialtabstrip:library:1.1.1'
+    // compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }

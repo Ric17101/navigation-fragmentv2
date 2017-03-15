@@ -31,7 +31,7 @@ public class ViewPagerActivity extends AppCompatActivity {
 
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new MyAdapter(getSupportFragmentManager()));
-        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs2);
+        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabsStrip);
         tabs.setViewPager(pager);
 
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

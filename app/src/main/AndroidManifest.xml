@@ -61,12 +61,12 @@
             android:label="@string/title_activity_service_report__task_completed"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".service_report.ServiceReport_TaskCompleted_5"
+            android:name=".service_report_fragment.ServiceReport_TaskCompleted_5"
             android:label="@string/title_activity_service_report__task_completed"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".service_report.ViewPagerActivity"
+            android:name=".service_report_fragment.ServiceJobViewPagerActivity"
             android:label="SAMPLE VIEW PAGER"
             android:theme="@style/AppTheme" />
 

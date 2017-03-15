@@ -73,7 +73,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
         ServiceJobDBUtil.OnDatabaseChangedListener,
         UploadsDBUtil.OnDatabaseChangedListener {
 
-    private static final String TAG = "ServiceReport_1";
+    private static final String TAG = "ServiceReport_FRGMT_1";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
 
     // A. SERVICE ID INFO
@@ -205,7 +205,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*startActivity(new Intent(ServiceReport_1.this, PartReplacement_2.class)
+                /*startActivity(new Intent(ServiceReport_FRGMT_1.this, PartReplacement_FRGMT_2.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
 
@@ -413,7 +413,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
                                     "No image to save",
                                     Snackbar.LENGTH_LONG)
                                     .setAction("OK", null).show();
-                            /*Toast.makeText(ServiceReport_1.this,
+                            /*Toast.makeText(ServiceReport_FRGMT_1.this,
                                     "No image to save", Toast.LENGTH_LONG).show();*/
                         }
                     }
@@ -458,13 +458,13 @@ public class ServiceReport_1 extends AppCompatActivity implements
                         "Image saved into the Gallery: " + camU.getFilePath(),
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
-                // Toast.makeText(ServiceReport_1.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(ServiceReport_FRGMT_1.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
             } else {
                 Snackbar.make(findViewById(android.R.id.content),
                         "Unable to store the signature",
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
-                // Toast.makeText(ServiceReport_1.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(ServiceReport_FRGMT_1.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -864,7 +864,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
                     R.string.toast_recording_start,
                     Snackbar.LENGTH_LONG)
                     .setAction("OK", null).show();
-            // Toast.makeText(ServiceReport_1.this ,R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(ServiceReport_FRGMT_1.this ,R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
             File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
             if (!folder.exists()) {
                 //folder /SoundRecorder doesn't exist, then create the folder
@@ -969,7 +969,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
             PlaybackFragment playbackFragment =
                     new PlaybackFragment().newInstance(serviceJobRecordingWrapper);
 
-            // FragmentTransaction transaction = ((FragmentActivity)ServiceReport_1.this)
+            // FragmentTransaction transaction = ((FragmentActivity)ServiceReport_FRGMT_1.this)
             FragmentTransaction transaction = (ServiceReport_1.this)
                     .getSupportFragmentManager()
                     .beginTransaction();
@@ -988,7 +988,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
                 "Recording " + fileName + " has been added.",
                 Snackbar.LENGTH_LONG)
                 .setAction("OK", null).show();
-        /*Toast.makeText(ServiceReport_1.this, "Recording " + fileName + " has been added.",
+        /*Toast.makeText(ServiceReport_FRGMT_1.this, "Recording " + fileName + " has been added.",
                 Toast.LENGTH_SHORT).show();*/
         populateRecordingsCardList();
     }
@@ -1003,7 +1003,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
 
     @Override
     public void onRecordingsEntryDeleted() {
-        /*Toast.makeText(ServiceReport_1.this, "Delete successful.",
+        /*Toast.makeText(ServiceReport_FRGMT_1.this, "Delete successful.",
                 Toast.LENGTH_SHORT).show();*/
         Snackbar.make(findViewById(android.R.id.content),
                 "Delete successful.",

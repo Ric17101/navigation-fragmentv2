@@ -6,16 +6,46 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/id_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary1"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="TECHELM TECHNOLOGIES"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
     <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabs2"
+        android:id="@+id/tabsStrip"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent"
-        android:elevation="4dp"
+        android:background="@color/colorPrimary1"
         android:textColor="@color/white"
-        app:pstsIndicatorColor="@color/colorBlueThemed"
+        app:pstsIndicatorColor="@color/white"
+        app:pstsTabSwitch="true"
         app:pstsIndicatorHeight="2sp"
-        app:pstsShouldExpand="true" />
+        app:pstsActivateTextColor="#FF666666"
+        app:pstsDeactivateTextColor="#FF666666"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

@@ -16,7 +16,7 @@ import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 public class AddReplacementPart_3 extends AppCompatActivity {
 
-    private static final String TAG = "AddReplacementPart_3";
+    private static final String TAG = "AddReplacementPart_FRGMT_3";
 
     private Spinner spinnerReplacementParts;
     private Spinner spinnerQuantity;
@@ -42,7 +42,7 @@ public class AddReplacementPart_3 extends AppCompatActivity {
 
     /**
      * PARSING data ServiceJob from Bundle passed by the
-     *      PartReplacement_2 => AddReplacementPart_3
+     *      PartReplacement_FRGMT_2 => AddReplacementPart_FRGMT_3
      * @return - ServiceJobWrapper | NULL if no data has been submitted
      */
     private ServiceJobWrapper fromBundle() {

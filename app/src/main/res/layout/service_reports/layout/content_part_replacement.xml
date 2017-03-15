@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="admin4.techelm.com.techelmtechnologies.service_report.PartReplacement_2"
+    tools:context="admin4.techelm.com.techelmtechnologies.service_report_fragment.PartReplacement_FRGMT_2"
     tools:showIn="@layout/activity_part_replacement">
 
 

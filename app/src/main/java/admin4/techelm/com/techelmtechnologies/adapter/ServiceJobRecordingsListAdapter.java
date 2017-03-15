@@ -37,7 +37,7 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
     private OnItemClickListener mItemsOnClickListener;
     private int counterOnBindViewHolder = 0;
 
-    public ServiceJobRecordingsListAdapter(Activity context) {
+    public ServiceJobRecordingsListAdapter(Context context) {
         mContext = context;
 
         // .. Attach the interface

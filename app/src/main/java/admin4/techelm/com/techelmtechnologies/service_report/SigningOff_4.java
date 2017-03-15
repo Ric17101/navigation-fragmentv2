@@ -29,13 +29,14 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.service_report_fragment.ServiceReport_TaskCompleted_5;
 import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
 
 public class SigningOff_4 extends AppCompatActivity implements
         ServiceJobDBUtil.OnDatabaseChangedListener {
 
-    private static final String TAG = "SigningOff_4";
+    private static final String TAG = "SigningOff_FRGMT_4";
 
     // A. SERVICE ID INFO
     private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
@@ -85,7 +86,7 @@ public class SigningOff_4 extends AppCompatActivity implements
 
     /**
      * PARSING data ServiceJob from Bundle passed by the
-     *      AddReplacementPart_3 => SigningOff_4
+     *      AddReplacementPart_FRGMT_3 => SigningOff_FRGMT_4
      * @return - ServiceJobWrapper | NULL if no data has been submitted
      */
     private ServiceJobWrapper fromBundle() {
@@ -166,7 +167,7 @@ public class SigningOff_4 extends AppCompatActivity implements
                         mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
                             @Override
                             public void onStartSigning() {
-                                // Toast.makeText(SigningOff_4.this, "OnStartSigning", Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(SigningOff_FRGMT_4.this, "OnStartSigning", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -186,19 +187,19 @@ public class SigningOff_4 extends AppCompatActivity implements
                         if (sign.addJpgSignatureToGallery(signatureBitmap, "signature")) {
                             Snackbar.make(findViewById(android.R.id.content), "Signature saved into the Gallery:" + sign.getFilePath(), Snackbar.LENGTH_LONG)
                                     .setAction("OK", null).show();
-                            /*Toast.makeText(SigningOff_4.this, "Signature saved into the Gallery:" + sign.getFilePath(),
+                            /*Toast.makeText(SigningOff_FRGMT_4.this, "Signature saved into the Gallery:" + sign.getFilePath(),
                                     Toast.LENGTH_SHORT).show();*/
                             setDrawableImageSignature(sign.loadBitmap());
                         } else {
                             Snackbar.make(findViewById(android.R.id.content), "Unable to store the signature", Snackbar.LENGTH_LONG)
                                     .setAction("OK", null).show();
-                            // Toast.makeText(SigningOff_4.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(SigningOff_FRGMT_4.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
                         }
 
                         /*if (sign.addSvgSignatureToGallery(mSignaturePad.getSignatureSvg())) {
-                            Toast.makeText(SigningOff_4.this, "SVG Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SigningOff_FRGMT_4.this, "SVG Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(SigningOff_4.this, "Unable to store the SVG signature", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SigningOff_FRGMT_4.this, "Unable to store the SVG signature", Toast.LENGTH_SHORT).show();
                         }*/
                     }
                 })
@@ -248,7 +249,7 @@ public class SigningOff_4 extends AppCompatActivity implements
                             "Cannot write images to external storage",
                             Snackbar.LENGTH_LONG)
                             .setAction("OK", null).show();
-                    // Toast.makeText(SigningOff_4.this, "Cannot write images to external storage", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(SigningOff_FRGMT_4.this, "Cannot write images to external storage", Toast.LENGTH_SHORT).show();
                 }
             }
         }

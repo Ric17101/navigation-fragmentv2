@@ -65,7 +65,7 @@ public class ServiceJobFragmentTab extends Fragment {
          *Set an Apater for the View Pager
          */
         viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
-
+        viewPager.setOffscreenPageLimit(2); // Three tabs
         /**
          * Now , this is a workaround ,
          * The setupWithViewPager dose't works without the runnable .

@@ -32,6 +32,7 @@ import admin4.techelm.com.techelmtechnologies.fragment_sample.TabFragment;
 import admin4.techelm.com.techelmtechnologies.login.LoginActivity2;
 import admin4.techelm.com.techelmtechnologies.service_report.ServiceReport_1;
 import admin4.techelm.com.techelmtechnologies.service_report.ViewPagerActivity;
+import admin4.techelm.com.techelmtechnologies.service_report_fragment.ServiceJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.servicejob.ServiceJobFragmentTab;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
@@ -147,12 +148,12 @@ public class MainActivity extends FragmentActivity implements
                         serviceJobFragmentTransaction.replace(R.id.containerView, new ServiceJobFragmentTab()).commit();
                         break;
                     case R.id.nav_checklist:
-                        /*FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.containerView, new SentFragment().newInstance(getSupportFragmentManager())).commit();*/
+                        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.containerView, new PrimaryFragment()).commit();
 
-                        startActivity(new Intent(MainActivity.this, ViewPagerActivity.class)
+                        /*startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                        overridePendingTransition(R.anim.enter, R.anim.exit);
+                        overridePendingTransition(R.anim.enter, R.anim.exit);*/
                         break;
                     case R.id.nav_process_pe:
                         FragmentTransaction fragmentProcessTransaction = mFragmentManager.beginTransaction();
@@ -214,7 +215,7 @@ public class MainActivity extends FragmentActivity implements
      *
      * @param position   - the position
      * @param serviceJob - the text to pass back
-     *                   3 - Show Details on ServiceReport_1
+     *                   3 - Show Details on ServiceReport_FRGMT_1
      *                   2 - Show Details on SJ MDialog
      * @param mode
      */
@@ -224,8 +225,8 @@ public class MainActivity extends FragmentActivity implements
         System.out.print(strOut);
 
         switch(mode) {
-            case 3 : // Show Details on ServiceReport_1 View
-                startActivity(new Intent(MainActivity.this, ServiceReport_1.class)
+            case 3 : // Show Details on ServiceReport_FRGMT_1 View
+                startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, serviceJob));
                 overridePendingTransition(R.anim.enter, R.anim.exit);

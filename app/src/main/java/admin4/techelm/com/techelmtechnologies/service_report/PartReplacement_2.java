@@ -56,7 +56,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
         ServiceJobDBUtil.OnDatabaseChangedListener,
         PartsDBUtil.OnDatabaseChangedListener {
 
-    private static final String TAG = "PartReplacement_2";
+    private static final String TAG = "PartReplacement_FRGMT_2";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
 
     // A. SERVICE ID INFO
@@ -116,7 +116,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
 
     /**
      * PARSING data ServiceJob from Bundle passed by the
-     *      ServiceReport_1 => PartReplacement_2
+     *      ServiceReport_FRGMT_1 => PartReplacement_FRGMT_2
      * @return - ServiceJobWrapper | NULL if no data has been submitted
      */
     private ServiceJobWrapper fromBundle() {
@@ -163,7 +163,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
         buttonViewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*startActivity(new Intent(PartReplacement_2.this, SigningOff_4.class)
+                /*startActivity(new Intent(PartReplacement_FRGMT_2.this, SigningOff_FRGMT_4.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
             }
@@ -342,7 +342,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
 
                             dialog.dismiss();
                         } else {
-                            // Toast.makeText(PartReplacement_2.this, "No image to save", Toast.LENGTH_LONG).show();
+                            // Toast.makeText(PartReplacement_FRGMT_2.this, "No image to save", Toast.LENGTH_LONG).show();
                             Snackbar.make(findViewById(android.R.id.content), "No image to save", Snackbar.LENGTH_LONG)
                                     .setAction("OK", null).show();
                         }
@@ -388,13 +388,13 @@ public class PartReplacement_2 extends AppCompatActivity implements
                         "Image saved into the Gallery: " + camU.getFilePath(),
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
-                // Toast.makeText(PartReplacement_2.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(PartReplacement_FRGMT_2.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
             } else {
                 Snackbar.make(findViewById(android.R.id.content),
                         "Unable to store the signature",
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
-                // Toast.makeText(PartReplacement_2.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(PartReplacement_FRGMT_2.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
             }
         }
 
