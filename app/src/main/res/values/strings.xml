@@ -80,4 +80,6 @@
     <string name="image_name_jpg_uploaded">Image_Name.jpg uploaded.</string>
     <string name="delete">Delete.</string>
 
+    <string name="noInternetPrompt">Error! Check your Internet Connection.</string>
+
 </resources>

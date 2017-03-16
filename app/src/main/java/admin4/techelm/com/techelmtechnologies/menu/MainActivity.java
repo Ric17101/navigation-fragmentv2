@@ -225,17 +225,49 @@ public class MainActivity extends FragmentActivity implements
         System.out.print(strOut);
 
         switch(mode) {
+            case 2 : // Show Details of SJ on MDialog
+                showMDialogSJDetails(serviceJob);
+                // Toast.makeText(getApplicationContext(), serviceJob.toString(), Toast.LENGTH_SHORT).show();
+                break;
             case 3 : // Show Details on ServiceReport_FRGMT_1 View
                 startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, serviceJob));
                 overridePendingTransition(R.anim.enter, R.anim.exit);
                 break;
-            case 2 : // Show Details of SJ on MDialog
-                showMDialogSJDetails(serviceJob);
-                // Toast.makeText(getApplicationContext(), serviceJob.toString(), Toast.LENGTH_SHORT).show();
+            case 4 : // Confirm Begin Task
+                confirmBeginTaskMDialog(serviceJob);
                 break;
         }
+    }
+
+    /**
+     * View on the CalendarFragment onClick View
+     * @param serviceJob - ServiceJob Wrapper from CalendarFragment
+     */
+    private void confirmBeginTaskMDialog(final ServiceJobWrapper serviceJob) {
+        MaterialDialog md = new MaterialDialog.Builder(this)
+                .title("BEGIN TASK " + serviceJob.getServiceNumber() + "?")
+                .customView(R.layout.i_labels_report_details, true)
+                .limitIconToDefaultSize()
+                .negativeText("CLOSE")
+                .positiveText("BEGIN")
+                .iconRes(R.mipmap.view_icon)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        // TODO: Save ID and start time then save to server
+                        // TODO: Saving image use progress dialog or progress bar on the Camera UPLOAD
+                        startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                .putExtra(RECORD_JOB_SERVICE_KEY, serviceJob));
+                        overridePendingTransition(R.anim.enter, R.anim.exit);
+                    }
+                }).build();
+
+        new PopulateServiceJobViewDetails()
+                .populateServiceJobDetails(md.getCustomView(), serviceJob, View.GONE, TAG);
+        md.show();
     }
 
     /**
@@ -261,42 +293,6 @@ public class MainActivity extends FragmentActivity implements
                 .populateServiceJobDetails(md.getCustomView(), serviceJob, View.GONE, TAG);
         md.show();
     }
-
-    /**
-     * View on the CalendarFragment onClick View
-     * @param vDialog - view of the Material View
-     * @param serviceJob - ServiceJob Wrapper from CalendarFragment
-     */
-    private void populateServiceJobDetails(View vDialog, ServiceJobWrapper serviceJob) {
-
-        // SERVICE JOB Controls
-        ImageButton buttonViewDetails = (ImageButton) vDialog.findViewById(R.id.buttonViewDetails);
-        TextView textViewLabelCustomerName = (TextView) vDialog.findViewById(R.id.textViewLabelCustomerName);
-        TextView textViewLabelJobSite = (TextView) vDialog.findViewById(R.id.textViewLabelJobSite);
-        TextView textViewLabelServiceNo = (TextView) vDialog.findViewById(R.id.textViewLabelServiceNo);
-        TextView textViewLabelTypeOfService = (TextView) vDialog.findViewById(R.id.textViewLabelTypeOfService);
-        TextView textViewLabelTelephone = (TextView) vDialog.findViewById(R.id.textViewLabelTelephone);
-        TextView textViewLabelFax = (TextView) vDialog.findViewById(R.id.textViewLabelFax);
-        TextView textViewLabelEquipmentType = (TextView) vDialog.findViewById(R.id.textViewLabelEquipmentType);
-        TextView textViewLabelModel = (TextView) vDialog.findViewById(R.id.textViewLabelModel);
-        TextView textViewComplaints = (TextView) vDialog.findViewById(R.id.textViewComplaints);
-        TextView textViewRemarksActions = (TextView) vDialog.findViewById(R.id.textViewRemarksActions);
-
-
-        Log.e(TAG, "DATA: " + serviceJob.toString());
-        buttonViewDetails.setVisibility(View.GONE);
-        textViewLabelCustomerName.setText(serviceJob.getCustomerID());
-        textViewLabelJobSite.setText(serviceJob.getActionsOrRemarks());
-        textViewLabelServiceNo.setText(serviceJob.getServiceNumber());
-        textViewLabelTypeOfService.setText(serviceJob.getTypeOfService());
-        textViewLabelTelephone.setText(serviceJob.getTelephone());
-        textViewLabelFax.setText(serviceJob.getFax());
-        textViewLabelEquipmentType.setText(serviceJob.getEquipmentType());
-        textViewLabelModel.setText(serviceJob.getModelOrSerial());
-        textViewComplaints.setText(serviceJob.getComplaintsOrSymptoms());
-        textViewRemarksActions.setText(serviceJob.getActionsOrRemarks());
-    }
-
 
     /**
      * Represents an asynchronous Task

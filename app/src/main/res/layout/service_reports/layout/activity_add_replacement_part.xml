@@ -7,5 +7,4 @@
 
     <include layout="@layout/content_add_replacement_part" />
 
-
 </android.support.design.widget.CoordinatorLayout>

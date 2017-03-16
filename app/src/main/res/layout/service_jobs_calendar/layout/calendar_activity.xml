@@ -23,8 +23,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingTop="4sp"
-            android:paddingBottom="70sp"/>
+            android:paddingBottom="70sp"
+            android:paddingTop="4sp" />
+
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:text="Result"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="normal|bold"
+            android:visibility="gone" />
 
     </FrameLayout>
 
@@ -42,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:background="@color/colorBlueButtonThemed"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/name"
@@ -53,10 +66,9 @@
                 android:paddingLeft="10dp"
                 android:paddingStart="10dp"
                 android:text="CALENDAR VIEW"
-                android:textSize="16sp"
                 android:textAlignment="center"
-                android:textStyle="normal|bold"
-                android:textColor="@color/textColorWhite" />
+                android:textColor="@color/textColorWhite"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,10 +99,10 @@
 
             <Button
                 android:id="@+id/buttonShowHideCalendar"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button"
-                style="@style/Widget.AppCompat.Button.Borderless" />
+                android:text="Button" />
         </LinearLayout>
 
     </LinearLayout>

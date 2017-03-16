@@ -85,7 +85,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
         holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerID());
+        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineer());
         holder.textViewStatus.setText(setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(setColor(serviceJobDataSet.getStatus()));
@@ -142,6 +142,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
         }
         return strDate.split("-")[2];
     }
+
     public String setStatus(String status) {
         switch (status) {
             /*

@@ -37,7 +37,7 @@ public class PopulateServiceJobViewDetails {
 
         Log.e(TAG, "DATA: " + serviceJob.toString());
         buttonViewDetails.setVisibility(visibility);
-        textViewLabelCustomerName.setText(serviceJob.getCustomerID());
+        textViewLabelCustomerName.setText(serviceJob.getCustomerName());
         textViewLabelJobSite.setText(serviceJob.getActionsOrRemarks());
         textViewLabelServiceNo.setText(serviceJob.getServiceNumber());
         textViewLabelTypeOfService.setText(serviceJob.getTypeOfService());

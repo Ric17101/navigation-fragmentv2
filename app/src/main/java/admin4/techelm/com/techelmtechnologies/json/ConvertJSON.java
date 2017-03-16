@@ -34,7 +34,8 @@ import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 public class ConvertJSON {
 
     private static final String TAG = ConvertJSON.class.getSimpleName();
-    private boolean mResult = true;
+    private static final String SJ_LIST_DELIM = ":-:";
+    private boolean mResult = false;
 
     public ConvertJSON() {
 
@@ -55,13 +56,14 @@ public class ConvertJSON {
         String str = "";
 
         JSONArray jsonArray = json.getJSONArray("servicelist");
-        int jsonLen = json.getJSONArray("servicelist").length();
-        if (jsonLen == 0) {
-            this.mResult = false; // No result
+        int jsonLen = jsonArray.length();
+        this.mResult = jsonLen >= 0;
+
+        /*if (jsonArray == null){
             return null;
-        }
+        }*/
         int i = 0;
-        do {
+        do { // 24
             ServiceJobWrapper sw = new ServiceJobWrapper();
             sw.setID(Integer.parseInt(jsonArray.getJSONObject(i).getString("id")));
             sw.setServiceNumber(jsonArray.getJSONObject(i).getString("service_no"));
@@ -83,10 +85,64 @@ public class ConvertJSON {
             sw.setWarrantyRepair(jsonArray.getJSONObject(i).getString("warranty_repair"));
             sw.setOthers(jsonArray.getJSONObject(i).getString("others"));
             sw.setSignatureName(jsonArray.getJSONObject(i).getString("signature_name"));
-            Log.d(TAG, sw.toString());
+            sw.setCustomerName(jsonArray.getJSONObject(i).getString("fullname"));
+            sw.setJobSite(jsonArray.getJSONObject(i).getString("job_site"));
+            sw.setFax(jsonArray.getJSONObject(i).getString("fax"));
+            sw.setTelephone(jsonArray.getJSONObject(i).getString("phone_no"));
+            // Log.d(TAG, sw.toString());
             translationList.add(sw);
             i++;
         } while (jsonLen > i);
+        return translationList;
+    }
+
+    /**
+     * 24 Columns
+     * Parse JSON String from ':'
+     * @param parsedServiceJob
+     * @return
+     */
+    public ArrayList<ServiceJobWrapper> serviceJobList(List<String> parsedServiceJob) {
+        ArrayList<ServiceJobWrapper> translationList = new ArrayList<>();
+       /* if (parsedServiceJob.size() == 0 || parsedServiceJob.isEmpty()) {
+            this.mResult = true; // No result
+            return null;
+        }*/
+
+        this.mResult = parsedServiceJob.size() >= 0;
+
+        for (String credential : parsedServiceJob) {
+            ServiceJobWrapper sw = new ServiceJobWrapper();
+            String[] pieces = credential.split(SJ_LIST_DELIM);
+
+            sw.setID(Integer.parseInt(pieces[0]));
+            sw.setServiceNumber(pieces[1]);
+            sw.setCustomerID(pieces[2]);
+            sw.setServiceID(pieces[3]);
+            sw.setEngineerID(pieces[4]);
+            sw.setPriceID(pieces[5]);
+            sw.setComplaintsOrSymptoms(pieces[6]);
+            sw.setActionsOrRemarks(pieces[7]);
+            sw.setEquipmentType(pieces[8]);
+            sw.setModelOrSerial(pieces[9]);
+            sw.setStartDate(pieces[10]);
+            sw.setEndDate(pieces[11]);
+            sw.setStatus(pieces[12]);
+            sw.setContractServicing(pieces[13]);
+            sw.setWarrantyServicing(pieces[14]);
+            sw.setCharges(pieces[15]);
+            sw.setContractRepair(pieces[16]);
+            sw.setWarrantyRepair(pieces[17]);
+            sw.setOthers(pieces[18]);
+            sw.setSignatureName(pieces[19]);
+            // sw.setContractServicing(pieces[20]);
+            sw.setCustomerName(pieces[20]);
+            sw.setJobSite(pieces[21]);
+            sw.setFax(pieces[22]);
+            sw.setTelephone(pieces[23]);
+            // Log.d(TAG, sw.toString());
+            translationList.add(sw);
+        }
         return translationList;
     }
 

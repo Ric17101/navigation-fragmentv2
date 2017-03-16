@@ -18,11 +18,11 @@
         android:id="@+id/content_add_replacement_part"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
         <LinearLayout
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Please fill in the fields below."
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textStyle="normal|italic" />
 
             <LinearLayout

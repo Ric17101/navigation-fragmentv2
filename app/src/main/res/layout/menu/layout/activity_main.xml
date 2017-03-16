@@ -11,27 +11,25 @@
         android:id="@+id/id_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:fitsSystemWindows="true">
-
+        android:background="@android:color/transparent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary1"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:weightSum="1"
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <TextView
-                android:id="@+id/toolbar_title"
+            <ImageView
+                android:id="@+id/imageViewLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="TECHELM TECHNOLOGIES"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/app_name"
+                android:padding="4sp"
+                android:src="@mipmap/logo_icon" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -63,7 +61,6 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
                 android:background="?attr/colorAccent"
-                android:fitsSystemWindows="true"
                 app:headerLayout="@layout/nav_header"
                 app:itemIconTint="@color/textColorWhite"
                 app:itemTextColor="@color/textColorWhite"

@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -76,6 +77,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private RecyclerView mUploadResultsList;
     private List<ServiceJobPartsWrapper> mUploadResults = null;
     private PartsDBUtil mPartsDB;
+    private CardView cardViewNewUpload;
 
     // SlidingPager Tab Set Up
     private static final String ARG_POSITION = "position";
@@ -89,7 +91,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         frag.setArguments(args);
 
         mServiceJobFromBundle = serviceJob;
-        return (frag);
+        return frag;
     }
 
     @Override

@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/robotoCalendarDateTitleContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true">
+    android:clickable="true"
+    android:paddingTop="10sp">
 
     <ImageView
         android:id="@+id/rightButton"
         style="@style/RobotoCalendarMonthArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/roboto_calendar_padding"
         android:layout_marginRight="@dimen/roboto_calendar_padding"
-        app:srcCompat="@drawable/ic_arrow_right" />
+        android:background="@drawable/ic_arrow_right"
+        android:contentDescription="@android:string/ok" />
 
     <TextView
         android:id="@+id/monthText"
@@ -26,7 +29,10 @@
         android:layout_centerInParent="true"
         android:tag="dateTitle"
         android:text="MONTH YEAR"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
 
     <ImageView
         android:id="@+id/leftButton"
@@ -34,9 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/roboto_calendar_padding"
         android:layout_marginRight="@dimen/roboto_calendar_padding"
-        app:srcCompat="@drawable/ic_arrow_left" />
+        android:background="@drawable/ic_arrow_left"
+        android:contentDescription="@android:string/ok" />
 
 </RelativeLayout>

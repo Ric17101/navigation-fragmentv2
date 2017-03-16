@@ -44,6 +44,8 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         public static final String COLUMN_NAME_SJ_WARRANTY_REPAIR = "warranty_repair";
         public static final String COLUMN_NAME_SJ_OTHERS = "others";
         public static final String COLUMN_NAME_SJ_SIGNATURE_NAME = "signature_name";
+        public static final String COLUMN_NAME_SJ_CUSTOMER_NAME = "fullname";
+        public static final String COLUMN_NAME_SJ_JOB_SITE = "job_site";
 
         public static final String COLUMN_NAME_SJ_TELEPHONE = "telephone";
         public static final String COLUMN_NAME_SJ_FAX = "fax";
@@ -180,6 +182,33 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 ServiceJobWrapper recordItem = new ServiceJobWrapper();
                 recordItem.setID(Integer.parseInt(cursor.getString(0)));
                 recordItem.setServiceNumber(cursor.getString(1));
+                recordItem.setCustomerID(cursor.getString(2));
+                recordItem.setServiceID(cursor.getString(3));
+                recordItem.setEngineerID(cursor.getString(4));
+                recordItem.setPriceID(cursor.getString(5));
+                recordItem.setComplaintsOrSymptoms(cursor.getString(6));
+                recordItem.setActionsOrRemarks(cursor.getString(7));
+                recordItem.setEquipmentType(cursor.getString(8));
+                recordItem.setModelOrSerial(cursor.getString(9));
+                recordItem.setStartDate(cursor.getString(10));
+                recordItem.setEndDate(cursor.getString(11));
+                recordItem.setStatus(cursor.getString(12));
+                recordItem.setContractServicing(cursor.getString(13));
+                recordItem.setWarrantyServicing(cursor.getString(14));
+                recordItem.setCharges(cursor.getString(15));
+                recordItem.setContractRepair(cursor.getString(16));
+                recordItem.setWarrantyRepair(cursor.getString(17));
+                recordItem.setOthers(cursor.getString(18));
+                recordItem.setSignatureName(cursor.getString(19));
+                recordItem.setTelephone(cursor.getString(20));
+                recordItem.setFax(cursor.getString(21));
+                recordItem.setTypeOfService(cursor.getString(22));
+                recordItem.setSignaturePath(cursor.getString(23));
+                recordItem.setJobSite(cursor.getString(24));
+                recordItem.setCustomerName(cursor.getString(25));
+
+                /*recordItem.setID(Integer.parseInt(cursor.getString(0)));
+                recordItem.setServiceNumber(cursor.getString(1));
                 recordItem.setCustomerID(getCustomerNameByID(cursor.getString(2)));
                 recordItem.setServiceID(cursor.getString(3));
 
@@ -206,10 +235,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 UserLoginWrapper user = getUserDetails(engineerID, db);
                 recordItem.setTelephone(user.getPhoneNo());
                 recordItem.setFax(user.getFax());
-                recordItem.setRace(user.getRace());
-
-                /*recordItem.setTypeOfService(cursor.getString(23));
-                recordItem.setSignaturePath(cursor.getString(24));*/
+                recordItem.setRace(user.getRace());*/
 
                 list.add(recordItem);
             } while (cursor.moveToNext());
@@ -251,6 +277,8 @@ public class ServiceJobDBUtil extends DatabaseAccess {
             recordItem.setFax(cursor.getString(21));
             recordItem.setTypeOfService(cursor.getString(22));
             recordItem.setSignaturePath(cursor.getString(23));
+            recordItem.setJobSite(cursor.getString(24));
+            recordItem.setCustomerName(cursor.getString(25));
         } else {
             recordItem = null;
         }
@@ -306,6 +334,8 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_SJ_WARRANTY_REPAIR, item.getWarrantyRepair());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_OTHERS, item.getOthers());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_SIGNATURE_NAME, item.getSignatureName());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_CUSTOMER_NAME, item.getCustomerName());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_JOB_SITE, item.getJobSite());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_TELEPHONE, item.getTelephone());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_FAX, item.getFax());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_TYPEOFSERVICE, item.getTypeOfService());
@@ -354,6 +384,8 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_SJ_WARRANTY_REPAIR, item.getWarrantyRepair());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_OTHERS, item.getOthers());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_SIGNATURE_NAME, item.getSignatureName());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_CUSTOMER_NAME, item.getCustomerName());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_JOB_SITE, item.getJobSite());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_TELEPHONE, item.getTelephone());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_FAX, item.getFax());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_TYPEOFSERVICE, item.getTypeOfService());

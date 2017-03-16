@@ -13,6 +13,10 @@
         android:label="Tests for com.marcohc.robotocalendar.test"
         android:targetPackage="com.marcohc.robotocalendar.test" />
 
+    <meta-data
+        android:name="android.support.VERSION"
+        android:value="25.3.0" />
+
     <application>
         <uses-library android:name="android.test.runner" />
     </application>

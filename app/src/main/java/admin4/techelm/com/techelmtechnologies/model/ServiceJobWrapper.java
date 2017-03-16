@@ -58,8 +58,11 @@ public class ServiceJobWrapper implements Parcelable {
     private String _signature_name;
 
     /** MY COLUMNS */
-    private String _telephone;
+    private String _customer_name;
+    private String _job_site;
     private String _fax;
+    private String _telephone;
+
     private String _race;
     private String _type_of_service;
     private String _signature_file_path;
@@ -89,9 +92,11 @@ public class ServiceJobWrapper implements Parcelable {
         _warranty_repair = in.readString();
         _others = in.readString();
         _signature_name = in.readString();
-        _telephone = in.readString();
+        _customer_name = in.readString();
+        _job_site = in.readString();
         _fax = in.readString();
-        _race = in.readString();
+        _telephone = in.readString();
+        _race = in.readString(); // FROM API not included
         _type_of_service = in.readString();
         _signature_file_path = in.readString();
     }
@@ -127,9 +132,11 @@ public class ServiceJobWrapper implements Parcelable {
         dest.writeString(_warranty_repair);
         dest.writeString(_others);
         dest.writeString(_signature_name);
-        dest.writeString(_telephone);
+        dest.writeString(_customer_name);
+        dest.writeString(_job_site);
         dest.writeString(_fax);
-        dest.writeString(_race);
+        dest.writeString(_telephone);
+        dest.writeString(_race); // FROM API not included
         dest.writeString(_type_of_service);
         dest.writeString(_signature_file_path);
     }
@@ -141,21 +148,31 @@ public class ServiceJobWrapper implements Parcelable {
 
     public String toString() {
         return "ID : " + this._id +
-                "\nDay : " + this._contract_servicing +
-                "\nStart Date : " + this._start_date +
-                "\nEnd Date : " + this._end_date +
                 "\nService Number : " + this._service_no +
+                "\nCustomer ID : " + this._customer_id +
                 "\nService ID : " + this._service_id +
-                "\nCustomer" + this._customer_id +
                 "\nEngineer : " + this._engineer_id +
-                "\nStatus : " + this._status +
-                "\nType of Service : " + this._price_id +
-                "\nTelephone : " + this._others +
-                "\nFax : " + this._signature_name +
+                "\nPrice ID : " + this._price_id +
+                "\nComplaints or Symptoms : " + this._complaints_or_symptoms +
+                "\nActions or Remarks : " + this._actions_or_remarks +
                 "\nEquipment Type : " + this._equipment_type +
                 "\nModel or Serial Number : " + this._model_or_serial_num +
-                "\nCompliants or Symptoms : " + this._complaints_or_symptoms +
-                "\nActions or Remarks : " + this._actions_or_remarks;
+                "\nStart Date : " + this._start_date +
+                "\nEnd Date : " + this._end_date+
+                "\nStatus : " + this._status +
+                "\nContract Servicing : " + this._contract_servicing +
+                "\nWarranty Servicing : " + this._warranty_servicing +
+                "\nCharges : " + this._charges +
+                "\nContract Repair : " + this._contract_repair +
+                "\nWarranty Repair : " + this._warranty_repair +
+                "\nOthers : " + this._others +
+                "\nSignature File Path : " + this._signature_file_path +
+                "\nCustomer Name : " + this._customer_name +
+                "\nJob Site : " + this._job_site +
+                "\nFax : " + this._fax +
+                "\nTelephone : " + this._telephone +
+                "\nType of Service : " + this._type_of_service
+        ;
     }
 
     /** GET AND SET METHOD */
@@ -263,19 +280,26 @@ public class ServiceJobWrapper implements Parcelable {
     }
 
     /** MY COLUMNS */
+    public String getCustomerName() {
+        return this._customer_name;
+    }
+    public void setCustomerName(String val) { this._customer_name = val; }
+
+    public String getJobSite() {
+        return this._job_site;
+    }
+    public void setJobSite(String val) { this._job_site = val; }
+
+    public String getFax() {
+        return this._fax;
+    }
+    public void setFax(String val) { this._fax = val; }
 
     public String getTelephone() {
         return this._telephone;
     }
     public void setTelephone(String val) {
         this._telephone = val;
-    }
-
-    public String getFax() {
-        return this._fax;
-    }
-    public void setFax(String val) {
-        this._fax = val;
     }
 
     public String getRace() { return this._race; }

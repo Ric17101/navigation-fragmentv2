@@ -81,17 +81,17 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerID());
+        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineer());
-        holder.textViewStatus.setText(serviceJobDataSet.getStatus());
-        holder.textViewStatus.setTextColor((serviceJobDataSet.getID()%2 == 1) ? Color.RED : Color.BLUE);
-        holder.textViewTask.setText((serviceJobDataSet.getID()%2 == 1) ?
-                Html.fromHtml("<u>Begin Task >></u>") :
-                Html.fromHtml("<u>Continue >></u>"));
-        // holder.textViewTask.setText(Html.fromHtml("<u>View</u>"));
-        holder.buttonTask.setImageResource((serviceJobDataSet.getID()%2 == 1) ? R.mipmap.begin_icon : R.mipmap.conti_icon);
+        holder.textViewStatus.setText(setStatus(serviceJobDataSet.getStatus()));
+        holder.textViewStatus.setTextColor(setColor(serviceJobDataSet.getStatus()));
+        holder.textViewTask.setText(Html.fromHtml(setTaskText(serviceJobDataSet.getStatus())));
+        if (serviceJobDataSet.getStatus() == "1")
+            holder.buttonTask.setVisibility(View.GONE);
+        holder.buttonTask.setImageResource(setIconTask(serviceJobDataSet.getStatus()));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
+
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
@@ -103,7 +103,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         return mDataSet.size();
     }
 
-    public static int getScreenHeight() {
+    private static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
@@ -115,6 +115,79 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
                 .setDuration(700)
                 .start();
     }
+    private String setStatus(String status) {
+        switch (status) {
+            /*
+                0 - Unsigned
+                1 - Completed
+                2 - Pending
+                3 - New - Begin Task
+                4 - Incomplete
+            * */
+            case "0" : status = "Unsigned";
+                break;
+            case "1" : status = "Completed";
+                break;
+            case "2" : status = "Pending";
+                break;
+            case "3" : status = "New";
+                break;
+            case "4" : status = "Incomplete";
+                break;
+            default : status = "";
+                break;
+        }
+        return status;
+    }
+
+    private int setColor(String status) {
+        switch (status) {
+            /*
+                0 - Unsigned
+                1 - Completed
+                2 - Pending
+                3 - New - Begin Task
+                4 - Incomplete
+            * */
+            case "1" : return Color.BLUE;
+            case "0" :
+            case "2" :
+            case "3" :
+            case "4" : return Color.RED;
+        }
+        return Color.BLACK;
+    }
+
+    private int setIconTask(String stringTask) {
+        switch (stringTask) {
+            case "2" :
+            case "4" : return R.mipmap.conti_icon;
+            case "0" :
+            case "3" : return R.mipmap.begin_icon;
+            case "1" :
+            default: return R.mipmap.uploaded_icon;
+        }
+    }
+
+    private String setTaskText(String taskText) {
+        switch (taskText) {
+            case "1" : taskText = "<b>Completed</b>";
+                break;
+            case "0" :
+            case "3" : taskText = "<u>Begin Task >></u>";
+                break;
+            case "2" :
+            case "4" : taskText = "<u>Continue >></u>";
+                break;
+            default : taskText = "";
+                break;
+        }
+        return taskText;
+    }
+
+    private boolean isCompleted(String status) {
+        return status.equals("1");
+    }
 
     public interface CallbackInterface {
 
@@ -122,9 +195,9 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
          * Callback invoked when clicked
          *
          * @param position - the position
-         * @param servicejob     - the text to pass back
+         * @param serviceJob - the text to pass back
          */
-        void onHandleSelection(int position, ServiceJobWrapper servicejob, int mode);
+        void onHandleSelection(int position, ServiceJobWrapper serviceJob, int mode);
     }
 
     public interface OnItemClickListener {
@@ -164,22 +237,15 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
 
             // ImageButton Links
             textViewTask = (TextView) view.findViewById(R.id.textViewTask);
-            //textViewTask.setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View v) {
-            /*if (v.getID() == buttonSpeakAlphabet.getID()) {
-                if (mCallback != null){
-                    mCallback.onHandleRecordingsSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 1);
-                    //Toast.makeText(v.getContext(), "TEST: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                }
-            } else*/
-
             if (v.getId() == buttonTask.getId() || v.getId() == textViewTask.getId()) {
                 if (mCallback != null) {
-                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
+                    if (!isCompleted(mDataSet.get(getAdapterPosition()).getStatus()))
+                        mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 4);
                 }
             }
 

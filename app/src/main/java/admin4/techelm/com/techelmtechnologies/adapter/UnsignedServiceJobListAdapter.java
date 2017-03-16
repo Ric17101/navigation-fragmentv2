@@ -80,7 +80,7 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
         holder.textViewDateNumber.setText(serviceJobDataSet.getEndDate());
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerID());
+        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineer());
         holder.textViewStatus.setText(serviceJobDataSet.getStatus());
         holder.textViewStatus.setTextColor((serviceJobDataSet.getID()%2 == 1) ? Color.RED : Color.BLUE);
