@@ -35,10 +35,10 @@ public class PopulateServiceJobViewDetails {
         TextView textViewRemarksActions = (TextView) vDialog.findViewById(R.id.textViewRemarksActions);
 
 
-        Log.e(TAG, "DATA: " + serviceJob.toString());
+        // Log.e(TAG, "DATA: " + serviceJob.toString());
         buttonViewDetails.setVisibility(visibility);
         textViewLabelCustomerName.setText(serviceJob.getCustomerName());
-        textViewLabelJobSite.setText(serviceJob.getActionsOrRemarks());
+        textViewLabelJobSite.setText(serviceJob.getJobSite());
         textViewLabelServiceNo.setText(serviceJob.getServiceNumber());
         textViewLabelTypeOfService.setText(serviceJob.getTypeOfService());
         textViewLabelTelephone.setText(serviceJob.getTelephone());

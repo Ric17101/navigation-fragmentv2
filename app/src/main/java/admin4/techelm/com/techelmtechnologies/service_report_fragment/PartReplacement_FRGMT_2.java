@@ -33,7 +33,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -77,7 +77,10 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private RecyclerView mUploadResultsList;
     private List<ServiceJobPartsWrapper> mUploadResults = null;
     private PartsDBUtil mPartsDB;
-    private CardView cardViewNewUpload;
+    private CardView cardViewNewUpload; // TODO: Test this if has content else donot show "New Replacement Part Added. with check"
+
+    private ImageButton mButtonViewUploadFileNew;
+    private ProgressBar mProgressBarUploadingNew;
 
     // SlidingPager Tab Set Up
     private static final String ARG_POSITION = "position";
@@ -106,6 +109,8 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         View view = inflater.inflate(R.layout.activity_part_replacement, container, false);
 
         this.mContext = container.getContext();
+
+        initSpinnerProgessBar(view);
         initButton(view);
 
         if (mServiceJobFromBundle != null) { // if Null don't show anything
@@ -131,6 +136,11 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         }
 
         return view;
+    }
+
+    private void initSpinnerProgessBar(View view) {
+        mProgressBarUploadingNew = (ProgressBar) view.findViewById(R.id.progressBarUploadingNew);
+        mProgressBarUploadingNew.setVisibility(View.GONE);
     }
 
     private void initButton(View view) {
@@ -175,8 +185,8 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         });
 
         /** BUTTON VIEW DETAILS */
-        ImageButton buttonViewUploadFile = (ImageButton) view.findViewById(R.id.buttonViewUploadFile);
-        buttonViewUploadFile.setOnClickListener(new View.OnClickListener() {
+        mButtonViewUploadFileNew = (ImageButton) view.findViewById(R.id.buttonViewUploadFileNew);
+        mButtonViewUploadFileNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*Snackbar.make(view, "Do something with the file uploaded", Snackbar.LENGTH_LONG)
@@ -369,12 +379,18 @@ public class PartReplacement_FRGMT_2 extends Fragment {
 
     private class ImageSaveOperation extends AsyncTask<CameraUtil, Void, ServiceJobPartsWrapper> {
         private CameraUtil camU;
+
+        @Override
+        protected void onPreExecute() {
+            mButtonViewUploadFileNew.setVisibility(View.GONE);
+            mProgressBarUploadingNew.setVisibility(View.VISIBLE);
+        }
+
         @Override
         protected ServiceJobPartsWrapper doInBackground(CameraUtil... params) {
             camU = params[0];
             if (camU.addJpgUploadToGallery(mBitmap, IMAGE_DIRECTORY)) {
-                // Save tp DB
-                ServiceJobPartsWrapper sjUp = new ServiceJobPartsWrapper();
+                ServiceJobPartsWrapper sjUp = new ServiceJobPartsWrapper(); // Prepare record data
                 sjUp.setPartName(camU.getFileName());
                 sjUp.setFilePath(camU.getFilePath());
                 sjUp.setServiceId(mServiceID);
@@ -387,16 +403,16 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         @Override
         protected void onPostExecute(ServiceJobPartsWrapper result) {
             if (result != null) {
-                mPartsDB.open();
-                mPartsDB.addUpload(result);
+                mPartsDB.open(); // Save data to DB
+                mPartsDB.addUpload(result, "FRAGMENT2");
                 mPartsDB.close();
+
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "Image saved into the Gallery: " + camU.getFilePath(),
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
 
                 populateUploadsCardList();
-                // Toast.makeText(PartReplacement_FRGMT_2.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
             } else {
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "Unable to store the signature",
@@ -404,10 +420,12 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                         .setAction("OK", null).show();
                 // Toast.makeText(PartReplacement_FRGMT_2.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
             }
-        }
 
-        @Override
-        protected void onPreExecute() {}
+            if (mProgressBarUploadingNew.isShown()) {
+                mButtonViewUploadFileNew.setVisibility(View.VISIBLE);
+                mProgressBarUploadingNew.setVisibility(View.GONE);
+            }
+        }
 
         @Override
         protected void onProgressUpdate(Void... values) {}

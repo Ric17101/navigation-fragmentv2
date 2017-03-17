@@ -714,18 +714,18 @@ public class ServiceReport_1 extends AppCompatActivity implements
     }
 
     @Override
-    public void onNewUploadsEntryAdded(String fileName) {
+    public void onNewUploadsDBEntryAdded(String fileName) {
         mCameraDialog.dismiss();
         populateUploadsCardList();
     }
 
     @Override
-    public void onUploadsEntryRenamed(String fileName) {
+    public void onUploadsDBEntryRenamed(String fileName) {
 
     }
 
     @Override
-    public void onUploadsEntryDeleted() {
+    public void onUploadsDBEntryDeleted() {
         populateUploadsCardList();
     }
 

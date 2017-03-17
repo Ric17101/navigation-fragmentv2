@@ -32,13 +32,13 @@ public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         System.out.print("ServiceJobFragmentPagerAdapter : This is from getITEM ");
         switch (position) {
-            case 0:
+            case 0 :
                 return ServiceReport_FRGMT_1.newInstance(position, this.mServiceJobFromBundle);
-            case 1:
+            case 1 :
+                return ServiceReport_FRGMT_1.newInstance(position, this.mServiceJobFromBundle);
+            case 2 :
                 return PartReplacement_FRGMT_2.newInstance(position, this.mServiceJobFromBundle);
-            case 2:
-                return AddReplacementPart_FRGMT_3.newInstance(position, this.mServiceJobFromBundle);
-            case 3:
+            case 3 :
                 return SigningOff_FRGMT_4.newInstance(position, this.mServiceJobFromBundle);
 
         }

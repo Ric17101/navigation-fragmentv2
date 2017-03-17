@@ -158,7 +158,7 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
         //webServiceInfo.addParam("password", password);
         // webServiceInfo.addParam("userId", "2");
 
-        /*post command*/
+        /*postStartDate command*/
         postCommand = new GetCommand(webServiceInfo);
 
         //mCallback.onHandleShowDetails("2");

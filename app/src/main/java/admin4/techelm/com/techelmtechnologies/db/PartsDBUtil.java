@@ -21,6 +21,17 @@ public class PartsDBUtil extends DatabaseAccess {
 
     private static final String LOG_TAG = "PartsDBUtil";
 
+    // TODO: Will be used if and only if momre than one fragments calss this
+    private int setFragmentState(String fragmentName) {
+        int fragmentState = 0;
+        if (fragmentName == "FRAGMENT1") {
+            fragmentState = 1;
+        } else if (fragmentName == "FRAGMENT2") {
+            fragmentState = 2;
+        }
+        return fragmentState;
+    }
+
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "servicejob_parts";
         public static final String COLUMN_NAME_PARTS_ID = "id";
@@ -153,7 +164,7 @@ public class PartsDBUtil extends DatabaseAccess {
     }
 
     // public int addUpload(String uploadName, String filePath, int serviceId) {
-    public int addUpload(ServiceJobPartsWrapper item) {
+    public int addUpload(ServiceJobPartsWrapper item, String fragmentName) {
 
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
@@ -182,7 +193,7 @@ public class PartsDBUtil extends DatabaseAccess {
         }
     }
 
-    public long restoreRecording(ServiceJobPartsWrapper item) {
+    public long restoreRecording(ServiceJobPartsWrapper item, String fragmentName) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_PARTS_NAME, item.getUploadName());

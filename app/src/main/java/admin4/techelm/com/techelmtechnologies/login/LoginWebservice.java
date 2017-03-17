@@ -32,7 +32,7 @@ public class LoginWebservice {
         webServiceInfo.addParam("password", password);
         webServiceInfo.addParam("userId", "2");
 
-        /*post command*/
+        /*postStartDate command*/
         postCommand = new PostCommand(webServiceInfo);
 
         /*request*/
@@ -58,7 +58,7 @@ public class LoginWebservice {
         webServiceInfo.addParam("password", password);
         webServiceInfo.addParam("userId", "2");
 
-        /*post command*/
+        /*postStartDate command*/
         postCommand = new PostCommand(webServiceInfo);
 
         /*request*/

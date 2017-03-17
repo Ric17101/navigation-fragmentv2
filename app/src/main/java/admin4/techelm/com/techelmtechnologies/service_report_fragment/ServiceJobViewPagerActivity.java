@@ -196,17 +196,15 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     @Override
     public void onNewUploadsEntryAdded(String fileName) {
-        getFragmentServiceReport().fromActivity_onNewUploadsEntryAdded(fileName);
         getFragmentPartReplacement().fromActivity_onNewUploadsEntryAdded(fileName);
     }
+
     @Override
     public void onUploadsEntryRenamed(String fileName) {
-        getFragmentServiceReport().fromActivity_onUploadsEntryRenamed(fileName);
         getFragmentPartReplacement().fromActivity_onUploadsEntryRenamed(fileName);
     }
     @Override
     public void onUploadsEntryDeleted() {
-        getFragmentServiceReport().fromActivity_onUploadsEntryDeleted();
         getFragmentPartReplacement().fromActivity_onUploadsEntryDeleted();
     }
     /*********** A. END CALLBACKS from ServiceReport_FRGMT_1 ***********/
@@ -230,6 +228,20 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     public void onHandleViewPartFromListSelection(ServiceJobPartsWrapper serviceJobPartWrapper) {
         getFragmentPartReplacement()
                 .fromActivity_onHandleViewPartFromListSelection(serviceJobPartWrapper);
+    }
+
+    @Override
+    public void onNewUploadsDBEntryAdded(String fileName) {
+        getFragmentServiceReport().fromActivity_onNewUploadsDBEntryAdded(fileName);
+    }
+
+    @Override
+    public void onUploadsDBEntryRenamed(String fileName) {
+        getFragmentServiceReport().fromActivity_onUploadsDBEntryRenamed(fileName);
+    }
+    @Override
+    public void onUploadsDBEntryDeleted() {
+        getFragmentServiceReport().fromActivity_onUploadsDBEntryDeleted();
     }
     /*********** B. CALLBACKS END from PartReplacement_FRGMT_2 ***********/
 

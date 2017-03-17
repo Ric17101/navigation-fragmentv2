@@ -199,7 +199,7 @@ public class CalendarServiceJobTask extends AsyncTask<Void, Void, List<ServiceJo
         //webServiceInfo.addParam("password", password);
         // webServiceInfo.addParam("userId", "2");
 
-        /*post command*/
+        /*postStartDate command*/
         getCommand = new GetCommand(webServiceInfo);
 
         //mCallback.onHandleShowDetails("2");

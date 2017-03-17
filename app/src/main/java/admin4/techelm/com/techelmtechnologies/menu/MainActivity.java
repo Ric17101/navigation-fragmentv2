@@ -12,11 +12,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -27,16 +24,16 @@ import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.fragment_sample.PrimaryFragment;
-import admin4.techelm.com.techelmtechnologies.fragment_sample.SentFragment;
 import admin4.techelm.com.techelmtechnologies.fragment_sample.TabFragment;
 import admin4.techelm.com.techelmtechnologies.login.LoginActivity2;
 import admin4.techelm.com.techelmtechnologies.service_report.ServiceReport_1;
-import admin4.techelm.com.techelmtechnologies.service_report.ViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.service_report_fragment.ServiceJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.servicejob.ServiceJobFragmentTab;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
+import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
 
 public class MainActivity extends FragmentActivity implements
         ServiceJobListAdapter.CallbackInterface,
@@ -256,18 +253,33 @@ public class MainActivity extends FragmentActivity implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        // TODO: Save ID and start time then save to server
-                        // TODO: Saving image use progress dialog or progress bar on the Camera UPLOAD
-                        startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                .putExtra(RECORD_JOB_SERVICE_KEY, serviceJob));
-                        overridePendingTransition(R.anim.enter, R.anim.exit);
+                        serviceJobStarTask(serviceJob);
                     }
                 }).build();
 
         new PopulateServiceJobViewDetails()
                 .populateServiceJobDetails(md.getCustomView(), serviceJob, View.GONE, TAG);
         md.show();
+    }
+
+    private void serviceJobStarTask(final ServiceJobWrapper serviceJob) {
+        ServiceJobBegin_POST beginServiceJob = new ServiceJobBegin_POST();
+        beginServiceJob.setOnEventListener(new ServiceJobBegin_POST.OnEventListener() {
+            @Override
+            public void onEvent() {
+                // TODO: Close progress dialog here
+                // TODO: Test Response if OK or not
+            }
+
+            @Override
+            public void onEventResult(WebResponse response) {
+                startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(RECORD_JOB_SERVICE_KEY, serviceJob));
+                overridePendingTransition(R.anim.enter, R.anim.exit);
+            }
+        });
+        beginServiceJob.postStartDate(serviceJob.getID());
     }
 
     /**

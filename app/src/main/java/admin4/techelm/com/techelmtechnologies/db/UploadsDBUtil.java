@@ -37,9 +37,9 @@ public class UploadsDBUtil extends DatabaseAccess {
      * Can be called outside the class as OnDatabaseChangedListener.java
      */
     public interface OnDatabaseChangedListener {
-        void onNewUploadsEntryAdded(String fileName);
-        void onUploadsEntryRenamed(String fileName);
-        void onUploadsEntryDeleted();
+        void onNewUploadsDBEntryAdded(String fileName);
+        void onUploadsDBEntryRenamed(String fileName);
+        void onUploadsDBEntryDeleted();
     }
     /**
      * Private constructor to avoid object creation from outside classes.
@@ -139,7 +139,7 @@ public class UploadsDBUtil extends DatabaseAccess {
                 DBHelperItem.COLUMN_NAME_UPLOADS_ID + "=?", whereArgs);
 
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onUploadsEntryDeleted();
+            mOnDatabaseChangedListener.onUploadsDBEntryDeleted();
         }
         Log.e(LOG_TAG, "addRecording " + id);
     }
@@ -165,7 +165,7 @@ public class UploadsDBUtil extends DatabaseAccess {
         long idInserted = db.insert(DBHelperItem.TABLE_NAME, null, cv);
         int rowId = (int)idInserted;
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onNewUploadsEntryAdded(item.getUploadName());
+            mOnDatabaseChangedListener.onNewUploadsDBEntryAdded(item.getUploadName());
         }
         return rowId;
     }
@@ -179,7 +179,7 @@ public class UploadsDBUtil extends DatabaseAccess {
                 DBHelperItem.COLUMN_NAME_UPLOADS_ID + "=" + item.getID(), null);
 
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onUploadsEntryRenamed(item.getUploadName());
+            mOnDatabaseChangedListener.onUploadsDBEntryRenamed(item.getUploadName());
         }
     }
 
@@ -192,7 +192,7 @@ public class UploadsDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_UPLOADS_ID, item.getID());
         long rowId = db.insert(DBHelperItem.TABLE_NAME, null, cv);
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onNewUploadsEntryAdded(item.getUploadName());
+            mOnDatabaseChangedListener.onNewUploadsDBEntryAdded(item.getUploadName());
         }
         return rowId;
     }

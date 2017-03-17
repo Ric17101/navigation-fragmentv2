@@ -2,6 +2,7 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 
 /**
  * Created by admin 4 on 16/02/2017.
+ * Services Rendered at the Recycler View after clicking Calendar Date
  */
 
 import android.content.Context;
@@ -134,6 +135,8 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
                 break;
             case "4" : status = "Incomplete";
                 break;
+            case "5" : status = "On Process";
+                break;
             default : status = "";
                 break;
         }
@@ -146,14 +149,16 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
                 0 - Unsigned
                 1 - Completed
                 2 - Pending
-                3 - New - Begin Task
+                3 - New
                 4 - Incomplete
+                5 - On Process
             * */
             case "1" : return Color.BLUE;
             case "0" :
             case "2" :
             case "3" :
-            case "4" : return Color.RED;
+            case "4" :
+            case "5" : return Color.RED;
         }
         return Color.BLACK;
     }
@@ -161,7 +166,8 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
     private int setIconTask(String stringTask) {
         switch (stringTask) {
             case "2" :
-            case "4" : return R.mipmap.conti_icon;
+            case "4" :
+            case "5" : return R.mipmap.conti_icon;
             case "0" :
             case "3" : return R.mipmap.begin_icon;
             case "1" :
@@ -178,6 +184,8 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
                 break;
             case "2" :
             case "4" : taskText = "<u>Continue >></u>";
+                break;
+            case "5" : taskText = "<b>On Process</b>";
                 break;
             default : taskText = "";
                 break;

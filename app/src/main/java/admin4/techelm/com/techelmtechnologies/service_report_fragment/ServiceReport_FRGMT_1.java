@@ -26,11 +26,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +38,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -99,6 +98,9 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
     private List<ServiceJobUploadsWrapper> mUploadResults = null;
     private UploadsDBUtil mUploadsDB;
 
+    private ImageButton mButtonViewUploadImage;
+    private ProgressBar mProgressBarUploading;
+
     // C. Recording controls
     private MaterialDialog mRecordingDialog;
     private FloatingActionButton mRecordButton = null;
@@ -146,6 +148,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
 
         this.mContext = container.getContext();
 
+        initSpinnerProgessBar(view);
         initButton(view);
         initPermission();
 
@@ -179,6 +182,11 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         }
 
         return view;
+    }
+
+    private void initSpinnerProgessBar(View view) {
+        mProgressBarUploading = (ProgressBar) view.findViewById(R.id.progressBarUploading);
+        mProgressBarUploading.setVisibility(View.GONE);
     }
 
     private void initPermission() {
@@ -228,12 +236,10 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         });
 
         /** BUTTON UPLOAD CAPTURED IMAGE */
-        ImageButton buttonViewUploadImage = (ImageButton) view.findViewById(R.id.buttonViewUploadImage);
-        buttonViewUploadImage.setOnClickListener(new View.OnClickListener() {
+        mButtonViewUploadImage = (ImageButton) view.findViewById(R.id.buttonViewUploadImage);
+        mButtonViewUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Snackbar.make(view, "Do something with the captured image.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
             mCameraDialog = showCameraDialog();
             }
         });
@@ -243,8 +249,6 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         buttonViewUploadVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Snackbar.make(view, "Do something with the voice recorded.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
                 mRecordingDialog = showRecordingDialog();
                 initRecordingView(mRecordingDialog.getView());
             }
@@ -436,11 +440,18 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
 
     private class ImageSaveOperation extends AsyncTask<CameraUtil, Void, ServiceJobUploadsWrapper> {
         private CameraUtil camU;
+
+        @Override
+        protected void onPreExecute() {
+            mButtonViewUploadImage.setVisibility(View.GONE);
+            mProgressBarUploading.setVisibility(View.VISIBLE);
+        }
+
         @Override
         protected ServiceJobUploadsWrapper doInBackground(CameraUtil... params) {
             camU = params[0];
             if (camU.addJpgUploadToGallery(mBitmap, IMAGE_DIRECTORY)) {
-                // Save tp DB
+                // Prepare Data for DB
                 ServiceJobUploadsWrapper sjUp = new ServiceJobUploadsWrapper();
                 sjUp.setUploadName(camU.getFileName());
                 sjUp.setFilePath(camU.getFilePath());
@@ -452,27 +463,29 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         }
 
         @Override
-        protected void onPostExecute(ServiceJobUploadsWrapper result) {
-            if (result != null) {
-                mUploadsDB.open();
-                mUploadsDB.addUpload(result);
+        protected void onPostExecute(ServiceJobUploadsWrapper sjUP) {
+            if (sjUP != null) {
+
+                mUploadsDB.open(); // Save Upload to DB as record and runon UIThread
+                mUploadsDB.addUpload(sjUP);
                 mUploadsDB.close();
+
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "Image saved into the Gallery: " + camU.getFilePath(),
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
-                // Toast.makeText(ServiceReport_FRGMT_1.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
             } else {
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "Unable to store the signature",
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
-                // Toast.makeText(ServiceReport_FRGMT_1.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
+            }
+
+            if (mProgressBarUploading.isShown()) {
+                mButtonViewUploadImage.setVisibility(View.VISIBLE);
+                mProgressBarUploading.setVisibility(View.GONE);
             }
         }
-
-        @Override
-        protected void onPreExecute() {}
 
         @Override
         protected void onProgressUpdate(Void... values) {}
@@ -547,6 +560,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         return outputFileUri;
     }
 
+    /** Show image on the dialog*/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap bitmap;
@@ -669,6 +683,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         return true;
     }
 
+    // TODO: Study on how to implement separate listerner
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this.mContext)
                 .setMessage(message)
@@ -716,20 +731,19 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         }
     }
 
-    public void fromActivity_onNewUploadsEntryAdded(String fileName) {
-        mCameraDialog.dismiss();
+    public void fromActivity_onNewUploadsDBEntryAdded(String fileName) {
+        if (mCameraDialog != null)
+            if (mCameraDialog.isShowing())
+                mCameraDialog.dismiss();
         populateUploadsCardList();
     }
-    public void fromActivity_onUploadsEntryRenamed(String fileName) {
-
-    }
-    public void fromActivity_onUploadsEntryDeleted() {
+    public void fromActivity_onUploadsDBEntryRenamed(String fileName) { }
+    public void fromActivity_onUploadsDBEntryDeleted() {
         populateUploadsCardList();
     }
 
     public void fromActivity_onHandleUploadsSelection(
-            int position, ServiceJobUploadsWrapper serviceJobRecordingWrapper, int mode) {
-    }
+            int position, ServiceJobUploadsWrapper serviceJobRecordingWrapper, int mode) { }
     public void fromActivity_onHandleViewUploadFromListSelection(
             ServiceJobUploadsWrapper serviceJobRecordingWrapper) {
         showUploadDialog(serviceJobRecordingWrapper);
@@ -764,8 +778,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
     /*********** B. END CAMERA SETUP ***********/
 
 
-    /*********** C. SOUND RECORDING
-     * @param view***********/
+    /*********** C. SOUND RECORDING ***********/
     public void setUpRecordingsRecyclerView(View view) {
         mRecordResultsList = (RecyclerView) view.findViewById(R.id.recording_results_service_job_list);
     }
@@ -975,7 +988,8 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
     }
 
     public void fromActivity_onNewRecordingsEntryAdded(String fileName) {
-        mRecordingDialog.dismiss();
+        if (mRecordingDialog.isShowing())
+            mRecordingDialog.dismiss();
         Snackbar.make(getActivity().findViewById(android.R.id.content),
                 "Recording " + fileName + " has been added.",
                 Snackbar.LENGTH_LONG)
@@ -995,7 +1009,8 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
     public void fromActivity_onRecordingsEntryDeleted() {
         /*Toast.makeText(ServiceReport_FRGMT_1.this, "Delete successful.",
                 Toast.LENGTH_SHORT).show();*/
-        mRecordingDialog.dismiss();
+        if (mRecordingDialog.isShowing())
+            mRecordingDialog.dismiss();
         Snackbar.make(getActivity().findViewById(android.R.id.content),
                 "Delete successful.",
                 Snackbar.LENGTH_LONG)

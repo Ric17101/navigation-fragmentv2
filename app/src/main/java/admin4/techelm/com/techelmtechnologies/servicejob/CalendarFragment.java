@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -229,7 +228,7 @@ public class CalendarFragment extends Fragment implements
         Button markDayButton = (Button) view.findViewById(R.id.markDayButton);
 
         /*Calendar calendar = Calendar.getInstance();
-        new CalendarServiceJobDatesDots_POST().post(Calendar.MONTH + 1, calendar.get(Calendar.YEAR));*/
+        new CalendarServiceJobDatesDots_POST().postStartDate(Calendar.MONTH + 1, calendar.get(Calendar.YEAR));*/
 
         displayDotsPerMonth("setUpCalendarView");
         renderListFromCalendar(Calendar.getInstance());
@@ -338,7 +337,7 @@ public class CalendarFragment extends Fragment implements
             webServiceInfo.addParam("month", month+"");
             webServiceInfo.addParam("year", year+"");
 
-        /*post command*/
+        /*postStartDate command*/
             postCommand = new PostCommand(webServiceInfo);
 
         /*request*/
@@ -679,7 +678,7 @@ public class CalendarFragment extends Fragment implements
             //webServiceInfo.addParam("password", password);
             // webServiceInfo.addParam("userId", "2");
 
-            /*post command*/
+            /*postStartDate command*/
             getCommand = new GetCommand(webServiceInfo);
 
             //mCallback.onHandleShowDetails("2");

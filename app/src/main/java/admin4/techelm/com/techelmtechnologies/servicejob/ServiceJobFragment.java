@@ -114,7 +114,7 @@ public class ServiceJobFragment extends Fragment implements
         if (results == null) { // If Data is Null then fetch the Data List again
 //            UpdateJobServiceTask task = new UpdateJobServiceTask(this.getView());
 //            task.execute("");
-            populateCardList();
+            // populateCardList();
         } else { // Restore the Data List again
             mListAdapter.swapData(results);
         }
@@ -191,7 +191,7 @@ public class ServiceJobFragment extends Fragment implements
 
     private void collapseCalendarPanel(SlidingUpPanelLayout.PanelState state) {
         mLayout.setPanelState(state);
-        // displayDotsPerMonth("setUpCalendarView"); //new CalendarServiceJobDatesDots_POST().post(Calendar.MONTH + 1, Calendar.getInstance().get(Calendar.YEAR));
+        // displayDotsPerMonth("setUpCalendarView"); //new CalendarServiceJobDatesDots_POST().postStartDate(Calendar.MONTH + 1, Calendar.getInstance().get(Calendar.YEAR));
     }
 
     private void renderListFromCalendar(Calendar daySelectedCalendar) {
@@ -260,7 +260,7 @@ public class ServiceJobFragment extends Fragment implements
             webServiceInfo.addParam("month", month+"");
             webServiceInfo.addParam("year", year+"");
 
-        /*post command*/
+        /*postStartDate command*/
             postCommand = new PostCommand(webServiceInfo);
 
         /*request*/
@@ -564,7 +564,7 @@ public class ServiceJobFragment extends Fragment implements
             //webServiceInfo.addParam("password", password);
             // webServiceInfo.addParam("userId", "2");
 
-            /*post command*/
+            /*postStartDate command*/
             getCommand = new GetCommand(webServiceInfo);
 
             //mCallback.onHandleShowDetails("2");

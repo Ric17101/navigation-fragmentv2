@@ -32,7 +32,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -170,7 +169,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
         });
 
         /** BUTTON VIEW DETAILS */
-        ImageButton buttonViewUploadFile = (ImageButton) findViewById(R.id.buttonViewUploadFile);
+        ImageButton buttonViewUploadFile = (ImageButton) findViewById(R.id.buttonViewUploadFileNew);
         buttonViewUploadFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -382,7 +381,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
         protected void onPostExecute(ServiceJobPartsWrapper result) {
             if (result != null) {
                 mPartsDB.open();
-                mPartsDB.addUpload(result);
+                mPartsDB.addUpload(result, "FRAGMENT2");
                 mPartsDB.close();
                 Snackbar.make(findViewById(android.R.id.content),
                         "Image saved into the Gallery: " + camU.getFilePath(),
