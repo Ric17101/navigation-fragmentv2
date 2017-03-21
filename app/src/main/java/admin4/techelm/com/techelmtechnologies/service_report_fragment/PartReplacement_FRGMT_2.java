@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -30,10 +29,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -47,14 +47,16 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
-import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 
 public class PartReplacement_FRGMT_2 extends Fragment {
 
     private static final String TAG = "PartReplacement_FRGMT_2";
+    private static final String ADD_NEW_PART_REPLACEMENT = "CREATE";
+    private static final String UPDATE_NEW_PART_REPLACEMENT = "UPDATE";
+    private String actionNewReplacement = "";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
     private Context mContext;
 
@@ -66,8 +68,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
 
     // B. CAMERA Controls
     private static final String IMAGE_DIRECTORY = "part_replacement";
-    private MaterialDialog mCameraDialog;
-    private Bitmap mBitmap;
+
     private Uri mPicUri;
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -75,7 +76,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private final static int ALL_PERMISSIONS_RESULT = 107;
     private ServiceJobPartsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
-    private List<ServiceJobPartsWrapper> mUploadResults = null;
+    private List<ServiceJobNewPartsWrapper> mUploadResults = null;
     private PartsDBUtil mPartsDB;
     private CardView cardViewNewUpload; // TODO: Test this if has content else donot show "New Replacement Part Added. with check"
 
@@ -85,6 +86,15 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     // SlidingPager Tab Set Up
     private static final String ARG_POSITION = "position";
     private int position;
+
+    // B.1 Form New Replacement Part
+    private MaterialDialog mNewPartDialog;
+    private Spinner mSpinnerReplacementParts;
+    private Spinner mSpinnerQuantity;
+    private Spinner mSpinnerUnitPrice;
+    private Spinner mSpinnerTotalPrice;
+    private CardView mCardViewNewUpload;
+    private ServiceJobNewPartsWrapper mSJPart; // Specifically, we use this global as per Update only of SJNew Parts
 
     public static PartReplacement_FRGMT_2 newInstance(int position, ServiceJobWrapper serviceJob) {
         PartReplacement_FRGMT_2 frag = new PartReplacement_FRGMT_2();
@@ -109,7 +119,8 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         View view = inflater.inflate(R.layout.activity_part_replacement, container, false);
 
         this.mContext = container.getContext();
-
+        initNewPartsView(view);
+        initNewPartsAddedView(view);
         initSpinnerProgessBar(view);
         initButton(view);
 
@@ -134,7 +145,6 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                 populateUploadsCardList();
             }
         }
-
         return view;
     }
 
@@ -175,6 +185,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         ImageButton buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
         if (!buttonViewDetails.isShown())
             buttonViewDetails.setVisibility(View.VISIBLE);
+
         buttonViewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,20 +195,21 @@ public class PartReplacement_FRGMT_2 extends Fragment {
             }
         });
 
-        /** BUTTON VIEW DETAILS */
+        /** BUTTON UPLOAD NEW REPLACEMENT PART */
         mButtonViewUploadFileNew = (ImageButton) view.findViewById(R.id.buttonViewUploadFileNew);
         mButtonViewUploadFileNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Snackbar.make(view, "Do something with the file uploaded", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                mCameraDialog = showCameraDialog();
+                actionNewReplacement = ADD_NEW_PART_REPLACEMENT;
+                setSpinnerValue("Part 2", "3", "some value", "some value"); // Populate Spinners before showing
+                mNewPartDialog.show(); // Initialize at onCreate
             }
         });
     }
 
 
     /*********** A. SERVICE DETAILS ***********/
+    // THIS IS DONE FROM PopulateServiceJobViewDetails()
     /*@Override
     public void onNewSJEntryAdded(String serviceNum) {
 
@@ -249,8 +261,336 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     /*********** A. END SERVICE DETAILS ***********/
 
 
-    /*********** B. CAMERA SETUP
-     * @param view***********/
+    /*********** B.1 NEW REPLACEMENT PART DAILOG SETUP ***********/
+    private void initNewPartsAddedView(View view) {
+        mCardViewNewUpload = (CardView) view.findViewById(R.id.cardViewNewUpload);
+        mCardViewNewUpload.setVisibility(View.GONE);
+    }
+
+    private void initNewPartsView(View view) {
+        mNewPartDialog = initNewPartDialog();
+        View dialogView = mNewPartDialog.getCustomView();
+        mSpinnerReplacementParts = (Spinner) dialogView.findViewById(R.id.spinnerReplacementParts);
+        mSpinnerQuantity = (Spinner) dialogView.findViewById(R.id.spinnerQuantity);
+        mSpinnerUnitPrice = (Spinner) dialogView.findViewById(R.id.spinnerUnitPrice);
+        mSpinnerTotalPrice = (Spinner) dialogView.findViewById(R.id.spinnerTotalPrice);
+    }
+
+    private void actionNewPartReplacement(MaterialDialog dialog) {
+        dialog.dismiss();
+        Snackbar.make(getActivity().findViewById(android.R.id.content), "Save new part", Snackbar.LENGTH_LONG)
+                .setAction("OK", null).show();
+        new NewPartsCreateOperation().execute(
+                mSpinnerReplacementParts.getSelectedItem().toString(),
+                mSpinnerQuantity.getSelectedItem().toString(),
+                mSpinnerUnitPrice.getSelectedItem().toString(),
+                mSpinnerTotalPrice.getSelectedItem().toString()
+        );
+    }
+
+    private void actionUpdatePartReplacement(MaterialDialog dialog) {
+        dialog.dismiss();
+        Snackbar.make(getActivity().findViewById(android.R.id.content), "Save new part", Snackbar.LENGTH_LONG)
+                .setAction("OK", null).show();
+        mSJPart.setReplacementPartName(mSpinnerReplacementParts.getSelectedItem().toString());
+        mSJPart.setQuantity(mSpinnerQuantity.getSelectedItem().toString());
+        mSJPart.setUnitPrice(mSpinnerUnitPrice.getSelectedItem().toString());
+        mSJPart.setTotalPrice(mSpinnerTotalPrice.getSelectedItem().toString());
+        new NewPartsUpdateOperation().execute(mSJPart);
+    }
+
+    private MaterialDialog initNewPartDialog() {
+        boolean wrapInScrollView = false;
+        MaterialDialog md = new MaterialDialog.Builder(this.mContext)
+                .title("NEW REPLACEMENT PART")
+                .customView(R.layout.i_new_replacement_part, wrapInScrollView)
+                .negativeText("Save")
+                .positiveText("Close")
+                .iconRes(R.mipmap.replacepart_icon) // android:background="@mipmap/replacepart_icon"
+                .autoDismiss(false)
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        startActivityForResult(getPickImageChooserIntent(), 200);
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        if (actionNewReplacement.equals(ADD_NEW_PART_REPLACEMENT)) {
+                            actionNewPartReplacement(dialog);
+                            showCheckNewReplacementPartAdded();
+                        } else if (actionNewReplacement.equals(UPDATE_NEW_PART_REPLACEMENT)){
+                            actionUpdatePartReplacement(dialog);
+                        }
+                    }
+
+                    private void showCheckNewReplacementPartAdded() {
+                        new UIShowAddSuccessTask().execute((Void) null);
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).build();
+        return md;
+    }
+
+    private void setSpinnerValue(String ...spinnerArgs) {
+        populateSpinnerPartsValue(spinnerArgs[0]);
+        populateSpinnerQuantityValue(spinnerArgs[1]);
+        populateSpinnerUnitPriceValue(spinnerArgs[2]);
+        populateSpinnerTotalPriceValue(spinnerArgs[3]);
+    }
+
+    private void populateSpinnerPartsValue(String compareValue) {
+        // 1. Replacement Parts
+        ArrayList<String> newPartsList = new ArrayList<>();
+        newPartsList.add("Part 1");
+        newPartsList.add("Part 2");
+        newPartsList.add("Part 3");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, newPartsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerReplacementParts.setAdapter(adapter);
+        if (!compareValue.equals(null)) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            mSpinnerReplacementParts.setSelection(spinnerPosition);
+        }
+    }
+
+    private void populateSpinnerQuantityValue(String compareValue) {
+        // 2. Quantity
+        ArrayList<String> newPartsList = new ArrayList<>();
+        newPartsList.add("1");
+        newPartsList.add("2");
+        newPartsList.add("3");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, newPartsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerQuantity.setAdapter(adapter);
+        if (!compareValue.equals(null)) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            mSpinnerQuantity.setSelection(spinnerPosition);
+        }
+    }
+
+    private void populateSpinnerUnitPriceValue(String compareValue) {
+        // 3. Unit Price
+        ArrayList<String> newPartsList = new ArrayList<>();
+        newPartsList.add("5000");
+        newPartsList.add("10000");
+        newPartsList.add("15000");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, newPartsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerUnitPrice.setAdapter(adapter);
+        if (!compareValue.equals(null)) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            mSpinnerUnitPrice.setSelection(spinnerPosition);
+        }
+    }
+
+    private void populateSpinnerTotalPriceValue(String compareValue) {
+        // 4. Total Price
+        ArrayList<String> newPartsList = new ArrayList<>();
+        newPartsList.add("10000");
+        newPartsList.add("20000");
+        newPartsList.add("30000");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, newPartsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerTotalPrice.setAdapter(adapter);
+        if (!compareValue.equals(null)) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            mSpinnerTotalPrice.setSelection(spinnerPosition);
+        }
+    }
+
+    private class NewPartsUpdateOperation extends AsyncTask<ServiceJobNewPartsWrapper, Void, ServiceJobNewPartsWrapper> {
+        @Override
+        protected void onPreExecute() {
+            mButtonViewUploadFileNew.setVisibility(View.GONE);
+            mProgressBarUploadingNew.setVisibility(View.VISIBLE);
+        }
+        @Override
+        protected ServiceJobNewPartsWrapper doInBackground(ServiceJobNewPartsWrapper... newPartsArgs) {
+            if (newPartsArgs.length != 0) {
+                ServiceJobNewPartsWrapper sjUp = newPartsArgs[0]; // Prepare record data
+                Log.d(TAG, sjUp.toString());
+                return sjUp;
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ServiceJobNewPartsWrapper result) {
+            if (result != null) {
+                mPartsDB.open(); // Save data to DB
+                mPartsDB.editPart(result, "FRAGMENT2");
+                mPartsDB.close();
+
+                Snackbar.make(getActivity().findViewById(android.R.id.content),
+                        "Replacement Updated",
+                        Snackbar.LENGTH_LONG)
+                        .setAction("OK", null).show();
+
+                populateUploadsCardList();
+            } else {
+                Snackbar.make(getActivity().findViewById(android.R.id.content),
+                        "Unable to store the signature",
+                        Snackbar.LENGTH_LONG)
+                        .setAction("OK", null).show();
+            }
+
+            if (mProgressBarUploadingNew.isShown()) {
+                mButtonViewUploadFileNew.setVisibility(View.VISIBLE);
+                mProgressBarUploadingNew.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
+    }
+
+    private class NewPartsCreateOperation extends AsyncTask<String, Void, ServiceJobNewPartsWrapper> {
+        @Override
+        protected void onPreExecute() {
+            mButtonViewUploadFileNew.setVisibility(View.GONE);
+            mProgressBarUploadingNew.setVisibility(View.VISIBLE);
+        }
+        @Override
+        protected ServiceJobNewPartsWrapper doInBackground(String... newPartsArgs) {
+            if (newPartsArgs.length != 0) {
+                ServiceJobNewPartsWrapper sjUp = new ServiceJobNewPartsWrapper(); // Prepare record data
+                sjUp.setServiceId(mServiceID);
+                sjUp.setReplacementPartName(newPartsArgs[0]);
+                sjUp.setQuantity(newPartsArgs[1]);
+                sjUp.setUnitPrice(newPartsArgs[2]);
+                sjUp.setTotalPrice(newPartsArgs[3]);
+                return sjUp;
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ServiceJobNewPartsWrapper result) {
+            if (result != null) {
+                mPartsDB.open(); // Save data to DB
+                mPartsDB.addNewPart(result, "FRAGMENT2");
+                mPartsDB.close();
+
+                Snackbar.make(getActivity().findViewById(android.R.id.content),
+                        "New Replacement Added.",
+                        Snackbar.LENGTH_LONG)
+                        .setAction("OK", null).show();
+
+                populateUploadsCardList();
+            } else {
+                Snackbar.make(getActivity().findViewById(android.R.id.content),
+                        "Unable to store the signature",
+                        Snackbar.LENGTH_LONG)
+                        .setAction("OK", null).show();
+            }
+
+            if (mProgressBarUploadingNew.isShown()) {
+                mButtonViewUploadFileNew.setVisibility(View.VISIBLE);
+                mProgressBarUploadingNew.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
+    }
+
+
+    private void showUploadDialog(ServiceJobNewPartsWrapper sjParts) {
+        this.mSJPart = sjParts;
+        setSpinnerValue(sjParts.getPartName(), sjParts.getQuantity(), sjParts.getUnitPrice(), sjParts.getTotalPrice());
+        actionNewReplacement = UPDATE_NEW_PART_REPLACEMENT; // Set action whether to Update or Add
+        mNewPartDialog.show();
+    }
+
+    public void fromActivity_onNewPartsEntryAdded(String fileName) {
+        populateUploadsCardList();
+    }
+    public void fromActivity_onPartsEntryRenamed(String fileName) {
+
+    }
+    public void fromActivity_onPartsEntryDeleted() {
+        populateUploadsCardList();
+    }
+
+
+    public void fromActivity_onHandlePartsSelection(
+            int position, ServiceJobNewPartsWrapper serviceJobNewPartsWrapper, int mode) {
+
+    }
+    public void fromActivity_onHandleDeletePartsFromListSelection(final int id) {
+        new MaterialDialog.Builder(this.mContext)
+                .title("COMFIRM DELETE REPLACEMENT PART.")
+                .positiveText("Delete")
+                .negativeText("Close")
+                .iconRes(R.mipmap.del_icon)
+                .autoDismiss(false)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mPartsDB = new PartsDBUtil(getActivity());
+                        mPartsDB.open();
+                        mPartsDB.removeItemWithId(id);
+                        mPartsDB.close();
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+    public void fromActivity_onHandleViewPartFromListSelection(ServiceJobNewPartsWrapper serviceJobPartWrapper) {
+        showUploadDialog(serviceJobPartWrapper);
+    }
+
+
+    // Show the SuccessPrompt within 5 seconds
+    public class UIShowAddSuccessTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            mCardViewNewUpload.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                // Simulate network access.
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mCardViewNewUpload.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
+    }
+    /*********** B.1 END NEW REPLACEMENT PART SETUP ***********/
+
+
+
+    /*********** B. CAMERA SETUP ***********/
     public void setUpUploadsRecyclerView(View view) {
         mUploadResultsList = (RecyclerView) view.findViewById(R.id.upload_file_results_service_job_list);
     }
@@ -281,154 +621,6 @@ public class PartReplacement_FRGMT_2 extends Fragment {
 
             }
         });*/
-    }
-
-    public MaterialDialog showUploadDialog2(ServiceJobPartsWrapper serviceJobRecordingWrapper) {
-        boolean wrapInScrollView = false;
-        MaterialDialog md = new MaterialDialog.Builder(this.mContext)
-                .title("CAPTURED IMAGE.")
-                .customView(R.layout.m_service_report_image_view, wrapInScrollView)
-                .positiveText("Close")
-                .iconRes(R.mipmap.ic_media_camera)
-                .autoDismiss(false)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-
-        // Setting image View based on the FilePath
-        ImageView MyImageView = (ImageView) md.findViewById(R.id.imageViewUpload);
-        Drawable d = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
-                serviceJobRecordingWrapper.getUploadName());
-        MyImageView.setImageDrawable(d);
-
-        return md;
-    }
-
-    private void showUploadDialog(final ServiceJobPartsWrapper serviceJobRecordingWrapper) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.mContext);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        final AlertDialog dialog = builder.create();
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialogLayout = inflater.inflate(R.layout.m_service_report_image_view, null);
-        dialog.setView(dialogLayout);
-        dialog.setTitle("IMAGE CAPTURED");
-        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        ImageView image = (ImageView) dialogLayout.findViewById(R.id.imageViewUpload);
-        Drawable draw = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
-                serviceJobRecordingWrapper.getUploadName());
-        image.setImageDrawable(draw);
-
-        dialog.show();
-    }
-
-
-    public MaterialDialog showCameraDialog() {
-        final CameraUtil camU = new CameraUtil(getActivity(), "PART");
-        boolean wrapInScrollView = false;
-        MaterialDialog md = new MaterialDialog.Builder(this.mContext)
-                .title("UPLOAD IMAGE.")
-                .customView(R.layout.m_service_report_camera, wrapInScrollView)
-                .neutralText("Capture")
-                .negativeText("Save")
-                .positiveText("Close")
-                .iconRes(R.mipmap.ic_media_camera)
-                .autoDismiss(false)
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        startActivityForResult(getPickImageChooserIntent(), 200);
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        if (mBitmap != null && mPicUri != null) {
-                            PartReplacement_FRGMT_2.ImageSaveOperation ops = new PartReplacement_FRGMT_2.ImageSaveOperation();
-                            ops.execute(camU);
-
-                            dialog.dismiss();
-                        } else {
-                            // Toast.makeText(PartReplacement_FRGMT_2.this, "No image to save", Toast.LENGTH_LONG).show();
-                            Snackbar.make(getActivity().findViewById(android.R.id.content), "No image to save", Snackbar.LENGTH_LONG)
-                                    .setAction("OK", null).show();
-                        }
-                    }
-                })
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
-                        // mSignaturePad.clear();
-                        mBitmap = null;
-                        mPicUri = null;
-                        dialog.dismiss();
-                    }
-                }).show();
-        return md;
-    }
-
-    private class ImageSaveOperation extends AsyncTask<CameraUtil, Void, ServiceJobPartsWrapper> {
-        private CameraUtil camU;
-
-        @Override
-        protected void onPreExecute() {
-            mButtonViewUploadFileNew.setVisibility(View.GONE);
-            mProgressBarUploadingNew.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected ServiceJobPartsWrapper doInBackground(CameraUtil... params) {
-            camU = params[0];
-            if (camU.addJpgUploadToGallery(mBitmap, IMAGE_DIRECTORY)) {
-                ServiceJobPartsWrapper sjUp = new ServiceJobPartsWrapper(); // Prepare record data
-                sjUp.setPartName(camU.getFileName());
-                sjUp.setFilePath(camU.getFilePath());
-                sjUp.setServiceId(mServiceID);
-                return sjUp;
-            } else {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ServiceJobPartsWrapper result) {
-            if (result != null) {
-                mPartsDB.open(); // Save data to DB
-                mPartsDB.addUpload(result, "FRAGMENT2");
-                mPartsDB.close();
-
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "Image saved into the Gallery: " + camU.getFilePath(),
-                        Snackbar.LENGTH_LONG)
-                        .setAction("OK", null).show();
-
-                populateUploadsCardList();
-            } else {
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "Unable to store the signature",
-                        Snackbar.LENGTH_LONG)
-                        .setAction("OK", null).show();
-                // Toast.makeText(PartReplacement_FRGMT_2.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
-            }
-
-            if (mProgressBarUploadingNew.isShown()) {
-                mButtonViewUploadFileNew.setVisibility(View.VISIBLE);
-                mProgressBarUploadingNew.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
     }
 
     /**
@@ -502,32 +694,8 @@ public class PartReplacement_FRGMT_2 extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap bitmap;
         if (resultCode == Activity.RESULT_OK) {
-            ImageView imageView = (ImageView) mCameraDialog.getCustomView().findViewById(R.id.imageViewCamera);
-            if (getPickImageResultUri(data) != null) {
-                mPicUri = getPickImageResultUri(data);
-                try {
-                    mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mPicUri);
-                    // mBitmap = rotateImageIfRequired(mBitmap, mPicUri);
-                    // mBitmap = getResizedBitmap(mBitmap, 500);
 
-                    /*CircleImageView croppedImageView = (CircleImageView) mCameraDialog.getCustomView().findViewById(R.id.img_profile);
-                    croppedImageView.setImageBitmap(mBitmap);*/
-                    imageView.setImageBitmap(mBitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                bitmap = (Bitmap) data.getExtras().get("data");
-
-                mBitmap = bitmap;
-                /*CircleImageView croppedImageView = (CircleImageView) mCameraDialog.getCustomView().findViewById(R.id.img_profile);
-                if (croppedImageView != null) {
-                    croppedImageView.setImageBitmap(mBitmap);
-                }*/
-                imageView.setImageBitmap(mBitmap);
-            }
         }
     }
 
@@ -586,33 +754,6 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         return isCamera ? getCaptureImageOutputUri() : data.getData();
     }
 
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        // save file url in bundle as it will be null on scren orientation
-        // changes
-        outState.putParcelable("pic_uri", mPicUri);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        // get the file url
-        mPicUri = savedInstanceState.getParcelable("pic_uri");
-    }*/
-
-    private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
-        ArrayList<String> result = new ArrayList<String>();
-        for (String perm : wanted) {
-            /*if (!hasPermission(perm)) {
-                result.add(perm);
-            }*/
-        }
-        return result;
-    }
-
     private boolean hasPermission(String permission) {
         if (canMakeSmores()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -667,50 +808,6 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                 }
                 break;
         }
-    }
-
-    public void fromActivity_onNewUploadsEntryAdded(String fileName) {
-        populateUploadsCardList();
-    }
-    public void fromActivity_onUploadsEntryRenamed(String fileName) {
-
-    }
-    public void fromActivity_onUploadsEntryDeleted() {
-        populateUploadsCardList();
-    }
-
-
-    public void fromActivity_onHandlePartsSelection(
-            int position, ServiceJobPartsWrapper serviceJobPartsWrapper, int mode) {
-
-    }
-    public void fromActivity_onHandleDeletePartsFromListSelection(final int id) {
-        new MaterialDialog.Builder(this.mContext)
-                .title("COMFIRM DELETE IMAGE.")
-                .positiveText("Delete")
-                .negativeText("Close")
-                .iconRes(R.mipmap.del_icon)
-                .autoDismiss(false)
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mPartsDB = new PartsDBUtil(getActivity());
-                        mPartsDB.open();
-                        mPartsDB.removeItemWithId(id);
-                        mPartsDB.close();
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-    }
-    public void fromActivity_onHandleViewPartFromListSelection(ServiceJobPartsWrapper serviceJobPartWrapper) {
-        showUploadDialog(serviceJobPartWrapper);
     }
 
 

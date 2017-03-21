@@ -187,7 +187,7 @@ public class SigningOff_4 extends AppCompatActivity implements
                         if (sign.addJpgSignatureToGallery(signatureBitmap, "signature")) {
                             Snackbar.make(findViewById(android.R.id.content), "Signature saved into the Gallery:" + sign.getFilePath(), Snackbar.LENGTH_LONG)
                                     .setAction("OK", null).show();
-                            /*Toast.makeText(SigningOff_FRGMT_4.this, "Signature saved into the Gallery:" + sign.getFilePath(),
+                            /*Toast.makeText(SigningOff_FRGMT_4.this, "Signature saved into the Gallery:" + sign.getQuantity(),
                                     Toast.LENGTH_SHORT).show();*/
                             setDrawableImageSignature(sign.loadBitmap());
                         } else {

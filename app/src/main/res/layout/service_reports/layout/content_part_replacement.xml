@@ -9,55 +9,49 @@
     tools:context="admin4.techelm.com.techelmtechnologies.service_report_fragment.PartReplacement_FRGMT_2"
     tools:showIn="@layout/activity_part_replacement">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:scrollbars="none"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="100sp"
             android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <FrameLayout
+            <LinearLayout
+                android:id="@+id/linearLayoutNewPartDetails"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <include layout="@layout/i_labels_report_details" />
+
+                <include layout="@layout/i_file_upload_button" />
+
+                <include layout="@layout/service_report_file_upload_list_item" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/upload_file_results_service_job_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="100sp"
-                    android:orientation="vertical">
-
-                    <include layout="@layout/i_labels_report_details" />
-
-                    <include layout="@layout/i_file_upload_button" />
-
-                    <include layout="@layout/service_report_file_upload_list_item" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/upload_file_results_service_job_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:paddingBottom="70sp"
-                        android:paddingTop="4sp" />
-
-
-                </LinearLayout>
-            </FrameLayout>
+                    android:clipToPadding="false"
+                    android:paddingBottom="70sp"
+                    android:paddingTop="4sp" />
+            </LinearLayout>
 
         </LinearLayout>
+
+
     </ScrollView>
 
     <include layout="@layout/button_previous_next" />

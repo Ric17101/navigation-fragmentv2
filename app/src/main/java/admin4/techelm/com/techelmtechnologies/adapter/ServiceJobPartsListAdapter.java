@@ -20,15 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 
 public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobPartsListAdapter.ViewHolder> {
 
     private static final String LOG_TAG = "PartsListAdapter";
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
-    private List<ServiceJobPartsWrapper> mDataSet = new ArrayList<>();
-    private ServiceJobPartsWrapper servicePartDataSet;
+    private List<ServiceJobNewPartsWrapper> mDataSet = new ArrayList<>();
+    private ServiceJobNewPartsWrapper servicePartDataSet;
     private CallbackInterface mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
@@ -50,12 +50,12 @@ public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobP
         // System.gc();
     }
 
-    public ServiceJobPartsListAdapter(List<ServiceJobPartsWrapper> serviceJobList) {
+    public ServiceJobPartsListAdapter(List<ServiceJobNewPartsWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }
 
-    public void swapData(List<ServiceJobPartsWrapper> mNewDataSet) {
+    public void swapData(List<ServiceJobNewPartsWrapper> mNewDataSet) {
         mDataSet = mNewDataSet;
         notifyDataSetChanged();
     }
@@ -75,10 +75,10 @@ public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobP
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         servicePartDataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewPartDetail.setText((position + 1) +".) Replacement " + servicePartDataSet.getUploadName() + " Added.");
+        holder.textViewPartDetail.setText((position + 1) +".) Replacement " + servicePartDataSet.getPartName() + " Added.");
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
-                servicePartDataSet.getFilePath() + servicePartDataSet.getUploadName());
+                servicePartDataSet.getQuantity() + servicePartDataSet.getPartName());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
@@ -109,15 +109,15 @@ public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobP
          * Callback invoked when clicked
          *
          * @param position - the position
-         * @param serviceJobPartsWrapper - the text to pass back
+         * @param serviceJobNewPartsWrapper - the text to pass back
          */
-        void onHandlePartsSelection(int position, ServiceJobPartsWrapper serviceJobPartsWrapper, int mode);
+        void onHandlePartsSelection(int position, ServiceJobNewPartsWrapper serviceJobNewPartsWrapper, int mode);
         void onHandleDeletePartsFromListSelection(int id);
-        void onHandleViewPartFromListSelection(ServiceJobPartsWrapper serviceJobPartWrapper);
+        void onHandleViewPartFromListSelection(ServiceJobNewPartsWrapper serviceJobPartWrapper);
     }
 
     public interface OnItemClickListener {
-        void onClick(ServiceJobPartsWrapper partWrapper);
+        void onClick(ServiceJobNewPartsWrapper partWrapper);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -133,6 +133,15 @@ public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobP
 
             // Part Information
             textViewPartDetail = (TextView) view.findViewById(R.id.textViewPartDetail);
+            textViewPartDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mCallback != null) {
+                        mCallback.onHandleViewPartFromListSelection(mDataSet.get(getAdapterPosition()));
+                    }
+                }
+
+            });
 
             textViewEdit = (TextView) view.findViewById(R.id.textViewEdit);
             textViewEdit.setOnClickListener(new View.OnClickListener() {

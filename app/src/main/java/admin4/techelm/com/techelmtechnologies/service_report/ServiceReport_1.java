@@ -458,7 +458,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
                         "Image saved into the Gallery: " + camU.getFilePath(),
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
-                // Toast.makeText(ServiceReport_FRGMT_1.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(ServiceReport_FRGMT_1.this, "Image saved into the Gallery: " + camU.getQuantity(), Toast.LENGTH_SHORT).show();
             } else {
                 Snackbar.make(findViewById(android.R.id.content),
                         "Unable to store the signature",

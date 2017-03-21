@@ -153,7 +153,7 @@ public class UploadsDBUtil extends DatabaseAccess {
         return count;
     }
 
-    // public int addUpload(String uploadName, String filePath, int serviceId) {
+    // public int addNewPart(String uploadName, String filePath, int serviceId) {
     public int addUpload(ServiceJobUploadsWrapper item) {
 
         SQLiteDatabase db = getDB();

@@ -36,8 +36,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -80,6 +82,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
     private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
     private static ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
+    private EditText mEditTextRemarks;
 
     // B. CAMERA Controls
     private static final String IMAGE_DIRECTORY = "upload";
@@ -122,7 +125,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
 
     // SlidingPager Tab Set Up
     private static final String ARG_POSITION = "position";
-    private int position;
+    private int mPosition;
 
     public static ServiceReport_FRGMT_1 newInstance(int position, ServiceJobWrapper serviceJob) {
         ServiceReport_FRGMT_1 frag = new ServiceReport_FRGMT_1();
@@ -138,7 +141,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);
+        mPosition = getArguments().getInt(ARG_POSITION);
     }
 
     @Override
@@ -154,6 +157,9 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
 
         if (mServiceJobFromBundle != null) { // if Null don't show anything
             mServiceID = mServiceJobFromBundle.getID();
+
+            // Edit Text Remarks
+            setUpEditRemarks(view);
 
             // ServiceJob Details
             new PopulateServiceJobViewDetails()
@@ -210,11 +216,14 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
                 /*startActivity(new Intent(getActivity(), MainActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);*/
-
-                Intent intent = new Intent(getActivity(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                Bundle bundle = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.left_to_right, R.anim.right_to_left).toBundle();
-                getActivity().startActivity(intent, bundle);
-                getActivity().finish();
+                if (mPosition > 0) { // For the purpose of the BEFORE and AFTER TAB page same Fragment and Views
+                    ((ServiceJobViewPagerActivity)getActivity()).fromFragmentNavigate(-1);
+                } else {
+                    Intent intent = new Intent(getActivity(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Bundle bundle = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.left_to_right, R.anim.right_to_left).toBundle();
+                    getActivity().startActivity(intent, bundle);
+                    getActivity().finish();
+                }
             }
         });
 
@@ -258,6 +267,56 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         ImageButton buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
         buttonViewDetails.setVisibility(View.GONE);
     }
+
+    /*********** A.1 EDIT VIEW POP UP REMARKS ***********/
+    private void setUpEditRemarks(View view) {
+        mEditTextRemarks = (EditText) view.findViewById(R.id.editTextRemarks);
+        final String remarks = null == mServiceJobFromBundle.getActionsOrRemarks() ?
+                "" : mServiceJobFromBundle.getActionsOrRemarks();
+        mEditTextRemarks.setText(remarks);
+
+        mEditTextRemarks.setOnFocusChangeListener((new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        showEditViewRemarksDialog(remarks);
+                    }
+                })
+        );
+    }
+
+    public MaterialDialog showEditViewRemarksDialog(String remarks) {
+        boolean wrapInScrollView = false;
+
+        final EditText input = new EditText(this.mContext);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        input.setText(remarks);
+
+        MaterialDialog md = new MaterialDialog.Builder(this.mContext)
+                .title("REMARKS")
+                .customView(input, wrapInScrollView)
+                .positiveText("Close")
+                .negativeText("Save")
+                .iconRes(R.mipmap.edit_icon)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mEditTextRemarks.setText(input.getText());
+                        mSJDB = new ServiceJobDBUtil(getActivity());
+                        mSJDB.open();
+                        mSJDB.updateRequestIDRemarks(mServiceID, input.getText().toString());
+                        mSJDB.close();
+                    }
+                })
+                .show();
+
+        return md;
+    }
+
+    /*********** A.1 END EDIT VIEW POP UP REMARKS ***********/
+
 
     /*********** A. SERVICE DETAILS ***********/
     public void fromActivity_onNewSJEntryAdded(String serviceNum) {
@@ -339,31 +398,6 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
 
             }
         });*/
-    }
-
-    public MaterialDialog showUploadDialog2(ServiceJobUploadsWrapper serviceJobRecordingWrapper) {
-        boolean wrapInScrollView = false;
-        MaterialDialog md = new MaterialDialog.Builder(this.mContext)
-                .title("CAPTURED IMAGE.")
-                .customView(R.layout.m_service_report_image_view, wrapInScrollView)
-                .positiveText("Close")
-                .iconRes(R.mipmap.ic_media_camera)
-                .autoDismiss(false)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-
-        // Setting image View based on the FilePath
-        ImageView MyImageView = (ImageView) md.findViewById(R.id.imageViewUpload);
-        Drawable d = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
-                serviceJobRecordingWrapper.getUploadName());
-        MyImageView.setImageDrawable(d);
-
-        return md;
     }
 
     private void showUploadDialog(final ServiceJobUploadsWrapper serviceJobRecordingWrapper) {

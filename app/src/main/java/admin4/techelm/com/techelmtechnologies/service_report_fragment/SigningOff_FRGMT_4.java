@@ -48,10 +48,6 @@ public class SigningOff_FRGMT_4 extends Fragment
     private ImageButton imageButtonViewSignature;
     private SignaturePad mSignaturePad;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private Button mClearButton;
-    private Button mSaveButton;
-    private View mPopUpSignature;
-    private PopupWindow mPopupWindow; // TODO : Cancel this onBackPress
 
     private static final String LOG_TAG = "TaskCompleted_5";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
@@ -71,12 +67,6 @@ public class SigningOff_FRGMT_4 extends Fragment
         mServiceJobFromBundle = serviceJob;
         return (frag);
     }
-
-    /*@Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        getActivity();
-    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,28 +99,6 @@ public class SigningOff_FRGMT_4 extends Fragment
         return view;
     }
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signing_off_end_task);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
-*/
-
-    /*private Point getWindowSize() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        *//**If you're not in an Activity you can get the default Display via WINDOW_SERVICE:
-     * @param view*//*
-        *//*WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();*//*
-        return size;
-    }*/
     private void initButton(View view) {
         /** BUTTON BACK */
         Button button_back = (Button) view.findViewById(R.id.button_back);
@@ -142,13 +110,12 @@ public class SigningOff_FRGMT_4 extends Fragment
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*startActivity(new Intent(getActivity(), ServiceReport_TaskCompleted_FRGMT_5.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                overridePendingTransition(R.anim.enter, R.anim.exit);*/
-                Intent intent = new Intent(getActivity(), ServiceReport_TaskCompleted_5.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                Bundle bundle = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.enter, R.anim.exit).toBundle();
-                getActivity().startActivity(intent, bundle);
-                getActivity().finish();
+                if (onSubmitSuccess()) {
+                    Intent intent = new Intent(getActivity(), ServiceReport_TaskCompleted_5.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Bundle bundle = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.enter, R.anim.exit).toBundle();
+                    getActivity().startActivity(intent, bundle);
+                    getActivity().finish();
+                }
             }
         });
 
@@ -157,7 +124,7 @@ public class SigningOff_FRGMT_4 extends Fragment
         buttonViewDetails.setVisibility(View.GONE);
     }
 
-    public MaterialDialog showRecordDialog(View view) {
+    public MaterialDialog showSigningDialog(View view) {
         final SignatureUtil sign = new SignatureUtil(getActivity(), mSignaturePad);
         boolean wrapInScrollView = false;
         MaterialDialog md = new MaterialDialog.Builder(this.mContext)
@@ -209,14 +176,14 @@ public class SigningOff_FRGMT_4 extends Fragment
                         if (sign.addJpgSignatureToGallery(signatureBitmap, "signature")) {
                             Snackbar.make(getActivity().findViewById(android.R.id.content), "Signature saved into the Gallery:" + sign.getFilePath(), Snackbar.LENGTH_LONG)
                                     .setAction("OK", null).show();
-                            /*Toast.makeText(SigningOff_FRGMT_4.this, "Signature saved into the Gallery:" + sign.getFilePath(),
-                                    Toast.LENGTH_SHORT).show();*/
+
+                            saveSignatureToDBOnAfterSaveToGallery(sign); // SAVING FILES to DB
+
                             setDrawableImageSignature(sign.loadBitmap());
                             dialog.dismiss();
                         } else {
                             Snackbar.make(getActivity().findViewById(android.R.id.content), "Unable to store the signature", Snackbar.LENGTH_LONG)
                                     .setAction("OK", null).show();
-                            // Toast.makeText(SigningOff_FRGMT_4.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
                         }
 
                         /*if (sign.addSvgSignatureToGallery(mSignaturePad.getSignatureSvg())) {
@@ -244,7 +211,7 @@ public class SigningOff_FRGMT_4 extends Fragment
         imageButtonViewSignature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MaterialDialog mDialog = showRecordDialog(view);
+                MaterialDialog mDialog = showSigningDialog(view);
 
                 /*ImageButton btnHybrid = (ImageButton) vDialog.findViewById(R.id.ib_close);
                 btnHybrid.setOnClickListener(new View.OnClickListener() {
@@ -283,54 +250,6 @@ public class SigningOff_FRGMT_4 extends Fragment
         imageButtonViewSignature.setBackgroundDrawable(ob);
     }
 
-    /*private void initSignaturePadPopUp2() {
-        // Get the widgets reference from XML layout
-        final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View customView = inflater.inflate(R.layout.m_signing_off_signature, null);
-
-        mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);
-        imageButtonViewSignature = (ImageButton) findViewById(R.id.imageButtonViewSignature);
-
-        // Set a click listener for the text view
-        imageButtonViewSignature.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Initialize a new instance of LayoutInflater service
-
-
-                // Inflate the custom layout/view
-
-
-                // Initialize a new instance of popup window
-                mPopupWindow = new PopupWindow(
-                        customView,
-                        LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT
-                );
-
-                // Set an elevation value for popup window
-                // Call requires API level 21
-                if(Build.VERSION.SDK_INT>=21){
-                    mPopupWindow.setElevation(5.0f);
-                }
-
-                // Get a reference for the custom view close button
-                ImageButton closeButton = (ImageButton) customView.findViewById(R.id.ib_close);
-
-                // Set a click listener for the popup window close button
-                closeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Dismiss the popup window
-                        mPopupWindow.dismiss();
-                    }
-                });
-
-                // Finally, show the popup window at the center location of root relative layout
-                mPopupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER,0,0);
-            }
-        });
-    }*/
     /*********** A. SERVICE DETAILS ***********/
     public void fromActivity_onNewSJEntryAdded(String serviceNum) {
         System.out.print("onNewSJEntryAdded: Called");
@@ -376,5 +295,22 @@ public class SigningOff_FRGMT_4 extends Fragment
         }
     }*/
     /*********** A. END SERVICE DETAILS ***********/
+
+    private void saveSignatureToDBOnAfterSaveToGallery(SignatureUtil sign) {
+        mSJDB = new ServiceJobDBUtil(getActivity());
+        mSJDB.open();
+        mSJDB.updateRequestIDSignature(mServiceID, sign.getFilePath(), sign.getFilePath());
+        mSJDB.close();
+    }
+
+    private boolean onSubmitSuccess() {
+        // TODO: Save this to the Server, including the
+        // Recording, Signature, Image uploaded, New replacement Parts
+
+        // mServiceJobFromBundle
+        // mServiceID
+
+        return true;
+    }
 
 }

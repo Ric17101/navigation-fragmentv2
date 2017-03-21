@@ -19,7 +19,7 @@ import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
 import admin4.techelm.com.techelmtechnologies.fragment_sample.LicensesFragment;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
@@ -38,8 +38,8 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     private static final String LOG_TAG = ServiceJobViewPagerActivity.class.getSimpleName();
     private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
     private static final int FRAGMENT_POSISTION_SERVICE_REPORT = 0;
-    private static final int FRAGMENT_POSISTION_PART_REPLACEMENT = 1;
-    private static final int FRAGMENT_POSISTION_ADD_REPLACEMENT_PART = 2;
+    private static final int FRAGMENT_POSISTION_SERVICE_REPORT_B = 1;
+    private static final int FRAGMENT_POSISTION_PART_REPLACEMENT = 2;
     private static final int FRAGMENT_POSISTION_SIGNING_OFF = 3;
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
@@ -194,38 +194,38 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         getFragmentSigningOff().fromActivity_onSJEntryDeleted();
     }
 
-    @Override
-    public void onNewUploadsEntryAdded(String fileName) {
-        getFragmentPartReplacement().fromActivity_onNewUploadsEntryAdded(fileName);
-    }
-
-    @Override
-    public void onUploadsEntryRenamed(String fileName) {
-        getFragmentPartReplacement().fromActivity_onUploadsEntryRenamed(fileName);
-    }
-    @Override
-    public void onUploadsEntryDeleted() {
-        getFragmentPartReplacement().fromActivity_onUploadsEntryDeleted();
-    }
     /*********** A. END CALLBACKS from ServiceReport_FRGMT_1 ***********/
 
 
     /*********** B. CALLBACKS from PartReplacement_FRGMT_2 ***********/
+    @Override
+    public void onNewPartsEntryAdded(String fileName) {
+        getFragmentPartReplacement().fromActivity_onNewPartsEntryAdded(fileName);
+    }
+    @Override
+    public void onPartsEntryRenamed(String fileName) {
+        getFragmentPartReplacement().fromActivity_onPartsEntryRenamed(fileName);
+    }
+    @Override
+    public void onPartsEntryDeleted() {
+        getFragmentPartReplacement().fromActivity_onPartsEntryDeleted();
+    }
+
     private PartReplacement_FRGMT_2 getFragmentPartReplacement() {
         return (PartReplacement_FRGMT_2) mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSISTION_PART_REPLACEMENT);
     }
 
     @Override
-    public void onHandlePartsSelection(int position, ServiceJobPartsWrapper serviceJobPartsWrapper, int mode) {
+    public void onHandlePartsSelection(int position, ServiceJobNewPartsWrapper serviceJobNewPartsWrapper, int mode) {
         getFragmentPartReplacement().fromActivity_onHandlePartsSelection(
-                position, serviceJobPartsWrapper, mode);
+                position, serviceJobNewPartsWrapper, mode);
     }
     @Override
     public void onHandleDeletePartsFromListSelection(final int id) {
         getFragmentPartReplacement().fromActivity_onHandleDeletePartsFromListSelection(id);
     }
     @Override
-    public void onHandleViewPartFromListSelection(ServiceJobPartsWrapper serviceJobPartWrapper) {
+    public void onHandleViewPartFromListSelection(ServiceJobNewPartsWrapper serviceJobPartWrapper) {
         getFragmentPartReplacement()
                 .fromActivity_onHandleViewPartFromListSelection(serviceJobPartWrapper);
     }

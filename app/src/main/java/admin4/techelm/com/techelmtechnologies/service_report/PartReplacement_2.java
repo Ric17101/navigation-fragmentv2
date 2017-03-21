@@ -45,10 +45,9 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
-import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 
 public class PartReplacement_2 extends AppCompatActivity implements
         ServiceJobPartsListAdapter.CallbackInterface,
@@ -78,7 +77,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
 
     private ServiceJobPartsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
-    private List<ServiceJobPartsWrapper> mUploadResults = null;
+    private List<ServiceJobNewPartsWrapper> mUploadResults = null;
     private PartsDBUtil mPartsDB;
     
     @Override
@@ -108,7 +107,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
             setUpUploadsRecyclerView();
             setupUploadsResultsList();
             if (mUploadResults == null) {
-                populateUploadsCardList();
+                populatePartsCardList();
             }
         }
     }
@@ -175,7 +174,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
             public void onClick(View view) {
                 /*Snackbar.make(view, "Do something with the file uploaded", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                mCameraDialog = showCameraDialog();
+                mCameraDialog = showNewPartDialog();
             }
         });
     }
@@ -244,7 +243,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
         mUploadResultsList.setLayoutManager(new LinearLayoutManager(PartReplacement_2.this));
     }
 
-    private void populateUploadsCardList() {
+    private void populatePartsCardList() {
         mPartsDB = new PartsDBUtil(PartReplacement_2.this);
         mPartsDB.open();
         mUploadResults = mPartsDB.getAllPartsBySJID(mServiceID);
@@ -266,7 +265,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
         });*/
     }
 
-    public MaterialDialog showUploadDialog2(ServiceJobPartsWrapper serviceJobRecordingWrapper) {
+    public MaterialDialog showUploadDialog2(ServiceJobNewPartsWrapper serviceJobRecordingWrapper) {
         boolean wrapInScrollView = false;
         MaterialDialog md = new MaterialDialog.Builder(this)
                 .title("CAPTURED IMAGE.")
@@ -284,14 +283,14 @@ public class PartReplacement_2 extends AppCompatActivity implements
 
         // Setting image View based on the FilePath
         ImageView MyImageView = (ImageView) md.findViewById(R.id.imageViewUpload);
-        Drawable d = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
-                serviceJobRecordingWrapper.getUploadName());
+        Drawable d = Drawable.createFromPath(serviceJobRecordingWrapper.getQuantity() + "/" +
+                serviceJobRecordingWrapper.getPartName());
         MyImageView.setImageDrawable(d);
 
         return md;
     }
 
-    private void showUploadDialog(final ServiceJobPartsWrapper serviceJobRecordingWrapper) {
+    private void showUploadDialog(final ServiceJobNewPartsWrapper serviceJobRecordingWrapper) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -307,69 +306,52 @@ public class PartReplacement_2 extends AppCompatActivity implements
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         ImageView image = (ImageView) dialogLayout.findViewById(R.id.imageViewUpload);
-        Drawable draw = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
-                serviceJobRecordingWrapper.getUploadName());
+        Drawable draw = Drawable.createFromPath(serviceJobRecordingWrapper.getQuantity() + "/" +
+                serviceJobRecordingWrapper.getPartName());
         image.setImageDrawable(draw);
 
         dialog.show();
     }
 
 
-    public MaterialDialog showCameraDialog() {
-        final CameraUtil camU = new CameraUtil(PartReplacement_2.this, "PART");
+    public MaterialDialog showNewPartDialog() {
         boolean wrapInScrollView = false;
         MaterialDialog md = new MaterialDialog.Builder(this)
                 .title("UPLOAD IMAGE.")
                 .customView(R.layout.m_service_report_camera, wrapInScrollView)
-                .neutralText("Capture")
                 .negativeText("Save")
                 .positiveText("Close")
                 .iconRes(R.mipmap.ic_media_camera)
                 .autoDismiss(false)
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        startActivityForResult(getPickImageChooserIntent(), 200);
-                    }
-                })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        if (mBitmap != null && mPicUri != null) {
-                            PartReplacement_2.ImageSaveOperation ops = new PartReplacement_2.ImageSaveOperation();
-                            ops.execute(camU);
-
-                            dialog.dismiss();
-                        } else {
-                            // Toast.makeText(PartReplacement_FRGMT_2.this, "No image to save", Toast.LENGTH_LONG).show();
-                            Snackbar.make(findViewById(android.R.id.content), "No image to save", Snackbar.LENGTH_LONG)
-                                    .setAction("OK", null).show();
-                        }
+                        NewPartSaveOperation ops = new NewPartSaveOperation();
+                        ops.execute("Replacement Part"," Quantity", "Unit Price", "Total Price");
+                        Snackbar.make(findViewById(android.R.id.content), "No image to save", Snackbar.LENGTH_LONG)
+                                .setAction("OK", null).show();
+                        dialog.dismiss();
                     }
                 })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
-                        // mSignaturePad.clear();
-                        mBitmap = null;
-                        mPicUri = null;
                         dialog.dismiss();
                     }
                 }).show();
         return md;
     }
 
-    private class ImageSaveOperation extends AsyncTask<CameraUtil, Void, ServiceJobPartsWrapper> {
-        private CameraUtil camU;
+    private class NewPartSaveOperation extends AsyncTask<String, Void, ServiceJobNewPartsWrapper> {
+
         @Override
-        protected ServiceJobPartsWrapper doInBackground(CameraUtil... params) {
-            camU = params[0];
-            if (camU.addJpgUploadToGallery(mBitmap, IMAGE_DIRECTORY)) {
-                // Save tp DB
-                ServiceJobPartsWrapper sjUp = new ServiceJobPartsWrapper();
-                sjUp.setPartName(camU.getFileName());
-                sjUp.setFilePath(camU.getFilePath());
+        protected ServiceJobNewPartsWrapper doInBackground(String... params) {
+            ServiceJobNewPartsWrapper sjUp = new ServiceJobNewPartsWrapper();
+            if (params.length != 0) {
+                sjUp.setReplacementPartName(params[0]);
+                sjUp.setQuantity(params[1]);
+                sjUp.setUnitPrice(params[2]);
+                sjUp.setTotalPrice(params[3]);
                 sjUp.setServiceId(mServiceID);
                 return sjUp;
             } else {
@@ -378,22 +360,23 @@ public class PartReplacement_2 extends AppCompatActivity implements
         }
 
         @Override
-        protected void onPostExecute(ServiceJobPartsWrapper result) {
+        protected void onPostExecute(ServiceJobNewPartsWrapper result) {
             if (result != null) {
                 mPartsDB.open();
-                mPartsDB.addUpload(result, "FRAGMENT2");
+                mPartsDB.addNewPart(result, "FRAGMENT2");
                 mPartsDB.close();
+
+                populatePartsCardList();
+
                 Snackbar.make(findViewById(android.R.id.content),
-                        "Image saved into the Gallery: " + camU.getFilePath(),
+                        "Image saved into the Gallery: ",
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
-                // Toast.makeText(PartReplacement_FRGMT_2.this, "Image saved into the Gallery: " + camU.getFilePath(), Toast.LENGTH_SHORT).show();
             } else {
                 Snackbar.make(findViewById(android.R.id.content),
                         "Unable to store the signature",
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", null).show();
-                // Toast.makeText(PartReplacement_FRGMT_2.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -643,22 +626,22 @@ public class PartReplacement_2 extends AppCompatActivity implements
     }
 
     @Override
-    public void onNewUploadsEntryAdded(String fileName) {
-        populateUploadsCardList();
+    public void onNewPartsEntryAdded(String fileName) {
+        populatePartsCardList();
     }
 
     @Override
-    public void onUploadsEntryRenamed(String fileName) {
+    public void onPartsEntryRenamed(String fileName) {
 
     }
 
     @Override
-    public void onUploadsEntryDeleted() {
-        populateUploadsCardList();
+    public void onPartsEntryDeleted() {
+        populatePartsCardList();
     }
 
     @Override
-    public void onHandlePartsSelection(int position, ServiceJobPartsWrapper serviceJobPartsWrapper, int mode) {
+    public void onHandlePartsSelection(int position, ServiceJobNewPartsWrapper serviceJobNewPartsWrapper, int mode) {
 
     }
 
@@ -690,7 +673,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
     }
 
     @Override
-    public void onHandleViewPartFromListSelection(ServiceJobPartsWrapper serviceJobPartWrapper) {
+    public void onHandleViewPartFromListSelection(ServiceJobNewPartsWrapper serviceJobPartWrapper) {
         showUploadDialog(serviceJobPartWrapper);
     }
 

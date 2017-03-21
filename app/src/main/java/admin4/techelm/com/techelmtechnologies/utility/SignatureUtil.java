@@ -54,8 +54,12 @@ public class SignatureUtil {
     }
 
     public String getFilePath() {
-        //return this.mFileUtil.getFile().getPath();
-        return this.mFileUtil.getFile().toString();
+        // return this.mFileUtil.getFile().getPath();
+        return this.mFileUtil.getFilePath();
+    }
+
+    public String getFileName() {
+        return this.mFileUtil.getFileName();
     }
 
     public void saveBitmapToJPG(Bitmap bitmap, File photo) throws IOException {
@@ -75,6 +79,7 @@ public class SignatureUtil {
                 .setFileName(String.format("SIGNATURE_%d.jpg", System.currentTimeMillis()));
 
         boolean result = mFileUtil.saveImage(signature);
+
         Log.e("SignaturePad", "Directory :" + mFileUtil.getFileName());
 
         this.signatureBitmap = mFileUtil.loadImage();

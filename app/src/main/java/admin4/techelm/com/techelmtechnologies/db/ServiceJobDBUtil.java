@@ -172,7 +172,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         return user;
     }
 
-    public List<ServiceJobWrapper> getAllJSDetailsByID(int  id) {
+    public List<ServiceJobWrapper> getAllJSDetailsByID(int id) {
         ArrayList<ServiceJobWrapper> list = new ArrayList<ServiceJobWrapper>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE id="+id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
@@ -246,6 +246,31 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         }
         // return data list
         return list;
+    }
+
+    public void updateRequestIDRemarks(int id, String remarks) {
+        SQLiteDatabase db = getDB();
+        ContentValues cv = new ContentValues();
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_REMARKS, remarks);
+        db.update(DBHelperItem.TABLE_NAME, cv,
+                DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id, null);
+
+        if (mOnDatabaseChangedListener != null) {
+            // mOnDatabaseChangedListener.onSJEntryRenamed(item.getServiceNumber());
+        }
+    }
+
+    public void updateRequestIDSignature(int requestID, String signatureName, String signatureFilePath) {
+        SQLiteDatabase db = getDB();
+        ContentValues cv = new ContentValues();
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SIGNATURE_NAME, signatureName);
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SIGNATURE_FILE_PATH, signatureFilePath);
+        db.update(DBHelperItem.TABLE_NAME, cv,
+                DBHelperItem.COLUMN_NAME_SJ_ID + "=" + requestID, null);
+
+        if (mOnDatabaseChangedListener != null) {
+            // mOnDatabaseChangedListener.onSJEntryRenamed(item.getServiceNumber());
+        }
     }
 
     public ServiceJobWrapper getItemAt(int position) {

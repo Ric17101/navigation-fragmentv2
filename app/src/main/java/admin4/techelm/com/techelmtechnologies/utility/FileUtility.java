@@ -36,7 +36,7 @@ public class FileUtility {
     /**
      * Created
      */
-
+    private String mFilePath;
     private String directoryName = "images";
     private String fileName = "image.png";
     private Context context;
@@ -69,6 +69,8 @@ public class FileUtility {
     public String getFileName() {
         return this.fileName;
     }
+
+    public String getFilePath() { return this.mFilePath; }
 
     private void setFile(File file) {
         this.file = file;
@@ -116,7 +118,7 @@ public class FileUtility {
     private File getAlbumStorageDir(String albumName) {
         /* File file = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), albumName); */
-        String mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFilePath += "/TELCHEM/" + albumName;
         File file = new File(mFilePath);
         if (!file.mkdirs()) {

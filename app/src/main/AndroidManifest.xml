@@ -37,6 +37,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".utility.volley_multipart.VolleyMainActivity"
+            android:label="Webservice"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".utility.sample_upload.SampleUploadActivity"
+            android:label="Webservice"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".webservice.WebserviceActivity"
             android:label="Webservice"
             android:theme="@style/AppTheme" />
@@ -69,7 +77,6 @@
             android:name=".service_report_fragment.ServiceJobViewPagerActivity"
             android:label="SAMPLE VIEW PAGER"
             android:theme="@style/AppTheme" />
-
 
         <service android:name="admin4.techelm.com.techelmtechnologies.utility.RecordingService" />
     </application>
