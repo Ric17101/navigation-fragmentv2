@@ -19,15 +19,15 @@ import admin4.techelm.com.techelmtechnologies.model.UserLoginWrapper;
 
 public class ServiceJobDBUtil extends DatabaseAccess {
 
-    private static final String LOG_TAG = "RecordingDBUtil";
+    private static final String LOG_TAG = "ServiceJobDBUtil";
 
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "servicejob";
         public static final String COLUMN_NAME_SJ_ID = "id";
-        public static final String COLUMN_NAME_SJ_SERVICEJOB_NO = "servicejob_no";
+        public static final String COLUMN_NAME_SJ_SERVICE_NO = "service_no";
         public static final String COLUMN_NAME_SJ_CUSTOMER_ID = "customer_id";
         public static final String COLUMN_NAME_SJ_SERVICE_ID = "service_id";
-        public static final String COLUMN_NAME_SJ_ENGINEER_ID = "engingeer_id";
+        public static final String COLUMN_NAME_SJ_ENGINEER_ID = "engineer_id";
         public static final String COLUMN_NAME_SJ_PRICE_ID = "price_id";
         public static final String COLUMN_NAME_SJ_COMPLAINT = "complaint";
         public static final String COLUMN_NAME_SJ_REMARKS = "remarks";
@@ -89,6 +89,58 @@ public class ServiceJobDBUtil extends DatabaseAccess {
     public ServiceJobDBUtil(Context context, String message) {
         super(context);
         Log.e(LOG_TAG, message);
+    }
+
+    public int addServiceJob(ServiceJobWrapper item) {
+        SQLiteDatabase db = getDB();
+        ContentValues cv = new ContentValues();
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_ID, item.getID());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICE_NO, item.getServiceNumber());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_CUSTOMER_ID, item.getCustomerID());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICE_ID, item.getServiceID());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_ENGINEER_ID, item.getEngineer());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_PRICE_ID, item.getPriceID());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_COMPLAINT, item.getComplaintsOrSymptoms());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_REMARKS, item.getActionsOrRemarks());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_EQUIPMENT_TYPE, item.getEquipmentType());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SERIAL_NO, item.getModelOrSerial());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_START_DATE, item.getStartDate());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_END_DATE, item.getEndDate());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_STATUS, item.getStatus());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_CONTRACT_SERVICING, item.getContractServicing());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_WARRANTY_SERVICING, item.getWarrantyServicing());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_CHARGES, item.getCharges());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_CONTRACT_REPAIR, item.getContractRepair());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_WARRANTY_REPAIR, item.getWarrantyRepair());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_OTHERS, item.getOthers());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_CUSTOMER_NAME, item.getCustomerName());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_JOB_SITE, item.getJobSite());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_TELEPHONE, item.getTelephone());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_FAX, item.getFax());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_TYPEOFSERVICE, item.getTypeOfService());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SIGNATURE_NAME, item.getSignatureName());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SIGNATURE_FILE_PATH, item.getSignaturePath());
+        // cv.put(DBHelperItem.COLUMN_NAME_UPLOADS_ID, length);
+
+        if (db.insert(DBHelperItem.TABLE_NAME, null, cv) < 0) { // Update if Already existed on the SQLite DB
+            int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
+                    DBHelperItem.COLUMN_NAME_SJ_ID + "=" + item.getID(), null);
+            Log.e(LOG_TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
+        }
+
+        Log.e(LOG_TAG, "addServiceJob INSERTED ID " + item.getID());
+        Log.e(LOG_TAG, "addServiceJob SJ NUM " + item.getServiceNumber());
+        Log.e(LOG_TAG, "addServiceJob SJ ID " + item.getServiceID());
+        return item.getID();
+    }
+
+    public void removeServiceJob(String serviceID) {
+        SQLiteDatabase db = getDB();
+        String[] whereArgs = { String.valueOf(serviceID) };
+        db.delete(DBHelperItem.TABLE_NAME,
+                DBHelperItem.COLUMN_NAME_SJ_SERVICE_ID + "=?", whereArgs);
+
+        Log.e(LOG_TAG, "removeServiceJob " + serviceID);
     }
 
     public List<ServiceJobWrapper> getAllDetailsOfServiceJob() {
@@ -200,10 +252,10 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 recordItem.setWarrantyRepair(cursor.getString(17));
                 recordItem.setOthers(cursor.getString(18));
                 recordItem.setSignatureName(cursor.getString(19));
-                recordItem.setTelephone(cursor.getString(20));
-                recordItem.setFax(cursor.getString(21));
-                recordItem.setTypeOfService(cursor.getString(22));
-                recordItem.setSignaturePath(cursor.getString(23));
+                recordItem.setSignaturePath(cursor.getString(20));
+                recordItem.setTelephone(cursor.getString(21));
+                recordItem.setFax(cursor.getString(22));
+                recordItem.setTypeOfService(cursor.getString(23));
                 recordItem.setJobSite(cursor.getString(24));
                 recordItem.setCustomerName(cursor.getString(25));
 
@@ -248,13 +300,60 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         return list;
     }
 
+    public ServiceJobWrapper getAllJSDetailsByServiceJobID(int serviceJobID) {
+        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
+                + " WHERE " + DBHelperItem.COLUMN_NAME_SJ_ID + "=" +serviceJobID;
+        Cursor cursor = getDB().rawQuery(selectQuery, null);
+
+        ServiceJobWrapper recordItem = new ServiceJobWrapper();
+        if (cursor.moveToFirst()) {
+                recordItem.setID(Integer.parseInt(cursor.getString(0)));
+                recordItem.setServiceNumber(cursor.getString(1));
+                recordItem.setCustomerID(cursor.getString(2));
+                recordItem.setServiceID(cursor.getString(3));
+                recordItem.setEngineerID(cursor.getString(4));
+                recordItem.setPriceID(cursor.getString(5));
+                recordItem.setComplaintsOrSymptoms(cursor.getString(6));
+                recordItem.setActionsOrRemarks(cursor.getString(7));
+                recordItem.setEquipmentType(cursor.getString(8));
+                recordItem.setModelOrSerial(cursor.getString(9));
+                recordItem.setStartDate(cursor.getString(10));
+                recordItem.setEndDate(cursor.getString(11));
+                recordItem.setStatus(cursor.getString(12));
+                recordItem.setContractServicing(cursor.getString(13));
+                recordItem.setWarrantyServicing(cursor.getString(14));
+                recordItem.setCharges(cursor.getString(15));
+                recordItem.setContractRepair(cursor.getString(16));
+                recordItem.setWarrantyRepair(cursor.getString(17));
+                recordItem.setOthers(cursor.getString(18));
+                recordItem.setSignatureName(cursor.getString(19));
+                recordItem.setSignaturePath(cursor.getString(20));
+                recordItem.setTelephone(cursor.getString(21));
+                recordItem.setFax(cursor.getString(22));
+                recordItem.setTypeOfService(cursor.getString(23));
+                recordItem.setJobSite(cursor.getString(24));
+                recordItem.setCustomerName(cursor.getString(25));
+        }
+        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + recordItem.toString());
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return recordItem;
+    }
+
+    /**
+     * Update remarks on the Service Job FRGMT 1
+     * @param id
+     * @param remarks
+     */
     public void updateRequestIDRemarks(int id, String remarks) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_SJ_REMARKS, remarks);
-        db.update(DBHelperItem.TABLE_NAME, cv,
+        int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id, null);
-
+        Log.e(LOG_TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             // mOnDatabaseChangedListener.onSJEntryRenamed(item.getServiceNumber());
         }
@@ -265,8 +364,9 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_SJ_SIGNATURE_NAME, signatureName);
         cv.put(DBHelperItem.COLUMN_NAME_SJ_SIGNATURE_FILE_PATH, signatureFilePath);
-        db.update(DBHelperItem.TABLE_NAME, cv,
+        int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + requestID, null);
+        Log.e(LOG_TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
 
         if (mOnDatabaseChangedListener != null) {
             // mOnDatabaseChangedListener.onSJEntryRenamed(item.getServiceNumber());
@@ -298,10 +398,10 @@ public class ServiceJobDBUtil extends DatabaseAccess {
             recordItem.setWarrantyRepair(cursor.getString(17));
             recordItem.setOthers(cursor.getString(18));
             recordItem.setSignatureName(cursor.getString(19));
-            recordItem.setTelephone(cursor.getString(20));
-            recordItem.setFax(cursor.getString(21));
-            recordItem.setTypeOfService(cursor.getString(22));
-            recordItem.setSignaturePath(cursor.getString(23));
+            recordItem.setSignaturePath(cursor.getString(20));
+            recordItem.setTelephone(cursor.getString(21));
+            recordItem.setFax(cursor.getString(22));
+            recordItem.setTypeOfService(cursor.getString(23));
             recordItem.setJobSite(cursor.getString(24));
             recordItem.setCustomerName(cursor.getString(25));
         } else {
@@ -340,7 +440,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
 
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_SJ_ID, item.getID());
-        cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICEJOB_NO, item.getServiceNumber());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICE_NO, item.getServiceNumber());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_CUSTOMER_ID, item.getCustomerID());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICE_ID, item.getServiceID());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_ENGINEER_ID, item.getEngineer());
@@ -376,7 +476,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
     public void renameItem(ServiceJobWrapper item, String serviceNum, String startDate) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
-        cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICEJOB_NO, serviceNum);
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICE_NO, serviceNum);
         cv.put(DBHelperItem.COLUMN_NAME_SJ_START_DATE, startDate);
         db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + item.getID(), null);
@@ -390,7 +490,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_SJ_ID, item.getID());
-        cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICEJOB_NO, item.getServiceNumber());
+        cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICE_NO, item.getServiceNumber());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_CUSTOMER_ID, item.getCustomerID());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_SERVICE_ID, item.getServiceID());
         cv.put(DBHelperItem.COLUMN_NAME_SJ_ENGINEER_ID, item.getEngineer());

@@ -1,11 +1,8 @@
 package admin4.techelm.com.techelmtechnologies.service_report_fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +14,6 @@ import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
-import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
 
 public class AddReplacementPart_FRGMT_3 extends Fragment {
 

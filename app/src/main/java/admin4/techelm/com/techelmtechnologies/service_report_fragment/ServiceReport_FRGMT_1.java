@@ -219,6 +219,9 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
                 if (mPosition > 0) { // For the purpose of the BEFORE and AFTER TAB page same Fragment and Views
                     ((ServiceJobViewPagerActivity)getActivity()).fromFragmentNavigate(-1);
                 } else {
+                    // Delete the Service Job from SQLite DB on Back
+                    ((ServiceJobViewPagerActivity)getActivity()).deleteServiceJob();
+
                     Intent intent = new Intent(getActivity(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     Bundle bundle = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.left_to_right, R.anim.right_to_left).toBundle();
                     getActivity().startActivity(intent, bundle);
@@ -418,6 +421,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         ImageView image = (ImageView) dialogLayout.findViewById(R.id.imageViewUpload);
         Drawable draw = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
                 serviceJobRecordingWrapper.getUploadName());
+
         image.setImageDrawable(draw);
 
         dialog.show();
@@ -670,7 +674,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
      * Get the URI of the selected image from {@link #getPickImageChooserIntent()}.<br/>
      * Will return the correct URI for camera and gallery image.
      *
-     * @param data the returned data of the activity result
+     * @param data the returned data of the activity aResponse
      */
     public Uri getPickImageResultUri(Intent data) {
         boolean isCamera = true;

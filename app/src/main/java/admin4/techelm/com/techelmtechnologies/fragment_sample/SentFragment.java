@@ -46,12 +46,12 @@ public class SentFragment extends Fragment {
 
 
         // View result = inflater.inflate(R.layout.sent_layout, container, false);
-        /*View result = inflater.inflate(R.layout.pager, container, false);
-        ViewPager pager = (ViewPager) result.findViewById(R.id.pager);
+        /*View aResponse = inflater.inflate(R.layout.pager, container, false);
+        ViewPager pager = (ViewPager) aResponse.findViewById(R.id.pager);
 
         pager.setAdapter(buildAdapter());
 
-        return (result);*/
+        return (aResponse);*/
     }
 
     private PagerAdapter buildAdapter() {

@@ -40,7 +40,7 @@ public class SentFragment_OLD extends Fragment {
         // return inflater.inflate(R.layout.sent_layout,null);
 
         View result = inflater.inflate(R.layout.primary_layout, container, false);
-        /*EditText editor = (EditText) result.findViewById(R.id.editor);
+        /*EditText editor = (EditText) aResult.findViewById(R.id.editor);
         int position = getArguments().getInt(KEY_POSITION, -1);*/
 
         // editor.setHint(getTitle(getActivity(), position));

@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
@@ -97,6 +98,11 @@ public class LoginActivity2 extends AppCompatActivity implements
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+        if (!new JSONHelper().isConnected(this)) {
+            Snackbar.make(findViewById(android.R.id.content), "No internet connection.", Snackbar.LENGTH_LONG)
+                    .setAction("OK", null).show();
+            return;
+        }
         if (mAuthTask != null) {
             return;
         }
@@ -219,7 +225,8 @@ public class LoginActivity2 extends AppCompatActivity implements
         mPasswordView.setError(passwordError);
         mPasswordView.requestFocus();
     }
-    @Override public void onHandleSuccessLogin(UserLoginWrapper user) {
+    @Override
+    public void onHandleSuccessLogin(UserLoginWrapper user) {
         Intent i = new Intent(LoginActivity2.this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
@@ -246,8 +253,8 @@ public class LoginActivity2 extends AppCompatActivity implements
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            //textView.setText(result);
+        protected void onPostExecute(String aResponse) {
+            //textView.setText(aResponse);
         }
     }*/
 }

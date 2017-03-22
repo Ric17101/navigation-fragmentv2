@@ -41,7 +41,7 @@ public class JSONHelper {
             if(inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
-                result = "null"; // result = "Did not work!";
+                result = "null"; // aResponse = "Did not work!";
 
             Log.d("InputStream",result);
         } catch (Exception e) {

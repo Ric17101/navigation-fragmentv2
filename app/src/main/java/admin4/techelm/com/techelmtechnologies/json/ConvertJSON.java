@@ -5,27 +5,10 @@ package admin4.techelm.com.techelmtechnologies.json;
  * Used to convert JSON string in to WRAPPERS
  */
 
-import android.util.Log;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +88,7 @@ public class ConvertJSON {
     public ArrayList<ServiceJobWrapper> serviceJobList(List<String> parsedServiceJob) {
         ArrayList<ServiceJobWrapper> translationList = new ArrayList<>();
        /* if (parsedServiceJob.size() == 0 || parsedServiceJob.isEmpty()) {
-            this.mResult = true; // No result
+            this.aResponse = true; // No result
             return null;
         }*/
 

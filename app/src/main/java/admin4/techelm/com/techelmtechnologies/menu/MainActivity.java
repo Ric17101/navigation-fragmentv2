@@ -333,7 +333,7 @@ public class MainActivity extends FragmentActivity implements
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final Boolean aSuccess) {
         }
 
         @Override

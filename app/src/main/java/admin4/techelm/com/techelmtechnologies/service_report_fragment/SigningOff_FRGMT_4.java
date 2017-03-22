@@ -1,8 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.service_report_fragment;
 
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,18 +8,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 
+import java.io.File;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
@@ -29,12 +28,15 @@ import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobUploadFile_VolleyPOST;
 
-public class SigningOff_FRGMT_4 extends Fragment
-         {
+public class SigningOff_FRGMT_4 extends Fragment {
 
     private static final String TAG = SigningOff_FRGMT_4.class.getSimpleName();
+    private static String SERVICE_JOB_UPLOAD_URL =
+            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/Servicejob/";
     private Context mContext;
+    private int mServiceID; // For DB Purpose to save the file on the ServiceID
 
     // A. SERVICE ID INFO
     private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
@@ -48,10 +50,6 @@ public class SigningOff_FRGMT_4 extends Fragment
     private ImageButton imageButtonViewSignature;
     private SignaturePad mSignaturePad;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-
-    private static final String LOG_TAG = "TaskCompleted_5";
-    private int mServiceID; // For DB Purpose to save the file on the ServiceID
-
 
     // SlidingPager Tab Set Up
     private static final String ARG_POSITION = "position";
@@ -111,10 +109,10 @@ public class SigningOff_FRGMT_4 extends Fragment
             @Override
             public void onClick(View view) {
                 if (onSubmitSuccess()) {
-                    Intent intent = new Intent(getActivity(), ServiceReport_TaskCompleted_5.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    /*Intent intent = new Intent(getActivity(), ServiceReport_TaskCompleted_5.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     Bundle bundle = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.enter, R.anim.exit).toBundle();
                     getActivity().startActivity(intent, bundle);
-                    getActivity().finish();
+                    getActivity().finish();*/
                 }
             }
         });
@@ -232,7 +230,7 @@ public class SigningOff_FRGMT_4 extends Fragment
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
+                // If request is cancelled, the aResponse arrays are empty.
                 if (grantResults.length <= 0
                         || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Snackbar.make(getActivity().findViewById(android.R.id.content),
@@ -296,11 +294,18 @@ public class SigningOff_FRGMT_4 extends Fragment
     }*/
     /*********** A. END SERVICE DETAILS ***********/
 
-    private void saveSignatureToDBOnAfterSaveToGallery(SignatureUtil sign) {
-        mSJDB = new ServiceJobDBUtil(getActivity());
-        mSJDB.open();
-        mSJDB.updateRequestIDSignature(mServiceID, sign.getFilePath(), sign.getFilePath());
-        mSJDB.close();
+    private void saveSignatureToDBOnAfterSaveToGallery(final SignatureUtil sign) {
+        Log.e(TAG, mServiceID+" FName: "+sign.getFileName()+" FPath"+ sign.getFilePath());
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                mSJDB = new ServiceJobDBUtil(getActivity());
+                mSJDB.open();
+                mSJDB.updateRequestIDSignature(mServiceID, sign.getFileName(), sign.getFilePath()+"/");
+                mSJDB.close();
+            }
+        };
+        new Thread(run).start();
     }
 
     private boolean onSubmitSuccess() {
@@ -310,6 +315,36 @@ public class SigningOff_FRGMT_4 extends Fragment
         // mServiceJobFromBundle
         // mServiceID
 
+        // Get Service Job Details
+        mSJDB = new ServiceJobDBUtil(getActivity());
+        mSJDB.open();
+        ServiceJobWrapper sjw = mSJDB.getAllJSDetailsByServiceJobID(this.mServiceID);
+        mSJDB.close();
+
+        Log.e(TAG, "Service Job ID " + mServiceID);
+        Log.e(TAG, sjw.toString());
+        Log.e(TAG, mServiceJobFromBundle.toString());
+
+        File signatureFile = new File(sjw.getSignaturePath() + sjw.getSignatureName());
+
+        // CAPTURE
+        ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST()
+                .setContext(this.mContext)
+                .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_signature")
+                .addImageFile(signatureFile, sjw.getSignatureName(), "image/jpeg")
+                .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+                    @Override
+                    public void onError(String msg, int success) {
+                        Log.e(TAG, "Message " + msg +" Success:" + success);
+                    }
+
+                    @Override
+                    public void onJSONPostResult(ServiceJobUploadFile_VolleyPOST.NetworkResponseData response) {
+                        // String msg = response.message;
+                        Log.e(TAG, response.toString());
+                    }
+                });
+        post.startUpload();
         return true;
     }
 

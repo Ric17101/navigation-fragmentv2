@@ -600,7 +600,7 @@ public class PartReplacement_FRGMT_2_v1 extends Fragment {
      * Get the URI of the selected image from {@link #getPickImageChooserIntent()}.<br/>
      * Will return the correct URI for camera and gallery image.
      *
-     * @param data the returned data of the activity result
+     * @param data the returned data of the activity aResponse
      */
     public Uri getPickImageResultUri(Intent data) {
         boolean isCamera = true;
@@ -632,7 +632,7 @@ public class PartReplacement_FRGMT_2_v1 extends Fragment {
         ArrayList<String> result = new ArrayList<String>();
         for (String perm : wanted) {
             /*if (!hasPermission(perm)) {
-                result.add(perm);
+                aResponse.add(perm);
             }*/
         }
         return result;

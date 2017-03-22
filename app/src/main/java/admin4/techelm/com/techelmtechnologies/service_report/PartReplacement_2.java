@@ -531,7 +531,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
      * Get the URI of the selected image from {@link #getPickImageChooserIntent()}.<br/>
      * Will return the correct URI for camera and gallery image.
      *
-     * @param data the returned data of the activity result
+     * @param data the returned data of the activity aResponse
      */
     public Uri getPickImageResultUri(Intent data) {
         boolean isCamera = true;

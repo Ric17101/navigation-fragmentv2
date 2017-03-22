@@ -284,7 +284,7 @@ public class ServiceJobFragment extends Fragment implements
      */
     private class ParseJasonToDateDotsTask extends AsyncTask<String, Void, List<ServiceJobWrapper>> {
 
-        private boolean hasResutFlag = true; // Set to 1 if no result
+        private boolean hasResutFlag = true; // Set to 1 if no aResponse
         /**
          * Converstion of JSON string to ServiceJob Wrapper
          * TODO: Need to store at sqlite on edit/start
@@ -332,7 +332,7 @@ public class ServiceJobFragment extends Fragment implements
                     }
                 }
             } else {
-                if (!hasResutFlag) // Has no result, else do nothing
+                if (!hasResutFlag) // Has no aResponse, else do nothing
                     noInternetSnackBar();
                 else
                     noResultSnackBar();
@@ -440,7 +440,7 @@ public class ServiceJobFragment extends Fragment implements
          * @return
          *      null - no data
          *      '' - no internet connection/ server error
-         *      String - successful result
+         *      String - successful aResponse
          */
         private String parseServiceListJSON(String JSONResult) {
             if (JSONResult == null || JSONResult == "")

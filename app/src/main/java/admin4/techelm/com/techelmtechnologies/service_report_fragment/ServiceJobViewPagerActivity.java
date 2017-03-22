@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -43,6 +44,8 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     private static final int FRAGMENT_POSISTION_SIGNING_OFF = 3;
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
+    private ServiceJobDBUtil mSJDB; // For saving and delete of the Service Job
+
     // PAGER TAB SETUP
     private PagerSlidingTabStrip mTabPager;
     private ViewPager mViewPager;
@@ -61,6 +64,9 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
             mViewPager.setOffscreenPageLimit(3); // Set to Four Pages
             mTabPager = (PagerSlidingTabStrip) findViewById(R.id.tabsStrip);
             mTabPager.setViewPager(mViewPager);
+
+            // Save Service Job from Bundle
+            createdServiceJob(this.mServiceJobFromBundle);
         } else {
             Snackbar.make(this.findViewById(android.R.id.content),
                     "No data selected from calendar.", Snackbar.LENGTH_LONG)
@@ -77,6 +83,36 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
 
     }
+
+    private void createdServiceJob(final ServiceJobWrapper sign) {
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                Log.e("ServiceJobPageActivity", mServiceJobFromBundle.toString());
+                mSJDB = new ServiceJobDBUtil(ServiceJobViewPagerActivity.this);
+                mSJDB.open();
+                mSJDB.addServiceJob(sign);
+                mSJDB.close();
+            }
+        };
+        new Thread(run).start();
+    }
+
+    public void deleteServiceJob() {
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+
+                mSJDB = new ServiceJobDBUtil(ServiceJobViewPagerActivity.this);
+                mSJDB.open();
+                mSJDB.removeServiceJob(String.valueOf(mServiceJobFromBundle.getID()));
+                mSJDB.close();
+            }
+        };
+        new Thread(run).start();
+    }
+
+
 
     /**
      * PARSING data ServiceJob from Bundle passed by the

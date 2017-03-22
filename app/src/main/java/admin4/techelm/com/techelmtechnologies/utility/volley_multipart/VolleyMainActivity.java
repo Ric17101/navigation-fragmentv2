@@ -60,11 +60,9 @@ public class VolleyMainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
         }
-
         @Override
         protected void onPostExecute(String result) {
         }
-
         @Override
         protected void onProgressUpdate(Void... values) {
         }
@@ -81,11 +79,11 @@ public class VolleyMainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(NetworkResponse response) {
                                 String resultResponse = new String(response.data);
-                                Log.i("VolleyMainActivity", resultResponse);
+                                Log.e("VolleyMainActivity", resultResponse);
                                 /*try {
-                                    JSONObject result = new JSONObject(resultResponse);
-                                    String status = result.getString("status");
-                                    String message = result.getString("message");
+                                    JSONObject aResponse = new JSONObject(resultResponse);
+                                    String status = aResponse.getString("status");
+                                    String message = aResponse.getString("message");
 
                                     if (status.equals("1")) {
                                         // tell everybody you have succed upload image and post strings
@@ -149,12 +147,12 @@ public class VolleyMainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    protected Map<String, DataPart> getByteData() {
-                        Map<String, DataPart> params = new HashMap<>();
+                    protected Map<String, VolleyDataPart> getByteData() {
+                        Map<String, VolleyDataPart> params = new HashMap<>();
                         // file name could found file base or direct access from real path
                         // for now just get bitmap data from ImageView
                         // params.put("cover", new DataPart("file_avatar.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), 0), "image/jpeg"));
-                        params.put("uploaded_file", new DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), mCoverImage.getDrawable()), "image/jpeg"));
+                        params.put("uploaded_file", new VolleyDataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), mCoverImage.getDrawable()), "image/jpeg"));
 
                         return params;
                     }

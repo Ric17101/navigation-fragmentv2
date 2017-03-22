@@ -5,12 +5,11 @@ import java.util.HashMap;
 
 public class WebServiceInfo {
     private String url;
+    private HashMap<String, String> param;
 
     public HashMap<String, String> getParam() {
         return param;
     }
-
-    private HashMap<String, String> param;
     public String getUrl() {
         return url;
     }

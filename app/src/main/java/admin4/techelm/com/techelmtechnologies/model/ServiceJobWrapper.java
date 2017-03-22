@@ -147,7 +147,7 @@ public class ServiceJobWrapper implements Parcelable {
     }
 
     public String toString() {
-        return "ID : " + this._id +
+        return "\nID : " + this._id +
                 "\nService Number : " + this._service_no +
                 "\nCustomer ID : " + this._customer_id +
                 "\nService ID : " + this._service_id +
@@ -167,6 +167,7 @@ public class ServiceJobWrapper implements Parcelable {
                 "\nWarranty Repair : " + this._warranty_repair +
                 "\nOthers : " + this._others +
                 "\nSignature File Path : " + this._signature_file_path +
+                "\nSignature File Name : " + this._signature_name +
                 "\nCustomer Name : " + this._customer_name +
                 "\nJob Site : " + this._job_site +
                 "\nFax : " + this._fax +

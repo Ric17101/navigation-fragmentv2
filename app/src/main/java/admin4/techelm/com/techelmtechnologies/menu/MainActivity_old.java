@@ -300,8 +300,8 @@ public class MainActivity_old extends AppCompatActivity implements ServiceJobLis
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            //textView.setText(result);
+        protected void onPostExecute(String aResponse) {
+            //textView.setText(aResponse);
             System.gc();
         }
     }

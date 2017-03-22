@@ -184,7 +184,7 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
 
     /**
      * 0 - no user existed
-     * 1 - success login
+     * 1 - aSuccess login
      * 2 - invalid password but correct username
      * 3 - no response
      * 4 - no internet??? or blank reponse
