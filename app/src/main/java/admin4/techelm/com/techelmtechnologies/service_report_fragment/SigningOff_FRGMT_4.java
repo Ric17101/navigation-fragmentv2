@@ -64,6 +64,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
     private static final int PROGRESS_NEW_PARTS = 10;
     private static final int PROGRESS_ERROR = 0;
     private UploadDataWithNotificationTASK uploadTask;
+    private Button button_next;
 
     // A. SERVICE ID INFO
     private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
@@ -124,14 +125,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
         return view;
     }
 
-    private void initButton(View view) {
-        /** BUTTON BACK */
-        Button button_back = (Button) view.findViewById(R.id.button_back);
-        button_back.setVisibility(View.GONE);
-
-        /** BUTTON NEXT */
-        Button button_next = (Button) view.findViewById(R.id.button_next);
-        button_next.setText("END TASK");
+    private void setEndTaskButton() {
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,8 +135,20 @@ public class SigningOff_FRGMT_4 extends Fragment {
                     getActivity().startActivity(intent, bundle);
                     getActivity().finish();*/
                 }
+                button_next.setOnClickListener(null);
             }
         });
+    }
+
+    private void initButton(View view) {
+        /** BUTTON BACK */
+        Button button_back = (Button) view.findViewById(R.id.button_back);
+        button_back.setVisibility(View.GONE);
+
+        /** BUTTON NEXT */
+        button_next = (Button) view.findViewById(R.id.button_next);
+        button_next.setText("END TASK");
+        setEndTaskButton();
 
         /** BUTTON VIEW DETAILS */
         ImageButton buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
@@ -368,6 +374,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
                         .setSignatureFile(sjw.getSignaturePath(), sjw.getSignatureName())
                         .execute((Void) null);
             } else {
+                setEndTaskButton();
                 Snackbar.make(getActivity()
                         .findViewById(android.R.id.content),
                             "Please complete the report before end task.:",
@@ -574,6 +581,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 mBuilder.setSmallIcon(R.mipmap.ic_upload_error)
                     .setColor(Color.RED)
                     .setContentIntent(setUpActivityPendingEventFailed());
+                setEndTaskButton();
             } else {
                 notification = getString(R.string.upload_successfully);
                 mBuilder.setSmallIcon(R.mipmap.ic_upload_success)
