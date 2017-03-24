@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class ServiceJobNewPartsWrapper implements Parcelable {
     private int mId;                //id in database
-    private int mServiceID;         // servicejob id in database
+    private int mServiceJobID;         // servicejob id in database
     private String mReplacementPart;     // file name
     private String mQuantity;       //file path
     private String mUnitPrice;       //file path
@@ -15,7 +15,7 @@ public class ServiceJobNewPartsWrapper implements Parcelable {
 
     public ServiceJobNewPartsWrapper(Parcel in) {
         mId = in.readInt();
-        mServiceID = in.readInt();
+        mServiceJobID = in.readInt();
         mReplacementPart = in.readString();
         mQuantity = in.readString();
         mUnitPrice = in.readString();
@@ -35,7 +35,7 @@ public class ServiceJobNewPartsWrapper implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mId);
-        dest.writeInt(mServiceID);
+        dest.writeInt(mServiceJobID);
         dest.writeString(mQuantity);
         dest.writeString(mReplacementPart);
         dest.writeString(mUnitPrice);
@@ -54,10 +54,10 @@ public class ServiceJobNewPartsWrapper implements Parcelable {
         mId = id;
     }
 
-    public int getServiceId() {
-        return mServiceID;
+    public int getServiceJobId() {
+        return mServiceJobID;
     }
-    public void setServiceId(int val) { mServiceID = val; }
+    public void setServiceId(int val) { mServiceJobID = val; }
 
     public String getQuantity() {
         return mQuantity;
@@ -85,7 +85,7 @@ public class ServiceJobNewPartsWrapper implements Parcelable {
 
     public String toString() {
         return "ID : " + this.mId +
-                "\nService ID : " + this.mServiceID +
+                "\nService ID : " + this.mServiceJobID +
                 "\nReplacement Part: " + this.mReplacementPart +
                 "\nQuantity : " + this.mQuantity +
                 "\nUnit Price : " + this.mUnitPrice +

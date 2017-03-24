@@ -4,7 +4,6 @@ package admin4.techelm.com.techelmtechnologies.adapter;
  * Created by admin 4 on 16/02/2017.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
@@ -75,7 +74,7 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewNameRecord.setText(serviceJobDataSet.getName() + " recorded.");
+        holder.textViewNameRecord.setText(serviceJobDataSet.getRecordingName() + " recorded.");
         // holder.textViewDelete.setText(serviceJobDataSet.getServiceNumber());
         // holder.imageButtonDeletes.setOnClickListener(this);
 
@@ -100,7 +99,7 @@ public class ServiceJobRecordingsListAdapter extends RecyclerView.Adapter<Servic
         });*/
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
-                serviceJobDataSet.getFilePath() + serviceJobDataSet.getName());
+                serviceJobDataSet.getFilePath() + serviceJobDataSet.getRecordingName());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;

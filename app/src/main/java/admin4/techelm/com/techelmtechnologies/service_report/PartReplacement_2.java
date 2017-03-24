@@ -669,6 +669,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
                         dialog.dismiss();
                     }
                 })
+                .build()
                 .show();
     }
 

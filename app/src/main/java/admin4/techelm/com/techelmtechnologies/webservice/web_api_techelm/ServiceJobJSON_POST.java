@@ -1,8 +1,9 @@
 package admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm;
 
+import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,25 +13,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.net.URLConnection;
+import java.util.List;
 
-import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
-import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
-import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceListener;
-import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
-import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
-
-import static android.R.id.message;
+import admin4.techelm.com.techelmtechnologies.json.ConvertJSON;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 
 /**
  * Created by admin 4 on 22/03/2017.
+ * Purely implemented using JSON data
  * Used to Send JSON to server/web api then save the POST data
- * TODO: Should Implement using Thread/AsyncTask
  * POST commmand
  */
 
@@ -38,32 +33,93 @@ public class ServiceJobJSON_POST {
 
     public static final String TAG = "ServiceJobJSON_POST";
     private static final String SERVICE_JOB_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/";
+            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/servicejob_new_parts_json";
+    private JSONObject mJsonUpload;
 
     private OnEventListener mOnEventListener;
-    public void setOnEventListener(OnEventListener listener) {
+    public ServiceJobJSON_POST setOnEventListener(OnEventListener listener) {
         mOnEventListener = listener;
+        return this;
     }
 
     public interface OnEventListener {
         void onEvent();
-        void onJSONPostResult(WebResponse response);
+        void onJSONPostResult(String response);
+    }
+
+    private void onResult(String response) {
+        if (mOnEventListener != null) {
+            mOnEventListener.onJSONPostResult(response);
+        }
+    }
+
+    public ServiceJobJSON_POST addJSONRemarks(String remarks)  throws  JSONException {
+        if (this.mJsonUpload == null) {
+            this.mJsonUpload = new JSONObject();
+        }
+        this.mJsonUpload.put("remarks", remarks);
+        return this;
+    }
+
+    public ServiceJobJSON_POST addJSONNewReplacementPart(List<ServiceJobNewPartsWrapper> newPartsList) throws JSONException {
+        JSONArray jsonList = new JSONArray();
+        for (ServiceJobNewPartsWrapper service : newPartsList) {
+            JSONObject jsonParts = new JSONObject();
+            jsonParts.put("servicejob_id", service.getServiceJobId());
+            jsonParts.put("parts_name", service.getPartName());
+            jsonParts.put("quantity", service.getQuantity());
+            jsonParts.put("unit_price", service.getUnitPrice());
+            jsonParts.put("total_price", service.getTotalPrice());
+            jsonList.put(jsonParts);
+        }
+
+        if (this.mJsonUpload == null) {
+            this.mJsonUpload = new JSONObject();
+        }
+        this.mJsonUpload.put("new_replacement_parts", jsonList);
+        return this;
+    }
+
+    public void startPostJSON() {
+        new UploadJSONTask().execute((Void) null);
+    }
+
+    // For testing only to see what is being set on the JSON object
+    public JSONObject getJsonUpload() {
+        return this.mJsonUpload;
+    }
+
+    private class UploadJSONTask extends AsyncTask<Void, String, String> {
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String response = postJSON();
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 
     private JSONObject getJSONParams() throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("rate", "1");
-        jsonObject.put("comment", "OK");
-        jsonObject.put("category", "pro");
-        jsonObject.put("day", "19");
-        jsonObject.put("month", "8");
-        jsonObject.put("year", "2015");
-        jsonObject.put("hour", "16");
-        jsonObject.put("minute", "41");
-        jsonObject.put("day_of_week", "3");
-        jsonObject.put("week", "34");
-        jsonObject.put("rate_number", "1");
-        return jsonObject;
+        this.mJsonUpload.put("api_token", "gh659gjhvdyudo973823tt9gvjf7i6ric75r76");
+        return this.mJsonUpload;
+    }
+
+    private URLConnection setHTTPConfig2(String message) throws IOException {
+        URL url = new URL(SERVICE_JOB_URL);
+        URLConnection connection = url.openConnection();
+        connection.setReadTimeout(10000 /*milliseconds*/);
+        connection.setConnectTimeout(15000 /* milliseconds */);
+        connection.setDoInput(true);
+        connection.setDoOutput(true);
+
+        //make some HTTP header nicety
+        connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+        connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+        return connection;
     }
 
     private HttpURLConnection setHTTPConfig(String message) throws IOException {
@@ -82,15 +138,15 @@ public class ServiceJobJSON_POST {
         return conn;
     }
 
-    public void postJSON() {
+    private String postJSON() {
+        String dataString = "";
         OutputStream os = null;
         InputStream is = null;
         HttpURLConnection conn = null;
         try {
+            // Set JSON Param
             String message = getJSONParams().toString();
             conn = setHTTPConfig(message);
-
-            //open
             conn.connect();
 
             //setup send
@@ -99,11 +155,15 @@ public class ServiceJobJSON_POST {
             //clean up
             os.flush();
 
-            //do somehting with response
-            is = conn.getInputStream();
-            //String contentAsString = readIt(is,len);
-            String dataString = convertStreamToString(is);
-            Log.e(TAG, dataString);
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                //do somehting with response
+                is = conn.getInputStream();
+                dataString = getInputStringToString(is);
+                Log.e(TAG, dataString);
+                Log.e(TAG, "Message "+conn.getResponseMessage());
+                String response = new ConvertJSON().getResponseJSONfromServiceJob(dataString);
+                mOnEventListener.onJSONPostResult(response);
+            }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         } finally {
@@ -123,15 +183,21 @@ public class ServiceJobJSON_POST {
                 conn.disconnect();
             }
         }
+        return dataString;
     }
 
-    private void onResult(WebResponse response) {
-        if (mOnEventListener != null) {
-            // mOnEventListener.onEvent();
-            response.getStringResponse();
-            mOnEventListener.onJSONPostResult(response);
-        }
+    private String getInputStringToString(InputStream is) throws IOException, JSONException {
+        //Reader reader = new InputStreamReader(connection.getInputStream());
+
+        BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        StringBuilder responseStrBuilder = new StringBuilder();
+
+        String inputStr;
+        while ((inputStr = streamReader.readLine()) != null)
+            responseStrBuilder.append(inputStr);
+        return responseStrBuilder.toString();
     }
+
 
     /**
      * Utility Method for reading the responses from the web

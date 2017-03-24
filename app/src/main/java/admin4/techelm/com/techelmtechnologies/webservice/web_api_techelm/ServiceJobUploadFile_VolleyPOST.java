@@ -29,7 +29,7 @@ import static org.apache.commons.io.FileUtils.readFileToByteArray;
 /**
  * Created by admin 4 on 22/03/2017.
  * Used to Send JSON to server/web api then save the POST data
- * TODO: Should Implement at UploadFileCommand
+ * TODO: Should Implement at UploadFileCommand??
  * POST commmand
  */
 
@@ -46,6 +46,7 @@ public class ServiceJobUploadFile_VolleyPOST {
 
     public ServiceJobUploadFile_VolleyPOST() { }
 
+    public ServiceJobUploadFile_VolleyPOST build() { return this; }
     // Set Up Interfaces
     private OnEventListener mOnEventListener;
     public ServiceJobUploadFile_VolleyPOST setOnEventListener(OnEventListener listener) {
@@ -53,8 +54,9 @@ public class ServiceJobUploadFile_VolleyPOST {
         return this;
     }
     public interface OnEventListener {
-        void onError(String msg, int success);
-        void onJSONPostResult(NetworkResponseData response);
+        void onError(String msg, int error);
+        void onSuccess(String msg, int success);
+        // void onJSONPostResult(NetworkResponseData response);
     }
 
     public ServiceJobUploadFile_VolleyPOST setContext(Context context) {
@@ -82,6 +84,14 @@ public class ServiceJobUploadFile_VolleyPOST {
         this.mFileParams.put("uploaded_file", new VolleyDataPart(fileName, getByteFromImageFile(file),mimeType));
         return this;
     }
+
+    public ServiceJobUploadFile_VolleyPOST addMultipleFile(File file, String fileName, String mimeType, String count) {
+        if (mFileParams == null) {
+            mFileParams = new HashMap<>();
+        }
+        this.mFileParams.put("uploaded_file"+count, new VolleyDataPart(fileName, getByteFromImageFile(file),mimeType));
+        return this;
+    }
     public ServiceJobUploadFile_VolleyPOST addParam(String key, String value) {
         if (mMap == null) {
             mMap = new HashMap<>();
@@ -90,7 +100,7 @@ public class ServiceJobUploadFile_VolleyPOST {
         return this;
     }
 
-    // TODO: do some check here is params has been set
+    // TODO: do some check here is params has been set, before submit
     public void startUpload() {
         new UploadFileVolleyAsync().execute((Void) null);
         /*if (listIsNull()) {
@@ -132,17 +142,17 @@ public class ServiceJobUploadFile_VolleyPOST {
 
         @Override
         protected void onPostExecute(String result) {
-            if (aResponseData == null) {
+            /*if (aResponseData == null) {
                 mOnEventListener.onError("Result is null.", 0);
                 aSuccess = 0;
-            }
+            }*/
 
             switch (aSuccess) {
                 case 0 :
                     mOnEventListener.onError(result, aSuccess);
                     break;
                 case 1 :
-                    mOnEventListener.onJSONPostResult(aResponseData);
+                    mOnEventListener.onSuccess(result, aSuccess);
                     break;
                 default :
                     mOnEventListener.onError("On Default Case", aSuccess);
@@ -154,6 +164,7 @@ public class ServiceJobUploadFile_VolleyPOST {
         protected void onProgressUpdate(Void... values) {
         }
 
+        // This is also implemented at ConvertJSON
         private NetworkResponseData convertNetworkResponse(String resultResponse) {
             try {
                 JSONObject aResult = new JSONObject(resultResponse);
@@ -181,8 +192,10 @@ public class ServiceJobUploadFile_VolleyPOST {
                                 public void onResponse(NetworkResponse response) {
                                     String resultResponse = new String(response.data);
                                     Log.e(TAG, resultResponse);
+                                    // TODO: get the responses from the web
 //                                    aResponseData = convertNetworkResponse(resultResponse);
                                     aResponse = resultResponse;
+                                    aResponseData = convertNetworkResponse(resultResponse);
                                 }
                             }, new Response.ErrorListener() {
 

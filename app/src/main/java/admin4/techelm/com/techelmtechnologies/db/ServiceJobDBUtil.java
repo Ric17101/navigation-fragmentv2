@@ -522,4 +522,31 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         return rowId;
     }
 
+    /**
+     * Test if ServiceJob has Remarks
+     *  This is called before submitting the Files to the web
+     * @param id
+     * @return
+     */
+    public boolean hasRemarks(int id) {
+        String selectQuery = "SELECT remarks FROM " + DBHelperItem.TABLE_NAME
+                + " WHERE " + DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id;
+        Cursor cursor = getDB().rawQuery(selectQuery, null);
+        boolean result;
+        if (cursor.moveToFirst()) {
+            String recordItem = cursor.getString(0);
+            if ("".equals(recordItem) || recordItem == null) {
+                result = false;
+            } else {
+                result = true;
+            }
+        } else { // no data
+            result = false;
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return result;
+    }
 }

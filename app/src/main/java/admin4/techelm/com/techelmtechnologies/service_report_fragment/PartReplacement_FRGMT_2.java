@@ -164,7 +164,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);*/
-                ((ServiceJobViewPagerActivity)getActivity()).fromFragmentNavigate(-1);
+                ((ServiceJobViewPagerActivity) getActivity()).fromFragmentNavigate(-1);
             }
         });
 
@@ -177,7 +177,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
-                ((ServiceJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
+                ((ServiceJobViewPagerActivity) getActivity()).fromFragmentNavigate(1);
             }
         });
 
@@ -224,7 +224,6 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     public void onSJEntryDeleted() {
 
     }*/
-
     private void populateServiceJobDetails(int serviceID) {
 
         // SERVICE JOB Controls
@@ -279,7 +278,14 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private void actionNewPartReplacement(MaterialDialog dialog) {
         dialog.dismiss();
         Snackbar.make(getActivity().findViewById(android.R.id.content), "Save new part", Snackbar.LENGTH_LONG)
-                .setAction("OK", null).show();
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
         new NewPartsCreateOperation().execute(
                 mSpinnerReplacementParts.getSelectedItem().toString(),
                 mSpinnerQuantity.getSelectedItem().toString(),
@@ -291,7 +297,14 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private void actionUpdatePartReplacement(MaterialDialog dialog) {
         dialog.dismiss();
         Snackbar.make(getActivity().findViewById(android.R.id.content), "Save new part", Snackbar.LENGTH_LONG)
-                .setAction("OK", null).show();
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
         mSJPart.setReplacementPartName(mSpinnerReplacementParts.getSelectedItem().toString());
         mSJPart.setQuantity(mSpinnerQuantity.getSelectedItem().toString());
         mSJPart.setUnitPrice(mSpinnerUnitPrice.getSelectedItem().toString());
@@ -320,7 +333,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                         if (actionNewReplacement.equals(ADD_NEW_PART_REPLACEMENT)) {
                             actionNewPartReplacement(dialog);
                             showCheckNewReplacementPartAdded();
-                        } else if (actionNewReplacement.equals(UPDATE_NEW_PART_REPLACEMENT)){
+                        } else if (actionNewReplacement.equals(UPDATE_NEW_PART_REPLACEMENT)) {
                             actionUpdatePartReplacement(dialog);
                         }
                     }
@@ -338,7 +351,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         return md;
     }
 
-    private void setSpinnerValue(String ...spinnerArgs) {
+    private void setSpinnerValue(String... spinnerArgs) {
         populateSpinnerPartsValue(spinnerArgs[0]);
         populateSpinnerQuantityValue(spinnerArgs[1]);
         populateSpinnerUnitPriceValue(spinnerArgs[2]);
@@ -414,6 +427,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
             mButtonViewUploadFileNew.setVisibility(View.GONE);
             mProgressBarUploadingNew.setVisibility(View.VISIBLE);
         }
+
         @Override
         protected ServiceJobNewPartsWrapper doInBackground(ServiceJobNewPartsWrapper... newPartsArgs) {
             if (newPartsArgs.length != 0) {
@@ -435,14 +449,22 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "Replacement Updated",
                         Snackbar.LENGTH_LONG)
-                        .setAction("OK", null).show();
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            }
+                        }).setActionTextColor(getResources().getColor(R.color.colorPrimary1)).show();
 
                 populateUploadsCardList();
             } else {
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "Unable to store the signature",
                         Snackbar.LENGTH_LONG)
-                        .setAction("OK", null).show();
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            }
+                        }).setActionTextColor(getResources().getColor(R.color.colorPrimary1)).show();
             }
 
             if (mProgressBarUploadingNew.isShown()) {
@@ -452,7 +474,8 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         }
 
         @Override
-        protected void onProgressUpdate(Void... values) {}
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 
     private class NewPartsCreateOperation extends AsyncTask<String, Void, ServiceJobNewPartsWrapper> {
@@ -461,6 +484,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
             mButtonViewUploadFileNew.setVisibility(View.GONE);
             mProgressBarUploadingNew.setVisibility(View.VISIBLE);
         }
+
         @Override
         protected ServiceJobNewPartsWrapper doInBackground(String... newPartsArgs) {
             if (newPartsArgs.length != 0) {
@@ -486,14 +510,22 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "New Replacement Added.",
                         Snackbar.LENGTH_LONG)
-                        .setAction("OK", null).show();
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            }
+                        }).setActionTextColor(getResources().getColor(R.color.colorPrimary1)).show();
 
                 populateUploadsCardList();
             } else {
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "Unable to store the signature",
                         Snackbar.LENGTH_LONG)
-                        .setAction("OK", null).show();
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            }
+                        }).setActionTextColor(getResources().getColor(R.color.colorPrimary1)).show();
             }
 
             if (mProgressBarUploadingNew.isShown()) {
@@ -503,7 +535,8 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         }
 
         @Override
-        protected void onProgressUpdate(Void... values) {}
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 
 
@@ -517,9 +550,11 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     public void fromActivity_onNewPartsEntryAdded(String fileName) {
         populateUploadsCardList();
     }
+
     public void fromActivity_onPartsEntryRenamed(String fileName) {
 
     }
+
     public void fromActivity_onPartsEntryDeleted() {
         populateUploadsCardList();
     }
@@ -529,6 +564,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
             int position, ServiceJobNewPartsWrapper serviceJobNewPartsWrapper, int mode) {
 
     }
+
     public void fromActivity_onHandleDeletePartsFromListSelection(final int id) {
         new MaterialDialog.Builder(this.mContext)
                 .title("COMFIRM DELETE REPLACEMENT PART.")
@@ -554,6 +590,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                 })
                 .show();
     }
+
     public void fromActivity_onHandleViewPartFromListSelection(ServiceJobNewPartsWrapper serviceJobPartWrapper) {
         showUploadDialog(serviceJobPartWrapper);
     }
@@ -587,7 +624,6 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         }
     }
     /*********** B.1 END NEW REPLACEMENT PART SETUP ***********/
-
 
 
     /*********** B. CAMERA SETUP ***********/

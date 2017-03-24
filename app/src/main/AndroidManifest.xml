@@ -37,6 +37,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".service_report_fragment.ServiceReport_TaskCompleted_5"
+            android:label="@string/title_activity_service_report__task_completed"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:parentActivityName=".menu.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".menu.MainActivity"/>
+        </activity>
+        <activity
             android:name=".utility.volley_multipart.VolleyMainActivity"
             android:label="Webservice"
             android:theme="@style/AppTheme" />
@@ -68,11 +79,6 @@
             android:name=".service_report.SigningOff_4"
             android:label="@string/title_activity_service_report__task_completed"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".service_report_fragment.ServiceReport_TaskCompleted_5"
-            android:label="@string/title_activity_service_report__task_completed"
-            android:theme="@style/AppTheme" />
-
         <activity
             android:name=".service_report_fragment.ServiceJobViewPagerActivity"
             android:label="SAMPLE VIEW PAGER"

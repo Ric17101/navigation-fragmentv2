@@ -35,7 +35,7 @@ public class ServiceJobWrapper implements Parcelable {
     };
 
     //private variables 24
-    private int _id;
+    private int _id; // ServiceJob ID from the WEB API, should exist only once on local DB
     private String _service_no;
     private String _customer_id;
     private String _service_id;

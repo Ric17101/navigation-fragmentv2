@@ -144,7 +144,7 @@ public class PlaybackFragment extends DialogFragment {
             }
         });
 
-        mFileNameTextView.setText(item.getName());
+        mFileNameTextView.setText(item.getRecordingName());
         mFileLengthTextView.setText(String.format("%02d:%02d", minutes,seconds));
 
         builder.setView(view);

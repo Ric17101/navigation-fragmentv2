@@ -193,14 +193,14 @@ public class RecordingDBUtil extends DatabaseAccess {
                 DBHelperItem.COLUMN_NAME_RECORDING_ID + "=" + item.getID(), null);
 
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onRecordingsEntryRenamed(item.getName());
+            mOnDatabaseChangedListener.onRecordingsEntryRenamed(item.getRecordingName());
         }
     }
 
     public long restoreRecording(ServiceJobRecordingWrapper item) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
-        cv.put(DBHelperItem.COLUMN_NAME_RECORDING_NAME, item.getName());
+        cv.put(DBHelperItem.COLUMN_NAME_RECORDING_NAME, item.getRecordingName());
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_FILE_PATH, item.getFilePath());
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_LENGTH, item.getLength());
         cv.put(DBHelperItem.COLUMN_NAME_TIME_ADDED, item.getTime());
@@ -212,4 +212,27 @@ public class RecordingDBUtil extends DatabaseAccess {
         return rowId;
     }
 
+    /**
+     * Has inserted at least one recordings in the DB
+     * This is called before submitting the Files to the web
+     * @param servicejob_id
+     * @return
+     */
+    public boolean hasInsertedRecordings(int servicejob_id) {
+        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
+                + " WHERE "+ DBHelperItem.COLUMN_NAME_RECORDING_SERVICE_ID + "=" + servicejob_id;
+        Cursor cursor = getDB().rawQuery(selectQuery, null);
+        // String recordItem = cursor.getString(1);
+        boolean result;
+        if (cursor.moveToFirst()) {
+            result = true;
+        } else { // no data
+            result = false;
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return result;
+    }
 }

@@ -864,8 +864,8 @@ public class ServiceReport_1 extends AppCompatActivity implements
                     R.string.toast_recording_start,
                     Snackbar.LENGTH_LONG)
                     .setAction("OK", null).show();
-            // Toast.makeText(ServiceReport_FRGMT_1.this ,R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
-            File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
+            File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/TELCHEM/recording");
+
             if (!folder.exists()) {
                 //folder /SoundRecorder doesn't exist, then create the folder
                 folder.mkdir();

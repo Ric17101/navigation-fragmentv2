@@ -197,4 +197,21 @@ public class UploadsDBUtil extends DatabaseAccess {
         return rowId;
     }
 
+    public boolean hasInsertedRecordings(int servicejob_id) {
+        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
+                + " WHERE "+ DBHelperItem.COLUMN_NAME_UPLOADS_SERVICE_ID + "=" + servicejob_id;
+        Cursor cursor = getDB().rawQuery(selectQuery, null);
+        // String recordItem = cursor.getString(1);
+        boolean result;
+        if (cursor.moveToFirst()) {
+            result = true;
+        } else { // no data
+            result = false;
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return result;
+    }
 }

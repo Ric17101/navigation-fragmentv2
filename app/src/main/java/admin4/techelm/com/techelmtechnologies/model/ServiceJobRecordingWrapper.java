@@ -75,7 +75,7 @@ public class ServiceJobRecordingWrapper implements Parcelable {
         mLength = length;
     }
 
-    public String getName() { return mName; }
+    public String getRecordingName() { return mName; }
     public void setName(String name) {
         mName = name;
     }

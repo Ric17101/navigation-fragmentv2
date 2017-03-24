@@ -5,6 +5,8 @@ package admin4.techelm.com.techelmtechnologies.json;
  * Used to convert JSON string in to WRAPPERS
  */
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,4 +131,33 @@ public class ConvertJSON {
         return translationList;
     }
 
+
+    /**
+     * TODO: do something with the responses
+     * @param JSONResult
+     * @throws JSONException
+     */
+    public String getResponseJSONfromServiceJob(String JSONResult) throws JSONException {
+        JSONObject json = new JSONObject(JSONResult);
+        String str = "";
+
+        //JSONArray jsonArray = json.getJSONArray("uploaded_file");
+        JSONObject ob1 = json.getJSONObject("uploaded_file");
+        JSONObject ob2 = ob1.getJSONObject("data");
+        JSONArray jsonArray = ob2.getJSONArray("new_replacement_parts");
+        //int jsonLen = jsonArray.length();
+        //this.mResult = jsonLen >= 0;
+
+        Log.d(TAG, "Status" + json.getInt("status")+"");
+        Log.d(TAG, "data "+ob1.toString());
+        Log.d(TAG, "parts_name "+jsonArray.getJSONObject(0).getString("parts_name"));
+        /*int i = 0;
+        do { // 24
+            jsonArray.getJSONObject(i);
+            // jsonArray.getJSONObject(i).getString("id"))
+            // Log.d(TAG, jsonArray.getJSONObject(i););
+            i++;
+        } while (jsonLen > i);*/
+        return "UPDATE " + jsonArray.length() + "New Replacement Parts.";
+    }
 }

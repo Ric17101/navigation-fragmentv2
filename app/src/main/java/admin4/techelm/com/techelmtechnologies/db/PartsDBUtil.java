@@ -104,9 +104,9 @@ public class PartsDBUtil extends DatabaseAccess {
         return list;
     }
 
-    public List<ServiceJobNewPartsWrapper> getAllPartsBySJID(int id) {
+    public List<ServiceJobNewPartsWrapper> getAllPartsBySJID(int serviceJobID) {
         ArrayList<ServiceJobNewPartsWrapper> list = new ArrayList<ServiceJobNewPartsWrapper>();
-        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE servicejob_id="+id;
+        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE servicejob_id="+serviceJobID;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
@@ -175,7 +175,7 @@ public class PartsDBUtil extends DatabaseAccess {
     public int addNewPart(ServiceJobNewPartsWrapper item, String fragmentName) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
-        cv.put(DBHelperItem.COLUMN_NAME_PARTS_SERVICE_ID, item.getServiceId());
+        cv.put(DBHelperItem.COLUMN_NAME_PARTS_SERVICE_ID, item.getServiceJobId());
         cv.put(DBHelperItem.COLUMN_NAME_PARTS_NAME, item.getPartName());
         cv.put(DBHelperItem.COLUMN_NAME_PARTS_QUANTITY, item.getQuantity());
         cv.put(DBHelperItem.COLUMN_NAME_PARTS_UNIT_PRICE, item.getUnitPrice());
@@ -223,7 +223,7 @@ public class PartsDBUtil extends DatabaseAccess {
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_PARTS_NAME, item.getPartName());
         cv.put(DBHelperItem.COLUMN_NAME_PARTS_QUANTITY, item.getQuantity());
-        cv.put(DBHelperItem.COLUMN_NAME_PARTS_SERVICE_ID, item.getServiceId());
+        cv.put(DBHelperItem.COLUMN_NAME_PARTS_SERVICE_ID, item.getServiceJobId());
         cv.put(DBHelperItem.COLUMN_NAME_PARTS_ID, item.getID());
         long rowId = db.insert(DBHelperItem.TABLE_NAME, null, cv);
         if (mOnDatabaseChangedListener != null) {

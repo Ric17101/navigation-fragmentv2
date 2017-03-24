@@ -34,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -184,7 +185,14 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
             }
         } else {
             Snackbar.make(getActivity().findViewById(android.R.id.content), "No data selected from calendar.", Snackbar.LENGTH_LONG)
-                    .setAction("OK", null).show();
+                    .setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
         }
 
         return view;
@@ -303,6 +311,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
                 .positiveText("Close")
                 .negativeText("Save")
                 .iconRes(R.mipmap.edit_icon)
+                .limitIconToDefaultSize()
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -311,11 +320,23 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
                         mSJDB.open();
                         mSJDB.updateRequestIDRemarks(mServiceID, input.getText().toString());
                         mSJDB.close();
+                        hideKeyboard();
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        hideKeyboard();
                     }
                 })
                 .show();
 
         return md;
+    }
+
+    public void hideKeyboard() {
+        InputMethodManager inputMethodManager =(InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
     /*********** A.1 END EDIT VIEW POP UP REMARKS ***********/
@@ -457,7 +478,14 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
                             Snackbar.make(getActivity().findViewById(android.R.id.content),
                                     "No image to save",
                                     Snackbar.LENGTH_LONG)
-                                    .setAction("OK", null).show();
+                                    .setAction("OK", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                        }
+                                    })
+                                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                                    .show();
                             /*Toast.makeText(ServiceReport_FRGMT_1.this,
                                     "No image to save", Toast.LENGTH_LONG).show();*/
                         }
@@ -511,12 +539,26 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "Image saved into the Gallery: " + camU.getFilePath(),
                         Snackbar.LENGTH_LONG)
-                        .setAction("OK", null).show();
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        })
+                        .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
             } else {
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
                         "Unable to store the signature",
                         Snackbar.LENGTH_LONG)
-                        .setAction("OK", null).show();
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        })
+                        .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
             }
 
             if (mProgressBarUploading.isShown()) {
@@ -910,7 +952,14 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
             Snackbar.make(getActivity().findViewById(android.R.id.content),
                     R.string.toast_recording_start,
                     Snackbar.LENGTH_LONG)
-                    .setAction("OK", null).show();
+                    .setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
             // Toast.makeText(ServiceReport_FRGMT_1.this ,R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
             File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
             if (!folder.exists()) {
@@ -1002,6 +1051,7 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
                         mRecodingDB.open();
                         mRecodingDB.removeItemWithId(id);
                         mRecodingDB.close();
+                        dialog.dismiss();
                     }
                 })
                 .show();
@@ -1031,7 +1081,14 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         Snackbar.make(getActivity().findViewById(android.R.id.content),
                 "Recording " + fileName + " has been added.",
                 Snackbar.LENGTH_LONG)
-                .setAction("OK", null).show();
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
         /*Toast.makeText(ServiceReport_FRGMT_1.this, "Recording " + fileName + " has been added.",
                 Toast.LENGTH_SHORT).show();*/
         populateRecordingsCardList();
@@ -1041,18 +1098,33 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         Snackbar.make(getActivity().findViewById(android.R.id.content),
                 "Recording " + fileName + " has been renamed.",
                 Snackbar.LENGTH_LONG)
-                .setAction("OK", null).show();
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
     }
 
     public void fromActivity_onRecordingsEntryDeleted() {
         /*Toast.makeText(ServiceReport_FRGMT_1.this, "Delete successful.",
                 Toast.LENGTH_SHORT).show();*/
-        if (mRecordingDialog.isShowing())
-            mRecordingDialog.dismiss();
+        if (mRecordingDialog != null)
+            if (mRecordingDialog.isShowing())
+                mRecordingDialog.dismiss();
         Snackbar.make(getActivity().findViewById(android.R.id.content),
                 "Delete successful.",
                 Snackbar.LENGTH_LONG)
-                .setAction("OK", null).show();
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
         populateRecordingsCardList();
     }
 
