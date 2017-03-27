@@ -149,8 +149,8 @@ public class ConvertJSON {
         //this.mResult = jsonLen >= 0;
 
         Log.d(TAG, "Status" + json.getInt("status")+"");
-        Log.d(TAG, "data "+ob1.toString());
-        Log.d(TAG, "parts_name "+jsonArray.getJSONObject(0).getString("parts_name"));
+        Log.d(TAG, "data " + ob1.toString());
+        Log.d(TAG, "parts_name " + jsonArray.getJSONObject(0).getString("parts_name"));
         /*int i = 0;
         do { // 24
             jsonArray.getJSONObject(i);

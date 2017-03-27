@@ -128,8 +128,6 @@ public class RecordingDBUtil extends DatabaseAccess {
             recordItem.setFilePath(cursor.getString(2));
             recordItem.setLength(cursor.getInt(3));
             recordItem.setTime(cursor.getLong(4));
-        } else {
-            recordItem = null;
         }
 
         if (!cursor.isClosed()) {

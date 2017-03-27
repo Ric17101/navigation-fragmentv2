@@ -64,6 +64,11 @@ public class JSONHelper {
 
     }
 
+    /**
+     * Return TRUE if Device is Connected to the Internet
+     * @param activity - the Calling Activity / Context
+     * @return
+     */
     public boolean isConnected(FragmentActivity activity){
         ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();

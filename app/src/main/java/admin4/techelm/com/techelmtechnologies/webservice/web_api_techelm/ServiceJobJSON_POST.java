@@ -155,7 +155,7 @@ public class ServiceJobJSON_POST {
             //clean up
             os.flush();
 
-            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            //f (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 //do somehting with response
                 is = conn.getInputStream();
                 dataString = getInputStringToString(is);
@@ -163,7 +163,7 @@ public class ServiceJobJSON_POST {
                 Log.e(TAG, "Message "+conn.getResponseMessage());
                 String response = new ConvertJSON().getResponseJSONfromServiceJob(dataString);
                 mOnEventListener.onJSONPostResult(response);
-            }
+            //}
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         } finally {

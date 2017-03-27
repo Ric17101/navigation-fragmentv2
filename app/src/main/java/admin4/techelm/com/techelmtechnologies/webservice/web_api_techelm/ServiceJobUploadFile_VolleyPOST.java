@@ -35,7 +35,7 @@ import static org.apache.commons.io.FileUtils.readFileToByteArray;
 
 public class ServiceJobUploadFile_VolleyPOST {
 
-    private static final String TAG = "VolleyPOST";
+    private static final String TAG = "SJUpload_VolleyPOST";
     private static String SERVICE_JOB_UPLOAD_URL =
             "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/Servicejob/servicejob_upload";
     private String mServiceJobLink;
@@ -136,7 +136,7 @@ public class ServiceJobUploadFile_VolleyPOST {
 
         @Override
         protected String doInBackground(Void... params) {
-            saveProfileAccount();
+            saveServiceReportForJSONResponse();
             return aResponse;
         }
 
@@ -165,13 +165,16 @@ public class ServiceJobUploadFile_VolleyPOST {
         }
 
         // This is also implemented at ConvertJSON
-        private NetworkResponseData convertNetworkResponse(String resultResponse) {
+        private NetworkResponseData convertNetworkJSONResponse(String resultResponse) {
             try {
                 JSONObject aResult = new JSONObject(resultResponse);
                 NetworkResponseData response = new NetworkResponseData();
                 response.status = aResult.getInt("status");
                 response.message = aResult.getString("message");
-                response.uploaded_file = aResult.getString("uploaded_file");
+                response.uploaded_file = "";
+                if (response.status == 200) {
+                    response.uploaded_file = aResult.getString("uploaded_file");
+                }
                 return response;
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -180,7 +183,7 @@ public class ServiceJobUploadFile_VolleyPOST {
             return null;
         }
 
-        private void saveProfileAccount() {
+        private void saveServiceReportForJSONResponse() {
             // loading or check internet connection or something...
             // ... then
             // String url = "http://www.angga-ari.com/api/something/awesome";
@@ -193,9 +196,9 @@ public class ServiceJobUploadFile_VolleyPOST {
                                     String resultResponse = new String(response.data);
                                     Log.e(TAG, resultResponse);
                                     // TODO: get the responses from the web
-//                                    aResponseData = convertNetworkResponse(resultResponse);
+//                                    aResponseData = convertNetworkJSONResponse(resultResponse);
                                     aResponse = resultResponse;
-                                    aResponseData = convertNetworkResponse(resultResponse);
+                                    aResponseData = convertNetworkJSONResponse(resultResponse);
                                 }
                             }, new Response.ErrorListener() {
 

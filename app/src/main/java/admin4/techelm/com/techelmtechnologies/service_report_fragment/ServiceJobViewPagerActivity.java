@@ -73,8 +73,6 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
                     .setAction("OK", null).show();
         }
 
-
-
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setPopupTheme(R.style.ThemeOverlay_AppCompat_Light);
         if (toolbar != null) {
@@ -102,7 +100,6 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         Runnable run = new Runnable() {
             @Override
             public void run() {
-
                 mSJDB = new ServiceJobDBUtil(ServiceJobViewPagerActivity.this);
                 mSJDB.open();
                 mSJDB.removeServiceJob(String.valueOf(mServiceJobFromBundle.getID()));

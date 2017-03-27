@@ -643,20 +643,22 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         mUploadResults = mPartsDB.getAllPartsBySJID(mServiceID);
         mPartsDB.close();
 
-        for (int i = 0; i < mUploadResults.size(); i++) {
-            Log.e(TAG, "DATA: " + mUploadResults.get(i).toString());
-        }
-
-        mUploadResultsList.setHasFixedSize(true);
-        mUploadResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
-        mUploadResultsList.setItemAnimator(new DefaultItemAnimator());
-        mUploadListAdapter.swapData(mUploadResults);
-        /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
+        if (mUploadResults != null) {
+            for (int i = 0; i < mUploadResults.size(); i++) {
+                Log.e(TAG, "DATA: " + mUploadResults.get(i).toString());
             }
-        });*/
+
+            mUploadResultsList.setHasFixedSize(true);
+            mUploadResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
+            mUploadResultsList.setItemAnimator(new DefaultItemAnimator());
+            mUploadListAdapter.swapData(mUploadResults);
+            /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });*/
+        }
     }
 
     /**

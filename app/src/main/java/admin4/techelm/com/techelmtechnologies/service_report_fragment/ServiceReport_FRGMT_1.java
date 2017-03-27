@@ -408,20 +408,22 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         mUploadResults = mUploadsDB.getAllUploadsBySJID(mServiceID);
         mUploadsDB.close();
 
-        for (int i = 0; i < mUploadResults.size(); i++) {
-            Log.e(TAG, "DATA: " + mUploadResults.get(i).toString());
-        }
-
-        mUploadResultsList.setHasFixedSize(true);
-        mUploadResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
-        mUploadResultsList.setItemAnimator(new DefaultItemAnimator());
-        mUploadListAdapter.swapData(mUploadResults);
-        /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
+        if (mUploadResults != null) {
+            for (int i = 0; i < mUploadResults.size(); i++) {
+                Log.e(TAG, "DATA: " + mUploadResults.get(i).toString());
             }
-        });*/
+
+            mUploadResultsList.setHasFixedSize(true);
+            mUploadResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
+            mUploadResultsList.setItemAnimator(new DefaultItemAnimator());
+            mUploadListAdapter.swapData(mUploadResults);
+            /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });*/
+        }
     }
 
     private void showUploadDialog(final ServiceJobUploadsWrapper serviceJobRecordingWrapper) {
@@ -874,21 +876,22 @@ public class ServiceReport_FRGMT_1 extends Fragment implements
         mRecodingDB.open();
         mResultsList = mRecodingDB.getAllRecordingsBySJID(mServiceID);
         mRecodingDB.close();
+        if (mResultsList != null) {
+            //Log.e(TAG, "DATA: " + mResultsList.get(0).toString());
+            /*for (int i = 0; i < mResultsList.size(); i++) {
+                Log.e(TAG, "DATA: " + mResultsList.get(i).toString());
+            }*/
+            mRecordResultsList.setHasFixedSize(true);
+            mRecordResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
+            mRecordResultsList.setItemAnimator(new DefaultItemAnimator());
+            mListAdapter.swapData(mResultsList);
+            /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
 
-        for (int i = 0; i < mResultsList.size(); i++) {
-            Log.e(TAG, "DATA: " + mResultsList.get(i).toString());
+                }
+            });*/
         }
-
-        mRecordResultsList.setHasFixedSize(true);
-        mRecordResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
-        mRecordResultsList.setItemAnimator(new DefaultItemAnimator());
-        mListAdapter.swapData(mResultsList);
-        /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });*/
     }
 
     public MaterialDialog showRecordingDialog() {

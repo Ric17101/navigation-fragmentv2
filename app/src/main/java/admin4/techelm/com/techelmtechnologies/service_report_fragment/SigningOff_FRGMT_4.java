@@ -39,6 +39,7 @@ import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
+import admin4.techelm.com.techelmtechnologies.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
@@ -304,6 +305,12 @@ public class SigningOff_FRGMT_4 extends Fragment {
         imageButtonViewSignature.setBackgroundDrawable(ob);
     }
 
+    // This is used and Call at CalendarFragment also
+    private void noInternetSnackBar() {
+        Snackbar.make(getActivity().getCurrentFocus(), "No internet connection.", Snackbar.LENGTH_LONG)
+                .setAction("OK", null).show();
+    }
+
     /*********** A. SERVICE DETAILS ***********/
     public void fromActivity_onNewSJEntryAdded(String serviceNum) {
         System.out.print("onNewSJEntryAdded: Called");
@@ -332,33 +339,26 @@ public class SigningOff_FRGMT_4 extends Fragment {
     }
 
     private boolean onSubmitSuccess() {
-        new TestDBIfUserUploadedFiles().execute("");
+        if (new JSONHelper().isConnected(getActivity())) {
+            new TestDBIfUserUploadedFiles().execute("");
+        } else {
+            noInternetSnackBar();
+            return false;
+        }
         return true;
     }
 
+    // TODO: Should this separate from CLASS
     private class TestDBIfUserUploadedFiles extends AsyncTask<String, Void, ServiceJobWrapper>{
-
+        boolean aHasRecordings = true;
+        boolean aHasUploads = true;
         @Override
         protected ServiceJobWrapper doInBackground(String... params) {
-            // TEST Recordings
-            RecordingDBUtil mRecordingsDB = new RecordingDBUtil(getActivity());
-            mRecordingsDB.open();
-            boolean hasRecordings = mRecordingsDB.hasInsertedRecordings(mServiceID);
-            mRecordingsDB.close();
-
-            // TEST Uploads
-            UploadsDBUtil mUploadsDB = new UploadsDBUtil(getActivity());
-            mUploadsDB.open();
-            boolean hasUploads = mUploadsDB.hasInsertedRecordings(mServiceID);
-            mUploadsDB.close();
+            aHasRecordings = testIfRecordingsHasRecordings();
+            aHasUploads = testIfUploadsHasCaptures();
 
             // Get Service Job Details
-            ServiceJobWrapper sjw = new ServiceJobWrapper();
-            mSJDB = new ServiceJobDBUtil(getActivity());
-            mSJDB.open();
-            if (mSJDB.hasRemarks(mServiceID) && hasUploads && hasRecordings)
-                sjw = mSJDB.getAllJSDetailsByServiceJobID(mServiceID);
-            mSJDB.close();
+            ServiceJobWrapper sjw = getSJDetails();
 
             Log.e(TAG, "Service Job ID " + mServiceID);
             Log.e(TAG, sjw.toString());
@@ -368,17 +368,14 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         @Override
         protected void onPostExecute(ServiceJobWrapper sjw) {
-            if (sjw != null) {
-                uploadTask = new UploadDataWithNotificationTASK();
-                uploadTask.setIdRemarks(sjw.getID(), sjw.getActionsOrRemarks())
-                        .setSignatureFile(sjw.getSignaturePath(), sjw.getSignatureName())
-                        .execute((Void) null);
+            if (sjw != null && aHasUploads && aHasRecordings) {
+                notifyUserOnSubmit(sjw);
             } else {
                 setEndTaskButton();
                 Snackbar.make(getActivity()
-                        .findViewById(android.R.id.content),
-                            "Please complete the report before end task.:",
-                            Snackbar.LENGTH_LONG)
+                                .findViewById(android.R.id.content),
+                        "Please complete the report before end task.:",
+                        Snackbar.LENGTH_LONG)
                         .setAction("OK", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -389,18 +386,41 @@ public class SigningOff_FRGMT_4 extends Fragment {
                         .show();
             }
         }
-    }
 
-    private void goHome() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(getActivity(), MainActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                getActivity().overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-            }
-        });
+        private boolean testIfUploadsHasCaptures() {
+            // TEST Uploads
+            UploadsDBUtil mUploadsDB = new UploadsDBUtil(getActivity());
+            mUploadsDB.open();
+            boolean result = mUploadsDB.hasInsertedRecordings(mServiceID);
+            mUploadsDB.close();
+            return result;
+        }
 
+        private boolean testIfRecordingsHasRecordings() {
+            // TEST Recordings
+            RecordingDBUtil mRecordingsDB = new RecordingDBUtil(getActivity());
+            mRecordingsDB.open();
+            boolean result = mRecordingsDB.hasInsertedRecordings(mServiceID);
+            mRecordingsDB.close();
+            return result;
+        }
+
+        private ServiceJobWrapper getSJDetails() {
+            ServiceJobWrapper sjw = new ServiceJobWrapper();
+            mSJDB = new ServiceJobDBUtil(getActivity());
+            mSJDB.open();
+            if (mSJDB.hasRemarks(mServiceID)) // && aHasUploads && aHasRecordings
+                sjw = mSJDB.getAllJSDetailsByServiceJobID(mServiceID);
+            mSJDB.close();
+            return sjw;
+        }
+
+        private void notifyUserOnSubmit(ServiceJobWrapper sjw) {
+            uploadTask = new UploadDataWithNotificationTASK();
+            uploadTask.setIdRemarks(sjw.getID(), sjw.getActionsOrRemarks())
+                    .setSignatureFile(sjw.getSignaturePath(), sjw.getSignatureName())
+                    .execute((Void) null);
+        }
     }
 
 
@@ -449,8 +469,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e(TAG, "Im on onPostExecute @ UploadDataWithNotificationTASK");
-            if (mIncrProgress == PROGRESS_MAX)
-                goHome();
+            //if (mIncrProgress == PROGRESS_MAX) // This line is not called due to asynchronous call
+            //   goHome();
         }
 
         // TEST ONLY
@@ -468,16 +488,16 @@ public class SigningOff_FRGMT_4 extends Fragment {
             NotificationManager notificationManager =
                     (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(notificationId, repliedNotification);
-        /*NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(getActivity())
-                        .setSmallIcon(R.mipmap.ic_upload)
-                        .setContentTitle("Simple notification")
-                        .setContentText("This is test of simple notification.");
-        // Gets an instance of the NotificationManager service
-        NotificationManager notificationManager =(NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            /*NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(getActivity())
+                            .setSmallIcon(R.mipmap.ic_upload)
+                            .setContentTitle("Simple notification")
+                            .setContentText("This is test of simple notification.");
+            // Gets an instance of the NotificationManager service
+            NotificationManager notificationManager =(NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        //to post your notification to the notification bar
-        notificationManager.notify(0 , mBuilder.build());*/
+            //to post your notification to the notification bar
+            notificationManager.notify(0 , mBuilder.build());*/
         }
 
         // 1.a SET UP ACTIVITY PENDING EVENT
@@ -518,8 +538,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
             // 2. SET UP  NOTIFICATION TO SHOW
             Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
             mBuilder = new NotificationCompat.Builder(getActivity());
-            mBuilder.setContentIntent(setUpActivityPendingEventSuccess())
-                    .setContentTitle(getString(R.string.app_name))
+            mBuilder.setContentTitle(getString(R.string.app_name))
+                    .setPriority(2)
                     .setContentText(getString(R.string.uploading))
                     .setAutoCancel(true)
                     .setSmallIcon(R.mipmap.ic_upload)
@@ -542,9 +562,9 @@ public class SigningOff_FRGMT_4 extends Fragment {
             // RECORDINGS
             uploadRecordings(this.aServiceID);
             // SIGNATURES
-            uploadSignature(aPath, aName);
+            uploadSignature(this.aServiceID, aPath, aName);
             // NEW REPLACEMENT PARTS
-            // uploadJSONNewParts(aServiceID, aRemarks);
+            uploadJSONNewParts(aServiceID, aRemarks);
         }
 
         // 4.b Incremenet Progress Notification
@@ -560,8 +580,9 @@ public class SigningOff_FRGMT_4 extends Fragment {
             Log.e("COUNTER" + counter, "Progress:"+progress+" Inc" + mIncrProgress);
             if (counter == 3) {
                 uploadJSONNewParts(aServiceID, aRemarks); // NEW REPLACEMENT PARTS
-            } else if (counter == 4 || progress == 0)
+            } else if (counter == 4 || progress == 0) {
                 finishNotificationProgress();
+            }
         }
 
         private void sleep() {
@@ -585,10 +606,15 @@ public class SigningOff_FRGMT_4 extends Fragment {
             } else {
                 notification = getString(R.string.upload_successfully);
                 mBuilder.setSmallIcon(R.mipmap.ic_upload_success)
-                        .setColor(Color.GREEN);
+                        .setColor(Color.GREEN)
+                        .setContentIntent(setUpActivityPendingEventSuccess());
                 goHome();
             }
+            publishNotification(notification);
+        }
 
+        // 6. Called last when finishes the process
+        private void publishNotification(String notification) {
             // When the loop is finished, updates the notification
             mBuilder.setContentText(notification)
                     // Removes the progress bar
@@ -597,6 +623,18 @@ public class SigningOff_FRGMT_4 extends Fragment {
         }
 
     } /** End of AysyncTask **/
+
+    private void goHome() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(getActivity(), MainActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                getActivity().overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+            }
+        });
+
+    }
 
     /**
      * SAVE NEW REPLACEMENT PARTS and REMARKS
@@ -608,29 +646,34 @@ public class SigningOff_FRGMT_4 extends Fragment {
         db.open();
         List<ServiceJobNewPartsWrapper> list = db.getAllPartsBySJID(serviceJobID);
         db.close();
-        try {
-            ServiceJobJSON_POST jsonPost = new ServiceJobJSON_POST()
-                    .addJSONRemarks(remarks)
-                    .addJSONNewReplacementPart(list)
-                    .setOnEventListener(new ServiceJobJSON_POST.OnEventListener() {
-                        @Override
-                        public void onEvent() {
-                            Log.e(TAG, "onEvent Error");
-                            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
-                        }
 
-                        @Override
-                        public void onJSONPostResult(String response) {
-                            Log.e(TAG, "Message = " + response);
-                            //uploadTask.sleep();
-                            uploadTask.incrementProgressNotification(PROGRESS_NEW_PARTS);
-                        }
-                    });
+        if (list != null) { // Data saved on the Local DB
+            try {
+                ServiceJobJSON_POST jsonPost = new ServiceJobJSON_POST()
+                        .addJSONRemarks(remarks)
+                        .addJSONNewReplacementPart(list)
+                        .setOnEventListener(new ServiceJobJSON_POST.OnEventListener() {
+                            @Override
+                            public void onEvent() {
+                                Log.e(TAG, "onEvent Error");
+                                uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+                            }
 
-            Log.e("json",jsonPost.getJsonUpload().toString());
-            jsonPost.startPostJSON();
-        } catch (JSONException e) {
-            e.printStackTrace();
+                            @Override
+                            public void onJSONPostResult(String response) {
+                                Log.e(TAG, "Message = " + response);
+                                //uploadTask.sleep();
+                                uploadTask.incrementProgressNotification(PROGRESS_NEW_PARTS);
+                            }
+                        });
+
+                Log.e("json", jsonPost.getJsonUpload().toString());
+                jsonPost.startPostJSON();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
         }
     }
 
@@ -646,35 +689,60 @@ public class SigningOff_FRGMT_4 extends Fragment {
         List<ServiceJobUploadsWrapper> mUploadResults = mUploadsDB.getAllUploadsBySJID(serviceJobID);
         mUploadsDB.close();
 
-        Log.e(TAG, mUploadResults.toString());
+        boolean hasUploads = testIfUploadsIsNotBlank(mUploadResults);
 
-        ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST();
-        int counter = 1;
-        for (ServiceJobUploadsWrapper sjuw : mUploadResults) {
-            Log.e(TAG, "2" + sjuw.toString());
-            File signatureFile = new File(sjuw.getFilePath() +"/"+ sjuw.getUploadName());
-            post.setContext(this.mContext)
-                    .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_capture")
-                    .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter+"")
-                    .addParam("count", mUploadResults.size()+"")
-                    .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
-                        @Override
-                        public void onError(String msg, int success) {
-                            Log.e(TAG, "Message " + msg +" Error:" + success);
-                            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
-                        }
+        if (mUploadResults != null && hasUploads) {
+            Log.e(TAG, mUploadResults.toString());
 
-                        @Override
-                        public void onSuccess(String msg, int success) {
-                            Log.e(TAG, "Message " + msg +" Success:" + success);
-                            //uploadTask.sleep();
-                            uploadTask.incrementProgressNotification(PROGRESS_CAPTURES);
-                        }
+            ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST();
+            int counter = 1;
+            for (ServiceJobUploadsWrapper sjuw : mUploadResults) {
+                Log.e(TAG, "2" + sjuw.toString());
+                File signatureFile = new File(sjuw.getFilePath() + "/" + sjuw.getUploadName());
 
-                    });
-            counter++;
+                if (signatureFile.canRead()) { // File exists on the Directory
+                    post.setContext(this.mContext)
+                            .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_capture")
+                            .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter + "")
+                            .addParam("count", mUploadResults.size() + "")
+                            .addParam("servicejob_id", sjuw.getServiceId() + "")
+                            .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+                                @Override
+                                public void onError(String msg, int success) {
+                                    Log.e(TAG, "Message " + msg + " Error:" + success);
+                                    uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+                                }
+
+                                @Override
+                                public void onSuccess(String msg, int success) {
+                                    Log.e(TAG, "Message " + msg + " Success:" + success);
+                                    //uploadTask.sleep();
+                                    uploadTask.incrementProgressNotification(PROGRESS_CAPTURES);
+                                }
+
+                            });
+                }
+                counter++;
+            }
+            post.startUpload();
+        } else {
+            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
         }
-        post.startUpload();
+    }
+
+    private boolean testIfUploadsIsNotBlank(List<ServiceJobUploadsWrapper> mUploadResults) {
+        if (mUploadResults == null) {
+            return false;
+        }
+        int resultCount = mUploadResults.size();
+        int counter = 0;
+        for (ServiceJobUploadsWrapper sjuw : mUploadResults) {
+            if ((sjuw.getUploadName() != "" && sjuw.getUploadName() != null) &&
+                (sjuw.getFilePath() != "" && sjuw.getFilePath() != null)) {
+                counter++;
+            }
+        }
+        return resultCount == counter;
     }
 
     /**
@@ -689,64 +757,90 @@ public class SigningOff_FRGMT_4 extends Fragment {
         List<ServiceJobRecordingWrapper> mRecordResults = mRecordingsDB.getAllRecordingsBySJID(serviceJobID);
         mRecordingsDB.close();
 
-        Log.e(TAG, mRecordResults.toString());
+        boolean hasRecordings = testIfRecordingsIsNotBlank(mRecordResults);
 
-        ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST();
-        int counter = 1;
-        for (ServiceJobRecordingWrapper sjrw : mRecordResults) {
-            Log.e(TAG, "2" + sjrw.toString());
-            File signatureFile = new File(sjrw.getFilePath());
-            post.setContext(this.mContext)
-                    .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_recording")
-                    .addMultipleFile(signatureFile, sjrw.getRecordingName(), "audio/mpeg", counter+"")
-                    .addParam("count", mRecordResults.size()+"")
-                    .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
-                        @Override
-                        public void onError(String msg, int success) {
-                            Log.e(TAG, "Message " + msg +" Error:" + success);
-                            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
-                        }
+        if (mRecordResults != null && hasRecordings) { // Data has been read
+            Log.e(TAG, mRecordResults.toString());
+            ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST();
+            int counter = 1;
+            for (ServiceJobRecordingWrapper sjrw : mRecordResults) {
+                Log.e(TAG, "2" + sjrw.toString());
+                File signatureFile = new File(sjrw.getFilePath());
+                post.setContext(this.mContext)
+                        .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_recording")
+                        .addMultipleFile(signatureFile, sjrw.getRecordingName(), "audio/mpeg", counter + "")
+                        .addParam("count", mRecordResults.size() + "")
+                        .addParam("servicejob_id", sjrw.getServiceId() + "")
+                        .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+                            @Override
+                            public void onError(String msg, int success) {
+                                Log.e(TAG, "Message " + msg + " Error:" + success);
+                                uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+                            }
 
-                        @Override
-                        public void onSuccess(String msg, int success) {
-                            Log.e(TAG, "Message " + msg +" Success:" + success);
-                            //uploadTask.sleep();
-                            uploadTask.incrementProgressNotification(PROGRESS_RECORDINGS);
-                        }
-                    });
-            counter++;
+                            @Override
+                            public void onSuccess(String msg, int success) {
+                                Log.e(TAG, "Message " + msg + " Success:" + success);
+                                //uploadTask.sleep();
+                                uploadTask.incrementProgressNotification(PROGRESS_RECORDINGS);
+                            }
+                        });
+                counter++;
+            }
+            post.startUpload();
+        } else {
+            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
         }
-        post.startUpload();
+    }
+
+    private boolean testIfRecordingsIsNotBlank(List<ServiceJobRecordingWrapper> mRecordResults) {
+        if (mRecordResults == null) {
+            return false;
+        }
+        int resultCount = mRecordResults.size();
+        int counter = 0;
+        for (ServiceJobRecordingWrapper sjuw : mRecordResults) {
+            if ((sjuw.getRecordingName() != "" && sjuw.getRecordingName() != null) &&
+                    (sjuw.getFilePath() != "" && sjuw.getFilePath() != null)) {
+                counter++;
+            }
+        }
+        return resultCount == counter;
     }
 
     /**
      * UPLOAD SIGNATURE
      * SINGLE FILE
+     * @param serviceJobId
      * @param path
      * @param name
      */
-    private void uploadSignature(String path, String name) {
+    private void uploadSignature(int serviceJobId, String path, String name) {
         File signatureFile = new File(path + name);
-        ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST()
-                .setContext(this.mContext)
-                .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_signature")
-                .addImageFile(signatureFile, name, "image/jpeg")
-                .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
-                    @Override
-                    public void onError(String msg, int success) {
-                        Log.e(TAG, "Message " + msg +" Error:" + success);
-                        uploadTask.incrementProgressNotification(PROGRESS_ERROR);
-                    }
+        if (signatureFile.canRead()) { // File exist
+            ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST()
+                    .setContext(this.mContext)
+                    .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_signature")
+                    .addImageFile(signatureFile, name, "image/jpeg")
+                    .addParam("servicejob_id", serviceJobId+"")
+                    .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+                        @Override
+                        public void onError(String msg, int success) {
+                            Log.e(TAG, "Message " + msg + " Error:" + success);
+                            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+                        }
 
-                    @Override
-                    public void onSuccess(String msg, int success) {
-                        Log.e(TAG, "Message " + msg +" Success:" + success);
-                        //uploadTask.sleep();
-                        uploadTask.incrementProgressNotification(PROGRESS_SIGNATURE);
-                    }
-
-                });
-        post.startUpload();
+                        @Override
+                        public void onSuccess(String msg, int success) {
+                            Log.e(TAG, "Message " + msg + " Success:" + success);
+                            //uploadTask.sleep();
+                            uploadTask.incrementProgressNotification(PROGRESS_SIGNATURE);
+                        }
+                    });
+            post.startUpload();
+        } else {
+            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+        }
     }
 
     /****************************** END UPLOADING NOTIFICATION ******************************/

@@ -12,11 +12,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.util.HashMap;
 
 import admin4.techelm.com.techelmtechnologies.BuildConfig;
 import admin4.techelm.com.techelmtechnologies.R;
@@ -26,6 +29,7 @@ import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdap
 import admin4.techelm.com.techelmtechnologies.fragment_sample.PrimaryFragment;
 import admin4.techelm.com.techelmtechnologies.fragment_sample.TabFragment;
 import admin4.techelm.com.techelmtechnologies.login.LoginActivity2;
+import admin4.techelm.com.techelmtechnologies.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.service_report.ServiceReport_1;
 import admin4.techelm.com.techelmtechnologies.service_report_fragment.ServiceJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.servicejob.PopulateServiceJobViewDetails;
@@ -52,11 +56,14 @@ public class MainActivity extends FragmentActivity implements
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
 
+    SessionManager mSession;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        loginSessionTest();
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
 
@@ -66,6 +73,20 @@ public class MainActivity extends FragmentActivity implements
                 init_DrawerNav();
             }
         });
+    }
+
+    private void loginSessionTest() {
+        mSession = new SessionManager(this);
+        mSession.checkLogin();
+        // get user data from session
+        HashMap<String, String> user = mSession.getUserDetails();
+
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String email = user.get(SessionManager.KEY_EMAIL);
+        Log.e(TAG, "Name: "+ name + " Email: " + email);
     }
 
     /**
@@ -83,7 +104,7 @@ public class MainActivity extends FragmentActivity implements
         logout();
     }
 
-    @Override
+    /*@Override
     public void onStart() {
         super.onStart();
     }
@@ -96,7 +117,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onResume() {
         super.onResume();
-    }
+    }*/
 
     private void logout() {
         new AlertDialog.Builder(this)
@@ -104,6 +125,7 @@ public class MainActivity extends FragmentActivity implements
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        mSession.clearPrefs();
                         Intent i = new Intent(MainActivity.this, LoginActivity2.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);

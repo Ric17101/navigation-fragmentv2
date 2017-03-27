@@ -40,6 +40,8 @@ public class LoginActivity2 extends AppCompatActivity implements
      */
     private LoginActivityAuthenticationTask mAuthTask = null;
 
+    private SessionManager mSession;
+
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -50,6 +52,11 @@ public class LoginActivity2 extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
+
+        mSession = new SessionManager(this);
+        if (mSession.isLoggedIn()) {
+            goToLandingPage();
+        }
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -92,6 +99,10 @@ public class LoginActivity2 extends AppCompatActivity implements
         // new HttpAsyncTask().execute("http://hmkcode.appspot.com/rest/controller/get.json");
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -227,15 +238,22 @@ public class LoginActivity2 extends AppCompatActivity implements
     }
     @Override
     public void onHandleSuccessLogin(UserLoginWrapper user) {
+        mSession = new SessionManager(this); // Set Sesssion Mngr for user login
+        mSession.createLoginSession(mEmailView.getText().toString(), mPasswordView.getText().toString());
+        goToLandingPage();
+
+    }
+    @Override
+    public void onHandleShowDetails(String details) {
+        Toast.makeText(this, details, Toast.LENGTH_LONG).show();
+    }
+
+    private void goToLandingPage() {
         Intent i = new Intent(LoginActivity2.this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         overridePendingTransition(R.anim.abc_popup_enter,
                 R.anim.abc_popup_exit);
-    }
-    @Override
-    public void onHandleShowDetails(String details) {
-        Toast.makeText(this, details, Toast.LENGTH_LONG).show();
     }
     /**
      * UpdateJobServiceTask task = new UpdateJobServiceTask(view);

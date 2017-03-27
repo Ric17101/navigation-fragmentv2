@@ -131,6 +131,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         Log.e(LOG_TAG, "addServiceJob INSERTED ID " + item.getID());
         Log.e(LOG_TAG, "addServiceJob SJ NUM " + item.getServiceNumber());
         Log.e(LOG_TAG, "addServiceJob SJ ID " + item.getServiceID());
+        Log.e(LOG_TAG, "addServiceJob INSERTED " + getAllJSDetailsByServiceJobID(item.getID()).toString());
         return item.getID();
     }
 
@@ -404,9 +405,9 @@ public class ServiceJobDBUtil extends DatabaseAccess {
             recordItem.setTypeOfService(cursor.getString(23));
             recordItem.setJobSite(cursor.getString(24));
             recordItem.setCustomerName(cursor.getString(25));
-        } else {
+        } /*else {
             recordItem = null;
-        }
+        }*/
 
         if (!cursor.isClosed()) {
             cursor.close();

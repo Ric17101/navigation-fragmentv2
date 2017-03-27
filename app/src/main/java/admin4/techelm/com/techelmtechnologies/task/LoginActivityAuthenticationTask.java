@@ -268,8 +268,9 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
                     user.setPassword(pieces[2]);
                     user.setID(Integer.parseInt(pieces[3]));
                 }
-            } else
+            } else {
                 user = null;
+            }
             mCallback.onHandleSuccessLogin(user);
         } else {
             switch (loginStatus) {
