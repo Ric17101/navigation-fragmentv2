@@ -374,7 +374,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 setEndTaskButton();
                 Snackbar.make(getActivity()
                                 .findViewById(android.R.id.content),
-                        "Please complete the report before end task.:",
+                        "Please complete the report before end task.",
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", new View.OnClickListener() {
                             @Override

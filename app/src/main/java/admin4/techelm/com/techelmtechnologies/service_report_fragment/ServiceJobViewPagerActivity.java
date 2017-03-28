@@ -82,6 +82,11 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     }
 
+    @Override
+    public void onBackPressed() {
+        // Do nothings
+    }
+
     private void createdServiceJob(final ServiceJobWrapper sign) {
         Runnable run = new Runnable() {
             @Override

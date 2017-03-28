@@ -12,9 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -193,6 +195,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         return taskText;
     }
 
+    // Test whether it is completed, then do nothing
     private boolean isCompleted(String status) {
         return status.equals("1");
     }
@@ -225,6 +228,8 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         public final ImageButton buttonTask;
         public final TextView textViewTask;
 
+        private final FrameLayout frameLayoutButtonSJ;
+
         public ViewHolder(View view) {
             super(view);
 
@@ -246,11 +251,22 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
             // ImageButton Links
             textViewTask = (TextView) view.findViewById(R.id.textViewTask);
 
+            frameLayoutButtonSJ = (FrameLayout) view.findViewById(R.id.frameLayoutButtonResults);
+            frameLayoutButtonSJ.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == buttonTask.getId() || v.getId() == textViewTask.getId()) {
+            if (v.getId() == frameLayoutButtonSJ.getId()) {
+                if (mCallback != null) {
+                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
+                }
+            } else if (v.getId() == buttonTask.getId() || v.getId() == textViewTask.getId()) {
                 if (mCallback != null) {
                     if (!isCompleted(mDataSet.get(getAdapterPosition()).getStatus()))
                         mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 4);

@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.thefinestartist.finestwebview.FinestWebView;
+
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.menu.MainActivity;
 
@@ -29,14 +31,16 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
-
+        setContentWebView();
         initButton();
     }
-    /*@Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-    }*/
+
+    private void setContentWebView() {
+        new FinestWebView.Builder(this).titleDefault("The Finest Artist")
+                .swipeRefreshColorRes(R.color.colorPrimary1)
+                .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
+                .show("http://enercon714.firstcomdemolinks.com/sampleREST/simple-codeigniter-rest-api-master/index.php/");
+    }
 
     private void initButton() {
 

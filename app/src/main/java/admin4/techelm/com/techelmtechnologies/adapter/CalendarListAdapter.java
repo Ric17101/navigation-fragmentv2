@@ -11,9 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -202,21 +204,23 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final TextView textViewDateNumber;
-        public final TextView textViewDay;
-        public final TextView textViewDate;
+        private final TextView textViewDateNumber;
+        private final TextView textViewDay;
+        private final TextView textViewDate;
 
-        public final TextView textViewServiceNum;
-        public final TextView textViewCustomer;
-        public final TextView textViewEngineer;
-        public final TextView textViewStatus;
+        private final TextView textViewServiceNum;
+        private final TextView textViewCustomer;
+        private final TextView textViewEngineer;
+        private final TextView textViewStatus;
 
-        public final ImageButton buttonEditDetails;
-        public final ImageButton buttonViewDetails;
-        public final TextView textViewEditDetails;
-        public final TextView textViewViewDetails;
+        private final ImageButton buttonEditDetails;
+        private final ImageButton buttonViewDetails;
+        private final TextView textViewEditDetails;
+        private final TextView textViewViewDetails;
 
-        public ViewHolder(View view) {
+        private final FrameLayout frameLayoutButtonResults;
+
+        private ViewHolder(View view) {
             super(view);
 
             // Date Information
@@ -243,6 +247,14 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
             textViewViewDetails = (TextView) view.findViewById(R.id.textViewViewDetails);
             // textViewViewDetails.setOnClickListener(this);
             textViewViewDetails.setText(Html.fromHtml("<u>View</u>"));
+
+            frameLayoutButtonResults = (FrameLayout) view.findViewById(R.id.frameLayoutButtonResults);
+            frameLayoutButtonResults.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
         @Override
@@ -254,7 +266,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
                 }
             } else*/
 
-            if (v.getId() == buttonViewDetails.getId()) {
+            if (v.getId() == buttonViewDetails.getId() || v.getId() == frameLayoutButtonResults.getId()) {
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
                 }
