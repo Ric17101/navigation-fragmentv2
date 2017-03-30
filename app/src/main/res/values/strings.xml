@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Techelm Technologies</string>
+    <string name="app_name_sub">Techelm Technologies Pte Ltd</string>
+    <string name="company_details">Block 1003 Bukit Merah Central\n#01-05\nSingapore 159836\nTel: (65) 6270-8852\nFax: (65) 6276-0605</string>
     <string name="title_activity_login2">Sign in</string>
 
     <!-- Strings related to login -->
@@ -76,7 +78,7 @@
     <string name="file_name_mp4">file_name.mp4</string>
     <string name="_00_00">00:00</string>
 
-    <!-- UPLOAD AT ServiceReport_FRGMT_1 -->
+    <!-- UPLOAD AT ServiceReport_FRGMT_BEFORE -->
     <string name="image_name_jpg_uploaded">Image_Name.jpg uploaded.</string>
     <string name="delete">Delete.</string>
 
@@ -91,4 +93,10 @@
     <string name="upload_cancelled">Upload has been cancelled</string>
     <string name="multipart_upload">Multipart Upload</string>
 
+    <!-- Creating PDF -->
+    <string name="gen_pdf_file">Generating PDF Report </string>
+    <string name="gen_please_wait">Please wait while processing.</string>
+
+    <!-- Service Job -->
+    <string name="replacement_parts">Replacement Parts</string>
 </resources>

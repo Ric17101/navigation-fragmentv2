@@ -362,7 +362,11 @@ public class RobotoCalendarView extends LinearLayout {
     }
 
     public Calendar getCurrentCalendar() {
-        return this.currentCalendar;
+        if (this.lastSelectedDayCalendar == null) {
+            return this.currentCalendar;
+        } else {
+            return this.lastSelectedDayCalendar;
+        }
     }
 
     /**
@@ -397,6 +401,17 @@ public class RobotoCalendarView extends LinearLayout {
         ImageView circleImage2 = getCircleImage2(calendar);
         circleImage2.setVisibility(View.VISIBLE);
         DrawableCompat.setTint(circleImage2.getDrawable(), ContextCompat.getColor(context, R.color.roboto_calendar_circle_2));
+    }
+
+    // TODO - Remove Dot when data/Internet
+    public void removeMarkCircleImage2(Calendar calendar) {
+        ImageView circleImage2 = getCircleImage2(calendar);
+        circleImage2.setVisibility(View.GONE);
+        DrawableCompat.setTint(circleImage2.getDrawable(), ContextCompat.getColor(context, R.color.roboto_calendar_circle_2));
+
+//        ImageView circleImage2 = getCircleImage2(calendar);
+//        circleImage2.setVisibility(View.VISIBLE);
+
     }
 
     public void showDateTitle(boolean show) {
@@ -549,4 +564,5 @@ public class RobotoCalendarView extends LinearLayout {
         int index = getDayIndexByDate(currentCalendar);
         return rootView.findViewWithTag(key + index);
     }
+
 }

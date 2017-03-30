@@ -1,12 +1,17 @@
 package admin4.techelm.com.techelmtechnologies.utility;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Display;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -131,5 +136,47 @@ public class ImageUtility {
             }
         }
         return null;
+    }
+
+    /*********************** Resize Image For Background of the Device *************************/
+    public Drawable ResizeImage(int imageID) {
+        // Get device dimensions
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        double deviceWidth = display.getWidth();
+
+        BitmapDrawable bd = (BitmapDrawable) ((Activity)context).getResources().getDrawable(
+                imageID);
+        double imageHeight = bd.getBitmap().getHeight();
+        double imageWidth = bd.getBitmap().getWidth();
+
+        double ratio = deviceWidth / imageWidth;
+        int newImageHeight = (int) (imageHeight * ratio);
+
+        Bitmap bMap = BitmapFactory.decodeResource(((Activity)context).getResources(), imageID);
+        Drawable drawable = new BitmapDrawable(((Activity)context).getResources(),
+                getResizedBitmap(bMap, newImageHeight, (int) deviceWidth));
+
+        return drawable;
+    }
+    /************************ Resize Bitmap *********************************/
+    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        // create a matrix for the manipulation
+        Matrix matrix = new Matrix();
+
+        // resize the bit map
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // recreate the new Bitmap
+        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
+                matrix, false);
+
+        return resizedBitmap;
     }
 }

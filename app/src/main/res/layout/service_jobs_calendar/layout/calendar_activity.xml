@@ -18,16 +18,23 @@
         android:orientation="vertical"
         android:padding="@dimen/recycler_view_list_padding">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/calendar_service_job_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshCalendarLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="70sp"
-            android:paddingTop="4sp" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/calendar_service_job_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="70sp"
+                android:paddingTop="4sp" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <TextView
-            android:id="@+id/textViewResult"
+            android:id="@+id/textViewCalendarResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -36,9 +43,8 @@
             android:text="Result"
             android:textAlignment="center"
             android:textSize="16sp"
-            android:textStyle="normal|bold"
+            android:textStyle="normal"
             android:visibility="gone" />
-
     </FrameLayout>
 
     <!-- SLIDING LAYOUT -->
@@ -84,26 +90,26 @@
 
 
         </LinearLayout>
+        <!--
+                <LinearLayout
+                    android:id="@+id/frameLayoutButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/frameLayoutButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/markDayButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TEST RANDOM" />
 
-            <Button
-                android:id="@+id/markDayButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TEST RANDOM" />
-
-            <Button
-                android:id="@+id/buttonShowHideCalendar"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button" />
-        </LinearLayout>
+                    <Button
+                        android:id="@+id/buttonShowHideCalendar"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Button" />
+                </LinearLayout>-->
 
     </LinearLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

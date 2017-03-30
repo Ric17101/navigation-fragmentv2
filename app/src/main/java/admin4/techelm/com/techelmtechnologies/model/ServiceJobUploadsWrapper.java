@@ -8,6 +8,7 @@ public class ServiceJobUploadsWrapper implements Parcelable {
     private int mServiceID;      // servicejob id in database
     private String mUploadName;  // file name
     private String mFilePath;       //file path
+    private String mTaken;       //file taken BEFORE || AFTER
 
     public ServiceJobUploadsWrapper() { }
 
@@ -16,6 +17,7 @@ public class ServiceJobUploadsWrapper implements Parcelable {
         mServiceID = in.readInt();
         mUploadName = in.readString();
         mFilePath = in.readString();
+        mTaken = in.readString();
     }
 
     public static final Creator<ServiceJobUploadsWrapper> CREATOR = new Creator<ServiceJobUploadsWrapper>() {
@@ -32,8 +34,9 @@ public class ServiceJobUploadsWrapper implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mId);
         dest.writeInt(mServiceID);
-        dest.writeString(mFilePath);
         dest.writeString(mUploadName);
+        dest.writeString(mFilePath);
+        dest.writeString(mTaken);
     }
 
     @Override
@@ -65,10 +68,16 @@ public class ServiceJobUploadsWrapper implements Parcelable {
         mUploadName = name;
     }
 
+    public String getTaken() { return mTaken; }
+    public void setTaken(String name) {
+        mTaken = name;
+    }
+
     public String toString() {
         return "ID : " + this.mId +
                 "\nService ID : " + this.mServiceID +
                 "\nFile Path : " + this.mFilePath +
+                "\nTaken : " + this.mTaken +
                 "\nFile Name : " + this.mUploadName;
     }
 }

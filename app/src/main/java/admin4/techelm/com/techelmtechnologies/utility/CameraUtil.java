@@ -22,7 +22,7 @@ import admin4.techelm.com.techelmtechnologies.R;
 
 /**
  * Used by
- *  ServiceReport_FRGMT_1 Class
+ *  ServiceReport_FRGMT_BEFORE Class
  *  PartReplacement_FRGMT_2 Class
  */
 public class CameraUtil {
@@ -126,6 +126,20 @@ public class CameraUtil {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public boolean deleteFile(String filePath) {
+        File fDelete = new File(filePath);
+        boolean deleted = false;
+        if (fDelete.exists()) {
+            if (fDelete.delete()) {
+                System.out.println("file Deleted :" + filePath);
+                deleted = true;
+            } else {
+                System.out.println("file not Deleted :" + filePath);
+            }
+        }
+        return deleted;
     }
 
     /**

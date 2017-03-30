@@ -13,13 +13,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 
-import admin4.techelm.com.techelmtechnologies.json.ConvertJSON;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 
 /**

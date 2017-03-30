@@ -28,6 +28,7 @@ public class UploadsDBUtil extends DatabaseAccess {
         public static final String COLUMN_NAME_UPLOADS_SERVICE_ID = "servicejob_id";
         public static final String COLUMN_NAME_UPLOADS_NAME = "upload_name";
         public static final String COLUMN_NAME_UPLOADS_FILE_PATH = "file_path";
+        public static final String COLUMN_NAME_UPLOADS_TAKEN = "taken";
     }
 
     private static OnDatabaseChangedListener mOnDatabaseChangedListener;
@@ -79,6 +80,33 @@ public class UploadsDBUtil extends DatabaseAccess {
                 recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
                 recordItem.setUploadName(cursor.getString(2));
                 recordItem.setFilePath(cursor.getString(3));
+                recordItem.setTaken(cursor.getString(4));
+                list.add(recordItem);
+            } while (cursor.moveToNext());
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        // return data list
+        return list;
+    }
+
+    public List<ServiceJobUploadsWrapper> getAllUploadsBySJID_ByTaken(int id, String taken) {
+        ArrayList<ServiceJobUploadsWrapper> list = new ArrayList<ServiceJobUploadsWrapper>();
+        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
+                + " WHERE servicejob_id=" + id
+                + " AND taken='" + taken + "'";
+        Cursor cursor = getDB().rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                ServiceJobUploadsWrapper recordItem = new ServiceJobUploadsWrapper();
+                recordItem.setId(Integer.parseInt(cursor.getString(0)));
+                recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
+                recordItem.setUploadName(cursor.getString(2));
+                recordItem.setFilePath(cursor.getString(3));
+                recordItem.setTaken(cursor.getString(4));
                 list.add(recordItem);
             } while (cursor.moveToNext());
         }
@@ -92,7 +120,8 @@ public class UploadsDBUtil extends DatabaseAccess {
 
     public List<ServiceJobUploadsWrapper> getAllUploadsBySJID(int id) {
         ArrayList<ServiceJobUploadsWrapper> list = new ArrayList<ServiceJobUploadsWrapper>();
-        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE servicejob_id="+id;
+        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
+                + " WHERE servicejob_id=" + id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
@@ -102,6 +131,7 @@ public class UploadsDBUtil extends DatabaseAccess {
                 recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
                 recordItem.setUploadName(cursor.getString(2));
                 recordItem.setFilePath(cursor.getString(3));
+                recordItem.setTaken(cursor.getString(4));
                 list.add(recordItem);
             } while (cursor.moveToNext());
         }
@@ -122,6 +152,7 @@ public class UploadsDBUtil extends DatabaseAccess {
             recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
             recordItem.setUploadName(cursor.getString(2));
             recordItem.setFilePath(cursor.getString(3));
+            recordItem.setTaken(cursor.getString(4));
         } else {
             recordItem = null;
         }
@@ -161,6 +192,7 @@ public class UploadsDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_UPLOADS_SERVICE_ID, item.getServiceId());
         cv.put(DBHelperItem.COLUMN_NAME_UPLOADS_NAME, item.getUploadName());
         cv.put(DBHelperItem.COLUMN_NAME_UPLOADS_FILE_PATH, item.getFilePath());
+        cv.put(DBHelperItem.COLUMN_NAME_UPLOADS_TAKEN, item.getTaken());
         // cv.put(DBHelperItem.COLUMN_NAME_UPLOADS_ID, length);
         long idInserted = db.insert(DBHelperItem.TABLE_NAME, null, cv);
         int rowId = (int)idInserted;
@@ -197,6 +229,7 @@ public class UploadsDBUtil extends DatabaseAccess {
         return rowId;
     }
 
+    // Has At least one Recordings
     public boolean hasInsertedRecordings(int servicejob_id) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE "+ DBHelperItem.COLUMN_NAME_UPLOADS_SERVICE_ID + "=" + servicejob_id;

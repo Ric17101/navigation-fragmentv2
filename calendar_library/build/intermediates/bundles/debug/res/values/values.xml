@@ -37,6 +37,7 @@
     </style>
     <style name="RobotoCalendarMonthArrow">
         <item name="android:tint">@color/roboto_calendar_day_of_the_week_font</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
     <style name="RobotoCalendarMonthText">
         <item name="android:textSize">@dimen/roboto_calendar_month_font</item>

@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/calendar_library" />
             <option value="$PROJECT_DIR$/page_tab_library" />
+            <option value="$PROJECT_DIR$/pdf_library" />
             <option value="$PROJECT_DIR$/signature_pad_library" />
             <option value="$PROJECT_DIR$/sliding_panel_library" />
           </set>

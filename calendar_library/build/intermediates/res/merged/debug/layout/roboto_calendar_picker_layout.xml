@@ -4,13 +4,15 @@
     android:layout_height="match_parent"
     android:background="@color/roboto_calendar_background"
     android:orientation="vertical"
-    android:padding="@dimen/roboto_calendar_padding">
+    android:padding="@dimen/roboto_calendar_padding"
+    android:weightSum="1">
 
     <include
         layout="@layout/roboto_calendar_month_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/roboto_calendar_month_margin_bottom" />
+        android:layout_marginBottom="@dimen/roboto_calendar_month_margin_bottom"
+        android:layout_weight="0.06" />
 
     <include
         layout="@layout/roboto_calendar_week_layout"

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1500px"
+    android:layout_height="2115px"
+    android:background="@color/white"
+    android:padding="60px">
+
+    <include layout="@layout/pdf_page_content" />
+
+    <include layout="@layout/pdf_page_content_number" />
+</RelativeLayout>

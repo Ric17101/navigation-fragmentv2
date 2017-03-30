@@ -2,19 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ImageButton
         android:id="@+id/buttonViewUploadVoice"
-        android:layout_width="130dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20sp"
         android:adjustViewBounds="false"
-        android:background="@mipmap/record_icon"
-        android:contentDescription="@string/app_name"
+        android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:scaleType="fitCenter" />
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        card_view:srcCompat="@mipmap/record_icon" />
 
     <TextView
         android:id="@+id/textView3"

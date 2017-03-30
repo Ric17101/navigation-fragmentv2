@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 dependencies {
-    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:support-v4:25.3.0'
 }
 
 android {

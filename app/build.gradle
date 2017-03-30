@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
         vectorDrawables.useSupportLibrary = true // finestwebview
         multiDexEnabled true
     }
@@ -24,6 +25,7 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                    'src/main/res/layout/pdf',
                     'src/main/res/layout/webview',
                     'src/main/res/layout/service_reports',
                     'src/main/res/layout/fragment_samples',
@@ -96,4 +98,8 @@ dependencies {
     // FINEST WEBVIEW
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.thefinestartist:finestwebview:1.2.7'
+
+    // PDF 1
+    compile project(path: ':pdf_library')
+    // compile 'com.github.hendrixstring:Android-PdfMyXml:1.0.1' // the latest version is "v1.0.1"
 }

@@ -25,4 +25,11 @@
     <color name="blackPrimaryLight">#8F8F8F</color>
 
     <color name="fineGray">#E7E7E7</color>
+
+    <!-- Refresh Swipe -->
+    <color name="theme_accent_1">#00b0ff</color>
+    <color name="refresh_progress_1">@color/colorPrimary1</color>
+    <color name="refresh_progress_2">@color/theme_accent_1</color>
+    <color name="refresh_progress_3">@color/colorBlueThemed</color>
+
 </resources>

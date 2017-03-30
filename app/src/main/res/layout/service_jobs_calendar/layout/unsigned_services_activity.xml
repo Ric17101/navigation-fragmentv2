@@ -10,13 +10,33 @@
         android:layout_height="wrap_content"
         android:isScrollContainer="true">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/unsigned_service_job_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshCalendarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/unsigned_service_job_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="4sp" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/textViewUnsignedSJResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="20sp"
-            android:paddingTop="4sp" />
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:text="Result"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:visibility="gone" />
+
     </FrameLayout>
 
 

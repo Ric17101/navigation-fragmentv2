@@ -14,10 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
@@ -25,9 +30,16 @@ import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<UnsignedServiceJobListAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = "RecyclerViewAdapter";
+    private static final String LOG_TAG = "UnsignedSJAdapter";
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
+    private final static String STATUS_NEW = "0";
+    private final static String STATUS_UNSIGNED = "1";
+    private final static String STATUS_PENDING = "2";
+    private final static String STATUS_COMPLETED = "3";
+    private final static String STATUS_INCOMPLETE = "4";
+    private final static String STATUS_ON_PROCESS = "5";
+
     private List<ServiceJobWrapper> mDataSet = new ArrayList<>();
     private ServiceJobWrapper serviceJobDataSet;
     private CallbackInterface mCallback;
@@ -74,16 +86,17 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewDateNumber.setText(serviceJobDataSet.getEndDate());
+        //holder.textViewDateNumber.setText(getCalendarDate(serviceJobDataSet.getStartDate()));
+        holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
         holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineer());
-        holder.textViewStatus.setText(serviceJobDataSet.getStatus());
-        holder.textViewStatus.setTextColor((serviceJobDataSet.getID()%2 == 1) ? Color.RED : Color.BLUE);
+        holder.textViewStatus.setText(setStatus(serviceJobDataSet.getStatus()));
+        holder.textViewStatus.setTextColor(setColor(serviceJobDataSet.getStatus()));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
         if (mLastAnimatedItemPosition < position) {
@@ -123,6 +136,61 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
                 .start();
     }
 
+    public String getCalendarDate(String strDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = dateFormat.parse(strDate);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int day = cal.get(Calendar.DATE);
+            return day + "";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return strDate.split("-")[2];
+    }
+
+    private String setStatus(String status) {
+        switch (status) {
+            case STATUS_NEW : status = "New";
+                break;
+            case STATUS_UNSIGNED : status = "Unsigned";
+                break;
+            case STATUS_PENDING : status = "Pending";
+                break;
+            case STATUS_COMPLETED : status = "Completed";
+                break;
+            case STATUS_INCOMPLETE : status = "Incomplete";
+                break;
+            case STATUS_ON_PROCESS : status = "On Process";
+                break;
+            default : status = "";
+                break;
+        }
+        return status;
+    }
+
+    public int setColor(String status) {
+        switch (status) {
+            /*
+                0 - New - Begin Task
+                1 - unsigned
+                2 - Pending
+                3 - Completed
+                4 - Incomplete - Continue
+                5 - On Process
+            * */
+            case STATUS_COMPLETED : return Color.BLUE;
+            case STATUS_NEW :
+            case STATUS_PENDING :
+            case "" :
+            case STATUS_UNSIGNED :
+            case STATUS_INCOMPLETE :
+            case STATUS_ON_PROCESS : return Color.RED;
+        }
+        return Color.BLACK;
+    }
     public interface CallbackInterface {
 
         /**
@@ -139,21 +207,23 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final TextView textViewDateNumber;
-        public final TextView textViewDay;
-        public final TextView textViewDate;
+        private final TextView textViewDateNumber;
+        private final TextView textViewDay;
+        private final TextView textViewDate;
 
-        public final TextView textViewServiceNum;
-        public final TextView textViewCustomer;
-        public final TextView textViewEngineer;
-        public final TextView textViewStatus;
+        private final TextView textViewServiceNum;
+        private final TextView textViewCustomer;
+        private final TextView textViewEngineer;
+        private final TextView textViewStatus;
 
-        public final ImageButton buttonEditDetails;
-        public final ImageButton buttonViewDetails;
-        public final TextView textViewEditDetails;
-        public final TextView textViewViewDetails;
+        private final ImageButton buttonEditDetails;
+        private final ImageButton buttonViewDetails;
+        private final TextView textViewEditDetails;
+        private final TextView textViewViewDetails;
 
-        public ViewHolder(View view) {
+        private final FrameLayout frameLayoutButtonResults;
+
+        private ViewHolder(View view) {
             super(view);
 
             // Date Information
@@ -175,11 +245,14 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
 
             // ImageButton Links
             textViewEditDetails = (TextView) view.findViewById(R.id.textViewEditDetails);
-            //textViewEditDetails.setOnClickListener(this);
+            // textViewEditDetails.setOnClickListener(this);
             textViewEditDetails.setText(Html.fromHtml("<u>Edit</u>"));
             textViewViewDetails = (TextView) view.findViewById(R.id.textViewViewDetails);
-            //textViewViewDetails.setOnClickListener(this);
+            // textViewViewDetails.setOnClickListener(this);
             textViewViewDetails.setText(Html.fromHtml("<u>View</u>"));
+
+            frameLayoutButtonResults = (FrameLayout) view.findViewById(R.id.frameLayoutButtonResults);
+            frameLayoutButtonResults.setOnClickListener(this);
         }
 
         @Override
@@ -191,9 +264,16 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
                 }
             } else*/
 
-            if (v.getId() == buttonEditDetails.getId() || v.getId() == textViewEditDetails.getId()) {
+            if (v.getId() == buttonViewDetails.getId() || v.getId() == frameLayoutButtonResults.getId()) {
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
+                }
+            } else if (v.getId() == buttonEditDetails.getId()) {
+                if (mCallback != null) {
+                    if (serviceJobDataSet.getStatus() == STATUS_NEW ||
+                            serviceJobDataSet.getStatus() == STATUS_PENDING) {
+                        mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 3);
+                    }
                 }
             }
 

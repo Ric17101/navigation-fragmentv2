@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +77,8 @@ public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobP
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         servicePartDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewPartDetail.setText((position + 1) +".) Replacement " + servicePartDataSet.getPartName() + " Added.");
+        holder.textViewQuantity.setText(Html.fromHtml("<b>Qty.</b>: " + servicePartDataSet.getQuantity()));
+        holder.textViewUnitPrice.setText(Html.fromHtml("<b>Unit Price</b>: " + servicePartDataSet.getUnitPrice()));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
                 servicePartDataSet.getQuantity() + servicePartDataSet.getPartName());
@@ -122,6 +125,8 @@ public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobP
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textViewPartDetail;
+        TextView textViewQuantity;
+        TextView textViewUnitPrice;
         TextView textViewEdit;
         TextView textViewDelete;
 
@@ -132,6 +137,8 @@ public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobP
             super(view);
 
             // Part Information
+            textViewQuantity = (TextView) view.findViewById(R.id.textViewQuantity);
+            textViewUnitPrice = (TextView) view.findViewById(R.id.textViewUnitPrice);
             textViewPartDetail = (TextView) view.findViewById(R.id.textViewPartDetail);
             textViewPartDetail.setOnClickListener(new View.OnClickListener() {
                 @Override

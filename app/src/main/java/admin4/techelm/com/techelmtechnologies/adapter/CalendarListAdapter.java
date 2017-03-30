@@ -34,6 +34,12 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
     private static final String LOG_TAG = "RecyclerViewAdapter";
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
+    private final static String STATUS_NEW = "0";
+    private final static String STATUS_UNSIGNED = "1";
+    private final static String STATUS_PENDING = "2";
+    private final static String STATUS_COMPLETED = "3";
+    private final static String STATUS_INCOMPLETE = "4";
+    private final static String STATUS_ON_PROCESS = "5";
     private List<ServiceJobWrapper> mDataSet = new ArrayList<>();
     private ServiceJobWrapper serviceJobDataSet;
     private CallbackInterface mCallback;
@@ -145,24 +151,19 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
         return strDate.split("-")[2];
     }
 
-    public String setStatus(String status) {
+    private String setStatus(String status) {
         switch (status) {
-            /*
-                0 - Unsigned
-                1 - Completed
-                2 - Pending
-                3 - New - Begin Task
-                4 - Incomplete
-            * */
-            case "0" : status = "Unsigned";
+            case STATUS_NEW : status = "New";
                 break;
-            case "1" : status = "Completed";
+            case STATUS_UNSIGNED : status = "Unsigned";
                 break;
-            case "2" : status = "Pending";
+            case STATUS_PENDING : status = "Pending";
                 break;
-            case "3" : status = "New";
+            case STATUS_COMPLETED : status = "Completed";
                 break;
-            case "4" : status = "Incomplete";
+            case STATUS_INCOMPLETE : status = "Incomplete";
+                break;
+            case STATUS_ON_PROCESS : status = "On Process";
                 break;
             default : status = "";
                 break;
@@ -173,17 +174,20 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
     public int setColor(String status) {
         switch (status) {
             /*
-                0 - Unsigned
-                1 - Completed
+                0 - New - Begin Task
+                1 - unsigned
                 2 - Pending
-                3 - New - Begin Task
-                4 - Incomplete
+                3 - Completed
+                4 - Incomplete - Continue
+                5 - On Process
             * */
-            case "1" : return Color.BLUE;
-            case "0" :
-            case "2" :
-            case "3" :
-            case "4" : return Color.RED;
+            case STATUS_COMPLETED : return Color.BLUE;
+            case STATUS_NEW :
+            case STATUS_PENDING :
+            case "" :
+            case STATUS_UNSIGNED :
+            case STATUS_INCOMPLETE :
+            case STATUS_ON_PROCESS : return Color.RED;
         }
         return Color.BLACK;
     }
@@ -249,12 +253,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
             textViewViewDetails.setText(Html.fromHtml("<u>View</u>"));
 
             frameLayoutButtonResults = (FrameLayout) view.findViewById(R.id.frameLayoutButtonResults);
-            frameLayoutButtonResults.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
+            frameLayoutButtonResults.setOnClickListener(this);
         }
 
         @Override

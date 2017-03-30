@@ -10,7 +10,9 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by admin 4 on 22/02/2017.
@@ -36,6 +38,7 @@ public class FileUtility {
     /**
      * Created
      */
+    private static final String TAG = "FileUtility";
     private String mFilePath;
     private String directoryName = "images";
     private String fileName = "image.png";
@@ -155,5 +158,38 @@ public class FileUtility {
             }
         }
         return null;
+    }
+
+    /**
+     * Use before sending files to server
+     * @param filePath
+     * @return
+     */
+    public boolean isFileExist(String filePath) {
+        File file = new File(filePath);
+        return checkFileCanRead(file);
+    }
+
+    private boolean checkFileCanRead(File file){
+        if (!file.exists())
+            return false;
+        if (!file.canRead())
+            return false;
+        try {
+            FileReader fileReader = new FileReader(file.getAbsolutePath());
+            fileReader.read();
+            fileReader.close();
+        } catch (Exception e) {
+            Log.e(TAG, "Exception when checked file can read with message:"+e.getMessage(), e);
+            return false;
+        }
+        return true;
+    }
+
+    public String getDateFileCreated(String filePath) {
+        File file = new File(filePath);
+        Date lastModDate = new Date(file.lastModified());
+        Log.i(TAG, "File last modified @ : "+ lastModDate.toString());
+        return lastModDate.toString();
     }
 }

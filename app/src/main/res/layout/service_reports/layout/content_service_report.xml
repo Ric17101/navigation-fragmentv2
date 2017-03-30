@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="admin4.techelm.com.techelmtechnologies.service_report_fragment.ServiceReport_FRGMT_1"
+    tools:context=".activity.service_report_fragment.ServiceReport_FRGMT_BEFORE"
     tools:showIn="@layout/activity_service_report">
 
     <ScrollView
@@ -32,6 +32,7 @@
                 android:orientation="vertical">
 
                 <include layout="@layout/i_labels_report_details" />
+                <include layout="@layout/i_view_divider" />
 
                 <include layout="@layout/i_image_upload_button" />
 
@@ -42,6 +43,7 @@
                     android:clipToPadding="false"
                     android:paddingBottom="70sp"
                     android:paddingTop="4sp" />
+                <include layout="@layout/i_view_divider" />
 
                 <include layout="@layout/i_voice_record_button" />
 
@@ -52,6 +54,7 @@
                     android:clipToPadding="false"
                     android:paddingBottom="70sp"
                     android:paddingTop="4sp" />
+                <include layout="@layout/i_view_divider" />
 
                 <include layout="@layout/i_remarks_layout" />
 

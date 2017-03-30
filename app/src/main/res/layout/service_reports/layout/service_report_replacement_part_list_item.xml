@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="10sp"
     android:clickable="true"
-    card_view:cardBackgroundColor="@color/cardview_light_background"
+    card_view:cardBackgroundColor="@android:color/transparent"
     card_view:cardCornerRadius="0dp"
     card_view:cardElevation="0dp"
     card_view:cardUseCompatPadding="true">
@@ -19,13 +19,45 @@
         android:layout_marginRight="10sp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewPartDetail"
+        <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.88"
-            android:text="Text"
-            android:textSize="12sp" />
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5sp">
+
+                <TextView
+                    android:id="@+id/textViewPartDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Text"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textViewQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="0.5"
+                    android:text="Text"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textViewUnitPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="0.5"
+                    android:text="Text"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+            </TableRow>
+
+        </TableLayout>
 
         <TableLayout
             android:layout_width="match_parent"

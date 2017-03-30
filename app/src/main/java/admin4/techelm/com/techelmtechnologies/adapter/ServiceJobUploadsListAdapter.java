@@ -170,7 +170,6 @@ public class ServiceJobUploadsListAdapter extends RecyclerView.Adapter<ServiceJo
                 if (mCallback != null) {
                     mCallback.onHandleViewUploadFromListSelection(mDataSet.get(getAdapterPosition()));
                 }
-
             }
 
         }

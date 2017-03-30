@@ -10,8 +10,8 @@
     android:layout_alignParentRight="true"
     android:layout_alignParentTop="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="admin4.techelm.com.techelmtechnologies.service_report_fragment.AddReplacementPart_FRGMT_3"
-    tools:showIn="@layout/activity_add_replacement_part">
+    tools:context=".activity.service_report_fragment.AddReplacementPart_FRGMT_3"
+    tools:showIn="@layout/m_add_replacement_part">
 
     <include layout="@layout/i_new_replacement_part" />
     <include layout="@layout/button_previous_next" />

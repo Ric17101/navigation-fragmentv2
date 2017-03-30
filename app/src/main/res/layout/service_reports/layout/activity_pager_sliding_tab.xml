@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_pager_sliding_tab_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -30,6 +31,9 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary1"
         android:textColor="@color/white"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
         app:pstsIndicatorColor="@color/white"
         app:pstsIndicatorHeight="2sp"
         app:pstsTabSwitch="true" />
@@ -38,8 +42,7 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="1"
-        android:background="@android:color/white" />
+        android:layout_weight="1"  />
 
     <FrameLayout
         android:id="@+id/container"

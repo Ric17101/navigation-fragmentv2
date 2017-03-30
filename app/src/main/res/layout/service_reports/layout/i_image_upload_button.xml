@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="20sp">
 
@@ -13,7 +14,8 @@
         android:layout_marginTop="20sp"
         android:adjustViewBounds="false"
         android:contentDescription="@string/app_name"
-        android:background="@mipmap/upload_icon"
+        android:background="?selectableItemBackgroundBorderless"
+        card_view:srcCompat="@mipmap/upload_icon"
         android:clickable="true"
         android:padding="0dp"
         android:scaleType="fitCenter" />
@@ -28,7 +30,7 @@
         android:id="@+id/textView13"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UPLOAD IMAGE"
+        android:text="SAVE IMAGE"
         android:textAlignment="center"
         android:textSize="14sp"
         android:textStyle="normal|bold" />

@@ -32,6 +32,13 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
     private static final String LOG_TAG = "RecyclerViewAdapter";
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
+    private final static String STATUS_NEW = "0";
+    private final static String STATUS_UNSIGNED = "1";
+    private final static String STATUS_PENDING = "2";
+    private final static String STATUS_COMPLETED = "3";
+    private final static String STATUS_INCOMPLETE = "4";
+    private final static String STATUS_ON_PROCESS = "5";
+
     private List<ServiceJobWrapper> mDataSet = new ArrayList<>();
     private ServiceJobWrapper serviceJobDataSet;
     private CallbackInterface mCallback;
@@ -89,8 +96,8 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         holder.textViewStatus.setText(setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(setColor(serviceJobDataSet.getStatus()));
         holder.textViewTask.setText(Html.fromHtml(setTaskText(serviceJobDataSet.getStatus())));
-        if (serviceJobDataSet.getStatus() == "1")
-            holder.buttonTask.setVisibility(View.GONE);
+//        if (serviceJobDataSet.getStatus() == "3")
+//            holder.buttonTask.setVisibility(View.GONE);
         holder.buttonTask.setImageResource(setIconTask(serviceJobDataSet.getStatus()));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
@@ -120,24 +127,17 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
     }
     private String setStatus(String status) {
         switch (status) {
-            /*
-                0 - Unsigned
-                1 - Completed
-                2 - Pending
-                3 - New - Begin Task
-                4 - Incomplete
-            * */
-            case "0" : status = "Unsigned";
+            case STATUS_NEW : status = "New";
                 break;
-            case "1" : status = "Completed";
+            case STATUS_UNSIGNED : status = "Unsigned";
                 break;
-            case "2" : status = "Pending";
+            case STATUS_PENDING : status = "Pending";
                 break;
-            case "3" : status = "New";
+            case STATUS_COMPLETED : status = "Completed";
                 break;
-            case "4" : status = "Incomplete";
+            case STATUS_INCOMPLETE : status = "Incomplete";
                 break;
-            case "5" : status = "On Process";
+            case STATUS_ON_PROCESS : status = "On Process";
                 break;
             default : status = "";
                 break;
@@ -145,49 +145,49 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         return status;
     }
 
-    private int setColor(String status) {
+    public int setColor(String status) {
         switch (status) {
             /*
-                0 - Unsigned
-                1 - Completed
+                0 - New - Begin Task
+                1 - unsigned
                 2 - Pending
-                3 - New
-                4 - Incomplete
+                3 - Completed
+                4 - Incomplete - Continue
                 5 - On Process
             * */
-            case "1" : return Color.BLUE;
-            case "0" :
-            case "2" :
-            case "3" :
-            case "4" :
-            case "5" : return Color.RED;
+            case STATUS_COMPLETED : return Color.BLUE;
+            case STATUS_NEW :
+            case STATUS_UNSIGNED :
+            case STATUS_PENDING :
+            case STATUS_ON_PROCESS :
+            case STATUS_INCOMPLETE : return Color.RED;
         }
         return Color.BLACK;
     }
 
     private int setIconTask(String stringTask) {
         switch (stringTask) {
-            case "2" :
-            case "4" :
-            case "5" : return R.mipmap.conti_icon;
-            case "0" :
-            case "3" : return R.mipmap.begin_icon;
-            case "1" :
-            default: return R.mipmap.uploaded_icon;
+            case STATUS_UNSIGNED :
+            case STATUS_PENDING :
+            case STATUS_INCOMPLETE : return R.mipmap.conti_icon;
+            case STATUS_COMPLETED :
+            case STATUS_ON_PROCESS : return R.mipmap.uploaded_icon;
+            case STATUS_NEW :
+            default: return R.mipmap.begin_icon;
         }
     }
 
     private String setTaskText(String taskText) {
         switch (taskText) {
-            case "1" : taskText = "<b>Completed</b>";
+            case STATUS_UNSIGNED :
+            case STATUS_PENDING :
+            case STATUS_INCOMPLETE : taskText = "<u>Continue >></u>";
                 break;
-            case "0" :
-            case "3" : taskText = "<u>Begin Task >></u>";
+            case STATUS_NEW : taskText = "<b>Begin Task >></b>";
                 break;
-            case "2" :
-            case "4" : taskText = "<u>Continue >></u>";
+            case STATUS_COMPLETED : taskText = "<u>Completed</u>";
                 break;
-            case "5" : taskText = "<b>On Process</b>";
+            case STATUS_ON_PROCESS : taskText = "<b>On Process</b>";
                 break;
             default : taskText = "";
                 break;
@@ -251,13 +251,8 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
             // ImageButton Links
             textViewTask = (TextView) view.findViewById(R.id.textViewTask);
 
-            frameLayoutButtonSJ = (FrameLayout) view.findViewById(R.id.frameLayoutButtonResults);
-            frameLayoutButtonSJ.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
+            frameLayoutButtonSJ = (FrameLayout) view.findViewById(R.id.frameLayoutButtonSJ);
+            frameLayoutButtonSJ.setOnClickListener(this);
         }
 
         @Override

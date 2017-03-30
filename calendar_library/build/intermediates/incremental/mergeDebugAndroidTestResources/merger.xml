@@ -1600,6 +1600,7 @@
         <item name="android:textColor">@color/roboto_calendar_day_of_the_month_font</item>
     </style><style name="RobotoCalendarMonthArrow">
         <item name="android:tint">@color/roboto_calendar_day_of_the_week_font</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style><dimen name="roboto_calendar_month_margin_bottom">8dp</dimen><color name="roboto_calendar_day_of_the_month_font">#161d20</color><dimen name="roboto_calendar_ring_size">18dp</dimen><color name="roboto_calendar_background">#FFFFFF</color><dimen name="roboto_calendar_month_font">16sp</dimen><color name="roboto_calendar_month_font_old">#2A99BC</color><dimen name="roboto_calendar_day_of_the_month_background_size">40dp</dimen><color name="roboto_calendar_selected_day_background_old">#173E74</color><dimen name="roboto_calendar_padding">8dp</dimen><color name="roboto_calendar_month_font">#161d20</color><color name="roboto_calendar_day_of_the_week_font">#333436</color><style name="AppTheme" parent="AppBaseTheme">
         
         <item name="android:actionMenuTextColor">@color/roboto_calendar_background</item>

@@ -18,16 +18,22 @@
         android:orientation="vertical"
         android:padding="@dimen/recycler_view_list_padding">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/search_results_service_job_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshServiceJobLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="4sp"
-            android:paddingBottom="70sp"/>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/search_results_service_job_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="70sp"
+                android:paddingTop="4sp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <TextView
-            android:id="@+id/textViewResult"
+            android:id="@+id/textViewSJResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -36,7 +42,7 @@
             android:text="Result"
             android:textAlignment="center"
             android:textSize="16sp"
-            android:textStyle="normal|bold"
+            android:textStyle="normal"
             android:visibility="gone" />
 
     </FrameLayout>
@@ -79,23 +85,11 @@
             android:orientation="horizontal">
 
             <com.marcohc.robotocalendar.RobotoCalendarView
-                android:id="@+id/robotoCalendarPicker"
+                android:id="@+id/robotoCalendarServiceJobPicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/frameLayoutButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/markDayButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TEST RANDOM" />
-        </FrameLayout>
 
     </LinearLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

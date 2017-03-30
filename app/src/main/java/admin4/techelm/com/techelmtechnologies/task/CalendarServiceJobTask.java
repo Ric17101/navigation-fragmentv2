@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.db.UserDBUtil;
-import admin4.techelm.com.techelmtechnologies.json.JSONHelper;
+import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;

@@ -16,7 +16,8 @@
         android:clickable="true"
         android:contentDescription="Edit"
         android:scaleType="fitCenter"
-        android:src="@mipmap/edit_icon_list" />
+        android:src="@mipmap/edit_icon_list"
+        android:visibility="gone"/>
 
     <TableLayout
         android:id="@+id/TableLayoutLabels"

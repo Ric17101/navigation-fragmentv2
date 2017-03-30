@@ -7,7 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import admin4.techelm.com.techelmtechnologies.menu.MainActivity;
+import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 
 public class Splash extends Activity {
 

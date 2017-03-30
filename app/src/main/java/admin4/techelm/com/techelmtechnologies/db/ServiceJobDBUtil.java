@@ -62,7 +62,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
      */
     public interface OnDatabaseChangedListener {
         void onNewSJEntryAdded(String serviceNum);
-        void onSJEntryRenamed(String fileName);
+        void onSJEntryRenamed(String remarks);
         void onSJEntryDeleted();
     }
     /**
@@ -356,7 +356,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id, null);
         Log.e(LOG_TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
-            // mOnDatabaseChangedListener.onSJEntryRenamed(item.getServiceNumber());
+            mOnDatabaseChangedListener.onSJEntryRenamed(remarks);
         }
     }
 

@@ -23,12 +23,14 @@ import java.util.TimerTask;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
-import admin4.techelm.com.techelmtechnologies.service_report.ServiceReport_1;
+import admin4.techelm.com.techelmtechnologies.activity.service_report.ServiceReport_1;
 
 public class RecordingService extends Service {
 
     private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
+    private static final String RECORD_SERVICE_TAKEN_KEY = "TAKEN";
     private int mServiceID;
+    private String mTaken;
 
     private static final String LOG_TAG = "RecordingService";
     private static final SimpleDateFormat mTimerFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
@@ -78,6 +80,7 @@ public class RecordingService extends Service {
 
         Bundle bundle = intent.getExtras();
         mServiceID = bundle.getInt(RECORD_SERVICE_KEY);
+        mTaken = bundle.getString(RECORD_SERVICE_TAKEN_KEY);
 
         try {
             startRecording();
@@ -146,8 +149,8 @@ public class RecordingService extends Service {
         do { // Redo Creating of file if file Already exist
             count++;
 
-            mFileName = getString(R.string.default_file_name)
-                    +"_" + count + System.currentTimeMillis() + ".3gp";
+            mFileName = getString(R.string.default_file_name) + "_" + mTaken + "_"
+                    + count + System.currentTimeMillis() + ".3gp";
             mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
             mFilePath += "/TELCHEM/";
 
@@ -179,7 +182,7 @@ public class RecordingService extends Service {
             // mDatabase = onTimerChangedListener.onHandleGetDB();
             mDatabase.open();
             // idInserted = mDatabase.addRecording(mFileName, mFilePath, mElapsedMillis, mServiceID);
-            idInserted = mDatabase.addRecording(mFileName, mOutputFile.getAbsolutePath(), mElapsedMillis, mServiceID);
+            idInserted = mDatabase.addRecording(mFileName, mOutputFile.getAbsolutePath(), mElapsedMillis, mServiceID, mTaken);
             mDatabase.close();
         } catch (Exception e) {
             Log.e(LOG_TAG, "exception", e);

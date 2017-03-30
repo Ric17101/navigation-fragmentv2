@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.db.UserDBUtil;
-import admin4.techelm.com.techelmtechnologies.json.JSONHelper;
+import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.model.UserLoginWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;

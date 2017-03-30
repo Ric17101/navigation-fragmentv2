@@ -10,6 +10,7 @@ public class ServiceJobRecordingWrapper implements Parcelable {
     private String mFilePath;   //file path
     private int mLength;        // length of recording in seconds
     private long mTime;         // date/time of the recording
+    private String mTaken;      // File Taken BEFORE || AFTER
 
     public ServiceJobRecordingWrapper() { }
 
@@ -20,6 +21,7 @@ public class ServiceJobRecordingWrapper implements Parcelable {
         mFilePath = in.readString();
         mLength = in.readInt();
         mTime = in.readLong();
+        mTaken = in.readString();
     }
 
     public static final Creator<ServiceJobRecordingWrapper> CREATOR = new Creator<ServiceJobRecordingWrapper>() {
@@ -36,10 +38,11 @@ public class ServiceJobRecordingWrapper implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mId);
         dest.writeString(mServiceID);
+        dest.writeString(mName);
+        dest.writeString(mFilePath);
         dest.writeInt(mLength);
         dest.writeLong(mTime);
-        dest.writeString(mFilePath);
-        dest.writeString(mName);
+        dest.writeString(mTaken);
     }
 
     @Override
@@ -80,11 +83,14 @@ public class ServiceJobRecordingWrapper implements Parcelable {
         mName = name;
     }
 
-    public long getTime() {
-        return mTime;
-    }
+    public long getTime() { return mTime; }
     public void setTime(long time) {
         mTime = time;
+    }
+
+    public String getTaken() { return mTaken; }
+    public void setTaken(String taken) {
+        mTaken = taken;
     }
 
     public String toString() {
@@ -93,6 +99,7 @@ public class ServiceJobRecordingWrapper implements Parcelable {
                 "\nFile Path : " + this.mFilePath +
                 "\nlenght : " + this.mLength +
                 "\nFile Name" + this.mName +
+                "\nRecording TAKEN " + this.mTaken +
                 "\nTime : " + this.mTime;
     }
 }
