@@ -92,7 +92,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
         holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
-        holder.textViewEngineer.setText(serviceJobDataSet.getEngineer());
+        holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
         holder.textViewStatus.setText(setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(setColor(serviceJobDataSet.getStatus()));
         holder.textViewTask.setText(Html.fromHtml(setTaskText(serviceJobDataSet.getStatus())));
@@ -197,7 +197,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
 
     // Test whether it is completed, then do nothing
     private boolean isCompleted(String status) {
-        return status.equals("1");
+        return status.equals(STATUS_COMPLETED) || status.equals(STATUS_ON_PROCESS);
     }
 
     public interface CallbackInterface {

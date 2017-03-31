@@ -94,9 +94,14 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
         holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
-        holder.textViewEngineer.setText(serviceJobDataSet.getEngineer());
+        holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
+
+        // Set GONE for Status only applied to Unsigned Services form
         holder.textViewStatus.setText(setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(setColor(serviceJobDataSet.getStatus()));
+        holder.textViewStatus.setVisibility(View.GONE);
+        holder.textViewLabelStatus.setVisibility(View.GONE);
+        holder.textViewColumnStatusLabel.setVisibility(View.GONE);
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
         if (mLastAnimatedItemPosition < position) {
@@ -191,6 +196,11 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
         }
         return Color.BLACK;
     }
+
+    private boolean isPendingService() {
+        return serviceJobDataSet.getStatus() == STATUS_PENDING;
+    }
+
     public interface CallbackInterface {
 
         /**
@@ -215,6 +225,8 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
         private final TextView textViewCustomer;
         private final TextView textViewEngineer;
         private final TextView textViewStatus;
+        private final TextView textViewLabelStatus;
+        private final TextView textViewColumnStatusLabel;
 
         private final ImageButton buttonEditDetails;
         private final ImageButton buttonViewDetails;
@@ -235,7 +247,10 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
             textViewServiceNum = (TextView) view.findViewById(R.id.textViewServiceNum);
             textViewCustomer = (TextView) view.findViewById(R.id.textViewCustomer);
             textViewEngineer = (TextView) view.findViewById(R.id.textViewEngineer);
+
             textViewStatus = (TextView) view.findViewById(R.id.textViewStatus);
+            textViewLabelStatus = (TextView) view.findViewById(R.id.textViewLabelStatus);
+            textViewColumnStatusLabel = (TextView) view.findViewById(R.id.textViewColumnStatusLabel);
 
             // ImageButtons
             buttonEditDetails = (ImageButton) view.findViewById(R.id.buttonEditDetails);
@@ -270,8 +285,7 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
                 }
             } else if (v.getId() == buttonEditDetails.getId()) {
                 if (mCallback != null) {
-                    if (serviceJobDataSet.getStatus() == STATUS_NEW ||
-                            serviceJobDataSet.getStatus() == STATUS_PENDING) {
+                    if (isPendingService()) {
                         mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 3);
                     }
                 }
@@ -279,4 +293,5 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
 
         }
     }
+
 }

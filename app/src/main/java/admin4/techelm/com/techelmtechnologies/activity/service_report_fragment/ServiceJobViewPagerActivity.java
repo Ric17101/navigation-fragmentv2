@@ -107,6 +107,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
             @Override
             public void run() {
                 Log.e("ServiceJobPageActivity", mServiceJobFromBundle.toString());
+                Log.e("ServiceJobPageActivity2", sign.toString());
                 mSJDB = new ServiceJobDBUtil(ServiceJobViewPagerActivity.this);
                 mSJDB.open();
                 mSJDB.addServiceJob(sign);

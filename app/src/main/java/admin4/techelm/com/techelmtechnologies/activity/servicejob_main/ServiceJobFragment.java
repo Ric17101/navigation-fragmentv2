@@ -534,7 +534,7 @@ public class ServiceJobFragment extends Fragment implements
 
                 // jsonLen += 1;
                 int i = 0;
-                do { // 24
+                do { // 24 + 2
                     StringBuilder jsonRes = new StringBuilder();
                     jsonRes.append(jsonArray.getJSONObject(i).getString("id"))
                             .append(SJ_LIST_DELIM)
@@ -551,6 +551,10 @@ public class ServiceJobFragment extends Fragment implements
                             .append(jsonArray.getJSONObject(i).getString("complaint"))
                             .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("remarks"))
+                            .append(SJ_LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("remarks_before"))
+                            .append(SJ_LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("remarks_after"))
                             .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("equipment_type"))
                             .append(SJ_LIST_DELIM)
@@ -576,6 +580,10 @@ public class ServiceJobFragment extends Fragment implements
                             .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("signature_name"))
                             .append(SJ_LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("start_date_task"))
+                            .append(SJ_LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("end_date_task"))
+                            .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("fullname"))
                             .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("job_site"))
@@ -583,6 +591,9 @@ public class ServiceJobFragment extends Fragment implements
                             .append(jsonArray.getJSONObject(i).getString("fax"))
                             .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("phone_no"))
+                            .append(SJ_LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("engineer_name"))
+                            .append(SJ_LIST_DELIM)
                     ;
                     serviceList.add(jsonRes.toString());
                     i++;

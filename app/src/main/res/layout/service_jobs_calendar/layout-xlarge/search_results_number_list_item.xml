@@ -140,7 +140,7 @@
                                 android:text="Engineer" />
 
                             <TextView
-                                android:id="@+id/textView2"
+                                android:id="@+id/textViewLabelStatus"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
@@ -189,7 +189,7 @@
                                 android:text=":" />
 
                             <TextView
-                                android:id="@+id/textView11"
+                                android:id="@+id/textViewColumnStatusLabel"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"

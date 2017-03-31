@@ -283,7 +283,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         } else {*/
             mSJDB = new ServiceJobDBUtil(getActivity());
             mSJDB.open();
-            remarks = mSJDB.getAllJSDetailsByServiceJobID(mServiceID).getActionsOrRemarks();
+            remarks = mSJDB.getAllJSDetailsByServiceJobID(mServiceID).getAfterRemarks();
             mSJDB.close();
         //}
         mEditTextRemarks.setText(remarks);
@@ -297,7 +297,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                     mEditTextRemarks.setText(v.getText().toString());
                     mSJDB = new ServiceJobDBUtil(getActivity());
                     mSJDB.open();
-                    mSJDB.updateRequestIDRemarks(mServiceID, v.getText().toString());
+                    mSJDB.updateRequestIDRemarks_AFTER(mServiceID, v.getText().toString());
                     mSJDB.close();
 
                     Log.e(TAG, v.getText().toString());
@@ -351,7 +351,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                         mEditTextRemarks.setText(input.getText());
                         mSJDB = new ServiceJobDBUtil(getActivity());
                         mSJDB.open();
-                        mSJDB.updateRequestIDRemarks(mServiceID, input.getText().toString());
+                        mSJDB.updateRequestIDRemarks_AFTER(mServiceID, input.getText().toString());
                         mSJDB.close();
                         hideKeyboard();
                     }
@@ -382,44 +382,6 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         mEditTextRemarks.setText(remarks);
     }
     public void fromActivity_onSJEntryDeleted() {
-    }
-
-    /**
-     * Load SJ from Database
-     * @param serviceID
-     */
-    private void populateServiceJobDetails(int serviceID, View view) {
-
-        // SERVICE JOB Controls
-        TextView textViewLabelCustomerName = (TextView) view.findViewById(R.id.textViewLabelCustomerName);
-        TextView textViewLabelJobSite = (TextView) view.findViewById(R.id.textViewLabelJobSite);
-        TextView textViewLabelServiceNo = (TextView) view.findViewById(R.id.textViewLabelServiceNo);
-        TextView textViewLabelTypeOfService = (TextView) view.findViewById(R.id.textViewLabelTypeOfService);
-        TextView textViewLabelTelephone = (TextView) view.findViewById(R.id.textViewLabelTelephone);
-        TextView textViewLabelFax = (TextView) view.findViewById(R.id.textViewLabelFax);
-        TextView textViewLabelEquipmentType = (TextView) view.findViewById(R.id.textViewLabelEquipmentType);
-        TextView textViewLabelModel = (TextView) view.findViewById(R.id.textViewLabelModel);
-        TextView textViewComplaints = (TextView) view.findViewById(R.id.textViewComplaints);
-        TextView textViewRemarksActions = (TextView) view.findViewById(R.id.textViewRemarksActions);
-
-        mSJDB = new ServiceJobDBUtil(getActivity());
-        mSJDB.open();
-        mSJResultList = mSJDB.getAllJSDetailsByID(serviceID);
-        mSJDB.close();
-
-        for (int i = 0; i < mSJResultList.size(); i++) { // Only one is enough
-            Log.e(TAG, "DATA: " + mSJResultList.get(i).toString());
-            textViewLabelCustomerName.setText(mSJResultList.get(i).getCustomerName());
-            textViewLabelJobSite.setText(mSJResultList.get(i).getActionsOrRemarks());
-            textViewLabelServiceNo.setText(mSJResultList.get(i).getServiceNumber());
-            textViewLabelTypeOfService.setText(mSJResultList.get(i).getTypeOfService());
-            textViewLabelTelephone.setText(mSJResultList.get(i).getTelephone());
-            textViewLabelFax.setText(mSJResultList.get(i).getFax());
-            textViewLabelEquipmentType.setText(mSJResultList.get(i).getEquipmentType());
-            textViewLabelModel.setText(mSJResultList.get(i).getModelOrSerial());
-            textViewComplaints.setText(mSJResultList.get(i).getComplaintsOrSymptoms());
-            textViewRemarksActions.setText(mSJResultList.get(i).getActionsOrRemarks());
-        }
     }
 
     /*********** A. END SERVICE DETAILS ***********/

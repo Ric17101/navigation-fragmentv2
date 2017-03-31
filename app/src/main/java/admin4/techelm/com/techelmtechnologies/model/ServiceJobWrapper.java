@@ -34,7 +34,7 @@ public class ServiceJobWrapper implements Parcelable {
         }
     };
 
-    //private variables 24
+    //private variables 24 + 2
     private int _id; // ServiceJob ID from the WEB API, should exist only once on local DB
     private String _service_no;
     private String _customer_id;
@@ -43,6 +43,8 @@ public class ServiceJobWrapper implements Parcelable {
     private String _price_id;
     private String _complaints_or_symptoms;
     private String _actions_or_remarks;
+    private String _remarks_before;
+    private String _remarks_after;
     private String _equipment_type;
     private String _model_or_serial_num;
     private String _start_date;
@@ -56,6 +58,7 @@ public class ServiceJobWrapper implements Parcelable {
     private String _warranty_repair;
     private String _others;
     private String _signature_name;
+    private String _engineer_name;
 
     /** MY COLUMNS */
     private String _customer_name;
@@ -68,8 +71,7 @@ public class ServiceJobWrapper implements Parcelable {
     private String _signature_file_path;
 
     // Empty constructor
-    public ServiceJobWrapper() {
-    }
+    public ServiceJobWrapper() { }
 
     protected ServiceJobWrapper(Parcel in) {
         _id = in.readInt();
@@ -80,6 +82,8 @@ public class ServiceJobWrapper implements Parcelable {
         _price_id = in.readString();
         _complaints_or_symptoms = in.readString();
         _actions_or_remarks = in.readString();
+        _remarks_before = in.readString();
+        _remarks_after = in.readString();
         _equipment_type = in.readString();
         _model_or_serial_num = in.readString();
         _start_date = in.readString();
@@ -96,9 +100,10 @@ public class ServiceJobWrapper implements Parcelable {
         _job_site = in.readString();
         _fax = in.readString();
         _telephone = in.readString();
-        _race = in.readString(); // FROM API not included
-        _type_of_service = in.readString();
-        _signature_file_path = in.readString();
+        _engineer_name = in.readString();
+//        _race = in.readString(); // FROM API not included
+//        _type_of_service = in.readString();
+//        _signature_file_path = in.readString();
     }
 
     // constructor
@@ -120,6 +125,8 @@ public class ServiceJobWrapper implements Parcelable {
         dest.writeString(_price_id);
         dest.writeString(_complaints_or_symptoms);
         dest.writeString(_actions_or_remarks);
+        dest.writeString(_remarks_before);
+        dest.writeString(_remarks_after);
         dest.writeString(_equipment_type);
         dest.writeString(_model_or_serial_num);
         dest.writeString(_start_date);
@@ -136,9 +143,10 @@ public class ServiceJobWrapper implements Parcelable {
         dest.writeString(_job_site);
         dest.writeString(_fax);
         dest.writeString(_telephone);
-        dest.writeString(_race); // FROM API not included
-        dest.writeString(_type_of_service);
-        dest.writeString(_signature_file_path);
+        dest.writeString(_engineer_name);
+//        dest.writeString(_race); // FROM API not included
+//        dest.writeString(_type_of_service);
+//        dest.writeString(_signature_file_path);
     }
 
     @Override
@@ -152,9 +160,12 @@ public class ServiceJobWrapper implements Parcelable {
                 "\nCustomer ID : " + this._customer_id +
                 "\nService ID : " + this._service_id +
                 "\nEngineer : " + this._engineer_id +
+                "\nEngineer Name : " + this._engineer_name +
                 "\nPrice ID : " + this._price_id +
                 "\nComplaints or Symptoms : " + this._complaints_or_symptoms +
                 "\nActions or Remarks : " + this._actions_or_remarks +
+                "\nBefore Remarks : " + this._remarks_before +
+                "\nAfter Remarks : " + this._remarks_after +
                 "\nEquipment Type : " + this._equipment_type +
                 "\nModel or Serial Number : " + this._model_or_serial_num +
                 "\nStart Date : " + this._start_date +
@@ -211,6 +222,12 @@ public class ServiceJobWrapper implements Parcelable {
 
     public String getActionsOrRemarks() { return this._actions_or_remarks; }
     public void setActionsOrRemarks(String data) { this._actions_or_remarks = data; }
+
+    public String getBeforeRemarks() { return this._remarks_before; }
+    public void setBeforeRemarks(String data) { this._remarks_before = data; }
+
+    public String getAfterRemarks() { return this._remarks_after; }
+    public void setAfterRemarks(String data) { this._remarks_after = data; }
 
     public String getEquipmentType() { return this._equipment_type; }
     public void setEquipmentType(String data) { this._equipment_type = data; }
@@ -281,9 +298,7 @@ public class ServiceJobWrapper implements Parcelable {
     }
 
     /** MY COLUMNS */
-    public String getCustomerName() {
-        return this._customer_name;
-    }
+    public String getCustomerName() { return this._customer_name; }
     public void setCustomerName(String val) { this._customer_name = val; }
 
     public String getJobSite() {
@@ -318,5 +333,12 @@ public class ServiceJobWrapper implements Parcelable {
     }
     public void setSignaturePath(String val) {
         this._signature_file_path = val;
+    }
+
+    public String getEngineerName() {
+        return this._engineer_name;
+    }
+    public void setEngineerName(String val) {
+        this._engineer_name = val;
     }
 }

@@ -100,6 +100,14 @@ public class ServiceJobUploadFile_VolleyPOST {
         return this;
     }
 
+    public ServiceJobUploadFile_VolleyPOST addMultipleParam(String key, String value, String count) {
+        if (mMap == null) {
+            mMap = new HashMap<>();
+        }
+        this.mMap.put(key + count, value);
+        return this;
+    }
+
     // TODO: do some check here is params has been set, before submit
     public void startUpload() {
         new UploadFileVolleyAsync().execute((Void) null);

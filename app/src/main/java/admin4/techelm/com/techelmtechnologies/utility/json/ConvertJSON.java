@@ -58,6 +58,8 @@ public class ConvertJSON {
             sw.setTypeOfService(jsonArray.getJSONObject(i).getString("price_id"));
             sw.setComplaintsOrSymptoms(jsonArray.getJSONObject(i).getString("complaint"));
             sw.setActionsOrRemarks(jsonArray.getJSONObject(i).getString("remarks"));
+            sw.setBeforeRemarks(jsonArray.getJSONObject(i).getString("remarks_before"));
+            sw.setAfterRemarks(jsonArray.getJSONObject(i).getString("remarks_after"));
             sw.setEquipmentType(jsonArray.getJSONObject(i).getString("equipment_type"));
             sw.setModelOrSerial(jsonArray.getJSONObject(i).getString("serial_no"));
             sw.setStartDate(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0]);
@@ -74,6 +76,7 @@ public class ConvertJSON {
             sw.setJobSite(jsonArray.getJSONObject(i).getString("job_site"));
             sw.setFax(jsonArray.getJSONObject(i).getString("fax"));
             sw.setTelephone(jsonArray.getJSONObject(i).getString("phone_no"));
+            sw.setEngineerName(jsonArray.getJSONObject(i).getString("engineer_name"));
             // Log.d(TAG, sw.toString());
             translationList.add(sw);
             i++;
@@ -82,8 +85,10 @@ public class ConvertJSON {
     }
 
     /**
-     * 24 Columns
+     * 24 Columns + 2
+     * Index 0 to 25
      * Parse JSON String from ':'
+     * SJ Details for Service JOb Begin Task Details
      * @param parsedServiceJob
      * @return
      */
@@ -108,32 +113,40 @@ public class ConvertJSON {
             sw.setPriceID(pieces[5]);
             sw.setComplaintsOrSymptoms(pieces[6]);
             sw.setActionsOrRemarks(pieces[7]);
-            sw.setEquipmentType(pieces[8]);
-            sw.setModelOrSerial(pieces[9]);
-            sw.setStartDate(pieces[10]);
-            sw.setEndDate(pieces[11]);
-            sw.setStatus(pieces[12]);
-            sw.setContractServicing(pieces[13]);
-            sw.setWarrantyServicing(pieces[14]);
-            sw.setCharges(pieces[15]);
-            sw.setContractRepair(pieces[16]);
-            sw.setWarrantyRepair(pieces[17]);
-            sw.setOthers(pieces[18]);
-            sw.setSignatureName(pieces[19]);
-            // sw.setContractServicing(pieces[20]);
-            sw.setCustomerName(pieces[20]);
-            sw.setJobSite(pieces[21]);
-            sw.setFax(pieces[22]);
-            sw.setTelephone(pieces[23]);
+            sw.setBeforeRemarks(pieces[8]);
+            sw.setAfterRemarks(pieces[9]);
+            sw.setEquipmentType(pieces[10]);
+            sw.setModelOrSerial(pieces[11]);
+            sw.setStartDate(pieces[12]);
+            sw.setEndDate(pieces[13]);
+            sw.setStatus(pieces[14]);
+            sw.setContractServicing(pieces[15]);
+            sw.setWarrantyServicing(pieces[16]);
+            sw.setCharges(pieces[17]);
+            sw.setContractRepair(pieces[18]);
+            sw.setWarrantyRepair(pieces[19]);
+            sw.setOthers(pieces[20]);
+            sw.setSignatureName(pieces[21]);
+//            sw.setStartDateTask(pieces[22]);
+//            sw.setEndDateTask(pieces[23]);
+            sw.setCustomerName(pieces[24]);
+            sw.setJobSite(pieces[25]);
+            sw.setFax(pieces[26]);
+            sw.setTelephone(pieces[27]);
+            sw.setEngineerName(pieces[28]);
+//            sw.setTypeOfService(pieces[27]);
             // Log.d(TAG, sw.toString());
             translationList.add(sw);
         }
+
         return translationList;
     }
 
 
     /**
      * TODO: do something with the responses
+     * This is called at ServiceJobJSON_POST after after posting Posting NewParts to web in JSON form
+     *  site : servicejob_new_parts_json
      * @param JSONResult
      * @throws JSONException
      */
@@ -151,13 +164,15 @@ public class ConvertJSON {
         Log.d(TAG, "Status" + json.getInt("status")+"");
         Log.d(TAG, "data " + ob1.toString());
         Log.d(TAG, "parts_name " + jsonArray.getJSONObject(0).getString("parts_name"));
-        /*int i = 0;
+        /*
+        int i = 0;
         do { // 24
             jsonArray.getJSONObject(i);
             // jsonArray.getJSONObject(i).getString("id"))
             // Log.d(TAG, jsonArray.getJSONObject(i););
             i++;
-        } while (jsonLen > i);*/
+        } while (jsonLen > i);
+        */
         return "UPDATE " + jsonArray.length() + "New Replacement Parts.";
     }
 }

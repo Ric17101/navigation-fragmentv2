@@ -131,6 +131,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/rowTableTypeOfService"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10sp">
@@ -166,6 +167,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/rowTableTelephone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10sp">
@@ -201,6 +203,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/rowTableFax"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10sp">
@@ -236,6 +239,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/rowTableEquipmentType"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10sp">
@@ -271,6 +275,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/rowTableSerialNo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10sp">
@@ -309,6 +314,7 @@
     </TableLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayoutRemarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -345,4 +351,12 @@
             android:text="TextView" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textViewHideShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:text="MORE"
+        android:textAlignment="center"
+        android:textSize="12sp" />
 </LinearLayout>

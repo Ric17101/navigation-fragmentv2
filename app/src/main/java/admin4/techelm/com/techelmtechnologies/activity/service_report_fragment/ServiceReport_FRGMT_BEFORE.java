@@ -287,7 +287,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
 
         mSJDB = new ServiceJobDBUtil(getActivity());
         mSJDB.open();
-        remarks = mSJDB.getAllJSDetailsByServiceJobID(mServiceID).getActionsOrRemarks();
+        remarks = mSJDB.getAllJSDetailsByServiceJobID(mServiceID).getBeforeRemarks();
         mSJDB.close();
 
         mEditTextRemarks.setText(remarks);
@@ -301,7 +301,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                     mEditTextRemarks.setText(v.getText().toString());
                     mSJDB = new ServiceJobDBUtil(getActivity());
                     mSJDB.open();
-                    mSJDB.updateRequestIDRemarks(mServiceID, v.getText().toString());
+                    mSJDB.updateRequestIDRemarks_BEFORE(mServiceID, v.getText().toString());
                     mSJDB.close();
 
                     Log.e(TAG, v.getText().toString());
@@ -355,7 +355,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                         mEditTextRemarks.setText(input.getText());
                         mSJDB = new ServiceJobDBUtil(getActivity());
                         mSJDB.open();
-                        mSJDB.updateRequestIDRemarks(mServiceID, input.getText().toString());
+                        mSJDB.updateRequestIDRemarks_BEFORE(mServiceID, input.getText().toString());
                         mSJDB.close();
                         hideKeyboard();
                     }

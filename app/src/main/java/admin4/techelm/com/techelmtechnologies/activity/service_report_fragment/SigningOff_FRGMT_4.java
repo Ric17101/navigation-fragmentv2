@@ -39,6 +39,7 @@ import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
+import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
@@ -719,14 +720,16 @@ public class SigningOff_FRGMT_4 extends Fragment {
             for (ServiceJobUploadsWrapper sjuw : mUploadResults) {
                 Log.e(TAG, "2" + sjuw.toString());
                 File signatureFile = new File(sjuw.getFilePath() + "/" + sjuw.getUploadName());
+                // Reseize file before send to server
+                signatureFile = new ImageUtility(getActivity()).rescaleImageFile(signatureFile);
 
                 if (signatureFile.canRead()) { // File exists on the Directory
                     post.setContext(this.mContext)
                             .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_capture")
                             .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter + "")
+                            .addMultipleParam("taken", sjuw.getTaken(), counter + "")
                             .addParam("count", mUploadResults.size() + "")
                             .addParam("servicejob_id", sjuw.getServiceId() + "")
-                            .addParam("taken", sjuw.getTaken())
                             .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
                                 @Override
                                 public void onError(String msg, int success) {
@@ -790,9 +793,9 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 post.setContext(this.mContext)
                         .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_recording")
                         .addMultipleFile(signatureFile, sjrw.getRecordingName(), "audio/mpeg", counter + "")
+                        .addMultipleParam("taken", sjrw.getTaken(), counter + "")
                         .addParam("count", mRecordResults.size() + "")
                         .addParam("servicejob_id", sjrw.getServiceId() + "")
-                        .addParam("taken", sjrw.getTaken())
                         .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
                             @Override
                             public void onError(String msg, int success) {
@@ -832,19 +835,33 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
     /**
      * UPLOAD SIGNATURE
-     * SINGLE FILE
+     *      SINGLE FILE
+     *      Before Remarks
+     *      After Remarks
      * @param serviceJobId
      * @param path
      * @param name
      */
     private void uploadSignature(int serviceJobId, String path, String name) {
+
+        // Prepare and get Data Parameter from SQLiteDB
+        mSJDB = new ServiceJobDBUtil(getActivity());
+        mSJDB.open();
+        ServiceJobWrapper sjw = mSJDB.getAllJSDetailsByServiceJobID(mServiceID);
+        mSJDB.close();
+
         File signatureFile = new File(path + name);
+        // Reseize file before send to server
+        signatureFile = new ImageUtility(getActivity()).rescaleImageFile(signatureFile);
+
         if (signatureFile.canRead()) { // File exist
             ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST()
                     .setContext(this.mContext)
                     .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_signature")
                     .addImageFile(signatureFile, name, "image/jpeg")
                     .addParam("servicejob_id", serviceJobId+"")
+                    .addParam("remarks_before", sjw.getBeforeRemarks())
+                    .addParam("remarks_after", sjw.getAfterRemarks())
                     .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
                         @Override
                         public void onError(String msg, int success) {
