@@ -1,0 +1,7 @@
+DATE: APRIL 03, 2017
+    after i sent the data to server
+        1)cannot fire back button to landing page
+        2)remarks in after tab is missing
+        3)status completed but still able to edit
+        4)signature is missing
+    fix this first then test again

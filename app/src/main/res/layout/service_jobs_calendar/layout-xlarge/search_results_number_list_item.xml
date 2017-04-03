@@ -40,10 +40,10 @@
 
                 <FrameLayout
                     android:id="@+id/frameLayoutButtonResults"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
                     android:padding="10dp">
 
                     <RelativeLayout
@@ -267,8 +267,8 @@
                                 <TableRow
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:gravity="right|center_vertical"
-                                    android:layout_weight="1">
+                                    android:layout_weight="1"
+                                    android:gravity="right|center_vertical">
 
                                     <ImageButton
                                         android:id="@+id/buttonEditDetails"
@@ -285,11 +285,11 @@
                                         android:src="@mipmap/edit_icon" />
 
                                     <TextView
-                                        android:text="Edit"
+                                        android:id="@+id/textViewEditDetails"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:id="@+id/textViewEditDetails"
                                         android:clickable="true"
+                                        android:text="@string/edit"
                                         android:textColorLink="@color/colorAccent"
                                         android:textSize="12sp" />
                                 </TableRow>
@@ -297,8 +297,8 @@
                                 <TableRow
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:gravity="end|center_vertical"
-                                    android:layout_weight="1">
+                                    android:layout_weight="1"
+                                    android:gravity="end|center_vertical">
 
                                     <ImageButton
                                         android:id="@+id/buttonViewDetails"
@@ -319,11 +319,11 @@
                                         android:src="@mipmap/view_icon" />
 
                                     <TextView
-                                        android:text="View"
+                                        android:id="@+id/textViewViewDetails"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:id="@+id/textViewViewDetails"
                                         android:clickable="true"
+                                        android:text="@string/view"
                                         android:textColorLink="@color/colorAccent"
                                         android:textSize="12sp" />
                                 </TableRow>

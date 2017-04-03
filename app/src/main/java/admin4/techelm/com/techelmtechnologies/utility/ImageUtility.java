@@ -200,7 +200,7 @@ public class ImageUtility {
             inputStream.close();
 
             // The new size we want to scale to
-            final int REQUIRED_SIZE = 75;
+            final int REQUIRED_SIZE = 500; // 75
 
             // Find the correct scale value. It should be the power of 2.
             int scale = 1;

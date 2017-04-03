@@ -12,7 +12,9 @@
         android:layout_marginBottom="10sp"
         android:orientation="vertical">
 
-        <include layout="@layout/i_labels_report_details" />
+        <include layout="@layout/i_labels_report_details_uppper_i_labels"/>
+
+        <include layout="@layout/i_labels_report_details_i_content"/>
 
         <include layout="@layout/i_total_amount_labels" />
 

@@ -102,4 +102,7 @@ dependencies {
     // PDF 1
     compile project(path: ':pdf_library')
     // compile 'com.github.hendrixstring:Android-PdfMyXml:1.0.1' // the latest version is "v1.0.1"
+
+    // Expandable Layout with Animation
+    compile 'com.github.aakira:expandable-layout:1.6.0@aar'
 }

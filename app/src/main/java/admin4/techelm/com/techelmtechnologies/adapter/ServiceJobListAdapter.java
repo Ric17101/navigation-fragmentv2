@@ -7,12 +7,10 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -25,19 +23,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.FragmentSetListHelper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.*;
 
 public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAdapter.ViewHolder> {
 
     private static final String LOG_TAG = "RecyclerViewAdapter";
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
-    private final static String STATUS_NEW = "0";
-    private final static String STATUS_UNSIGNED = "1";
-    private final static String STATUS_PENDING = "2";
-    private final static String STATUS_COMPLETED = "3";
-    private final static String STATUS_INCOMPLETE = "4";
-    private final static String STATUS_ON_PROCESS = "5";
 
     private List<ServiceJobWrapper> mDataSet = new ArrayList<>();
     private ServiceJobWrapper serviceJobDataSet;
@@ -48,6 +43,8 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
 
     private OnItemClickListener mItemsOnClickListener;
     private int counterOnBindViewHolder = 0;
+
+    private FragmentSetListHelper mSetHelper;
 
     public ServiceJobListAdapter(Context context) {
         mContext = context;
@@ -86,6 +83,8 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        this.mSetHelper = new FragmentSetListHelper();
+
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
         holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
@@ -93,12 +92,12 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
         holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
-        holder.textViewStatus.setText(setStatus(serviceJobDataSet.getStatus()));
-        holder.textViewStatus.setTextColor(setColor(serviceJobDataSet.getStatus()));
-        holder.textViewTask.setText(Html.fromHtml(setTaskText(serviceJobDataSet.getStatus())));
+        holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()));
+        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()));
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
 //        if (serviceJobDataSet.getStatus() == "3")
 //            holder.buttonTask.setVisibility(View.GONE);
-        holder.buttonTask.setImageResource(setIconTask(serviceJobDataSet.getStatus()));
+        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
 
@@ -125,79 +124,10 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
                 .setDuration(700)
                 .start();
     }
-    private String setStatus(String status) {
-        switch (status) {
-            case STATUS_NEW : status = "New";
-                break;
-            case STATUS_UNSIGNED : status = "Unsigned";
-                break;
-            case STATUS_PENDING : status = "Pending";
-                break;
-            case STATUS_COMPLETED : status = "Completed";
-                break;
-            case STATUS_INCOMPLETE : status = "Incomplete";
-                break;
-            case STATUS_ON_PROCESS : status = "On Process";
-                break;
-            default : status = "";
-                break;
-        }
-        return status;
-    }
-
-    public int setColor(String status) {
-        switch (status) {
-            /*
-                0 - New - Begin Task
-                1 - unsigned
-                2 - Pending
-                3 - Completed
-                4 - Incomplete - Continue
-                5 - On Process
-            * */
-            case STATUS_COMPLETED : return Color.BLUE;
-            case STATUS_NEW :
-            case STATUS_UNSIGNED :
-            case STATUS_PENDING :
-            case STATUS_ON_PROCESS :
-            case STATUS_INCOMPLETE : return Color.RED;
-        }
-        return Color.BLACK;
-    }
-
-    private int setIconTask(String stringTask) {
-        switch (stringTask) {
-            case STATUS_UNSIGNED :
-            case STATUS_PENDING :
-            case STATUS_INCOMPLETE : return R.mipmap.conti_icon;
-            case STATUS_COMPLETED :
-            case STATUS_ON_PROCESS : return R.mipmap.uploaded_icon;
-            case STATUS_NEW :
-            default: return R.mipmap.begin_icon;
-        }
-    }
-
-    private String setTaskText(String taskText) {
-        switch (taskText) {
-            case STATUS_UNSIGNED :
-            case STATUS_PENDING :
-            case STATUS_INCOMPLETE : taskText = "<u>Continue >></u>";
-                break;
-            case STATUS_NEW : taskText = "<b>Begin Task >></b>";
-                break;
-            case STATUS_COMPLETED : taskText = "<u>Completed</u>";
-                break;
-            case STATUS_ON_PROCESS : taskText = "<b>On Process</b>";
-                break;
-            default : taskText = "";
-                break;
-        }
-        return taskText;
-    }
 
     // Test whether it is completed, then do nothing
     private boolean isCompleted(String status) {
-        return status.equals(STATUS_COMPLETED) || status.equals(STATUS_ON_PROCESS);
+        return status.equals(SERVICE_JOB_COMPLETED);
     }
 
     public interface CallbackInterface {
@@ -259,12 +189,12 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
         public void onClick(View v) {
             if (v.getId() == frameLayoutButtonSJ.getId()) {
                 if (mCallback != null) {
-                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 2);
+                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
                 }
             } else if (v.getId() == buttonTask.getId() || v.getId() == textViewTask.getId()) {
                 if (mCallback != null) {
                     if (!isCompleted(mDataSet.get(getAdapterPosition()).getStatus()))
-                        mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), 4);
+                        mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_ALREADY_COMPLETED);
                 }
             }
 

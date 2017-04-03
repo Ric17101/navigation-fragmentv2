@@ -14,12 +14,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:background="@drawable/signature_boarder"
         android:clickable="true"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:orientation="vertical">
 
 
         <ImageView
@@ -27,16 +27,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <TextView
-            android:text="Capture image at portrait."
+            android:id="@+id/textView25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="11dp"
-            android:id="@+id/textView25" />
+            android:text="Capture image at portrait." />
 
     </RelativeLayout>
 

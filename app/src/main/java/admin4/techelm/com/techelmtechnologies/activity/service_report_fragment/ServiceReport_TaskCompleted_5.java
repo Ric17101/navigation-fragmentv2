@@ -3,8 +3,10 @@ package admin4.techelm.com.techelmtechnologies.activity.service_report_fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -13,11 +15,15 @@ import com.thefinestartist.finestwebview.FinestWebView;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 
 public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
 
-    private static final String LOG_TAG = "TaskCompleted_5";
+    private static final String TAG = "TaskCompleted_5";
+    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
+    private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +32,34 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
 
         // setBackGroundLayout();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+        if (fromBundle() != null) { // if Null don't show anything
+            Log.e(TAG, "ServiceReport_TaskCompleted_5 : \n"+ this.mServiceJobFromBundle.toString());
+        } else {
+            Snackbar.make(this.findViewById(android.R.id.content),
+                    "No data selected from calendar.", Snackbar.LENGTH_LONG)
+                    .setAction("OK", null).show();
+        }
 
         initButton();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(ServiceReport_TaskCompleted_5.this, MainActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+    }
+
+    /**
+     * PARSING data ServiceJob from Bundle passed by the
+     *      MainActivity => CalendarFragment
+     *      Used by ServiceTaskCompleted
+     * @return - ServiceJobWrapper | NULL if no data has been submitted
+     */
+    private ServiceJobWrapper fromBundle() {
+        Intent intent = getIntent();
+        return this.mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(RECORD_JOB_SERVICE_KEY);
     }
 
     /**

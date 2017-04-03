@@ -135,6 +135,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     /**
      * PARSING data ServiceJob from Bundle passed by the
      *      MainActivity => CalendarFragment
+     *      Used by ServiceTaskCompleted
      * @return - ServiceJobWrapper | NULL if no data has been submitted
      */
     private ServiceJobWrapper fromBundle() {

@@ -578,7 +578,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 mUploadsDB.close();
 
                 Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "Image saved into the Gallery: " + camU.getFilePath(),
+                        "Image saved into the Gallery."/* + camU.getFilePath()*/,
                         Snackbar.LENGTH_LONG)
                         .setAction("OK", new View.OnClickListener() {
                             @Override
@@ -1124,7 +1124,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             if (mRecordingDialog.isShowing())
                 mRecordingDialog.dismiss();
         Snackbar.make(getActivity().findViewById(android.R.id.content),
-                "Recording " + fileName + " has been added.",
+                "Recording"/* + fileName*/ + " has been added.",
                 Snackbar.LENGTH_LONG)
                 .setAction("OK", new View.OnClickListener() {
                     @Override
@@ -1141,7 +1141,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
 
     public void fromActivity_onRecordingsEntryRenamed(String fileName) {
         Snackbar.make(getActivity().findViewById(android.R.id.content),
-                "Recording " + fileName + " has been renamed.",
+                "Recording" /*+ fileName*/ + " has been renamed.",
                 Snackbar.LENGTH_LONG)
                 .setAction("OK", new View.OnClickListener() {
                     @Override

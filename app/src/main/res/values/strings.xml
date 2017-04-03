@@ -99,4 +99,6 @@
 
     <!-- Service Job -->
     <string name="replacement_parts">Replacement Parts</string>
+    <string name="edit"><u>Edit</u></string>
+    <string name="view"><u>View</u></string>
 </resources>

@@ -303,7 +303,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:clickable="true"
-                                        android:text="Edit"
+                                        android:text="@string/edit"
                                         android:textColorLink="@color/colorAccent"
                                         android:textSize="8sp" />
                                 </TableRow>
@@ -337,7 +337,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:clickable="true"
-                                        android:text="View"
+                                        android:text="@string/view"
                                         android:textColorLink="@color/colorAccent"
                                         android:textSize="8sp" />
                                 </TableRow>

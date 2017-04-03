@@ -254,14 +254,14 @@ public class MainActivity extends FragmentActivity implements
      * @param serviceJob - the text to pass back
      *                   3 - Show Details on ServiceReport_FRGMT_BEFORE
      *                   2 - Show Details on SJ MDialog
-     * @param mode
+     * @param action
      */
     @Override
-    public void onHandleSelection(int position, ServiceJobWrapper serviceJob, int mode) {
-        String strOut = "Position: " + position + " \nService Job:" + serviceJob.toString() + "\nMode: " + mode;
+    public void onHandleSelection(int position, ServiceJobWrapper serviceJob, int action) {
+        String strOut = "Position: " + position + " \nService Job:" + serviceJob.toString() + "\nMode: " + action;
         System.out.print(strOut);
 
-        switch(mode) {
+        switch(action) {
             case 2 : // Show Details of SJ on MDialog
                 showMDialogSJDetails(serviceJob);
                 // Toast.makeText(getApplicationContext(), serviceJob.toString(), Toast.LENGTH_SHORT).show();
@@ -285,7 +285,7 @@ public class MainActivity extends FragmentActivity implements
     private void confirmBeginTaskMDialog(final ServiceJobWrapper serviceJob) {
         MaterialDialog md = new MaterialDialog.Builder(this)
                 .title("BEGIN TASK " + serviceJob.getServiceNumber() + "?")
-                .customView(R.layout.i_labels_report_details, true)
+                .customView(R.layout.i_labels_report_details_modal, true)
                 .limitIconToDefaultSize()
                 .negativeText("CLOSE")
                 .positiveText("BEGIN")
@@ -298,7 +298,7 @@ public class MainActivity extends FragmentActivity implements
                 }).build();
 
         new PopulateServiceJobViewDetails()
-                .populateServiceJobDetails(md.getCustomView(), serviceJob, View.GONE, TAG);
+                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);
         md.show();
     }
 
@@ -329,7 +329,7 @@ public class MainActivity extends FragmentActivity implements
     private void showMDialogSJDetails(ServiceJobWrapper serviceJob) {
         MaterialDialog md = new MaterialDialog.Builder(this)
                 .title("SERVICE JOB " + serviceJob.getServiceNumber())
-                .customView(R.layout.i_labels_report_details, true)
+                .customView(R.layout.i_labels_report_details_modal, true)
                 .limitIconToDefaultSize()
                 .positiveText("OK")
                 .iconRes(R.mipmap.view_icon)
@@ -342,7 +342,7 @@ public class MainActivity extends FragmentActivity implements
                 }).build();
 
         new PopulateServiceJobViewDetails()
-                .populateServiceJobDetails(md.getCustomView(), serviceJob, View.GONE, TAG);
+                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);
         md.show();
     }
 

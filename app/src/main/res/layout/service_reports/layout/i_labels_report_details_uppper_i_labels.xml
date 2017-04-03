@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/buttonViewDetails"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end"
+        android:layout_margin="10dp"
+        android:adjustViewBounds="false"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="Edit"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/edit_icon_list"
+        android:visibility="gone" />
+
+    <TableLayout
+        android:id="@+id/TableLayoutLabels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabel18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="fill_vertical"
+                android:text="Customer Name"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textViewLabel11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="fill_vertical"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/textViewLabelCustomerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="fill_vertical"
+                android:text="Text" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabel19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="center_vertical"
+                android:text="Job Site"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textViewLabel12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="center_vertical"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/textViewLabelJobSite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="Text" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabel20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="center_vertical"
+                android:text="Service No."
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textViewLabel13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="center_vertical"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/textViewLabelServiceNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="Text" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

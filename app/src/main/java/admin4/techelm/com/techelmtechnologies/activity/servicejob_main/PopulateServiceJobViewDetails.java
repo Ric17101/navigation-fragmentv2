@@ -1,17 +1,19 @@
 package admin4.techelm.com.techelmtechnologies.activity.servicejob_main;
 
-import android.inputmethodservice.Keyboard;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 /**
- * Reusable Content Populating
+ * Reusable Content Populating for i_labels_report_details.xml
  * Created by admin 4 on 14/03/2017.
  */
 
@@ -29,35 +31,28 @@ public class PopulateServiceJobViewDetails {
     TextView textViewRemarksActions;
     TextView textViewHideShow;
 
+    TableLayout TableLayoutLabels;
     LinearLayout linearLayoutRemarks;
-    TableRow rowTableTypeOfService;
-    TableRow rowTableTelephone;
-    TableRow rowTableFax;
-    TableRow rowTableEquipmentType;
-    TableRow rowTableSerialNo;
 
-    /**
-     * View on the CalendarFragment onClick View
-     * @param vDialog - view of the Material View
-     * @param serviceJob - ServiceJob Wrapper from CalendarFragment
-     */
-    public void populateServiceJobDetails(View vDialog, ServiceJobWrapper serviceJob, int visibility, String TAG) {
+    private ExpandableRelativeLayout mExpandLayout;
 
+    private void setViewElements(View view, ServiceJobWrapper serviceJob, int visibility) {
         // SERVICE JOB Controls
-        ImageButton buttonViewDetails = (ImageButton) vDialog.findViewById(R.id.buttonViewDetails);
-        textViewLabelCustomerName = (TextView) vDialog.findViewById(R.id.textViewLabelCustomerName);
-        textViewLabelJobSite = (TextView) vDialog.findViewById(R.id.textViewLabelJobSite);
-        textViewLabelServiceNo = (TextView) vDialog.findViewById(R.id.textViewLabelServiceNo);
-        textViewLabelTypeOfService = (TextView) vDialog.findViewById(R.id.textViewLabelTypeOfService);
-        textViewLabelTelephone = (TextView) vDialog.findViewById(R.id.textViewLabelTelephone);
-        textViewLabelFax = (TextView) vDialog.findViewById(R.id.textViewLabelFax);
-        textViewLabelEquipmentType = (TextView) vDialog.findViewById(R.id.textViewLabelEquipmentType);
-        textViewLabelModel = (TextView) vDialog.findViewById(R.id.textViewLabelModel);
-        textViewComplaints = (TextView) vDialog.findViewById(R.id.textViewComplaints);
-        textViewRemarksActions = (TextView) vDialog.findViewById(R.id.textViewRemarksActions);
+        ImageButton buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
+        textViewLabelCustomerName = (TextView) view.findViewById(R.id.textViewLabelCustomerName);
+        textViewLabelJobSite = (TextView) view.findViewById(R.id.textViewLabelJobSite);
+        textViewLabelServiceNo = (TextView) view.findViewById(R.id.textViewLabelServiceNo);
+        textViewLabelTypeOfService = (TextView) view.findViewById(R.id.textViewLabelTypeOfService);
+        textViewLabelTelephone = (TextView) view.findViewById(R.id.textViewLabelTelephone);
+        textViewLabelFax = (TextView) view.findViewById(R.id.textViewLabelFax);
+        textViewLabelEquipmentType = (TextView) view.findViewById(R.id.textViewLabelEquipmentType);
+        textViewLabelModel = (TextView) view.findViewById(R.id.textViewLabelModel);
+        textViewComplaints = (TextView) view.findViewById(R.id.textViewComplaints);
+        textViewRemarksActions = (TextView) view.findViewById(R.id.textViewRemarksActions);
 
-        // Log.e(TAG, "DATA: " + serviceJob.toString());
+        // Set TextView Contents
         buttonViewDetails.setVisibility(visibility);
+
         textViewLabelCustomerName.setText(serviceJob.getCustomerName());
         textViewLabelJobSite.setText(serviceJob.getJobSite());
         textViewLabelServiceNo.setText(serviceJob.getServiceNumber());
@@ -68,6 +63,31 @@ public class PopulateServiceJobViewDetails {
         textViewLabelModel.setText(serviceJob.getModelOrSerial());
         textViewComplaints.setText(serviceJob.getComplaintsOrSymptoms());
         textViewRemarksActions.setText(serviceJob.getActionsOrRemarks());
+    }
+
+    /**
+     * Use only for the Main Activity for showing the Details on the Material Dialog
+     * @param mDialog - Material Dialog, container
+     * @param serviceJob - contents
+     * @param visibility - View.[GONE, Visible]
+     * @param TAG - TAG?
+     */
+    public void populateServiceJobDetailsMaterialDialog(View mDialog, ServiceJobWrapper serviceJob, int visibility, String TAG) {
+        this.setViewElements(mDialog, serviceJob, visibility);
+
+        textViewHideShow = (TextView) mDialog.findViewById(R.id.textViewHideShow);
+        textViewHideShow.setVisibility(visibility);
+    }
+
+    /**
+     * View on the Fragments onClick View
+     * @param vDialog - view of the Material View
+     * @param serviceJob - ServiceJob Wrapper from CalendarFragment
+     */
+    public void populateServiceJobDetails(View vDialog, ServiceJobWrapper serviceJob, int visibility, String TAG) {
+        this.setViewElements(vDialog, serviceJob, visibility);
+
+        mExpandLayout = (ExpandableRelativeLayout) vDialog.findViewById(R.id.expandableLayout);
 
         // TextView More and Hide
         textViewHideShow = (TextView) vDialog.findViewById(R.id.textViewHideShow);
@@ -75,28 +95,39 @@ public class PopulateServiceJobViewDetails {
             @Override
             public void onClick(View v) {
                 if (textViewHideShow.getText().toString().equals("MORE")) {
-                    textViewHideShow.setText("BACK");
-                    showOrHideTextView(View.GONE);
+                    showView();
                 } else {
-                    textViewHideShow.setText("MORE");
-                    showOrHideTextView(View.VISIBLE);
+                    hideView();
                 }
             }
         });
-        linearLayoutRemarks = (LinearLayout) vDialog.findViewById(R.id.linearLayoutRemarks);
-        rowTableTypeOfService = (TableRow) vDialog.findViewById(R.id.rowTableTypeOfService);
-        rowTableTelephone = (TableRow) vDialog.findViewById(R.id.rowTableTelephone);
-        rowTableFax = (TableRow) vDialog.findViewById(R.id.rowTableFax);
-        rowTableEquipmentType = (TableRow) vDialog.findViewById(R.id.rowTableEquipmentType);
-        rowTableSerialNo = (TableRow) vDialog.findViewById(R.id.rowTableSerialNo);
+
+        // Table Layout Top
+        TableLayoutLabels = (TableLayout) vDialog.findViewById(R.id.TableLayoutLabels);
+        TableLayoutLabels.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showView();
+            }
+        });
+
+        // LinearLayout Below tablelayout
+        linearLayoutRemarks = (LinearLayout) vDialog.findViewById(R.id.linearLayoutShown);
+        linearLayoutRemarks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideView();
+            }
+        });
     }
 
-    private void showOrHideTextView(int visibility) {
-        linearLayoutRemarks.setVisibility(visibility);
-        rowTableTypeOfService.setVisibility(visibility);
-        rowTableTelephone.setVisibility(visibility);
-        rowTableFax.setVisibility(visibility);
-        rowTableEquipmentType.setVisibility(visibility);
-        rowTableSerialNo.setVisibility(visibility);
+    private void hideView() {
+        textViewHideShow.setText("MORE");
+        mExpandLayout.move(0);
+    }
+
+    private void showView() {
+        textViewHideShow.setText("BACK");
+        mExpandLayout.toggle();
     }
 }

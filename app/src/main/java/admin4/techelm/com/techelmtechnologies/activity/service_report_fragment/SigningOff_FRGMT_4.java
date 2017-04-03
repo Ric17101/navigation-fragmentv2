@@ -81,8 +81,9 @@ public class SigningOff_FRGMT_4 extends Fragment {
     private SignaturePad mSignaturePad;
     private SignatureUtil mSignUtil;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private boolean hasSignature = false;
 
-    // SlidingPager Tab Set Up
+    // C. SlidingPager Tab Set Up
     private static final String ARG_POSITION = "position";
     private int position;
 
@@ -210,7 +211,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
                         Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                         // TODO: Add AsyncTask Here...
                         if (mSignUtil.addJpgSignatureToGallery(signatureBitmap, "signature")) {
-                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Signature saved into the Gallery:" + mSignUtil.getFilePath(), Snackbar.LENGTH_LONG)
+                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Signature saved into the Gallery."/* + mSignUtil.getFilePath()*/, Snackbar.LENGTH_LONG)
                                     .setAction("OK", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -224,6 +225,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
                             setDrawableImageSignature(mSignUtil.loadBitmap());
                             dialog.dismiss();
+                            setHasSignature(true);
                         } else {
                             Snackbar.make(getActivity().findViewById(android.R.id.content), "Unable to store the signature", Snackbar.LENGTH_LONG)
                                     .setAction("OK", new View.OnClickListener() {
@@ -234,6 +236,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
                                     })
                                     .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
                                     .show();
+                            setHasSignature(false);
                         }
 
                         /*
@@ -353,6 +356,10 @@ public class SigningOff_FRGMT_4 extends Fragment {
         return true;
     }
 
+    public void setHasSignature(boolean hasUpload) {
+        this.hasSignature = hasUpload;
+    }
+
     // TODO: Should this separate from CLASS
     private class TestDBIfUserUploadedFiles extends AsyncTask<String, Void, ServiceJobWrapper>{
         boolean aHasRecordings = true;
@@ -458,6 +465,17 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         @Override
         protected void onPreExecute() {
+            Snackbar.make(getActivity().findViewById(android.R.id.content),
+                    "Upload started.", Snackbar.LENGTH_SHORT)
+                    .setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
+
             buildNotification();
         }
 
@@ -478,17 +496,6 @@ public class SigningOff_FRGMT_4 extends Fragment {
             Log.e(TAG, "Im on onPostExecute @ UploadDataWithNotificationTASK");
             //if (mIncrProgress == PROGRESS_MAX) // This line is not called due to asynchronous call
             //   goHome();
-
-            Snackbar.make(getActivity().findViewById(android.R.id.content),
-                    "Upload started.", Snackbar.LENGTH_SHORT)
-                    .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    })
-                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
-                    .show();
         }
 
         // TEST ONLY
@@ -521,7 +528,9 @@ public class SigningOff_FRGMT_4 extends Fragment {
         // 1.a SET UP ACTIVITY PENDING EVENT
         private PendingIntent setUpActivityPendingEventSuccess() {
 
-            Intent resultIntent = new Intent(getActivity(), ServiceReport_TaskCompleted_5.class);
+            Intent resultIntent = new Intent(getActivity(), ServiceReport_TaskCompleted_5.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
             // Adds the back stack
             stackBuilder.addParentStack(ServiceReport_TaskCompleted_5.class);
@@ -615,18 +624,18 @@ public class SigningOff_FRGMT_4 extends Fragment {
         // 5. Loop Finished
         private void finishNotificationProgress() {
             String notification = "";
-            if (mIncrProgress != PROGRESS_MAX) { // did not finished the uploads
+            if (mIncrProgress != PROGRESS_MAX) { // SUCCESS NOTIF
                 notification = getString(R.string.upload_error);
                 mBuilder.setSmallIcon(R.mipmap.ic_upload_error)
                     .setColor(Color.RED)
                     .setContentIntent(setUpActivityPendingEventFailed());
                 setEndTaskButton();
-            } else {
+            } else { // FAILED NOTIF
                 notification = getString(R.string.upload_successfully);
                 mBuilder.setSmallIcon(R.mipmap.ic_upload_success)
                         .setColor(Color.GREEN)
                         .setContentIntent(setUpActivityPendingEventSuccess());
-                goHome();
+                goTaskCompleted();
             }
             publishNotification(notification);
         }
@@ -650,6 +659,18 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 startActivity(new Intent(getActivity(), MainActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 getActivity().overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+            }
+        });
+    }
+
+    private void goTaskCompleted() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(getActivity(), ServiceReport_TaskCompleted_5.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
+                getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
     }
@@ -818,6 +839,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
         }
     }
 
+
     private boolean testIfRecordingsIsNotBlank(List<ServiceJobRecordingWrapper> mRecordResults) {
         if (mRecordResults == null) {
             return false;
@@ -843,6 +865,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
      * @param name
      */
     private void uploadSignature(int serviceJobId, String path, String name) {
+        ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST();
 
         // Prepare and get Data Parameter from SQLiteDB
         mSJDB = new ServiceJobDBUtil(getActivity());
@@ -850,36 +873,55 @@ public class SigningOff_FRGMT_4 extends Fragment {
         ServiceJobWrapper sjw = mSJDB.getAllJSDetailsByServiceJobID(mServiceID);
         mSJDB.close();
 
+        Log.e(TAG, "uploadSignatureOK " + sjw.toString() + "\n " + sjw.getAfterRemarks() + " " + sjw.getBeforeRemarks());
+
         File signatureFile = new File(path + name);
         // Reseize file before send to server
         signatureFile = new ImageUtility(getActivity()).rescaleImageFile(signatureFile);
-
-        if (signatureFile.canRead()) { // File exist
-            ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST()
-                    .setContext(this.mContext)
-                    .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_signature")
-                    .addImageFile(signatureFile, name, "image/jpeg")
-                    .addParam("servicejob_id", serviceJobId+"")
-                    .addParam("remarks_before", sjw.getBeforeRemarks())
-                    .addParam("remarks_after", sjw.getAfterRemarks())
-                    .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
-                        @Override
-                        public void onError(String msg, int success) {
-                            Log.e(TAG, "Message " + msg + " Error:" + success);
-                            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
-                        }
-
-                        @Override
-                        public void onSuccess(String msg, int success) {
-                            Log.e(TAG, "Message " + msg + " Success:" + success);
-                            //uploadTask.sleep();
-                            uploadTask.incrementProgressNotification(PROGRESS_SIGNATURE);
-                        }
-                    });
-            post.startUpload();
+        if (signatureFile == null) { //
+            setHasSignature(false);
+            post = setDataSignatureVolley(post, sjw, serviceJobId);
+            post.addParam("hasSignature", "false");
+            post.startUpload(); // Finally upload files
+            // uploadTask.incrementProgressNotification(PROGRESS_ERROR);
         } else {
-            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+            if (signatureFile.canRead()) { // File exist
+                post = setDataSignatureVolley(post, sjw, serviceJobId);
+                if (this.hasSignature) { // If user signed and clicked save on the Sign PAD
+                    post.addImageFile(signatureFile, name, "image/jpeg")
+                            .addParam("hasSignature", "true");
+                } else {
+                    post.addParam("hasSignature", "false");
+                }
+
+                post.startUpload(); // Finally upload files
+            } else {
+                uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+            }
         }
+    }
+    // CAlled by uploadRecordings() only
+    private ServiceJobUploadFile_VolleyPOST setDataSignatureVolley(ServiceJobUploadFile_VolleyPOST post, ServiceJobWrapper sjw, int serviceJobId) {
+        post.setContext(this.mContext)
+            .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_signature")
+            .addParam("servicejob_id", serviceJobId+"")
+            .addParam("remarks_before", sjw.getBeforeRemarks())
+            .addParam("remarks_after", sjw.getAfterRemarks())
+            .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+                @Override
+                public void onError(String msg, int success) {
+                    Log.e(TAG, "Message " + msg + " Error:" + success);
+                    uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+                }
+
+                @Override
+                public void onSuccess(String msg, int success) {
+                    Log.e(TAG, "Message " + msg + " Success:" + success);
+                    //uploadTask.sleep();
+                    uploadTask.incrementProgressNotification(PROGRESS_SIGNATURE);
+                }
+            });
+        return post;
     }
 
     /****************************** END UPLOADING NOTIFICATION ******************************/
