@@ -94,11 +94,7 @@ public class PopulateServiceJobViewDetails {
         textViewHideShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (textViewHideShow.getText().toString().equals("MORE")) {
-                    showView();
-                } else {
-                    hideView();
-                }
+                doHideOrShow();
             }
         });
 
@@ -107,7 +103,7 @@ public class PopulateServiceJobViewDetails {
         TableLayoutLabels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showView();
+                doHideOrShow();
             }
         });
 
@@ -116,9 +112,17 @@ public class PopulateServiceJobViewDetails {
         linearLayoutRemarks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideView();
+                doHideOrShow();
             }
         });
+    }
+
+    private void doHideOrShow() {
+        if (textViewHideShow.getText().toString().equals("MORE")) {
+            showView();
+        } else {
+            hideView();
+        }
     }
 
     private void hideView() {

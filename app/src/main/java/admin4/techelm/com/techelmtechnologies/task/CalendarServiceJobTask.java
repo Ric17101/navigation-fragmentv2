@@ -20,6 +20,8 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
+
 /**
  * Represents an asynchronous login/registration task used to authenticate
  * the user.
@@ -27,8 +29,6 @@ import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 public class CalendarServiceJobTask extends AsyncTask<Void, Void, List<ServiceJobWrapper>> {
 
     public static final String TAG = CalendarServiceJobTask.class.getSimpleName();
-    public static final String SERVICE_JOB_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/simple-codeigniter-rest-api-master/index.php/servicejob/";
     private String[] SERVICE_JOB = new String[]{""};
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world", "@dev:password:"
@@ -61,14 +61,14 @@ public class CalendarServiceJobTask extends AsyncTask<Void, Void, List<ServiceJo
 
     private String getDetailsLink() {
         StringBuilder sb = new StringBuilder();
-        sb.append(SERVICE_JOB_URL);
+        sb.append(SERVICE_JOB_UPLOAD_URL);
         sb.append("get_date_services/" + mDate);
         return sb.toString();
     }
 
     public String getServiceJobLink() {
         StringBuilder sb = new StringBuilder();
-        sb.append(SERVICE_JOB_URL);
+        sb.append(SERVICE_JOB_UPLOAD_URL);
         sb.append("detail/" + mID);
         return sb.toString();
     }

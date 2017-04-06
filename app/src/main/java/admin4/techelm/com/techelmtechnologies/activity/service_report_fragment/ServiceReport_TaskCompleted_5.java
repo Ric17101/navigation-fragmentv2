@@ -2,14 +2,12 @@ package admin4.techelm.com.techelmtechnologies.activity.service_report_fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.thefinestartist.finestwebview.FinestWebView;
 
@@ -17,11 +15,15 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
+
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_DETAILS_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 
 public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
 
     private static final String TAG = "TaskCompleted_5";
-    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
 
@@ -35,9 +37,11 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
         if (fromBundle() != null) { // if Null don't show anything
             Log.e(TAG, "ServiceReport_TaskCompleted_5 : \n"+ this.mServiceJobFromBundle.toString());
         } else {
-            Snackbar.make(this.findViewById(android.R.id.content),
-                    "No data selected from calendar.", Snackbar.LENGTH_LONG)
-                    .setAction("OK", null).show();
+            SnackBarNotificationUtil
+                    .setSnackBar(findViewById(android.R.id.content),
+                            "No data selected from calendar.")
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
         }
 
         initButton();
@@ -59,7 +63,7 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
      */
     private ServiceJobWrapper fromBundle() {
         Intent intent = getIntent();
-        return this.mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(RECORD_JOB_SERVICE_KEY);
+        return this.mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(SERVICE_JOB_SERVICE_KEY);
     }
 
     /**
@@ -103,11 +107,14 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
      * Show the Details on the WEB using WEBVIEW
      */
     private void setContentWebView() {
-        new FinestWebView.Builder(this)
+        new FinestWebView.Builder(ServiceReport_TaskCompleted_5.this)
+                .titleDefault("Service Job Details " + this.mServiceJobFromBundle.getServiceNumber())
+                .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
+                .webViewBuiltInZoomControls(true)
                 .titleDefault(getString(R.string.app_name))
                 .swipeRefreshColorRes(R.color.colorPrimary1)
                 .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
-                .show("http://enercon714.firstcomdemolinks.com/sampleREST/simple-codeigniter-rest-api-master/index.php/");
+                .show(SERVICE_JOB_UPLOAD_URL + "view_details?servicejob_id=" + this.mServiceJobFromBundle.getID());
     }
 
 

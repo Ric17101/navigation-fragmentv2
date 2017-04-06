@@ -55,7 +55,8 @@
         android:background="#ffffff"
         android:clickable="true"
         android:focusable="false"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"

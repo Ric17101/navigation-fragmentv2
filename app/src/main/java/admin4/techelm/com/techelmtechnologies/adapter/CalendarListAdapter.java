@@ -150,31 +150,6 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
         return strDate.split("-")[2];
     }
 
-
-
-    private boolean isUnsigedService() {
-        return serviceJobDataSet.getStatus() == SERVICE_JOB_UNSIGNED;
-    }
-
-    private void setActionOnClick(int adapterPosition, ServiceJobWrapper serviceJobWrapper) {
-        switch(serviceJobDataSet.getStatus()) {
-            case SERVICE_JOB_COMPLETED :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_COMPLETED);
-                break;
-            case SERVICE_JOB_NEW :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_BEGIN_JOB_SERVICE);
-                break;
-            case SERVICE_JOB_PENDING :
-            case SERVICE_JOB_UNSIGNED :
-            case SERVICE_JOB_INCOMPLETE :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT_JOB_SERVICE);
-                break;
-            default :
-                break;
-        }
-
-    }
-
     public interface CallbackInterface {
 
         /**
@@ -245,7 +220,8 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
                 }
             } else if (v.getId() == buttonEditDetails.getId()) {
                 if (mCallback != null) {
-                    setActionOnClick(getAdapterPosition(), mDataSet.get(getAdapterPosition()));
+//                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), serviceJobDataSet.getStatus());
+                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), mDataSet.get(getAdapterPosition()).getStatus());
                 }
             }
 

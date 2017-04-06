@@ -39,7 +39,7 @@ public class ServiceJobBegin_POST {
     // WEB API Setup
     public void cancel(View v) { postCommand.cancel(); }
 
-    public void postStartDate(final int id) {
+    public void postStartDate(int id) {
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
         String url = SERVICE_JOB_URL + "save_start_date";
@@ -47,12 +47,50 @@ public class ServiceJobBegin_POST {
 
     /*add parameter*/
         webServiceInfo.addParam("id", id + "");
-        webServiceInfo.addParam("start_date_task", getCurrentDateTime());
+        webServiceInfo.addParam("start_date_task", getCurrentDateTime()); // Can be nothing... this is not used in server side
 
     /*postStartDate command*/
         postCommand = new PostCommand(webServiceInfo);
 
     /*request*/
+        executeWebServiceRequest();
+    }
+
+    public void postContinueDate(int id) {
+    /*web info*/
+        WebServiceInfo webServiceInfo = new WebServiceInfo();
+        String url = SERVICE_JOB_URL + "save_continue_start_date";
+        webServiceInfo.setUrl(url);
+
+    /*add parameter*/
+        webServiceInfo.addParam("id", id + "");
+        //webServiceInfo.addParam("start_task_time", getCurrentDateTime());
+
+    /*postStartDate command*/
+        postCommand = new PostCommand(webServiceInfo);
+
+    /*request*/
+        executeWebServiceRequest();
+    }
+
+    public void postRevertStatus(int id, String status) {
+    /*web info*/
+        WebServiceInfo webServiceInfo = new WebServiceInfo();
+        String url = SERVICE_JOB_URL + "save_revert_status";
+        webServiceInfo.setUrl(url);
+
+    /*add parameter*/
+        webServiceInfo.addParam("id", id + "");
+        webServiceInfo.addParam("status", status);
+
+    /*postStartDate command*/
+        postCommand = new PostCommand(webServiceInfo);
+
+    /*request*/
+        executeWebServiceRequest();
+    }
+
+    private void executeWebServiceRequest() {
         WebServiceRequest webServiceRequest = new WebServiceRequest(postCommand);
         webServiceRequest.execute();
         webServiceRequest.setOnServiceListener(new OnServiceListener() {

@@ -193,8 +193,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
                 }
             } else if (v.getId() == buttonTask.getId() || v.getId() == textViewTask.getId()) {
                 if (mCallback != null) {
-                    if (!isCompleted(mDataSet.get(getAdapterPosition()).getStatus()))
-                        mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_ALREADY_COMPLETED);
+                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), mDataSet.get(getAdapterPosition()).getStatus());
                 }
             }
 

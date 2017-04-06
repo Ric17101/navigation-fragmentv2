@@ -21,7 +21,7 @@ import admin4.techelm.com.techelmtechnologies.R;
 public class PDFClass {
 
     private static final int PDF_PAGE_WIDTH = 1500;
-    private static final int PDF_PAGE_HEIGHT = 2115;
+    private static final int PDF_PAGE_HEIGHT = 2115; // 1850
     private int mPageCount = 0;
     private Context mContext;
     private PdfDocument mDoc;
@@ -62,7 +62,6 @@ public class PDFClass {
             }
         };
         page.setReuseBitmap(true);
-
         // you can reuse the bitmap if you want
         return page;
     }
@@ -109,7 +108,7 @@ public class PDFClass {
         // Increment Page Number
         incrementPageNumber();
         View view = page.getView();
-        TextView tv_hello = (TextView)view.findViewById(R.id.textViewPageNumber);
+        TextView tv_hello = (TextView) view.findViewById(R.id.textViewPageNumber);
         tv_hello.setText(mPageCount+"");
 
         this.mDoc.addPage(page);
@@ -166,7 +165,7 @@ public class PDFClass {
         mFilePath += "/TELCHEM/" + directory;
         File file = new File(mFilePath);
         if (!file.mkdirs()) {
-            Log.e("ImageUtility", "Directory not created, or already existed");
+            Log.e("PDFClass", "Directory not created, or already existed");
         }
         return file;
     }

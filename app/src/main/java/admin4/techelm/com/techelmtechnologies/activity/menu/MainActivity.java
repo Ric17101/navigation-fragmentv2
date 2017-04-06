@@ -22,7 +22,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.HashMap;
 
-import admin4.techelm.com.techelmtechnologies.BuildConfig;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
@@ -37,9 +36,13 @@ import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateS
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.ServiceJobFragmentTab;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
+import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
+
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.*;
 
 public class MainActivity extends FragmentActivity implements
         ServiceJobListAdapter.CallbackInterface,
@@ -47,9 +50,7 @@ public class MainActivity extends FragmentActivity implements
         UnsignedServiceJobListAdapter.CallbackInterface {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String VERSION = BuildConfig.VERSION_NAME;
-    private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
-    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
+
 
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
@@ -138,6 +139,7 @@ public class MainActivity extends FragmentActivity implements
     }*/
 
     private void logout() {
+        if (new JSONHelper().isConnected(this)) {
         new AlertDialog.Builder(this)
                 .setMessage("Are you sure you want to signout?")
                 .setCancelable(false)
@@ -152,6 +154,13 @@ public class MainActivity extends FragmentActivity implements
                 })
                 .setNegativeButton("No", null)
                 .show();
+        } else {
+            SnackBarNotificationUtil
+                    .setSnackBar(findViewById(android.R.id.content),
+                            "Can't logout now. " + getResources().getString(R.string.noInternetConnection))
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
+        }
     }
 
     private void init_DrawerNav() {
@@ -249,6 +258,10 @@ public class MainActivity extends FragmentActivity implements
 
     /**
      * Handles the Event onClick CallbackInterface for the CardViewList
+     *  From  AdpterList
+     *      - CalendarListAdapter
+     *      - UnsignedServiceJobListAdapter
+     *      - ServiceJobListAdapter
      *
      * @param position   - the position
      * @param serviceJob - the text to pass back
@@ -262,25 +275,29 @@ public class MainActivity extends FragmentActivity implements
         System.out.print(strOut);
 
         switch(action) {
-            case 2 : // Show Details of SJ on MDialog
+            case ACTION_VIEW_DETAILS : // Show Details of SJ on MDialog
                 showMDialogSJDetails(serviceJob);
-                // Toast.makeText(getApplicationContext(), serviceJob.toString(), Toast.LENGTH_SHORT).show();
                 break;
-            case 3 : // Show Details on ServiceReport_FRGMT_BEFORE View
-                startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        .putExtra(RECORD_JOB_SERVICE_KEY, serviceJob));
-                overridePendingTransition(R.anim.enter, R.anim.exit);
+            case ACTION_EDIT_JOB_SERVICE : // Show Details on ServiceReport_FRGMT_BEFORE View
+            case ACTION_ALREADY_ON_PROCESS :
+                confirmContinueTaskMDialog(serviceJob);
                 break;
-            case 4 : // Confirm Begin Task
+            case ACTION_BEGIN_JOB_SERVICE : // Confirm Begin Task
                 confirmBeginTaskMDialog(serviceJob);
+                break;
+            case ACTION_ALREADY_COMPLETED :
+                SnackBarNotificationUtil
+                        .setSnackBar(findViewById(android.R.id.content), "Already completed.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
                 break;
         }
     }
 
     /**
-     * View on the CalendarFragment onClick View
-     * @param serviceJob - ServiceJob Wrapper from CalendarFragment
+     * To Begin Task Filling up the form, newly open Service Job, Begin Task
+     * Save Start time to DB
+     * @param serviceJob - ServiceJob Wrapper
      */
     private void confirmBeginTaskMDialog(final ServiceJobWrapper serviceJob) {
         MaterialDialog md = new MaterialDialog.Builder(this)
@@ -293,7 +310,7 @@ public class MainActivity extends FragmentActivity implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        serviceJobStarTask(serviceJob);
+                        serviceJobStarTask(serviceJob, ACTION_BEGIN_JOB_SERVICE);
                     }
                 }).build();
 
@@ -302,7 +319,43 @@ public class MainActivity extends FragmentActivity implements
         md.show();
     }
 
-    private void serviceJobStarTask(final ServiceJobWrapper serviceJob) {
+    /**
+     * To Continue  Filling up the form, or to sign the Service Job
+     * Save Start end to DB, then Add Time_count on servicejob_time TABLE
+     * @param serviceJob - ServiceJob Wrapper
+     */
+    private void confirmContinueTaskMDialog(final ServiceJobWrapper serviceJob) {
+        MaterialDialog md = new MaterialDialog.Builder(this)
+                .title("CONTINUE TASK " + serviceJob.getServiceNumber() + "?")
+                .customView(R.layout.i_labels_report_details_modal, true)
+                .limitIconToDefaultSize()
+                .negativeText("CLOSE")
+                .positiveText("CONTINUE")
+                .iconRes(R.mipmap.view_icon)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        switch (serviceJob.getStatus()) {
+                            case SERVICE_JOB_PENDING :
+                            case SERVICE_JOB_UNSIGNED : serviceJobStarTask(serviceJob, ACTION_EDIT_JOB_SERVICE);
+                                break;
+                            case SERVICE_JOB_ON_PROCESS : serviceJobStarTask(serviceJob, ACTION_ALREADY_ON_PROCESS);
+                                break;
+                        }
+                    }
+                }).build();
+
+        new PopulateServiceJobViewDetails()
+                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);
+        md.show();
+    }
+
+    /**
+     * This redirect to the SeriveJobViewPagerActivity considering the mode
+     * @param serviceJob - data to process
+     * @param mode - mode being done
+     */
+    private void serviceJobStarTask(final ServiceJobWrapper serviceJob, final int mode) {
         ServiceJobBegin_POST beginServiceJob = new ServiceJobBegin_POST();
         beginServiceJob.setOnEventListener(new ServiceJobBegin_POST.OnEventListener() {
             @Override
@@ -313,13 +366,33 @@ public class MainActivity extends FragmentActivity implements
 
             @Override
             public void onEventResult(WebResponse response) {
-                startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        .putExtra(RECORD_JOB_SERVICE_KEY, serviceJob));
-                overridePendingTransition(R.anim.enter, R.anim.exit);
+                proceedViewPagerActivity(serviceJob, serviceJob.getStatus());
             }
         });
-        beginServiceJob.postStartDate(serviceJob.getID());
+
+        switch (mode) {
+            case ACTION_BEGIN_JOB_SERVICE : beginServiceJob.postStartDate(serviceJob.getID()); break;
+            case ACTION_EDIT_JOB_SERVICE : beginServiceJob.postContinueDate(serviceJob.getID()); break;
+            /*
+                WE DON'T Save DATE_TIME here (ACTION_ALREADY_ON_PROCESS), cases are
+                   - User re-open the app,
+                   - or closed the app intentionally
+            */
+            case ACTION_ALREADY_ON_PROCESS : proceedViewPagerActivity(serviceJob, serviceJob.getStatus()); break;
+        }
+    }
+
+    /**
+     * Proceed to EDIT, BEGIN, SIGN or UNSIGNED the ServiceJob
+     * @param serviceJob - Data to process
+     * @param mode - mode of process or action
+     */
+    private void proceedViewPagerActivity(ServiceJobWrapper serviceJob, String mode) {
+        startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            .putExtra(SERVICE_JOB_SERVICE_KEY, serviceJob)
+            .putExtra(SERVICE_JOB_PREVIOUS_STATUS_KEY, mode));
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
     /**

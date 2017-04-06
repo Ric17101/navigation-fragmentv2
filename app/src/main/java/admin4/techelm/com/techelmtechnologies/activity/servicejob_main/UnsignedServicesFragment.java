@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -41,8 +42,6 @@ public class UnsignedServicesFragment extends Fragment implements
         UnsignedServiceJobListAdapter.OnItemClickListener {
 
     public final String TAG = UnsignedServicesFragment.class.getSimpleName();
-    public static final String SERVICE_JOB_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/";
 
     private UnsignedServiceJobListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
@@ -251,7 +250,7 @@ public class UnsignedServicesFragment extends Fragment implements
         }
         private String getDetailsLink() {
             StringBuilder sb = new StringBuilder();
-            sb.append(SERVICE_JOB_URL);
+            sb.append(SERVICE_JOB_UPLOAD_URL);
             sb.append("get_date_services_unsigend_services");
             return sb.toString();
         }

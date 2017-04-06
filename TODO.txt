@@ -1,41 +1,58 @@
-TODO: 
-*
-API saving time consume on doing the task
-   - 	create table
-	create table for the service job time
-	activity start - count time - activity end - end time
-	get the total time and create ID for this
-	save the service job ID as weel
-	well
-	whenever continue the activity created the time id again
+TODO:
+DATE: 3/4/2017
+    *after i sent the data to server
+        1) cannot fire back button to landing page
+        2) remarks in after tab is missing
+        3) status completed but still able to edit
+        4) signature is missing, fix this first then test again
 
-	but if user continue the task again
-	+ the time again
-	to the time counted before
-	until the status change to completed
-*
-Calendar and Service Jobs TAB : 
-	EXAMPLE : user click 14/5/2017
-	-all service jobs at 14/5/2017
+    */
+    API saving time consume on doing the task
+       - create table
+            create table for the service job time
+            - activity start
+            - count time
+            - activity end
+            - end time
+        get the total time and create ID for this
+        save the service job ID as weel
+        well
+        whenever continue the activity created the time id again
 
-Unsigned Services Form TAB:
-	- all service jobs where status = ‘unsigned’
+        but if user continue the task again
+        + the time again
+        to the time counted before
+        until the status change to completed
+    */
+    Calendar and Service Jobs TAB :
+        EXAMPLE : user click 14/5/2017
+        - all service jobs at 14/5/2017
 
-Service JOB Form TAB:
-	SHOW ALL SERVICE JOBS
+    Unsigned Services Form TAB:
+        - all service jobs where status = ‘unsigned’
 
-*
-[4:41:06 PM] Chris Low Kar Weng: “NEW” is first time you get the record
-[4:41:23 PM] Chris Low Kar Weng: after you reopen the app
-[4:41:34 PM] Richard Raguine: I'm listening
-[4:41:38 PM] Chris Low Kar Weng: you change it to “pending"
+    Service JOB Form TAB:
+        SHOW ALL SERVICE JOBS
 
-*
-[4:53:21 PM] Richard Raguine: Service Jobs TAB has Calendar too.
-[4:54:08 PM] Chris Low Kar Weng: Remove it first
+    */\
+    [4:41:06 PM] Chris Low Kar Weng: “NEW” is first time you get the record
+    [4:41:23 PM] Chris Low Kar Weng: after you reopen the app
+    [4:41:34 PM] Richard Raguine: I'm listening
+    [4:41:38 PM] Chris Low Kar Weng: you change it to “pending"
 
-*
-both SORT by ID and DATE at Service Jobs Tab.
+    */
+    [4:53:21 PM] Richard Raguine: Service Jobs TAB has Calendar too.
+    [4:54:08 PM] Chris Low Kar Weng: Remove it first
 
-*
-after my client sign i cannot  edit again
+    */
+    both SORT by ID and DATE at Service Jobs Tab.
+
+    */
+    after my client sign i cannot  edit again
+
+DATE: 4/4/2017
+    Remove Calendar View and Swipe in ServiceJobFragment
+        - servicejob_activity.xml - gone @+id/dragView
+
+    TODO:
+        Should not save another

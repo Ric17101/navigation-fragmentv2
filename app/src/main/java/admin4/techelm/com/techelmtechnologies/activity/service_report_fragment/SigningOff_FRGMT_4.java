@@ -13,7 +13,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -40,6 +39,7 @@ import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
@@ -51,11 +51,13 @@ import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobJSON_POST;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobUploadFile_VolleyPOST;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
+
 public class SigningOff_FRGMT_4 extends Fragment {
 
     private static final String TAG = SigningOff_FRGMT_4.class.getSimpleName();
-    private static String SERVICE_JOB_UPLOAD_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/Servicejob/";
+
     private Context mContext;
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
     private int notificationId = 1;
@@ -69,7 +71,6 @@ public class SigningOff_FRGMT_4 extends Fragment {
     private Button button_next;
 
     // A. SERVICE ID INFO
-    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
     private static ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
     private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
@@ -211,14 +212,10 @@ public class SigningOff_FRGMT_4 extends Fragment {
                         Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                         // TODO: Add AsyncTask Here...
                         if (mSignUtil.addJpgSignatureToGallery(signatureBitmap, "signature")) {
-                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Signature saved into the Gallery."/* + mSignUtil.getFilePath()*/, Snackbar.LENGTH_LONG)
-                                    .setAction("OK", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-                                            }
-                                        })
-                                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                            SnackBarNotificationUtil
+                                    .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                            "Signature saved into the Gallery."/* + mSignUtil.getFilePath()*/)
+                                    .setColor(getResources().getColor(R.color.colorPrimary1))
                                     .show();
 
                             saveSignatureToDBOnAfterSaveToGallery(mSignUtil); // SAVING FILES to DB
@@ -227,14 +224,10 @@ public class SigningOff_FRGMT_4 extends Fragment {
                             dialog.dismiss();
                             setHasSignature(true);
                         } else {
-                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Unable to store the signature", Snackbar.LENGTH_LONG)
-                                    .setAction("OK", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                        }
-                                    })
-                                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                            SnackBarNotificationUtil
+                                    .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                            "Unable to save the signature")
+                                    .setColor(getResources().getColor(R.color.colorPrimary1))
                                     .show();
                             setHasSignature(false);
                         }
@@ -279,16 +272,10 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 // If request is cancelled, the aResponse arrays are empty.
                 if (grantResults.length <= 0
                         || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Snackbar.make(getActivity().findViewById(android.R.id.content),
-                            "Cannot write images to external storage",
-                            Snackbar.LENGTH_LONG)
-                            .setAction("OK", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                    SnackBarNotificationUtil
+                            .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                    "Unable to save the images to external storage")
+                            .setColor(getResources().getColor(R.color.colorPrimary1))
                             .show();
                     // Toast.makeText(SigningOff_FRGMT_4.this, "Cannot write images to external storage", Toast.LENGTH_SHORT).show();
                 }
@@ -315,8 +302,10 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
     // This is used and Call at CalendarFragment also
     private void noInternetSnackBar() {
-        Snackbar.make(getActivity().getCurrentFocus(), "No internet connection.", Snackbar.LENGTH_LONG)
-                .setAction("OK", null).show();
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.noInternetConnection))
+                .setColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
     }
 
     /*********** A. SERVICE DETAILS ***********/
@@ -385,17 +374,10 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 notifyUserOnSubmit(sjw);
             } else {
                 setEndTaskButton();
-                Snackbar.make(getActivity()
-                        .findViewById(android.R.id.content),
-                        "Please complete the report before end task.",
-                        Snackbar.LENGTH_LONG)
-                        .setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                            }
-                        })
-                        .setActionTextColor(getResources().getColor(R.color.white)) // colorPrimary1
+                SnackBarNotificationUtil
+                        .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                "Please complete the report before end task.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
                         .show();
             }
         }
@@ -465,15 +447,10 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            Snackbar.make(getActivity().findViewById(android.R.id.content),
-                    "Upload started.", Snackbar.LENGTH_SHORT)
-                    .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    })
-                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+            SnackBarNotificationUtil
+                    .setSnackBar(getActivity().findViewById(android.R.id.content),
+                            "Upload started.")
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
                     .show();
 
             buildNotification();
@@ -530,7 +507,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
             Intent resultIntent = new Intent(getActivity(), ServiceReport_TaskCompleted_5.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle);
+                    .putExtra(SERVICE_JOB_SERVICE_KEY, mServiceJobFromBundle);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
             // Adds the back stack
             stackBuilder.addParentStack(ServiceReport_TaskCompleted_5.class);
@@ -547,7 +524,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
             Intent resultIntent = new Intent(getActivity(), ServiceJobViewPagerActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle);
+                    .putExtra(SERVICE_JOB_SERVICE_KEY, mServiceJobFromBundle);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
             // Adds the back stack
             stackBuilder.addParentStack(ServiceJobViewPagerActivity.class);
@@ -633,8 +610,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
             } else { // FAILED NOTIF
                 notification = getString(R.string.upload_successfully);
                 mBuilder.setSmallIcon(R.mipmap.ic_upload_success)
-                        .setColor(Color.GREEN)
-                        .setContentIntent(setUpActivityPendingEventSuccess());
+                    .setColor(Color.GREEN)
+                    .setContentIntent(setUpActivityPendingEventSuccess());
                 goTaskCompleted();
             }
             publishNotification(notification);
@@ -663,14 +640,16 @@ public class SigningOff_FRGMT_4 extends Fragment {
         });
     }
 
+    // This is called inside the doInBackground so use runonUiThread
     private void goTaskCompleted() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 startActivity(new Intent(getActivity(), ServiceReport_TaskCompleted_5.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
+                        .putExtra(SERVICE_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
+                getActivity().finish();
             }
         });
     }

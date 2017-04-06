@@ -7,6 +7,7 @@
     <dimen name="small_text_size_for_employee_only">10sp</dimen>
     <dimen name="edittextbox_margin">60sp</dimen>
     <dimen name="framelayout_width">250sp</dimen>
+    <dimen name="framelayoutXL_width">400sp</dimen>
     <dimen name="margin_login_components">10sp</dimen>
 
     <!-- CheeseCake Sampler -->

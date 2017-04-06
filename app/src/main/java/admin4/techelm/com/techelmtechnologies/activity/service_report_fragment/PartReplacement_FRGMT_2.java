@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -50,6 +49,7 @@ import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
+import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 
 public class PartReplacement_FRGMT_2 extends Fragment {
 
@@ -61,7 +61,6 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private Context mContext;
 
     // A. SERVICE ID INFO
-    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
     private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
     private static ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
@@ -78,7 +77,6 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private RecyclerView mUploadResultsList;
     private List<ServiceJobNewPartsWrapper> mUploadResults = null;
     private PartsDBUtil mPartsDB;
-    private CardView cardViewNewUpload; // TODO: Test this if has content else donot show "New Replacement Part Added. with check"
 
     private ImageButton mButtonViewUploadFileNew;
     private ProgressBar mProgressBarUploadingNew;
@@ -277,14 +275,11 @@ public class PartReplacement_FRGMT_2 extends Fragment {
 
     private void actionNewPartReplacement(MaterialDialog dialog) {
         dialog.dismiss();
-        Snackbar.make(getActivity().findViewById(android.R.id.content), "Save new part", Snackbar.LENGTH_LONG)
-                .setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                    }
-                })
-                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content),
+                        "Save new part")
+                .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
         new NewPartsCreateOperation().execute(
                 mSpinnerReplacementParts.getSelectedItem().toString(),
@@ -296,14 +291,10 @@ public class PartReplacement_FRGMT_2 extends Fragment {
 
     private void actionUpdatePartReplacement(MaterialDialog dialog) {
         dialog.dismiss();
-        Snackbar.make(getActivity().findViewById(android.R.id.content), "Save new part", Snackbar.LENGTH_LONG)
-                .setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                })
-                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content),
+                        "Update new part")
+                .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
         mSJPart.setReplacementPartName(mSpinnerReplacementParts.getSelectedItem().toString());
         mSJPart.setQuantity(mSpinnerQuantity.getSelectedItem().toString());
@@ -446,25 +437,19 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                 mPartsDB.editPart(result, "FRAGMENT2");
                 mPartsDB.close();
 
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "Replacement Updated",
-                        Snackbar.LENGTH_LONG)
-                        .setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                            }
-                        }).setActionTextColor(getResources().getColor(R.color.colorPrimary1)).show();
+                SnackBarNotificationUtil
+                        .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                "Replacement Updated")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
 
                 populateUploadsCardList();
             } else {
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "Unable to store the signature",
-                        Snackbar.LENGTH_LONG)
-                        .setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                            }
-                        }).setActionTextColor(getResources().getColor(R.color.colorPrimary1)).show();
+                SnackBarNotificationUtil
+                        .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                "Unable to save the signature")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
             }
 
             if (mProgressBarUploadingNew.isShown()) {
@@ -507,25 +492,18 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                 mPartsDB.addNewPart(result, "FRAGMENT2");
                 mPartsDB.close();
 
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "New Replacement Added.",
-                        Snackbar.LENGTH_LONG)
-                        .setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                            }
-                        }).setActionTextColor(getResources().getColor(R.color.colorPrimary1)).show();
-
+                SnackBarNotificationUtil
+                        .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                "New Replacement Added.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
                 populateUploadsCardList();
             } else {
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "Unable to store the signature",
-                        Snackbar.LENGTH_LONG)
-                        .setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                            }
-                        }).setActionTextColor(getResources().getColor(R.color.colorPrimary1)).show();
+                SnackBarNotificationUtil
+                        .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                "Unable to save the signature")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
             }
 
             if (mProgressBarUploadingNew.isShown()) {

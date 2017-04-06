@@ -21,6 +21,9 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_DETAILS_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
+
 /**
  * Created by admin 4 on 22/03/2017.
  * Purely implemented using JSON data
@@ -31,8 +34,6 @@ import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
 public class ServiceJobJSON_POST {
 
     public static final String TAG = "ServiceJobJSON_POST";
-    private static final String SERVICE_JOB_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/servicejob_new_parts_json";
     private JSONObject mJsonUpload;
 
     private OnEventListener mOnEventListener;
@@ -108,7 +109,7 @@ public class ServiceJobJSON_POST {
     }
 
     private URLConnection setHTTPConfig2(String message) throws IOException {
-        URL url = new URL(SERVICE_JOB_URL);
+        URL url = new URL(SERVICE_JOB_UPLOAD_URL + "servicejob_new_parts_json");
         URLConnection connection = url.openConnection();
         connection.setReadTimeout(10000 /*milliseconds*/);
         connection.setConnectTimeout(15000 /* milliseconds */);
@@ -122,7 +123,7 @@ public class ServiceJobJSON_POST {
     }
 
     private HttpURLConnection setHTTPConfig(String message) throws IOException {
-        URL url = new URL(SERVICE_JOB_URL);
+        URL url = new URL(SERVICE_JOB_UPLOAD_URL + "servicejob_new_parts_json");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(10000 /*milliseconds*/);
         conn.setConnectTimeout(15000 /* milliseconds */);

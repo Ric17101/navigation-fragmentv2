@@ -25,6 +25,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.R;
@@ -128,8 +129,10 @@ public class LoginActivity2 extends AppCompatActivity implements
      */
     private void attemptLogin() {
         if (!new JSONHelper().isConnected(this)) {
-            Snackbar.make(findViewById(android.R.id.content), "No internet connection.", Snackbar.LENGTH_LONG)
-                    .setAction("OK", null).show();
+            SnackBarNotificationUtil
+                    .setSnackBar(findViewById(android.R.id.content), getResources().getString(R.string.noInternetConnection))
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
             return;
         }
         if (mAuthTask != null) {

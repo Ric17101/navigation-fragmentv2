@@ -75,14 +75,21 @@
             android:screenOrientation="sensor"
             android:theme="@style/FinestWebViewTheme.App"/>
 
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".activity.menu.MainActivity" />
         <activity android:name=".activity.webview.WebViewActivity"/>
 
         <activity
-            android:name=".utility.pdf.PDFClass_Activity"
+            android:name=".webservice.EmailWebserviceActivity"
             android:label="Webservice"
             android:theme="@style/AppTheme" >
         </activity>
 
+        <activity
+            android:name=".utility.pdf.PDFClass_Activity"
+            android:label="Webservice"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".utility.volley_multipart.VolleyMainActivity"
             android:label="Webservice"

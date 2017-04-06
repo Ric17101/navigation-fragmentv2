@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ScrollView
         android:id="@+id/login_form"
@@ -28,19 +28,19 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:orientation="vertical">
+            android:paddingTop="@dimen/activity_vertical_margin">
 
             <TextView
                 android:id="@+id/textViewwelcome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="150sp"
                 android:text="@string/welcome_to"
-                android:textAlignment="center"
-                android:layout_marginTop="150sp" />
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/textViewCompany"
@@ -54,19 +54,19 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:layout_marginTop="50sp"
                 android:contentDescription=""
                 app:srcCompat="@mipmap/logo_icon_blue"
-                tools:ignore="ContentDescription"
-                android:layout_marginTop="50sp" />
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/textViewSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50sp"
                 android:text="@string/sign_in"
                 android:textAlignment="center"
-                android:textStyle="normal|bold"
-                android:layout_marginTop="50sp" />
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/textViewTextForStaffOnly"
@@ -79,7 +79,7 @@
                 android:textStyle="normal|italic" />
 
             <FrameLayout
-                android:layout_width="@dimen/framelayout_width"
+                android:layout_width="@dimen/framelayoutXL_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/margin_login_components"
@@ -96,17 +96,18 @@
                         android:drawableLeft="@mipmap/user_icon"
                         android:drawableStart="@mipmap/user_icon"
                         android:hint="@string/prompt_email"
+                        android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:nextFocusDown="@+id/password"
-                        android:imeOptions="actionNext" >
+                        android:nextFocusDown="@+id/password">
+
                         <requestFocus />
                     </AutoCompleteTextView>
                 </android.support.design.widget.TextInputLayout>
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="@dimen/framelayout_width"
+                android:layout_width="@dimen/framelayoutXL_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/margin_login_components">
@@ -132,7 +133,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="@dimen/framelayout_width"
+                android:layout_width="@dimen/framelayoutXL_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/margin_login_components">

@@ -2,7 +2,6 @@ package admin4.techelm.com.techelmtechnologies.activity.service_report_fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,7 +21,6 @@ import android.os.Parcelable;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -62,7 +60,6 @@ import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobUploadsListAdapt
 import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
-import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
@@ -70,7 +67,10 @@ import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateS
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
+import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_ID_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_TAKEN_KEY;
 import static android.Manifest.permission.CAMERA;
 
 public class ServiceReport_FRGMT_BEFORE extends Fragment implements
@@ -82,9 +82,6 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     private Context mContext;
 
     // A. SERVICE ID INFO
-    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
-    private static final String RECORD_SERVICE_KEY = "SERVICE_ID";
-    private static final String RECORD_SERVICE_TAKEN_KEY = "TAKEN";
     private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
     private static ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
@@ -201,14 +198,10 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 populateUploadsCardList();
             }
         } else {
-            Snackbar.make(getActivity().findViewById(android.R.id.content), "No data selected from calendar.", Snackbar.LENGTH_LONG)
-                    .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    })
-                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+            SnackBarNotificationUtil
+                    .setSnackBar(getActivity().findViewById(android.R.id.content),
+                            "No data selected from calendar.")
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
                     .show();
         }
 
@@ -239,11 +232,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             public void onClick(View view) {
                 // Delete the Service Job from SQLite DB on Back
                 ((ServiceJobViewPagerActivity)getActivity()).deleteServiceJob();
-
-                Intent intent = new Intent(getActivity(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                Bundle bundle = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.left_to_right, R.anim.right_to_left).toBundle();
-                getActivity().startActivity(intent, bundle);
-                getActivity().finish();
+                ((ServiceJobViewPagerActivity)getActivity()).backToLandingPage();
             }
         });
 
@@ -515,19 +504,11 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
 
                             dialog.dismiss();
                         } else {
-                            Snackbar.make(getActivity().findViewById(android.R.id.content),
-                                    "No image to save",
-                                    Snackbar.LENGTH_LONG)
-                                    .setAction("OK", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                        }
-                                    })
-                                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                            SnackBarNotificationUtil
+                                    .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                            "No image to save")
+                                    .setColor(getResources().getColor(R.color.colorPrimary1))
                                     .show();
-                            /*Toast.makeText(ServiceReport_FRGMT_BEFORE.this,
-                                    "No image to save", Toast.LENGTH_LONG).show();*/
                         }
                     }
                 })
@@ -577,28 +558,16 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 mUploadsDB.addUpload(sjUP);
                 mUploadsDB.close();
 
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "Image saved into the Gallery."/* + camU.getFilePath()*/,
-                        Snackbar.LENGTH_LONG)
-                        .setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                            }
-                        })
-                        .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                SnackBarNotificationUtil
+                        .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                "Image saved into the Gallery."/* + camU.getFilePath()*/)
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
                         .show();
             } else {
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                        "Unable to store the signature",
-                        Snackbar.LENGTH_LONG)
-                        .setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                            }
-                        })
-                        .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+                SnackBarNotificationUtil
+                        .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                "Unable to save the signature")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
                         .show();
             }
 
@@ -991,18 +960,11 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             // start recording
             mRecordButton.setImageResource(R.mipmap.ic_media_stop);
             //mPauseButton.setVisibility(View.VISIBLE);
-            Snackbar.make(getActivity().findViewById(android.R.id.content),
-                    R.string.toast_recording_start,
-                    Snackbar.LENGTH_LONG)
-                    .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    })
-                    .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+            SnackBarNotificationUtil
+                    .setSnackBar(getActivity().findViewById(android.R.id.content),
+                            getResources().getString(R.string.toast_recording_start))
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
                     .show();
-            // Toast.makeText(ServiceReport_FRGMT_BEFORE.this ,R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
             File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
             if (!folder.exists()) {
                 //folder /SoundRecorder doesn't exist, then create the folder
@@ -1028,8 +990,8 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 }
             });
 
-            intent.putExtra(RECORD_SERVICE_KEY, mServiceID); // Param to Service on RecodingService
-            intent.putExtra(RECORD_SERVICE_TAKEN_KEY, UPLOAD_TAKEN); // Param to Service on RecodingService
+            intent.putExtra(SERVICE_JOB_ID_KEY, mServiceID); // Param to Service on RecodingService
+            intent.putExtra(SERVICE_JOB_TAKEN_KEY, UPLOAD_TAKEN); // Param to Service on RecodingService
             //start RecordingService
             getActivity().startService(intent);
             //keep screen on while recording
@@ -1123,33 +1085,19 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         if (mRecordingDialog!= null)
             if (mRecordingDialog.isShowing())
                 mRecordingDialog.dismiss();
-        Snackbar.make(getActivity().findViewById(android.R.id.content),
-                "Recording"/* + fileName*/ + " has been added.",
-                Snackbar.LENGTH_LONG)
-                .setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                })
-                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content),
+                        "Recording" /* + fileName*/ + " has been saved.")
+                .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
-        /*Toast.makeText(ServiceReport_FRGMT_BEFORE.this, "Recording " + fileName + " has been added.",
-                Toast.LENGTH_SHORT).show();*/
         populateRecordingsCardList();
     }
 
     public void fromActivity_onRecordingsEntryRenamed(String fileName) {
-        Snackbar.make(getActivity().findViewById(android.R.id.content),
-                "Recording" /*+ fileName*/ + " has been renamed.",
-                Snackbar.LENGTH_LONG)
-                .setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                })
-                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content),
+                        "Recording" /*+ fileName*/ + " has been renamed.")
+                .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
     }
 
@@ -1159,16 +1107,10 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         if (mRecordingDialog != null)
             if (mRecordingDialog.isShowing())
                 mRecordingDialog.dismiss();
-        Snackbar.make(getActivity().findViewById(android.R.id.content),
-                "Delete successful.",
-                Snackbar.LENGTH_LONG)
-                .setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                })
-                .setActionTextColor(getResources().getColor(R.color.colorPrimary1))
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content),
+                        "Delete successful.")
+                .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
         populateRecordingsCardList();
     }

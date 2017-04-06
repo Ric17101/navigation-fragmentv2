@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,6 +28,8 @@ import org.json.JSONObject;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
+import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
+import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
@@ -64,6 +68,8 @@ public class CalendarFragment extends Fragment implements
     private CalendarListAdapter mListAdapter;
     private RecyclerView mCalendarResultsList;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    // Swipe Set up
     private SwipeRefreshLayout swipeRefreshCalendarLayout;
 
     private List<ServiceJobWrapper> results = null;
@@ -137,7 +143,8 @@ public class CalendarFragment extends Fragment implements
     }
 
     private void collapseCalendarPanel(SlidingUpPanelLayout.PanelState state) {
-        mLayout.setPanelState(state);
+//        mLayout.setPanelState(state);
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
 
     @Override
@@ -300,6 +307,7 @@ public class CalendarFragment extends Fragment implements
 
     private void renderListFromCalendar(Calendar daySelectedCalendar) {
         String formattedDate = convertLongDateToSimpleDate(daySelectedCalendar);
+
         mAuthTask = new CalendarSJTask_RenderList(formattedDate, "", mContext);
         mAuthTask.execute((Void) null);
         name.setText(formattedDate);
@@ -525,14 +533,9 @@ public class CalendarFragment extends Fragment implements
         mCalendarResultsList.setVisibility(View.GONE);
         textViewCalendarResult.setText(R.string.noInternetPrompt);
         textViewCalendarResult.setVisibility(View.VISIBLE);
-        Snackbar.make(getView(), "No internet connection.", Snackbar.LENGTH_LONG)
-                .setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                })
-                .setActionTextColor(getResources().getColor(R.color.white))
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.noInternetConnection))
+                .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
     }
 

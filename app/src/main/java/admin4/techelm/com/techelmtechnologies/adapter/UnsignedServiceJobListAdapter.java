@@ -156,12 +156,6 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
         return strDate.split("-")[2];
     }
 
-
-
-    private boolean isPendingService() {
-        return serviceJobDataSet.getStatus() == SERVICE_JOB_UNSIGNED;
-    }
-
     public interface CallbackInterface {
 
         /**
@@ -237,9 +231,7 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
                 }
             } else if (v.getId() == buttonEditDetails.getId()) {
                 if (mCallback != null) {
-                    if (isPendingService()) {
-                        mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_EDIT_JOB_SERVICE);
-                    }
+                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), mDataSet.get(getAdapterPosition()).getStatus());
                 }
             }
         }

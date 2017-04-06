@@ -1,5 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.activity.service_report_fragment;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import com.astuetz.PagerSlidingTabStrip;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobRecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobUploadsListAdapter;
@@ -26,6 +28,11 @@ import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
+
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_PREVIOUS_STATUS_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
 
 
 public class ServiceJobViewPagerActivity extends AppCompatActivity implements
@@ -38,13 +45,13 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         PartsDBUtil.OnDatabaseChangedListener
 {
 
-    private static final String LOG_TAG = ServiceJobViewPagerActivity.class.getSimpleName();
-    private static final String RECORD_JOB_SERVICE_KEY = "SERVICE_JOB";
+    private static final String TAG = ServiceJobViewPagerActivity.class.getSimpleName();
     private static final int FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE = 0;
     private static final int FRAGMENT_POSISTION_SERVICE_REPORT_AFTER = 1;
     private static final int FRAGMENT_POSISTION_PART_REPLACEMENT = 2;
     private static final int FRAGMENT_POSISTION_SIGNING_OFF = 3;
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
+    private String mPreviousStatusFromBundle; // From Calling Activity
 
     private ServiceJobDBUtil mSJDB; // For saving and delete of the Service Job
 
@@ -99,7 +106,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        // Do nothings
+        backToLandingPage();
     }
 
     private void createdServiceJob(final ServiceJobWrapper sign) {
@@ -130,7 +137,28 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         new Thread(run).start();
     }
 
+    // ToDO some check if not connected to Internet
+    public void backToLandingPage() {
+        ServiceJobBegin_POST beginServiceJob = new ServiceJobBegin_POST();
+        beginServiceJob.setOnEventListener(new ServiceJobBegin_POST.OnEventListener() {
+            @Override
+            public void onEvent() {
+                // TODO: Close progress dialog here
+                // TODO: Test Response if OK or not
+            }
 
+            @Override
+            public void onEventResult(WebResponse response) {
+                Intent intent = new Intent(ServiceJobViewPagerActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Bundle bundle = ActivityOptions.makeCustomAnimation(ServiceJobViewPagerActivity.this,
+                        R.anim.left_to_right, R.anim.right_to_left).toBundle();
+                startActivity(intent, bundle);
+                finish();
+            }
+        });
+        beginServiceJob.postRevertStatus(this.mServiceJobFromBundle.getID(), this.mPreviousStatusFromBundle);
+    }
 
     /**
      * PARSING data ServiceJob from Bundle passed by the
@@ -140,7 +168,8 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
      */
     private ServiceJobWrapper fromBundle() {
         Intent intent = getIntent();
-        return this.mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(RECORD_JOB_SERVICE_KEY);
+        this.mPreviousStatusFromBundle = intent.getStringExtra(SERVICE_JOB_PREVIOUS_STATUS_KEY);
+        return this.mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(SERVICE_JOB_SERVICE_KEY);
     }
 
     @Override

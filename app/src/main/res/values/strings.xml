@@ -82,7 +82,9 @@
     <string name="image_name_jpg_uploaded">Image_Name.jpg uploaded.</string>
     <string name="delete">Delete.</string>
 
+    <!-- SnackBarNotificationUtil String? -->
     <string name="noInternetPrompt">Error! Check your Internet Connection.</string>
+    <string name="noInternetConnection">No internet connection.</string>
 
     <!-- UPLOAD SERVICE -->
     <string name="uploading">Uploaded [[UPLOADED_FILES]] of [[TOTAL_FILES]] at [[UPLOAD_RATE]] - [[PROGRESS]]</string>
@@ -99,6 +101,6 @@
 
     <!-- Service Job -->
     <string name="replacement_parts">Replacement Parts</string>
-    <string name="edit"><u>Edit</u></string>
-    <string name="view"><u>View</u></string>
+    <string name="edit"><b><u>Edit</u></b></string>
+    <string name="view"><b><u>View</u></b></string>
 </resources>
