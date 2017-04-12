@@ -23,7 +23,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.login.LoginActivity2">
+        <activity android:name=".activity.login.LoginActivity2"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,6 +38,7 @@
 
         <activity
             android:name=".activity.menu.MainActivity"
+            android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -54,6 +57,8 @@
             android:launchMode="singleTask"
             android:taskAffinity=""
             android:excludeFromRecents="true"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.menu.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -63,6 +68,8 @@
         <activity
             android:name=".activity.service_report_fragment.ServiceJobViewPagerActivity"
             android:label="SAMPLE VIEW PAGER"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -77,50 +84,72 @@
 
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:value=".activity.menu.MainActivity" />
         <activity android:name=".activity.webview.WebViewActivity"/>
 
         <activity
             android:name=".webservice.EmailWebserviceActivity"
             android:label="Webservice"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
 
         <activity
             android:name=".utility.pdf.PDFClass_Activity"
             android:label="Webservice"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".utility.volley_multipart.VolleyMainActivity"
             android:label="Webservice"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".utility.sample_upload.SampleUploadActivity"
             android:label="Webservice"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".webservice.WebserviceActivity"
             android:label="Webservice"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.service_report.ServiceReport_1"
             android:label="@string/title_activity_service_report"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.service_report.RecordingActivity2"
             android:label="@string/title_activity_service_report"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.service_report.PartReplacement_2"
             android:label="@string/title_activity_part_replacement"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.service_report.AddReplacementPart_3"
             android:label="@string/title_activity_add_replacement_part"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.service_report.SigningOff_4"
             android:label="@string/title_activity_service_report__task_completed"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <service android:name="admin4.techelm.com.techelmtechnologies.utility.RecordingService" />

@@ -36,10 +36,9 @@ public final class Constants {
     public Constants() {} // Prevents instanciation of myself and my subclasses
 
     public static final String VERSION = BuildConfig.VERSION_NAME;
-    public static String SERVICE_JOB_UPLOAD_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/";
     public static String SERVICE_JOB_DETAILS_URL =
             "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/";
+    public static String SERVICE_JOB_UPLOAD_URL = SERVICE_JOB_DETAILS_URL + "servicejob/";
 
     // ACTION, action is being called in the MainActivity
     public static final int ACTION_BEGIN_JOB_SERVICE = 0;
@@ -56,9 +55,13 @@ public final class Constants {
     public static final String SERVICE_JOB_ON_PROCESS = "4";
 
     // Intent putExtra KEY, used to decode data passed to ServiceJobViewPagerActivity
+    /** Type is int. */
     public static final String SERVICE_JOB_ID_KEY = "SERVICE_ID";
+    /** Type is Object ServiceJobWrapper. */
     public static final String SERVICE_JOB_SERVICE_KEY = "SERVICE_JOB";
+    /** Type is String. */
     public static final String SERVICE_JOB_PREVIOUS_STATUS_KEY = "SERVICE_JOB_PREVIOUS_STATUS";
+    /** Type is String. */
     public static final String SERVICE_JOB_TAKEN_KEY = "TAKEN";
 
 }

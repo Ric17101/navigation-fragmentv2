@@ -197,16 +197,18 @@ public class PartReplacement_FRGMT_2_v1 extends Fragment {
 
         /** BUTTON VIEW DETAILS */
         ImageButton buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
-        if (!buttonViewDetails.isShown())
+        buttonViewDetails.setVisibility(View.GONE);
+        /*if (!buttonViewDetails.isShown()) {
             buttonViewDetails.setVisibility(View.VISIBLE);
+        }
         buttonViewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*startActivity(new Intent(PartReplacement_FRGMT_2.this, SigningOff_FRGMT_4.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                overridePendingTransition(R.anim.enter, R.anim.exit);*/
+//                startActivity(new Intent(PartReplacement_FRGMT_2.this, SigningOff_FRGMT_4.class)
+//                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+//                overridePendingTransition(R.anim.enter, R.anim.exit);
             }
-        });
+        });*/
 
         /** BUTTON UPLOAD NEW REPLACEMENT PART */
         mButtonViewUploadFileNew = (ImageButton) view.findViewById(R.id.buttonViewUploadFileNew);

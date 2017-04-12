@@ -257,34 +257,8 @@ public class CalendarFragment extends Fragment implements
     private void setUpCalendarView_OLD(View view) {
         // Gets the calendar from the view
         robotoCalendarView = (RobotoCalendarView) view.findViewById(R.id.robotoCalendarPicker);
-        // Button markDayButton = (Button) view.findViewById(R.id.markDayButton);
-
-        /*Calendar calendar = Calendar.getInstance();
-        new CalendarServiceJobDatesDots_POST().postStartDate(Calendar.MONTH + 1, calendar.get(Calendar.YEAR));*/
-
         displayDotsPerMonth("setUpCalendarView");
         renderListFromCalendar(Calendar.getInstance());
-        /*markDayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar calendar = Calendar.getInstance();
-                Random random = new Random(System.currentTimeMillis());
-                int style = random.nextInt(2);
-                int daySelected = random.nextInt(calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-                calendar.set(Calendar.DAY_OF_MONTH, daySelected);
-
-                switch (style) {
-                    case 0:
-                        robotoCalendarView.markCircleImage1(calendar);
-                        break;
-                    case 1:
-                        robotoCalendarView.markCircleImage2(calendar);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });*/
 
         // Set listener, in this case, the same activity
         robotoCalendarView.setRobotoCalendarListener(this);
@@ -479,18 +453,6 @@ public class CalendarFragment extends Fragment implements
         switch (resultCode) {
 
             case RESULT_OK:
-
-                /*if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-                    System.out.println("I'm in onActivityResult");
-                    _speaker = new Speaker(getApplicationContext());
-                    ImageButton buttonSpeakKoreanAlphabet = (ImageButton) findViewById(R.id.buttonSpeakKorean_alphabet);
-                    buttonSpeakKoreanAlphabet.setClickable(true);
-                } else {
-                    Intent install = new Intent();
-                    install.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                    startActivity(install);
-                }*/
-
                 break;
 
             case RESULT_CANCELED:
@@ -689,6 +651,8 @@ public class CalendarFragment extends Fragment implements
                             .append(jsonArray.getJSONObject(i).getString("warranty_repair"))
                             .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("others"))
+                            .append(SJ_LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("type_of_service"))
                             .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("signature_name"))
                             .append(SJ_LIST_DELIM)

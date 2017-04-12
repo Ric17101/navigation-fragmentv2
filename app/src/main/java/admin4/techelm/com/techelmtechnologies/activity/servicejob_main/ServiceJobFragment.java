@@ -353,6 +353,8 @@ public class ServiceJobFragment extends Fragment implements
                             .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("others"))
                             .append(SJ_LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("type_of_service"))
+                            .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("signature_name"))
                             .append(SJ_LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("start_date_task"))

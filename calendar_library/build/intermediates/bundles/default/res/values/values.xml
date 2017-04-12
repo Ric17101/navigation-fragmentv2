@@ -3,7 +3,8 @@
     <color name="roboto_calendar_background">#FFFFFF</color>
     <color name="roboto_calendar_circle_1">#13507D</color>
     <color name="roboto_calendar_circle_2">#55c6da</color>
-    <color name="roboto_calendar_current_day_ring">#e6e7e8</color>
+    <color name="roboto_calendar_current_day_ring">#005A99</color>
+    <color name="roboto_calendar_current_day_ring_old">#e6e7e8</color>
     <color name="roboto_calendar_day_of_the_month_font">#161d20</color>
     <color name="roboto_calendar_day_of_the_month_font_old">#849ba9</color>
     <color name="roboto_calendar_day_of_the_week_font">#333436</color>

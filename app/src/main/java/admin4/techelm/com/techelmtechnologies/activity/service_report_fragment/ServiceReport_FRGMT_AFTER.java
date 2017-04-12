@@ -230,6 +230,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard();
                 ((ServiceJobViewPagerActivity)getActivity()).fromFragmentNavigate(-1);
 
             }
@@ -240,6 +241,8 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard();
+                saveRemarksOnThread(mEditTextRemarks.getText().toString());
                 ((ServiceJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
             }
         });
@@ -271,6 +274,9 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     /*********** A.1 EDIT VIEW POP UP REMARKS ***********/
     private void setUpEditRemarks(View view) {
         mEditTextRemarks = (EditText) view.findViewById(R.id.editTextRemarks);
+        /*mEditTextRemarks.setInputType(InputType.TYPE_CLASS_TEXT |
+                InputType.TYPE_TEXT_FLAG_MULTI_LINE |
+                InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);*/
         remarks = "";
         /*if (mPosition == 0) {
             remarks = (null == mServiceJobFromBundle.getActionsOrRemarks() ?
@@ -290,10 +296,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                     mEditTextRemarks.setText(v.getText().toString());
-                    mSJDB = new ServiceJobDBUtil(getActivity());
-                    mSJDB.open();
-                    mSJDB.updateRequestIDRemarks_AFTER(mServiceID, v.getText().toString());
-                    mSJDB.close();
+                    saveRemarksOnThread(v.getText().toString());
 
                     Log.e(TAG, v.getText().toString());
 
@@ -321,6 +324,14 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                     }
                 })
         );*/
+    }
+
+    private void saveRemarksOnThread(String remarks) {
+        mSJDB = new ServiceJobDBUtil(getActivity());
+        mSJDB.open();
+        mSJDB.updateRequestIDRemarks_AFTER(mServiceID, remarks);
+        mSJDB.close();
+        Log.e(TAG, "AFTERsaveRemarksOnThread++");
     }
 
     public MaterialDialog showEditViewRemarksDialog(String remarks) {
@@ -624,7 +635,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 mPicUri = getPickImageResultUri(data);
                 try {
                     mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mPicUri);
-                    // mBitmap = rotateImageIfRequired(mBitmap, mPicUri);
+                    mBitmap = rotateImageIfRequired(mBitmap, mPicUri);
                     // mBitmap = getResizedBitmap(mBitmap, 500);
 
                     /*CircleImageView croppedImageView = (CircleImageView) mCameraDialog.getCustomView().findViewById(R.id.img_profile);

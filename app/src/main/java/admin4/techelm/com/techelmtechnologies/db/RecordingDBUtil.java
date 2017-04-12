@@ -7,11 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.utility.FileUtility;
 
 /**
  * Created by admin 4 on 21/02/2017.
@@ -84,7 +86,9 @@ public class RecordingDBUtil extends DatabaseAccess {
                 recordItem.setLength(cursor.getInt(4));
                 recordItem.setTime(cursor.getLong(5));
                 recordItem.setTaken(cursor.getString(6));
-                list.add(recordItem);
+                if (FileUtility.isFileExist(recordItem.getFilePath())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(recordItem);
+                }
             } while (cursor.moveToNext());
         }
 
@@ -94,6 +98,8 @@ public class RecordingDBUtil extends DatabaseAccess {
         // return data list
         return list;
     }
+
+
 
     public List<ServiceJobRecordingWrapper> getAllRecordingsBySJID_ByTaken(int id, String taken) {
         ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<ServiceJobRecordingWrapper>();
@@ -112,7 +118,9 @@ public class RecordingDBUtil extends DatabaseAccess {
                 recordItem.setLength(cursor.getInt(4));
                 recordItem.setTime(cursor.getLong(5));
                 recordItem.setTaken(cursor.getString(6));
-                list.add(recordItem);
+                if (FileUtility.isFileExist(recordItem.getFilePath())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(recordItem);
+                }
             } while (cursor.moveToNext());
         }
 
@@ -139,7 +147,9 @@ public class RecordingDBUtil extends DatabaseAccess {
                 recordItem.setLength(cursor.getInt(4));
                 recordItem.setTime(cursor.getLong(5));
                 recordItem.setTaken(cursor.getString(6));
-                list.add(recordItem);
+                if (FileUtility.isFileExist(recordItem.getFilePath())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(recordItem);
+                }
             } while (cursor.moveToNext());
         }
 

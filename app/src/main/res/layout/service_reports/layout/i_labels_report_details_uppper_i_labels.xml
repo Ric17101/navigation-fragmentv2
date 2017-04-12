@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!---->
     <ImageButton
         android:id="@+id/buttonViewDetails"
         android:layout_width="20dp"

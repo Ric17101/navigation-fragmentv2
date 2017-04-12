@@ -722,31 +722,32 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 File signatureFile = new File(sjuw.getFilePath() + "/" + sjuw.getUploadName());
                 // Reseize file before send to server
                 signatureFile = new ImageUtility(getActivity()).rescaleImageFile(signatureFile);
+                if (signatureFile != null) { // TODO: Test this, if file is null
+                    if (signatureFile.canRead()) { // File exists on the Directory
+                        post.setContext(this.mContext)
+                                .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_capture")
+                                .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter + "")
+                                .addMultipleParam("taken", sjuw.getTaken(), counter + "")
+                                .addParam("count", mUploadResults.size() + "")
+                                .addParam("servicejob_id", sjuw.getServiceId() + "")
+                                .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+                                    @Override
+                                    public void onError(String msg, int success) {
+                                        Log.e(TAG, "Message " + msg + " Error:" + success);
+                                        uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+                                    }
 
-                if (signatureFile.canRead()) { // File exists on the Directory
-                    post.setContext(this.mContext)
-                            .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_capture")
-                            .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter + "")
-                            .addMultipleParam("taken", sjuw.getTaken(), counter + "")
-                            .addParam("count", mUploadResults.size() + "")
-                            .addParam("servicejob_id", sjuw.getServiceId() + "")
-                            .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
-                                @Override
-                                public void onError(String msg, int success) {
-                                    Log.e(TAG, "Message " + msg + " Error:" + success);
-                                    uploadTask.incrementProgressNotification(PROGRESS_ERROR);
-                                }
+                                    @Override
+                                    public void onSuccess(String msg, int success) {
+                                        Log.e(TAG, "Message " + msg + " Success:" + success);
+                                        //uploadTask.sleep();
+                                        uploadTask.incrementProgressNotification(PROGRESS_CAPTURES);
+                                    }
 
-                                @Override
-                                public void onSuccess(String msg, int success) {
-                                    Log.e(TAG, "Message " + msg + " Success:" + success);
-                                    //uploadTask.sleep();
-                                    uploadTask.incrementProgressNotification(PROGRESS_CAPTURES);
-                                }
-
-                            });
+                                });
+                        counter++;
+                    }
                 }
-                counter++;
             }
             post.startUpload();
         } else {
@@ -789,28 +790,32 @@ public class SigningOff_FRGMT_4 extends Fragment {
             int counter = 1;
             for (ServiceJobRecordingWrapper sjrw : mRecordResults) {
                 Log.e(TAG, "2" + sjrw.toString());
-                File signatureFile = new File(sjrw.getFilePath());
-                post.setContext(this.mContext)
-                        .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_recording")
-                        .addMultipleFile(signatureFile, sjrw.getRecordingName(), "audio/mpeg", counter + "")
-                        .addMultipleParam("taken", sjrw.getTaken(), counter + "")
-                        .addParam("count", mRecordResults.size() + "")
-                        .addParam("servicejob_id", sjrw.getServiceId() + "")
-                        .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
-                            @Override
-                            public void onError(String msg, int success) {
-                                Log.e(TAG, "Message " + msg + " Error:" + success);
-                                uploadTask.incrementProgressNotification(PROGRESS_ERROR);
-                            }
+                File recordingFile = new File(sjrw.getFilePath());
+                if (recordingFile != null) { // TODO: Test this, if file is null
+                    if (recordingFile.canRead()) {
+                        post.setContext(this.mContext)
+                                .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_recording")
+                                .addMultipleFile(recordingFile, sjrw.getRecordingName(), "audio/mpeg", counter + "")
+                                .addMultipleParam("taken", sjrw.getTaken(), counter + "")
+                                .addParam("count", mRecordResults.size() + "")
+                                .addParam("servicejob_id", sjrw.getServiceId() + "")
+                                .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+                                    @Override
+                                    public void onError(String msg, int success) {
+                                        Log.e(TAG, "Message " + msg + " Error:" + success);
+                                        uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+                                    }
 
-                            @Override
-                            public void onSuccess(String msg, int success) {
-                                Log.e(TAG, "Message " + msg + " Success:" + success);
-                                //uploadTask.sleep();
-                                uploadTask.incrementProgressNotification(PROGRESS_RECORDINGS);
-                            }
-                        });
-                counter++;
+                                    @Override
+                                    public void onSuccess(String msg, int success) {
+                                        Log.e(TAG, "Message " + msg + " Success:" + success);
+                                        //uploadTask.sleep();
+                                        uploadTask.incrementProgressNotification(PROGRESS_RECORDINGS);
+                                    }
+                                });
+                        counter++;
+                    }
+                }
             }
             post.startUpload();
         } else {

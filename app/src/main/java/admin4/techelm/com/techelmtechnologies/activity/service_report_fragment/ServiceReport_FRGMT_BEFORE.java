@@ -31,6 +31,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -43,6 +44,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -194,8 +196,8 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             // Upload List
             setUpUploadsRecyclerView(view);
             setupUploadsResultsList();
+            populateUploadsCardList();
             if (mUploadResults == null) {
-                populateUploadsCardList();
             }
         } else {
             SnackBarNotificationUtil
@@ -204,7 +206,6 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                     .setColor(getResources().getColor(R.color.colorPrimary1))
                     .show();
         }
-
     }
 
     private void initSpinnerProgessBar(View view) {
@@ -231,6 +232,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             @Override
             public void onClick(View view) {
                 // Delete the Service Job from SQLite DB on Back
+                hideKeyboard();
                 ((ServiceJobViewPagerActivity)getActivity()).deleteServiceJob();
                 ((ServiceJobViewPagerActivity)getActivity()).backToLandingPage();
             }
@@ -241,6 +243,8 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard();
+                saveRemarksOnThread(mEditTextRemarks.getText().toString());
                 ((ServiceJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
             }
         });
@@ -272,6 +276,9 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     /*********** A.1 EDIT VIEW POP UP REMARKS ***********/
     private void setUpEditRemarks(View view) {
         mEditTextRemarks = (EditText) view.findViewById(R.id.editTextRemarks);
+        mEditTextRemarks.setInputType(InputType.TYPE_CLASS_TEXT |
+                InputType.TYPE_TEXT_FLAG_MULTI_LINE |
+                InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         remarks = "";
 
         mSJDB = new ServiceJobDBUtil(getActivity());
@@ -282,16 +289,15 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         mEditTextRemarks.setText(remarks);
         mEditTextRemarks.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mEditTextRemarks.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
         mEditTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                     mEditTextRemarks.setText(v.getText().toString());
-                    mSJDB = new ServiceJobDBUtil(getActivity());
-                    mSJDB.open();
-                    mSJDB.updateRequestIDRemarks_BEFORE(mServiceID, v.getText().toString());
-                    mSJDB.close();
+                    saveRemarksOnThread(v.getText().toString());
 
                     Log.e(TAG, v.getText().toString());
 
@@ -311,14 +317,24 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 return false;
             }
         });
+        /*final ScrollView content_service_report_scroll_view = (ScrollView) view.findViewById(R.id.content_service_report_scroll_view);
+        mEditTextRemarks.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // content_service_report_scroll_view.fullScroll(ScrollView.FOCUS_DOWN);
+                // mEditTextRemarks.setFocusable(true);
+                content_service_report_scroll_view.scrollTo(0, content_service_report_scroll_view.getBottom());
+                return false;
+            }
+        });*/
+    }
 
-        /*mEditTextRemarks.setOnFocusChangeListener((new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        showEditViewRemarksDialog(remarks);
-                    }
-                })
-        );*/
+    private void saveRemarksOnThread(String remarks) {
+        mSJDB = new ServiceJobDBUtil(getActivity());
+        mSJDB.open();
+        mSJDB.updateRequestIDRemarks_BEFORE(mServiceID, remarks);
+        mSJDB.close();
+        Log.e(TAG, "BEFOREsaveRemarksOnThread++");
     }
 
     public MaterialDialog showEditViewRemarksDialog(String remarks) {
@@ -361,7 +377,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     }
 
     public void hideKeyboard() {
-        InputMethodManager inputMethodManager =(InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
@@ -660,7 +676,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 mPicUri = getPickImageResultUri(data);
                 try {
                     mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mPicUri);
-                    // mBitmap = rotateImageIfRequired(mBitmap, mPicUri);
+                    mBitmap = rotateImageIfRequired(mBitmap, mPicUri);
                     // mBitmap = getResizedBitmap(mBitmap, 500);
 
                     /*CircleImageView croppedImageView = (CircleImageView) mCameraDialog.getCustomView().findViewById(R.id.img_profile);

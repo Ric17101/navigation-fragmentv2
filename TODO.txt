@@ -54,5 +54,12 @@ DATE: 4/4/2017
     Remove Calendar View and Swipe in ServiceJobFragment
         - servicejob_activity.xml - gone @+id/dragView
 
-    TODO:
+    TO DO:
         Should not save another
+DATE 10/4/2017
+    Ok now you fix the
+        1) photo crash
+        2) expanded textarea
+        3) and this UI
+    send to me before 1pm
+    and i send to client

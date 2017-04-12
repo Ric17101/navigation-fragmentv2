@@ -101,6 +101,7 @@ public class ServiceJobWrapper implements Parcelable {
         _fax = in.readString();
         _telephone = in.readString();
         _engineer_name = in.readString();
+        _type_of_service = in.readString();
 //        _race = in.readString(); // FROM API not included
 //        _type_of_service = in.readString();
 //        _signature_file_path = in.readString();
@@ -144,6 +145,7 @@ public class ServiceJobWrapper implements Parcelable {
         dest.writeString(_fax);
         dest.writeString(_telephone);
         dest.writeString(_engineer_name);
+        dest.writeString(_type_of_service);
 //        dest.writeString(_race); // FROM API not included
 //        dest.writeString(_type_of_service);
 //        dest.writeString(_signature_file_path);
@@ -177,6 +179,7 @@ public class ServiceJobWrapper implements Parcelable {
                 "\nContract Repair : " + this._contract_repair +
                 "\nWarranty Repair : " + this._warranty_repair +
                 "\nOthers : " + this._others +
+                "\nType of service : " + this._type_of_service +
                 "\nSignature File Path : " + this._signature_file_path +
                 "\nSignature File Name : " + this._signature_name +
                 "\nCustomer Name : " + this._customer_name +

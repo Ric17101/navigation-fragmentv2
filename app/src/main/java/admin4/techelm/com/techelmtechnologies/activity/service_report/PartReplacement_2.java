@@ -156,8 +156,9 @@ public class PartReplacement_2 extends AppCompatActivity implements
 
         /** BUTTON VIEW DETAILS */
         ImageButton buttonViewDetails = (ImageButton) findViewById(R.id.buttonViewDetails);
-        if (!buttonViewDetails.isShown())
-            buttonViewDetails.setVisibility(View.VISIBLE);
+        buttonViewDetails.setVisibility(View.GONE);
+//        if (!buttonViewDetails.isShown())
+//            buttonViewDetails.setVisibility(View.VISIBLE);
         buttonViewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -465,7 +466,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
                 mPicUri = getPickImageResultUri(data);
                 try {
                     mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mPicUri);
-                    // mBitmap = rotateImageIfRequired(mBitmap, mPicUri);
+                    mBitmap = rotateImageIfRequired(mBitmap, mPicUri);
                     // mBitmap = getResizedBitmap(mBitmap, 500);
 
                     /*CircleImageView croppedImageView = (CircleImageView) mCameraDialog.getCustomView().findViewById(R.id.img_profile);

@@ -161,26 +161,27 @@ public class FileUtility {
     }
 
     /**
-     * Use before sending files to server
+     * Use before sending files to server and Before Reading to List
+     * CALLED for Recording, Uploads and Signature
      * @param filePath
      * @return
      */
-    public boolean isFileExist(String filePath) {
+    public static boolean isFileExist(String filePath) {
         File file = new File(filePath);
         return checkFileCanRead(file);
     }
 
-    private boolean checkFileCanRead(File file){
+    private static boolean checkFileCanRead(File file){
         if (!file.exists())
             return false;
         if (!file.canRead())
             return false;
         try {
-            FileReader fileReader = new FileReader(file.getAbsolutePath());
+            FileReader fileReader = new FileReader(file/*.getAbsolutePath()*/);
             fileReader.read();
             fileReader.close();
         } catch (Exception e) {
-            Log.e(TAG, "Exception when checked file can read with message:"+e.getMessage(), e);
+            Log.e(TAG, "Exception when checked file can read with message+"+ file.getAbsolutePath()+"+:"+e.getMessage(), e);
             return false;
         }
         return true;

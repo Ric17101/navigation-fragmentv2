@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.utility.FileUtility;
 
 /**
  * Created by admin 4 on 09/03/2017.
@@ -81,7 +82,9 @@ public class UploadsDBUtil extends DatabaseAccess {
                 recordItem.setUploadName(cursor.getString(2));
                 recordItem.setFilePath(cursor.getString(3));
                 recordItem.setTaken(cursor.getString(4));
-                list.add(recordItem);
+                if (FileUtility.isFileExist(recordItem.getFilePath() + "/" + recordItem.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(recordItem);
+                }
             } while (cursor.moveToNext());
         }
 
@@ -107,7 +110,9 @@ public class UploadsDBUtil extends DatabaseAccess {
                 recordItem.setUploadName(cursor.getString(2));
                 recordItem.setFilePath(cursor.getString(3));
                 recordItem.setTaken(cursor.getString(4));
-                list.add(recordItem);
+                if (FileUtility.isFileExist(recordItem.getFilePath() + "/" + recordItem.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(recordItem);
+                }
             } while (cursor.moveToNext());
         }
 
@@ -132,7 +137,9 @@ public class UploadsDBUtil extends DatabaseAccess {
                 recordItem.setUploadName(cursor.getString(2));
                 recordItem.setFilePath(cursor.getString(3));
                 recordItem.setTaken(cursor.getString(4));
-                list.add(recordItem);
+                if (FileUtility.isFileExist(recordItem.getFilePath() + "/" + recordItem.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(recordItem);
+                }
             } while (cursor.moveToNext());
         }
 

@@ -71,6 +71,7 @@ public class ConvertJSON {
             sw.setContractRepair(jsonArray.getJSONObject(i).getString("contract_repair"));
             sw.setWarrantyRepair(jsonArray.getJSONObject(i).getString("warranty_repair"));
             sw.setOthers(jsonArray.getJSONObject(i).getString("others"));
+            sw.setTypeOfService(jsonArray.getJSONObject(i).getString("type_of_service"));
             sw.setSignatureName(jsonArray.getJSONObject(i).getString("signature_name"));
             sw.setCustomerName(jsonArray.getJSONObject(i).getString("fullname"));
             sw.setJobSite(jsonArray.getJSONObject(i).getString("job_site"));
@@ -126,15 +127,15 @@ public class ConvertJSON {
             sw.setContractRepair(pieces[18]);
             sw.setWarrantyRepair(pieces[19]);
             sw.setOthers(pieces[20]);
-            sw.setSignatureName(pieces[21]);
-//            sw.setStartDateTask(pieces[22]);
-//            sw.setEndDateTask(pieces[23]);
-            sw.setCustomerName(pieces[24]);
-            sw.setJobSite(pieces[25]);
-            sw.setFax(pieces[26]);
-            sw.setTelephone(pieces[27]);
-            sw.setEngineerName(pieces[28]);
-//            sw.setTypeOfService(pieces[27]);
+            sw.setTypeOfService(pieces[21]);
+            sw.setSignatureName(pieces[22]);
+//            sw.setStartDateTask(pieces[23]);
+//            sw.setEndDateTask(pieces[24]);
+            sw.setCustomerName(pieces[25]);
+            sw.setJobSite(pieces[26]);
+            sw.setFax(pieces[27]);
+            sw.setTelephone(pieces[28]);
+            sw.setEngineerName(pieces[29]);
             // Log.d(TAG, sw.toString());
             translationList.add(sw);
         }

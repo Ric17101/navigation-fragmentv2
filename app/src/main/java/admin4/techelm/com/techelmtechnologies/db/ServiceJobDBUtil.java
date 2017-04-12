@@ -1,7 +1,9 @@
 package admin4.techelm.com.techelmtechnologies.db;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
@@ -10,6 +12,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.UserLoginWrapper;
 
@@ -363,10 +367,11 @@ public class ServiceJobDBUtil extends DatabaseAccess {
 
     /**
      * Update remarks_before on the Service Job FRGMT 1_BEFORE
+     * Can be run on thread
      * @param id - sjid
      * @param remarks - before remarks
      */
-    public void updateRequestIDRemarks_BEFORE(int id, String remarks) {
+    public void updateRequestIDRemarks_BEFORE(int id, final String remarks) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_SJ_REMARKS_BEFORE, remarks);
@@ -374,7 +379,12 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id, null);
         Log.e(LOG_TAG, "updateRequestIDRemarks_BEFORE ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onSJEntryRenamed(remarks);
+            ((Activity)getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mOnDatabaseChangedListener.onSJEntryRenamed(remarks);
+                }
+            });
         }
     }
 

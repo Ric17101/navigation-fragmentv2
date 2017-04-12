@@ -17,12 +17,10 @@
 
     <EditText
         android:id="@+id/editTextRemarks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.66"
-        android:ems="10"
-        android:inputType="textImeMultiLine"
-        android:lines="3"
-        android:scrollHorizontally="false" />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:lines="5" />
 
 </LinearLayout>

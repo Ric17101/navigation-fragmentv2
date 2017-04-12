@@ -42,4 +42,6 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
 		c.close();
 		return v;
 	}
+
+
 }

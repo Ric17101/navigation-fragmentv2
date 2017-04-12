@@ -19,6 +19,7 @@ import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 public class PopulateServiceJobViewDetails {
 
+    private int PANEL_STATUS = 0;
     TextView textViewLabelCustomerName;
     TextView textViewLabelJobSite;
     TextView textViewLabelServiceNo;
@@ -39,6 +40,7 @@ public class PopulateServiceJobViewDetails {
     private void setViewElements(View view, ServiceJobWrapper serviceJob, int visibility) {
         // SERVICE JOB Controls
         ImageButton buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
+        buttonViewDetails.setVisibility(View.GONE);
         textViewLabelCustomerName = (TextView) view.findViewById(R.id.textViewLabelCustomerName);
         textViewLabelJobSite = (TextView) view.findViewById(R.id.textViewLabelJobSite);
         textViewLabelServiceNo = (TextView) view.findViewById(R.id.textViewLabelServiceNo);
@@ -51,7 +53,7 @@ public class PopulateServiceJobViewDetails {
         textViewRemarksActions = (TextView) view.findViewById(R.id.textViewRemarksActions);
 
         // Set TextView Contents
-        buttonViewDetails.setVisibility(visibility);
+        // buttonViewDetails.setVisibility(visibility);
 
         textViewLabelCustomerName.setText(serviceJob.getCustomerName());
         textViewLabelJobSite.setText(serviceJob.getJobSite());
@@ -118,7 +120,7 @@ public class PopulateServiceJobViewDetails {
     }
 
     private void doHideOrShow() {
-        if (textViewHideShow.getText().toString().equals("MORE")) {
+        if (this.PANEL_STATUS == 0) {
             showView();
         } else {
             hideView();
@@ -126,11 +128,13 @@ public class PopulateServiceJobViewDetails {
     }
 
     private void hideView() {
+        this.PANEL_STATUS = 0;
         textViewHideShow.setText("MORE");
         mExpandLayout.move(0);
     }
 
     private void showView() {
+        this.PANEL_STATUS = 1;
         textViewHideShow.setText("BACK");
         mExpandLayout.toggle();
     }

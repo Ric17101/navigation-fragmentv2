@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/robotoCalendarDateTitleContainer"
     android:layout_width="match_parent"
@@ -18,7 +19,9 @@
         android:layout_marginLeft="@dimen/roboto_calendar_padding"
         android:layout_marginRight="@dimen/roboto_calendar_padding"
         android:background="@drawable/ic_arrow_right"
-        android:contentDescription="@android:string/ok" />
+        android:contentDescription="@android:string/ok"
+        android:padding="20sp"
+        card_view:srcCompat="?selectableItemBackgroundBorderless" />
 
     <TextView
         android:id="@+id/monthText"
@@ -45,6 +48,8 @@
         android:layout_marginLeft="@dimen/roboto_calendar_padding"
         android:layout_marginRight="@dimen/roboto_calendar_padding"
         android:background="@drawable/ic_arrow_left"
-        android:contentDescription="@android:string/ok" />
+        android:contentDescription="@android:string/ok"
+        android:padding="20sp"
+        card_view:srcCompat="?selectableItemBackgroundBorderless" />
 
 </RelativeLayout>
