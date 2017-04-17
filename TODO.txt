@@ -63,3 +63,30 @@ DATE 10/4/2017
         3) and this UI
     send to me before 1pm
     and i send to client
+
+DATE 17/04/2017
+    [10:50:31 AM] Richard Raguine: May we know if the data of Service Job and Project Job are related to each other, I mean, right now we are trying to analyze the Database Tables we will be using for these.
+    [10:51:09 AM] Chris Low Kar Weng: Ok noted. I discuss later
+
+    Richard - make it all fillable first, later just sync with server side.
+
+    Patrick - The cancel button add on the web app (in case client request, you just prepare to do it). For the section B we design ourselves
+
+    The section B follow back the service job layout
+    NO UI REFERENCES
+    Try implement the form first
+    Follow the pdf I sent to you
+
+    Yes all status for Section B more or less is same with the section A
+    yes can in the web app
+    Just in case client request to do in the mobile app
+
+
+    OK good ~ possible to add 4 - cancelled 5 - Rejected ?
+
+    /*
+    (Enter go to new line)
+    All tab group
+
+    Will only hv two button - Begin task OR Continue
+    Richard - can you state the ’report status’ that we discussed last time at here

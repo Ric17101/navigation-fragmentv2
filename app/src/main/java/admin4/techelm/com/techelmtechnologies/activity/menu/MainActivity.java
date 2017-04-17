@@ -23,6 +23,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.HashMap;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.ProjectJobFragment;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
@@ -50,7 +51,6 @@ public class MainActivity extends FragmentActivity implements
         UnsignedServiceJobListAdapter.CallbackInterface {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
 
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
@@ -164,6 +164,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void init_DrawerNav() {
+
         /**
          *Setup the DrawerLayout and NavigationView
          */
@@ -177,7 +178,7 @@ public class MainActivity extends FragmentActivity implements
          */
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.containerView, new ServiceJobFragmentTab()).commit();
+        mFragmentTransaction.replace(R.id.containerView, new ServiceJobFragmentTab()).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
         /**
          * Setup click events on the Navigation View Items.
@@ -195,7 +196,7 @@ public class MainActivity extends FragmentActivity implements
                         break;
                     case R.id.nav_checklist:
                         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.containerView, new PrimaryFragment()).commit();
+                        fragmentTransaction.replace(R.id.containerView, new ProjectJobFragment()).commit();
 
                         /*startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));

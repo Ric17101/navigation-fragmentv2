@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_checklist"
             android:icon="@mipmap/nav2_icon"
-            android:title="SIT WALK CHECKLIST" />
+            android:title="SITE WALK CHECKLIST" />
         <item
             android:id="@+id/nav_process_pe"
             android:icon="@mipmap/nav3_icon"
@@ -24,6 +24,17 @@
             android:id="@+id/nav_toolbox"
             android:icon="@mipmap/nav5_icon"
             android:title="TOOLBOX MEETING" />
+        <!--<item android:title="Sub items">
+            <menu>
+                <item
+                    android:icon="@mipmap/nav4_icon"
+                    android:title="Sub item 1" />
+                <item
+                    android:icon="@mipmap/nav4_icon"
+                    android:title="Sub item 2" />
+            </menu>
+        </item>-->
     </group>
+
 
 </menu>

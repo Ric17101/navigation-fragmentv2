@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.PreInstallationSiteSurveyListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
@@ -126,6 +128,48 @@ public class FragmentSetListHelper {
 
     // Called at ServiceJobListAdapter Only
     public void setActionOnClick(ServiceJobListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+        switch(status) {
+            case SERVICE_JOB_COMPLETED :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_COMPLETED);
+                break;
+            case SERVICE_JOB_NEW :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_BEGIN_JOB_SERVICE);
+                break;
+            case SERVICE_JOB_PENDING :
+            case SERVICE_JOB_UNSIGNED :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT_JOB_SERVICE);
+                break;
+            case SERVICE_JOB_ON_PROCESS :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_ON_PROCESS);
+                break;
+            default :
+                break;
+        }
+    }
+
+    // Called at ProjecrJobListAdapter Only
+    public void setActionOnClick(ProjectJobListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+        switch(status) {
+            case SERVICE_JOB_COMPLETED :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_COMPLETED);
+                break;
+            case SERVICE_JOB_NEW :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_BEGIN_JOB_SERVICE);
+                break;
+            case SERVICE_JOB_PENDING :
+            case SERVICE_JOB_UNSIGNED :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT_JOB_SERVICE);
+                break;
+            case SERVICE_JOB_ON_PROCESS :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_ON_PROCESS);
+                break;
+            default :
+                break;
+        }
+    }
+
+    // Called at PreInstallationSiteSurveyListAdapter Only
+    public void setActionOnClick(PreInstallationSiteSurveyListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
         switch(status) {
             case SERVICE_JOB_COMPLETED :
                 mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_COMPLETED);

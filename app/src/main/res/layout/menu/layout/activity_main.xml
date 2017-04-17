@@ -51,16 +51,17 @@
 
         <android.support.design.widget.NavigationView
             android:id="@+id/navigation_drawer_container"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start">
 
             <android.support.design.widget.NavigationView
                 android:id="@+id/nav_view"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
                 android:background="?attr/colorAccent"
+
                 app:headerLayout="@layout/nav_header"
                 app:itemIconTint="@color/textColorWhite"
                 app:itemTextColor="@color/textColorWhite"
@@ -68,7 +69,7 @@
 
             <android.support.design.widget.NavigationView
                 android:id="@+id/nav_view_user"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:background="?attr/colorAccent"

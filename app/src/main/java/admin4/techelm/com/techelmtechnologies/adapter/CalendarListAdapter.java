@@ -7,6 +7,7 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +78,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.search_results_number_list_item, parent, false);
+                .inflate(R.layout.search_results_servicejob_list_item, parent, false);
         mContext = view.getContext();
         return new ViewHolder(view);
     }
@@ -96,6 +97,8 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
         holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()));
+        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
         if (mLastAnimatedItemPosition < position) {
@@ -174,13 +177,15 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
         private final TextView textViewCustomer;
         private final TextView textViewEngineer;
         private final TextView textViewStatus;
+        private final TextView textViewTask;
 
-        private final ImageButton buttonEditDetails;
-        private final ImageButton buttonViewDetails;
+        /*private final ImageButton buttonEditDetails;
+        private final ImageButton buttonViewDetails;*/
+        private final ImageButton buttonTask;
         private final TextView textViewEditDetails;
         private final TextView textViewViewDetails;
 
-        private final FrameLayout frameLayoutButtonResults;
+         private final FrameLayout frameLayoutButtonSJ;
 
         private ViewHolder(View view) {
             super(view);
@@ -196,11 +201,16 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
             textViewEngineer = (TextView) view.findViewById(R.id.textViewEngineer);
             textViewStatus = (TextView) view.findViewById(R.id.textViewStatus);
 
-            // ImageButtons
-            buttonEditDetails = (ImageButton) view.findViewById(R.id.buttonEditDetails);
+            // ImageButtons, REMOVE AND requested by Chris for all TABS in MAIN ACTIVITY
+            /*buttonEditDetails = (ImageButton) view.findViewById(R.id.buttonEditDetails);
             buttonEditDetails.setOnClickListener(this);
             buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
-            buttonViewDetails.setOnClickListener(this);
+            buttonViewDetails.setOnClickListener(this);*/
+            textViewTask = (TextView) view.findViewById(R.id.textViewTask);
+
+            // ImageButtons
+            buttonTask = (ImageButton) view.findViewById(R.id.buttonTask);
+            buttonTask.setOnClickListener(this);
 
             // ImageButton Links
             textViewEditDetails = (TextView) view.findViewById(R.id.textViewEditDetails);
@@ -208,19 +218,19 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
             textViewViewDetails = (TextView) view.findViewById(R.id.textViewViewDetails);
             // textViewViewDetails.setOnClickListener(this);
 
-            frameLayoutButtonResults = (FrameLayout) view.findViewById(R.id.frameLayoutButtonResults);
-            frameLayoutButtonResults.setOnClickListener(this);
+            frameLayoutButtonSJ = (FrameLayout) view.findViewById(R.id.frameLayoutButtonSJ);
+            frameLayoutButtonSJ.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == buttonViewDetails.getId() || v.getId() == frameLayoutButtonResults.getId()) {
+            if (/*v.getId() == buttonViewDetails.getId() || */v.getId() == frameLayoutButtonSJ.getId()) {
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
                 }
-            } else if (v.getId() == buttonEditDetails.getId()) {
+            } else
+            if (v.getId() == buttonTask.getId()) {
                 if (mCallback != null) {
-//                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), serviceJobDataSet.getStatus());
                     mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), mDataSet.get(getAdapterPosition()).getStatus());
                 }
             }

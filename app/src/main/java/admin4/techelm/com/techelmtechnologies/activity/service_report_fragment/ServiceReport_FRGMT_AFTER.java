@@ -31,6 +31,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -288,9 +289,30 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
             mSJDB.close();
         //}
         mEditTextRemarks.setText(remarks);
-        mEditTextRemarks.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        mEditTextRemarks.setRawInputType(InputType.TYPE_CLASS_TEXT);
-        mEditTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mEditTextRemarks.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        mEditTextRemarks.setText(((EditText)v).getText().toString());
+                        saveRemarksOnThread(((EditText)v).getText().toString());
+
+                        Log.e(TAG, ((EditText)v).getText().toString());
+
+                        // Hide SoftKeyboard on Inactive Editext Listener
+                        InputMethodManager imm = (InputMethodManager)
+                                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(mEditTextRemarks.getWindowToken(), 0);
+                        break;
+                }
+                return false;
+            }
+        });
+        /*mEditTextRemarks.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        mEditTextRemarks.setRawInputType(InputType.TYPE_CLASS_TEXT);*/
+        /*mEditTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -305,17 +327,17 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                     imm.hideSoftInputFromWindow(mEditTextRemarks.getWindowToken(), 0);
                     return true;
                 }
-                /*if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
-                {
-                    mEditTextRemarks.setSelection(0);
-                    InputMethodManager imm = (InputMethodManager)
-                            getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(mEditTextRemarks.getWindowToken(), 0);
-                    return true;
-                }*/
+//                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+//                {
+//                    mEditTextRemarks.setSelection(0);
+//                    InputMethodManager imm = (InputMethodManager)
+//                            getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.hideSoftInputFromWindow(mEditTextRemarks.getWindowToken(), 0);
+//                    return true;
+//                }
                 return false;
             }
-        });
+        });*/
 
         /*mEditTextRemarks.setOnFocusChangeListener((new View.OnFocusChangeListener() {
                     @Override

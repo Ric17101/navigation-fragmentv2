@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -25,6 +24,7 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
@@ -211,14 +211,10 @@ public class UnsignedServicesFragment extends Fragment implements
         mSearchResultsList.setVisibility(View.GONE);
         textViewUnsignedSJResult.setText(R.string.noInternetPrompt);
         textViewUnsignedSJResult.setVisibility(View.VISIBLE);
-        Snackbar.make(getView(), "No internet connection.", Snackbar.LENGTH_LONG)
-                .setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                })
-                .setActionTextColor(getResources().getColor(R.color.white))
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content),
+                        getResources().getString(R.string.noInternetConnection))
+                .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
     }
 

@@ -276,9 +276,9 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     /*********** A.1 EDIT VIEW POP UP REMARKS ***********/
     private void setUpEditRemarks(View view) {
         mEditTextRemarks = (EditText) view.findViewById(R.id.editTextRemarks);
-        mEditTextRemarks.setInputType(InputType.TYPE_CLASS_TEXT |
+        /*mEditTextRemarks.setInputType(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_FLAG_MULTI_LINE |
-                InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);*/
         remarks = "";
 
         mSJDB = new ServiceJobDBUtil(getActivity());
@@ -287,10 +287,32 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         mSJDB.close();
 
         mEditTextRemarks.setText(remarks);
-        mEditTextRemarks.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        mEditTextRemarks.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        /*mEditTextRemarks.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        mEditTextRemarks.setRawInputType(InputType.TYPE_CLASS_TEXT);*/
 
-        mEditTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mEditTextRemarks.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        mEditTextRemarks.setText(((EditText)v).getText().toString());
+                        saveRemarksOnThread(((EditText)v).getText().toString());
+
+                        Log.e(TAG, ((EditText)v).getText().toString());
+
+                        // Hide SoftKeyboard on Inactive Editext Listener
+                        InputMethodManager imm = (InputMethodManager)
+                                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(mEditTextRemarks.getWindowToken(), 0);
+                        break;
+                }
+                return false;
+            }
+        });
+
+        /*mEditTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
@@ -306,17 +328,17 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                     imm.hideSoftInputFromWindow(mEditTextRemarks.getWindowToken(), 0);
                     return true;
                 }
-                /*if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
-                {
-                    mEditTextRemarks.setSelection(0);
-                    InputMethodManager imm = (InputMethodManager)
-                            getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(mEditTextRemarks.getWindowToken(), 0);
-                    return true;
-                }*/
+//                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+//                {
+//                    mEditTextRemarks.setSelection(0);
+//                    InputMethodManager imm = (InputMethodManager)
+//                            getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.hideSoftInputFromWindow(mEditTextRemarks.getWindowToken(), 0);
+//                    return true;
+//                }
                 return false;
             }
-        });
+        });*/
         /*final ScrollView content_service_report_scroll_view = (ScrollView) view.findViewById(R.id.content_service_report_scroll_view);
         mEditTextRemarks.setOnTouchListener(new View.OnTouchListener() {
             @Override

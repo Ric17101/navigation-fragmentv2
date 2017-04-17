@@ -14,13 +14,36 @@
         android:textSize="18sp"
         android:textStyle="normal|bold" />
 
+    <!--<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextRemarks"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:ems="10"
+            android:gravity="left|top"
+            android:inputType="textMultiLine"
+            android:lines="5">
+
+            <requestFocus />
+        </EditText>
+    </ScrollView>-->
 
     <EditText
         android:id="@+id/editTextRemarks"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="top|left"
         android:inputType="textMultiLine"
-        android:lines="5" />
+        android:overScrollMode="always"
+        android:scrollbarStyle="insideInset"
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical"
+        android:lines="6"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:scrollHorizontally="false" />
 
 </LinearLayout>
