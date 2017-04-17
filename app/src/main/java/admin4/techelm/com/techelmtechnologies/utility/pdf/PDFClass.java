@@ -51,8 +51,10 @@ public class PDFClass {
         AbstractViewRenderer page = new AbstractViewRenderer(this.mContext, R.layout.pdf_page_1) {
             @Override
             protected void initView(View view) {
-                /*TextView tv_hello = (TextView)view.findViewById(R.id.textViewPageNumber);
-                tv_hello.setText(mPageCount+"");*/
+                /*
+                TextView tv_hello = (TextView)view.findViewById(R.id.textViewPageNumber);
+                tv_hello.setText(mPageCount+"");
+                */
             }
 
             private String _text;

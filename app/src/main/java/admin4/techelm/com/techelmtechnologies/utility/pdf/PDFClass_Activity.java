@@ -7,7 +7,8 @@ import com.hendrix.pdfmyxml.viewRenderer.AbstractViewRenderer;
 
 /**
  * Created by admin 4 on 28/03/2017.
- * Testing PDF output
+ * Testing PDF output, this take some time almost 2mins...
+ * Should this be implemented on the backend, and then to be downloaded on the app
  */
 
 public class PDFClass_Activity extends AppCompatActivity {
