@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.ProjectJobFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
@@ -68,6 +70,9 @@ public class MainActivity extends FragmentActivity implements
 
     SessionManager mSession;
 
+    // A. Project Job Setup
+    private MaterialDialog mProjectJobFormSelectorDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +90,8 @@ public class MainActivity extends FragmentActivity implements
                 init_DrawerNav();
             }
         });
+
+        this.mProjectJobFormSelectorDialog = initNewPartDialog();
     }
 
     /**
@@ -286,6 +293,7 @@ public class MainActivity extends FragmentActivity implements
         System.out.print(strOut);
 
         switch(action) {
+            /*************************** SERVICE JOB *****************************/
             case ACTION_VIEW_DETAILS : // Show Details of SJ on MDialog
                 showMDialogSJDetails(serviceJob);
                 break;
@@ -308,9 +316,19 @@ public class MainActivity extends FragmentActivity implements
                         .setSnackBar(findViewById(android.R.id.content), "Already completed.")
                         .setColor(getResources().getColor(R.color.colorPrimary1))
                         .show();
+            /*************************** END SERVICE JOB *****************************/
+
+
+            /*************************** PROJECT JOB *****************************/
+            case ACTION_CHOOSE_FORM :
+                this.mProjectJobFormSelectorDialog.show();
+                initFormSelectorButton(this.mProjectJobFormSelectorDialog.getCustomView());
                 break;
+            /*************************** END PROJECT JOB *****************************/
         }
     }
+
+    /*************************** A. SERVICE JOB *****************************/
 
     /**
      * To Begin Task Filling up the form, newly open Service Job, Begin Task
@@ -490,6 +508,7 @@ public class MainActivity extends FragmentActivity implements
         md.show();
     }
 
+    /*************************** A. END SERVICE JOB *****************************/
     /**
      * Represents an asynchronous Task
      * UITask mAuthTask = new UITask();
@@ -524,4 +543,58 @@ public class MainActivity extends FragmentActivity implements
         protected void onCancelled() {
         }
     }*/
+
+    /*************************** B. PROJECT JOB *****************************/
+
+
+    private MaterialDialog initNewPartDialog() {
+        boolean wrapInScrollView = false;
+        MaterialDialog md = new MaterialDialog.Builder(MainActivity.this)
+                .title("SELECT TYPE OF FORM")
+                .customView(R.layout.i_choose_type_of_form, wrapInScrollView)
+                .positiveText("Close")
+                //.iconRes(R.mipmap.replacepart_icon) // android:background="@mipmap/replacepart_icon"
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).build();
+        return md;
+    }
+
+    // Set Up Listener to CardView for Selecting Type of forms
+    // The components are initialized late in order to change the ID
+    private void initFormSelectorButton(View view) {
+        CardView cvPISS = (CardView) view.findViewById(R.id.cvPISS);
+        CardView cvPW = (CardView) view.findViewById(R.id.cvPW);
+        CardView cvEPS = (CardView) view.findViewById(R.id.cvEPS);
+
+        cvPISS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ProjectJobViewPagerActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
+            }
+        });
+
+        cvPW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        cvEPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    /*************************** B. END PROJECT JOB *****************************/
 }

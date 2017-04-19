@@ -14,7 +14,9 @@ import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_ALREADY_COMPLETED;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_ALREADY_ON_PROCESS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_BEGIN_JOB_SERVICE;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_EDIT_JOB_SERVICE;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_ON_PROCESS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLETED;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_NEW;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_ON_PROCESS;
@@ -70,6 +72,7 @@ public class FragmentSetListHelper {
             case SERVICE_JOB_PENDING: return R.mipmap.conti_icon;
             case SERVICE_JOB_COMPLETED : return R.mipmap.uploaded_icon;
             case SERVICE_JOB_NEW:
+            case PROJECT_JOB_ON_PROCESS:
             default: return R.mipmap.begin_icon;
         }
     }
@@ -83,6 +86,8 @@ public class FragmentSetListHelper {
             case SERVICE_JOB_NEW: taskText = "<u><b>Begin Task >></b></u>";
                 break;
             case SERVICE_JOB_COMPLETED: taskText = "<b>Completed</b>";
+                break;
+            case PROJECT_JOB_ON_PROCESS : taskText = "<u><b>Choose Form</b></u>";
                 break;
             default : taskText = "";
                 break;
@@ -148,25 +153,9 @@ public class FragmentSetListHelper {
         }
     }
 
-    // Called at ProjecrJobListAdapter Only
+    // Called at ProjecrJobListAdapter Only, Event to Select Type of Form
     public void setActionOnClick(ProjectJobListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
-        switch(status) {
-            case SERVICE_JOB_COMPLETED :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_COMPLETED);
-                break;
-            case SERVICE_JOB_NEW :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_BEGIN_JOB_SERVICE);
-                break;
-            case SERVICE_JOB_PENDING :
-            case SERVICE_JOB_UNSIGNED :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT_JOB_SERVICE);
-                break;
-            case SERVICE_JOB_ON_PROCESS :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_ON_PROCESS);
-                break;
-            default :
-                break;
-        }
+        mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_CHOOSE_FORM);
     }
 
     // Called at PreInstallationSiteSurveyListAdapter Only

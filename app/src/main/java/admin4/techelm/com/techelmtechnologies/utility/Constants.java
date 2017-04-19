@@ -66,4 +66,9 @@ public final class Constants {
     /** Type is Object ServiceJobNewReplacementPartsRatesWrapper */
     public static final String SERVICE_JOB_PARTS_REPLACEMENT_LIST = "REPLACEMENT_LIST";
 
+    // ACTION PROJECT JOB
+    public static final int ACTION_CHOOSE_FORM = 10; // PROJECT JOB, Choosing the form
+
+    // STATUS of Project Jobs, the Task Button
+    public static final String PROJECT_JOB_ON_PROCESS = "10";
 }

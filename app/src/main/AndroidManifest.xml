@@ -90,6 +90,17 @@
         <activity android:name=".activity.webview.WebViewActivity"/>
 
         <activity
+            android:name=".activity.projectjob_main.fragment.ProjectJobViewPagerActivity"
+            android:label="Project Jobs"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".webservice.EmailWebserviceActivity"
             android:label="Webservice"
             android:configChanges="orientation"

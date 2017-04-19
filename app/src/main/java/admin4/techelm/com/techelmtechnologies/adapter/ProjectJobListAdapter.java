@@ -25,7 +25,9 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.FragmentSetListHelper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_DETAILS;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_ON_PROCESS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLETED;
 
 public class ProjectJobListAdapter extends RecyclerView.Adapter<ProjectJobListAdapter.ViewHolder> {
@@ -94,12 +96,8 @@ public class ProjectJobListAdapter extends RecyclerView.Adapter<ProjectJobListAd
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
         holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()));
-        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
-//        if (serviceJobDataSet.getStatus() == "3")
-//            holder.buttonTask.setVisibility(View.GONE);
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_ON_PROCESS)));
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
-
-        Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
 
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
@@ -190,10 +188,11 @@ public class ProjectJobListAdapter extends RecyclerView.Adapter<ProjectJobListAd
             if (v.getId() == frameLayoutButtonSJ.getId()) {
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
+
                 }
             } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
                 if (mCallback != null) {
-                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), mDataSet.get(getAdapterPosition()).getStatus());
+                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_CHOOSE_FORM);
                 }
             }
 

@@ -35,11 +35,7 @@ import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
-import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
-import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceListener;
-import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
-import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 import static android.app.Activity.RESULT_CANCELED;
@@ -49,7 +45,6 @@ public class ProjectJobFragment extends Fragment implements
         ProjectJobListAdapter.OnItemClickListener
 {
     private static final String TAG = ProjectJobFragment.class.getSimpleName();
-    private static final int REQUEST_CODE = 1234;
 
     private TextView name;
     private RobotoCalendarView robotoCalendarView;
@@ -94,14 +89,14 @@ public class ProjectJobFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        System.out.println("ServiceJobFragment: I'm on the onCreate");
+        System.out.println("ProjectJobFragment: I'm on the onCreate");
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         //outState.putParcelable("results", results);
-        System.out.println("ServiceJobFragment: I'm on the onSaveInstanceState");
+        System.out.println("ProjectJobFragment: I'm on the onSaveInstanceState");
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -113,7 +108,7 @@ public class ProjectJobFragment extends Fragment implements
         } else { // Restore the Data List again
             mListAdapter.swapData(results);
         }
-        System.out.println("ServiceJobFragment: I'm on the onActivityCreated");
+        System.out.println("ProjectJobFragment: I'm on the onActivityCreated");
     }
 
     private void setContext(Context c) {
@@ -166,7 +161,6 @@ public class ProjectJobFragment extends Fragment implements
         String formattedDate = new CalendarFragment().convertLongDateToSimpleDate(daySelectedCalendar);
         mAuthTask = new CalendarSJTask_RenderList(formattedDate, "", mContext);
         mAuthTask.execute((Void) null);
-        //name.setText(formattedDate);
     }
 
     private void noInternetSnackBar() {
@@ -178,7 +172,6 @@ public class ProjectJobFragment extends Fragment implements
                         getResources().getString(R.string.noInternetConnection))
                 .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
-        // removeRobotoCalendarDots();
     }
 
     /**
@@ -375,39 +368,6 @@ public class ProjectJobFragment extends Fragment implements
                 // mCallback.onHandleShowDetails(e.toString());
             }
             return "";
-        }
-
-        // TO DO: Network API activity
-        public void postLogin(String email, String password) {
-            /*web info*/
-            WebServiceInfo webServiceInfo = new WebServiceInfo();
-            // String url = "http://jsonplaceholder.typicode.com/posts";
-            String url = "http://enercon714.firstcomdemolinks.com/sampleREST/simple-codeigniter-rest-api-master/index.php/auth/user?user=@dev&password=password";
-            //String url = "http://enercon714.firstcomdemolinks.com/sampleREST/simple-codeigniter-rest-api-master/index.php/auth/user";
-            webServiceInfo.setUrl(url);
-
-            /*add parameter*/
-            //webServiceInfo.addParam("user", email);
-            //webServiceInfo.addParam("password", password);
-            // webServiceInfo.addParam("userId", "2");
-
-            /*postStartDate command*/
-            getCommand = new GetCommand(webServiceInfo);
-
-            //mCallback.onHandleShowDetails("2");
-            /*request*/
-            WebServiceRequest webServiceRequest = new WebServiceRequest(getCommand);
-            webServiceRequest.execute();
-            webServiceRequest.setOnServiceListener(new OnServiceListener() {
-                @Override
-                public void onServiceCallback(WebResponse response) {
-                    Log.e(TAG, "WebResponse: " + response.getStringResponse());
-                    // textView23.setText(response.getStringResponse());
-                    // SERVICE_JOB = response.getStringResponse();
-                    //mCallback.onHandleShowDetails("3");
-                    // parseJSON(response.getStringResponse());
-                }
-            });
         }
 
         @Override
