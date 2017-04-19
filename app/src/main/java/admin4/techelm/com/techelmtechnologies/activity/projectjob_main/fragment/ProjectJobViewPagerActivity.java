@@ -1,5 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
+import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 
 public class ProjectJobViewPagerActivity extends FragmentActivity {
@@ -84,6 +86,12 @@ public class ProjectJobViewPagerActivity extends FragmentActivity {
     }
 
     @Override
-    public void onBackPressed() { }
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(ProjectJobViewPagerActivity.this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
+    }
 
 }

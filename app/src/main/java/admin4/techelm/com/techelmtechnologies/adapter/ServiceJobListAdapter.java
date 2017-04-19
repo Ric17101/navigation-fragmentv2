@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.FragmentSetListHelper;
+import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.FragmentSetListHelper_ServiceJob;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.*;
@@ -44,7 +44,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
     private OnItemClickListener mItemsOnClickListener;
     private int counterOnBindViewHolder = 0;
 
-    private FragmentSetListHelper mSetHelper;
+    private FragmentSetListHelper_ServiceJob mSetHelper;
 
     public ServiceJobListAdapter(Context context) {
         mContext = context;
@@ -83,7 +83,7 @@ public class ServiceJobListAdapter extends RecyclerView.Adapter<ServiceJobListAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        this.mSetHelper = new FragmentSetListHelper();
+        this.mSetHelper = new FragmentSetListHelper_ServiceJob();
 
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());

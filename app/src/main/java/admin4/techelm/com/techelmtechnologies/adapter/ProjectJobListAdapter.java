@@ -22,12 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.FragmentSetListHelper;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.FragmentSetListHelper_ProjectJob;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_DETAILS;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_ON_PROCESS;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLETED;
 
 public class ProjectJobListAdapter extends RecyclerView.Adapter<ProjectJobListAdapter.ViewHolder> {
@@ -46,7 +46,7 @@ public class ProjectJobListAdapter extends RecyclerView.Adapter<ProjectJobListAd
     private OnItemClickListener mItemsOnClickListener;
     private int counterOnBindViewHolder = 0;
 
-    private FragmentSetListHelper mSetHelper;
+    private FragmentSetListHelper_ProjectJob mSetHelper;
 
     public ProjectJobListAdapter(Context context) {
         mContext = context;
@@ -85,7 +85,7 @@ public class ProjectJobListAdapter extends RecyclerView.Adapter<ProjectJobListAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        this.mSetHelper = new FragmentSetListHelper();
+        this.mSetHelper = new FragmentSetListHelper_ProjectJob();
 
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
@@ -96,7 +96,7 @@ public class ProjectJobListAdapter extends RecyclerView.Adapter<ProjectJobListAd
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
         holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()));
-        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_ON_PROCESS)));
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_CHOOSE_FORM)));
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
 
         if (mLastAnimatedItemPosition < position) {
@@ -190,12 +190,11 @@ public class ProjectJobListAdapter extends RecyclerView.Adapter<ProjectJobListAd
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
 
                 }
-            } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
+            } else if (v.getId() == buttonTask.getId() || v.getId() == textViewTask.getId()) {
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_CHOOSE_FORM);
                 }
             }
-
         }
     }
 }

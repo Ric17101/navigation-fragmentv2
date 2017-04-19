@@ -22,17 +22,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.FragmentSetListHelper;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.FragmentSetListHelper_ProjectJob;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_DETAILS;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLETED;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
 
 public class PreInstallationSiteSurveyListAdapter extends RecyclerView.Adapter<PreInstallationSiteSurveyListAdapter.ViewHolder> {
 
     private static final String LOG_TAG = PreInstallationSiteSurveyListAdapter.class.getSimpleName();
-    private final int CHECK_CODE = 0x1;
-    private final int SHORT_DURATION = 1000;
 
     private List<ServiceJobWrapper> mDataSet = new ArrayList<>();
     private ServiceJobWrapper serviceJobDataSet;
@@ -44,7 +43,7 @@ public class PreInstallationSiteSurveyListAdapter extends RecyclerView.Adapter<P
     private OnItemClickListener mItemsOnClickListener;
     private int counterOnBindViewHolder = 0;
 
-    private FragmentSetListHelper mSetHelper;
+    private FragmentSetListHelper_ProjectJob mSetHelper;
 
     public PreInstallationSiteSurveyListAdapter(Context context) {
         mContext = context;
@@ -83,7 +82,7 @@ public class PreInstallationSiteSurveyListAdapter extends RecyclerView.Adapter<P
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        this.mSetHelper = new FragmentSetListHelper();
+        this.mSetHelper = new FragmentSetListHelper_ProjectJob();
 
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
@@ -94,9 +93,7 @@ public class PreInstallationSiteSurveyListAdapter extends RecyclerView.Adapter<P
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
         holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()));
-        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
-//        if (serviceJobDataSet.getStatus() == "3")
-//            holder.buttonTask.setVisibility(View.GONE);
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
@@ -123,11 +120,6 @@ public class PreInstallationSiteSurveyListAdapter extends RecyclerView.Adapter<P
                 .setInterpolator(new DecelerateInterpolator(3.f))
                 .setDuration(700)
                 .start();
-    }
-
-    // Test whether it is completed, then do nothing
-    private boolean isCompleted(String status) {
-        return status.equals(SERVICE_JOB_COMPLETED);
     }
 
     public interface CallbackInterface {
@@ -189,11 +181,11 @@ public class PreInstallationSiteSurveyListAdapter extends RecyclerView.Adapter<P
         public void onClick(View v) {
             if (v.getId() == frameLayoutButtonSJ.getId()) {
                 if (mCallback != null) {
-                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
+                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_TASK);
                 }
             } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
                 if (mCallback != null) {
-                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), mDataSet.get(getAdapterPosition()).getStatus());
+                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), PROJECT_JOB_START_TASK);
                 }
             }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.marcohc.robotocalendar.RobotoCalendarView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -29,7 +32,9 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
+import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
+import admin4.techelm.com.techelmtechnologies.adapter.PreInstallationSiteSurveyListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
@@ -41,12 +46,16 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class PreInstallationSiteSurveyFragment extends Fragment implements
-        ServiceJobListAdapter.OnItemClickListener
+        PreInstallationSiteSurveyListAdapter.OnItemClickListener,
+        ProjectJobListAdapter.CallbackInterface
 {
     private static final String TAG = PreInstallationSiteSurveyFragment.class.getSimpleName();
     private static final int REQUEST_CODE = 1234;
@@ -57,7 +66,7 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
     private SlidingUpPanelLayout mLayout;
 
     private Context mContext;
-    private ServiceJobListAdapter mListAdapter;
+    private PreInstallationSiteSurveyListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
@@ -68,7 +77,7 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.servicejob_activity, container, false);
+        View view = inflater.inflate(R.layout.projectjob_activity, container, false);
         setContext(container.getContext());
 
         setUpCalendarView(view);
@@ -134,6 +143,7 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
                 R.color.refresh_progress_2,
                 R.color.refresh_progress_3);
     }
+
     private void hideSwipeRefreshing() {
         if (swipeRefreshServiceJobLayout != null)
             swipeRefreshServiceJobLayout.setRefreshing(false);
@@ -145,7 +155,7 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
         textViewSJResult.setVisibility(View.GONE);
     }
     public void setupResultsList(View view) {
-        mListAdapter = new ServiceJobListAdapter(view.getContext());
+        mListAdapter = new PreInstallationSiteSurveyListAdapter(view.getContext());
         mSearchResultsList.setAdapter(mListAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
@@ -216,6 +226,45 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
 
             }
         });*/
+    }
+
+    @Override
+    public void onHandleSelection(int position, ServiceJobWrapper serviceJob, int mode) {
+        switch(mode) {
+            case ACTION_START_TASK:
+                Log.e(TAG, "This is ACTION_START_TASK");
+                break;
+            case ACTION_CONTINUE_TASK:
+                Log.e(TAG, "This is ACTION_CONTINUE_TASK");
+                break;
+            case ACTION_VIEW_TASK:
+                showMDialogSJDetails(serviceJob);
+                Log.e(TAG, "This is ACTION_VIEW_TASK");
+                break;
+            default:
+                Log.e(TAG, "This is ACTION_VIEW_TASK");
+                break;
+        }
+    }
+
+    private void showMDialogSJDetails(ServiceJobWrapper serviceJob) {
+        MaterialDialog md = new MaterialDialog.Builder(getActivity())
+                .title("SERVICE JOB " + serviceJob.getServiceNumber())
+                .customView(R.layout.i_labels_report_details_modal, true)
+                .limitIconToDefaultSize()
+                .positiveText("OK")
+                .iconRes(R.mipmap.view_icon)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).build();
+
+        new PopulateServiceJobViewDetails()
+                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);
+        md.show();
     }
 
     /**
