@@ -29,7 +29,7 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
@@ -46,7 +46,7 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class ProjectJobFragment extends Fragment implements
-        ServiceJobListAdapter.OnItemClickListener
+        ProjectJobListAdapter.OnItemClickListener
 {
     private static final String TAG = ProjectJobFragment.class.getSimpleName();
     private static final int REQUEST_CODE = 1234;
@@ -57,7 +57,7 @@ public class ProjectJobFragment extends Fragment implements
     private SlidingUpPanelLayout mLayout;
 
     private Context mContext;
-    private ServiceJobListAdapter mListAdapter;
+    private ProjectJobListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
@@ -145,7 +145,7 @@ public class ProjectJobFragment extends Fragment implements
         textViewSJResult.setVisibility(View.GONE);
     }
     public void setupResultsList(View view) {
-        mListAdapter = new ServiceJobListAdapter(view.getContext());
+        mListAdapter = new ProjectJobListAdapter(view.getContext());
         mSearchResultsList.setAdapter(mListAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }

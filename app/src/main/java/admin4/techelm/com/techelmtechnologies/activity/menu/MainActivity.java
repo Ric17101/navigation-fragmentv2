@@ -28,6 +28,7 @@ import java.util.HashMap;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.ProjectJobFragment;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.PrimaryFragment;
@@ -53,7 +54,8 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.*;
 public class MainActivity extends FragmentActivity implements
         ServiceJobListAdapter.CallbackInterface,
         CalendarListAdapter.CallbackInterface,
-        UnsignedServiceJobListAdapter.CallbackInterface {
+        UnsignedServiceJobListAdapter.CallbackInterface,
+        ProjectJobListAdapter.CallbackInterface {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
