@@ -5,12 +5,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import java.util.List;
+
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private ServiceJobWrapper mServiceJobFromBundle;
     private FragmentManager mFragmentManager;
+    private List<ServiceJobNewReplacementPartsRatesWrapper> mServiceJobPartsRatesFromBundle;
 
     private String[] titles = {
             "1. BEFORE",
@@ -19,10 +23,11 @@ public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
             "4. SIGNING OFF"
     };
 
-    public ServiceJobFragmentPagerAdapter(FragmentManager fm, ServiceJobWrapper serviceJob) {
+    public ServiceJobFragmentPagerAdapter(FragmentManager fm, ServiceJobWrapper serviceJob, List<ServiceJobNewReplacementPartsRatesWrapper> rateList) {
         super(fm);
         this.mFragmentManager = fm;
         this.mServiceJobFromBundle = serviceJob;
+        this.mServiceJobPartsRatesFromBundle = rateList;
     }
 
     @Override
@@ -34,7 +39,7 @@ public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
             case 1 :
                 return ServiceReport_FRGMT_AFTER.newInstance(position, this.mServiceJobFromBundle);
             case 2 :
-                return PartReplacement_FRGMT_2.newInstance(position, this.mServiceJobFromBundle);
+                return PartReplacement_FRGMT_2.newInstance(position, this.mServiceJobFromBundle, this.mServiceJobPartsRatesFromBundle);
             case 3 :
                 return SigningOff_FRGMT_4.newInstance(position, this.mServiceJobFromBundle);
 

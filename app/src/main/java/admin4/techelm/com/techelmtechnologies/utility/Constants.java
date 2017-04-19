@@ -63,5 +63,7 @@ public final class Constants {
     public static final String SERVICE_JOB_PREVIOUS_STATUS_KEY = "SERVICE_JOB_PREVIOUS_STATUS";
     /** Type is String. */
     public static final String SERVICE_JOB_TAKEN_KEY = "TAKEN";
+    /** Type is Object ServiceJobNewReplacementPartsRatesWrapper */
+    public static final String SERVICE_JOB_PARTS_REPLACEMENT_LIST = "REPLACEMENT_LIST";
 
 }

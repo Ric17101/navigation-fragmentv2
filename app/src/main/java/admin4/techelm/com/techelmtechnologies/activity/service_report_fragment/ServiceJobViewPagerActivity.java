@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import java.util.List;
+
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter;
@@ -26,6 +28,7 @@ import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
 import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.LicensesFragment;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
@@ -33,6 +36,7 @@ import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_PARTS_REPLACEMENT_LIST;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_PREVIOUS_STATUS_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
 
@@ -45,6 +49,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         UploadsDBUtil.OnDatabaseChangedListener,
         ServiceJobPartsListAdapter.CallbackInterface, // B. PartReplacement_FRGMT_2
         PartsDBUtil.OnDatabaseChangedListener
+        // OnTaskKill.onStopCallbackInterface // TODO: if user close the app permanently
 {
 
     private static final String TAG = ServiceJobViewPagerActivity.class.getSimpleName();
@@ -54,6 +59,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     private static final int FRAGMENT_POSISTION_SIGNING_OFF = 3;
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
     private String mPreviousStatusFromBundle; // From Calling Activity
+    private List<ServiceJobNewReplacementPartsRatesWrapper> rateList;
 
     private ServiceJobDBUtil mSJDB; // For saving and delete of the Service Job
 
@@ -66,12 +72,14 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pager_sliding_tab);
+
         setBackGroundLayout();
 
         if (fromBundle() != null) { // if Null don't show anything
             mViewPager = (ViewPager) findViewById(R.id.pager);
             mPagerAdapter = new ServiceJobFragmentPagerAdapter(getSupportFragmentManager(),
-                    this.mServiceJobFromBundle);
+                    this.mServiceJobFromBundle,
+                    this.rateList);
             mViewPager.setAdapter(mPagerAdapter);
             mViewPager.setOffscreenPageLimit(3); // Set to Four Pages
             mTabPager = (PagerSlidingTabStrip) findViewById(R.id.tabsStrip);
@@ -108,7 +116,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        backToLandingPage();
+        backToLandingPage(1);
     }
 
     private void createdServiceJob(final ServiceJobWrapper sign) {
@@ -140,7 +148,14 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     }
 
     // ToDO some check if not connected to Internet
-    public void backToLandingPage() {
+
+    /**
+     * This will update/revert the status from the server
+     * Mode 1 - Back to Main Page
+     * Mode 0 - onDestroy
+     * @param mode
+     */
+    public void backToLandingPage(final int mode) {
         ServiceJobBegin_POST beginServiceJob = new ServiceJobBegin_POST();
         beginServiceJob.setOnEventListener(new ServiceJobBegin_POST.OnEventListener() {
             @Override
@@ -150,13 +165,19 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
             }
 
             @Override
+            public void onError(String message) {
+            }
+
+            @Override
             public void onEventResult(WebResponse response) {
-                Intent intent = new Intent(ServiceJobViewPagerActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                Bundle bundle = ActivityOptions.makeCustomAnimation(ServiceJobViewPagerActivity.this,
-                        R.anim.left_to_right, R.anim.right_to_left).toBundle();
-                startActivity(intent, bundle);
-                finish();
+                if (mode == 1) {
+                    Intent intent = new Intent(ServiceJobViewPagerActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Bundle bundle = ActivityOptions.makeCustomAnimation(ServiceJobViewPagerActivity.this,
+                            R.anim.left_to_right, R.anim.right_to_left).toBundle();
+                    startActivity(intent, bundle);
+                    finish();
+                }
             }
         });
         beginServiceJob.postRevertStatus(this.mServiceJobFromBundle.getID(), this.mPreviousStatusFromBundle);
@@ -171,6 +192,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     private ServiceJobWrapper fromBundle() {
         Intent intent = getIntent();
         this.mPreviousStatusFromBundle = intent.getStringExtra(SERVICE_JOB_PREVIOUS_STATUS_KEY);
+        this.rateList = intent.getParcelableArrayListExtra(SERVICE_JOB_PARTS_REPLACEMENT_LIST);
         return this.mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(SERVICE_JOB_SERVICE_KEY);
     }
 
@@ -291,7 +313,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         getFragmentSigningOff().fromActivity_onNewSJEntryAdded(serviceNum);
     }
     @Override
-    public void onSJEntryRenamed(String remarks) {
+    public void onSJEntryUpdated(String remarks) {
         if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onSJEntryRenamed(remarks);
         if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
@@ -373,11 +395,5 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     }
 
     /*********** D. CALLBACKS END from SigningOff_FRGMT_4 ***********/
-
-
-
-
-
-
 
 }

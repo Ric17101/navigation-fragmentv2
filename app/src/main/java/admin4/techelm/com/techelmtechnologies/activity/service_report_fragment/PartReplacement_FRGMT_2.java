@@ -28,11 +28,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -47,6 +49,7 @@ import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter
 import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
@@ -64,6 +67,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
     private static ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
+    private static List<ServiceJobNewReplacementPartsRatesWrapper> mSJRatesList;
 
     // B. CAMERA Controls
     private static final String IMAGE_DIRECTORY = "part_replacement";
@@ -89,12 +93,14 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private MaterialDialog mNewPartDialog;
     private Spinner mSpinnerReplacementParts;
     private Spinner mSpinnerQuantity;
-    private Spinner mSpinnerUnitPrice;
-    private Spinner mSpinnerTotalPrice;
+    // private Spinner mSpinnerUnitPrice;
+    // private Spinner mSpinnerTotalPrice;
+    private TextView mTextViewUnitPrice;
+    private TextView mTextViewTotalPrice;
     private CardView mCardViewNewUpload;
     private ServiceJobNewPartsWrapper mSJPart; // Specifically, we use this global as per Update only of SJNew Parts
 
-    public static PartReplacement_FRGMT_2 newInstance(int position, ServiceJobWrapper serviceJob) {
+    public static PartReplacement_FRGMT_2 newInstance(int position, ServiceJobWrapper serviceJob, List<ServiceJobNewReplacementPartsRatesWrapper> rateList) {
         PartReplacement_FRGMT_2 frag = new PartReplacement_FRGMT_2();
         Bundle args = new Bundle();
 
@@ -102,6 +108,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         frag.setArguments(args);
 
         mServiceJobFromBundle = serviceJob;
+        mSJRatesList = rateList;
         return frag;
     }
 
@@ -212,7 +219,7 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     }
 
     @Override
-    public void onSJEntryRenamed(String fileName) {
+    public void onSJEntryUpdated(String fileName) {
 
     }
 
@@ -267,8 +274,10 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         View dialogView = mNewPartDialog.getCustomView();
         mSpinnerReplacementParts = (Spinner) dialogView.findViewById(R.id.spinnerReplacementParts);
         mSpinnerQuantity = (Spinner) dialogView.findViewById(R.id.spinnerQuantity);
-        mSpinnerUnitPrice = (Spinner) dialogView.findViewById(R.id.spinnerUnitPrice);
-        mSpinnerTotalPrice = (Spinner) dialogView.findViewById(R.id.spinnerTotalPrice);
+        // mSpinnerUnitPrice = (Spinner) dialogView.findViewById(R.id.spinnerUnitPrice);
+        // mSpinnerTotalPrice = (Spinner) dialogView.findViewById(R.id.spinnerTotalPrice);
+        mTextViewUnitPrice = (TextView) dialogView.findViewById(R.id.textViewUnitPrice);
+        mTextViewTotalPrice = (TextView) dialogView.findViewById(R.id.textViewTotalPrice);
     }
 
     private void actionNewPartReplacement(MaterialDialog dialog) {
@@ -282,8 +291,8 @@ public class PartReplacement_FRGMT_2 extends Fragment {
         new NewPartsCreateOperation().execute(
                 mSpinnerReplacementParts.getSelectedItem().toString(),
                 mSpinnerQuantity.getSelectedItem().toString(),
-                mSpinnerUnitPrice.getSelectedItem().toString(),
-                mSpinnerTotalPrice.getSelectedItem().toString()
+                mTextViewUnitPrice.getText().toString(),
+                mTextViewTotalPrice.getText().toString()
         );
     }
 
@@ -296,8 +305,10 @@ public class PartReplacement_FRGMT_2 extends Fragment {
                 .show();
         mSJPart.setReplacementPartName(mSpinnerReplacementParts.getSelectedItem().toString());
         mSJPart.setQuantity(mSpinnerQuantity.getSelectedItem().toString());
-        mSJPart.setUnitPrice(mSpinnerUnitPrice.getSelectedItem().toString());
-        mSJPart.setTotalPrice(mSpinnerTotalPrice.getSelectedItem().toString());
+        // mSJPart.setUnitPrice(mSpinnerUnitPrice.getSelectedItem().toString());
+        // mSJPart.setTotalPrice(mSpinnerTotalPrice.getSelectedItem().toString());
+        mSJPart.setUnitPrice(this.mTextViewUnitPrice.getText().toString());
+        mSJPart.setUnitPrice(this.mTextViewTotalPrice.getText().toString());
         new NewPartsUpdateOperation().execute(mSJPart);
     }
 
@@ -341,6 +352,128 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     }
 
     private void setSpinnerValue(String... spinnerArgs) {
+        populateSpinnerPartsValue(spinnerArgs[0]);
+        populateSpinnerQuantityValue(spinnerArgs[1]);
+        populateSpinnerUnitPriceValue(spinnerArgs[2]);
+        populateSpinnerTotalPriceValue(spinnerArgs[3]);
+    }
+
+    /**
+     * @param compareValue - The actual Value get from SQLite, means local device only
+     */
+    private void populateSpinnerPartsValue(String compareValue) {
+        // 1. Replacement Parts
+        ArrayList<String> newPartsList = new ArrayList<>();
+        for (ServiceJobNewReplacementPartsRatesWrapper rate : mSJRatesList) {
+            newPartsList.add(rate.getPartName());
+        }
+        //newPartsList.add("Part 2");
+        //newPartsList.add("Part 3");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, newPartsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerReplacementParts.setAdapter(adapter);
+        if (!compareValue.equals(null)) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            mSpinnerReplacementParts.setSelection(spinnerPosition);
+        }
+
+        // Listener to Change the Rate of New Parts based on the Selected on the List item
+        mSpinnerReplacementParts.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                computeUnitPrice(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void computeUnitPrice(int position) {
+        // A. Set Unit Price Base
+        mTextViewUnitPrice.setText(mSJRatesList.get(position).getUnitPrice());
+        // computeTotalPrice(position);
+
+        // B
+        double computeTotalPriceByQuantity = 0.00;
+        String strQuantity = mSpinnerQuantity.getSelectedItem().toString();
+        double quantity = ((strQuantity == "0" || strQuantity == "" || strQuantity == null) ? 0.00 : Double.parseDouble(strQuantity));
+        computeTotalPriceByQuantity = (Double.parseDouble(this.mTextViewUnitPrice.getText().toString())) *
+                (quantity);
+        mTextViewTotalPrice.setText(computeTotalPriceByQuantity+"");
+
+        Log.e(TAG, "Quantity = " + strQuantity + "\nUnit Price=" + mSJRatesList.get(position).getUnitPrice()  +  "\nTotalPrice=" + computeTotalPriceByQuantity);
+    }
+
+    private void populateSpinnerQuantityValue(String compareValue) {
+        // 2. Quantity
+        ArrayList<String> newPartsList = new ArrayList<>();
+        newPartsList.add("1");
+        newPartsList.add("2");
+        newPartsList.add("3");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, newPartsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerQuantity.setAdapter(adapter);
+        if (!compareValue.equals(null)) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            mSpinnerQuantity.setSelection(spinnerPosition);
+        }
+
+        mSpinnerQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                computeTotalPrice(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void computeTotalPrice(int position) {
+        // B. Set Total Price based on the poistion of the Spinner and its value from mSJRatesList
+        double computeTotalPriceByQuantity = 0;
+        String strQuantity = mSpinnerQuantity.getSelectedItem().toString();
+        double quantity = ((strQuantity == "0" || strQuantity == "" || strQuantity == null) ? 0.00 : Double.parseDouble(strQuantity));
+        String strUnitPrice = this.mTextViewUnitPrice.getText().toString();
+        double unitPrice = ((strUnitPrice == "0" || strUnitPrice == "" || strUnitPrice == null) ? 1.00 : Double.parseDouble(strUnitPrice));
+
+        computeTotalPriceByQuantity = (unitPrice) * (quantity);
+
+        mTextViewTotalPrice.setText(computeTotalPriceByQuantity+"");
+    }
+
+    private String addTrailingZeroTo2DecimalPoint(String price) {
+        if (price.indexOf(".") != -1) {
+            String[] decimal = price.split(".");
+            if (decimal[1].length() == 2) {
+
+            } else {
+                return price + "0";
+            }
+        }
+        return price;
+    }
+
+
+    private void populateSpinnerUnitPriceValue(String compareValue) {
+        // 3. Unit Price
+        mTextViewUnitPrice.setText(compareValue);
+    }
+
+    private void populateSpinnerTotalPriceValue(String compareValue) {
+        // 4. Total Price
+        this.mTextViewTotalPrice.setText(compareValue);
+    }
+
+    /*******************************/
+    /*private void setSpinnerValue(String... spinnerArgs) {
         populateSpinnerPartsValue(spinnerArgs[0]);
         populateSpinnerQuantityValue(spinnerArgs[1]);
         populateSpinnerUnitPriceValue(spinnerArgs[2]);
@@ -408,7 +541,8 @@ public class PartReplacement_FRGMT_2 extends Fragment {
             int spinnerPosition = adapter.getPosition(compareValue);
             mSpinnerTotalPrice.setSelection(spinnerPosition);
         }
-    }
+    }*/
+    /*******************************/
 
     private class NewPartsUpdateOperation extends AsyncTask<ServiceJobNewPartsWrapper, Void, ServiceJobNewPartsWrapper> {
         @Override

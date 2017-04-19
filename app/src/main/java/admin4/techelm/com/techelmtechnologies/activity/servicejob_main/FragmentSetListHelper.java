@@ -41,7 +41,8 @@ public class FragmentSetListHelper {
                 break;
             case SERVICE_JOB_COMPLETED: status = "Completed";
                 break;
-            case SERVICE_JOB_ON_PROCESS:
+            case SERVICE_JOB_ON_PROCESS: status = "On Process";
+                break;
             case SERVICE_JOB_PENDING: status = "Pending";
                 break;
             default : status = "";
@@ -75,8 +76,8 @@ public class FragmentSetListHelper {
     // Called in ServiceJobAdapter
     public String setTaskText(String taskText) {
         switch (taskText) {
+            case SERVICE_JOB_ON_PROCESS: //  taskText = "<u><b>Pending</b></u>"; // Should this be Continue to whom it has been opened??
             case SERVICE_JOB_UNSIGNED:
-            case SERVICE_JOB_ON_PROCESS:
             case SERVICE_JOB_PENDING: taskText = "<u><b>Continue >></b></u>";
                 break;
             case SERVICE_JOB_NEW: taskText = "<u><b>Begin Task >></b></u>";

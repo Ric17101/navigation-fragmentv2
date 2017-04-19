@@ -289,7 +289,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
             mSJDB.close();
         //}
         mEditTextRemarks.setText(remarks);
-        mEditTextRemarks.setOnTouchListener(new View.OnTouchListener() {
+        /*mEditTextRemarks.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -309,7 +309,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 }
                 return false;
             }
-        });
+        });*/
         /*mEditTextRemarks.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mEditTextRemarks.setRawInputType(InputType.TYPE_CLASS_TEXT);*/
         /*mEditTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -354,6 +354,10 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         mSJDB.updateRequestIDRemarks_AFTER(mServiceID, remarks);
         mSJDB.close();
         Log.e(TAG, "AFTERsaveRemarksOnThread++");
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content), "Remarks saved.")
+                .setColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
     }
 
     public MaterialDialog showEditViewRemarksDialog(String remarks) {

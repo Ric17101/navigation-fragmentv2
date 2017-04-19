@@ -313,7 +313,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
         System.out.print("onNewSJEntryAdded: Called");
     }
     public void fromActivity_onSJEntryRenamed(String fileName) {
-        System.out.print("onSJEntryRenamed: Called");
+        System.out.print("onSJEntryUpdated: Called");
     }
     public void fromActivity_onSJEntryDeleted() {
         System.out.print("onSJEntryDeleted: Called");
@@ -356,8 +356,9 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         @Override
         protected ServiceJobWrapper doInBackground(String... params) {
-            aHasRecordings = testIfRecordingsHasRecordings();
-            aHasUploads = testIfUploadsHasCaptures();
+            // These newxt 2 Lines will validate
+            // aHasRecordings = testIfRecordingsHasRecordings();
+            // aHasUploads = testIfUploadsHasCaptures();
 
             // Get Service Job Details
             ServiceJobWrapper sjw = getSJDetails();
@@ -490,7 +491,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
             NotificationManager notificationManager =
                     (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(notificationId, repliedNotification);
-            /*NotificationCompat.Builder mBuilder =
+            /*
+            NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(getActivity())
                             .setSmallIcon(R.mipmap.ic_upload)
                             .setContentTitle("Simple notification")
@@ -499,7 +501,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
             NotificationManager notificationManager =(NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
             //to post your notification to the notification bar
-            notificationManager.notify(0 , mBuilder.build());*/
+            notificationManager.notify(0 , mBuilder.build());
+            */
         }
 
         // 1.a SET UP ACTIVITY PENDING EVENT
@@ -694,7 +697,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+            uploadTask.incrementProgressNotification(PROGRESS_NEW_PARTS);
         }
     }
 
@@ -751,12 +754,12 @@ public class SigningOff_FRGMT_4 extends Fragment {
             }
             post.startUpload();
         } else {
-            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+            uploadTask.incrementProgressNotification(PROGRESS_CAPTURES);
         }
     }
 
     private boolean testIfUploadsIsNotBlank(List<ServiceJobUploadsWrapper> mUploadResults) {
-        if (mUploadResults == null) {
+        if (mUploadResults == null || mUploadResults.size() == 0) {
             return false;
         }
         int resultCount = mUploadResults.size();
@@ -783,9 +786,10 @@ public class SigningOff_FRGMT_4 extends Fragment {
         mRecordingsDB.close();
 
         boolean hasRecordings = testIfRecordingsIsNotBlank(mRecordResults);
+        Log.e(TAG, "hasRecordings=" + hasRecordings);
 
         if (mRecordResults != null && hasRecordings) { // Data has been read
-            Log.e(TAG, mRecordResults.toString());
+            //Log.e(TAG, mRecordResults.toString());
             ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST();
             int counter = 1;
             for (ServiceJobRecordingWrapper sjrw : mRecordResults) {
@@ -819,13 +823,13 @@ public class SigningOff_FRGMT_4 extends Fragment {
             }
             post.startUpload();
         } else {
-            uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+            uploadTask.incrementProgressNotification(PROGRESS_RECORDINGS);
         }
     }
 
 
     private boolean testIfRecordingsIsNotBlank(List<ServiceJobRecordingWrapper> mRecordResults) {
-        if (mRecordResults == null) {
+        if (mRecordResults == null || mRecordResults.size() == 0) {
             return false;
         }
         int resultCount = mRecordResults.size();

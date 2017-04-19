@@ -9,6 +9,11 @@
             android:icon="@mipmap/nav1_icon"
             android:title="SERVICES JOB" />
         <item
+            android:id="@+id/nav_projectjobs"
+            android:checked="true"
+            android:icon="@mipmap/nav1_icon"
+            android:title="PROJECT JOB" />
+        <item
             android:id="@+id/nav_checklist"
             android:icon="@mipmap/nav2_icon"
             android:title="SITE WALK CHECKLIST" />

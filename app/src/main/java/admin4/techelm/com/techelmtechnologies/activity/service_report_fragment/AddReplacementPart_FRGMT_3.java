@@ -129,7 +129,7 @@ public class AddReplacementPart_FRGMT_3 extends Fragment {
         spinnerQuantity = (Spinner) view.findViewById(R.id.spinnerQuantity);
         spinnerQuantity.setAdapter(adapter2);
 
-        // Spinner 3
+        /*// Spinner 3
         options.add("option 5");
         ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, options);
         spinnerUnitPrice = (Spinner) view.findViewById(R.id.spinnerUnitPrice);
@@ -139,7 +139,7 @@ public class AddReplacementPart_FRGMT_3 extends Fragment {
         options.add("option 6");
         ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, options);
         spinnerTotalPrice = (Spinner) view.findViewById(R.id.spinnerTotalPrice);
-        spinnerTotalPrice.setAdapter(adapter4);
+        spinnerTotalPrice.setAdapter(adapter4);*/
     }
 
 }

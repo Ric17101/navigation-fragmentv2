@@ -90,3 +90,10 @@ DATE 17/04/2017
 
     Will only hv two button - Begin task OR Continue
     Richard - can you state the ’report status’ that we discussed last time at here
+
+DATE 18/04/2017
+
+    Yes ~ for now you create the demo data first
+    Make the total price auto calculate
+
+    OK ~ for section A - the before and after tab - user can choose to not input the image or audio

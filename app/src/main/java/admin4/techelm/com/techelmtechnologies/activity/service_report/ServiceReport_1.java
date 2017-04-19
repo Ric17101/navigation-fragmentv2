@@ -251,7 +251,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     }
 
     @Override
-    public void onSJEntryRenamed(String fileName) {
+    public void onSJEntryUpdated(String fileName) {
 
     }
 

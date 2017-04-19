@@ -20,6 +20,9 @@ import android.widget.LinearLayout;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import admin4.techelm.com.techelmtechnologies.R;
@@ -35,10 +38,12 @@ import admin4.techelm.com.techelmtechnologies.activity.service_report.ServiceRep
 import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.ServiceJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.ServiceJobFragmentTab;
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
@@ -164,7 +169,6 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void init_DrawerNav() {
-
         /**
          *Setup the DrawerLayout and NavigationView
          */
@@ -190,11 +194,15 @@ public class MainActivity extends FragmentActivity implements
                 menuItem.setChecked(true); // Set Active Tab
 
                 switch (menuItem.getItemId()) {
-                    case R.id.nav_servicejobs:
+                    case R.id.nav_servicejobs :
                         FragmentTransaction serviceJobFragmentTransaction = mFragmentManager.beginTransaction();
                         serviceJobFragmentTransaction.replace(R.id.containerView, new ServiceJobFragmentTab()).commit();
                         break;
-                    case R.id.nav_checklist:
+                    case R.id.nav_projectjobs :
+                        FragmentTransaction serviceProjectFragmentTransaction = mFragmentManager.beginTransaction();
+                        serviceProjectFragmentTransaction.replace(R.id.containerView, new ProjectJobFragment()).commit();
+                        break;
+                    case R.id.nav_checklist :
                         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.containerView, new ProjectJobFragment()).commit();
 
@@ -202,7 +210,7 @@ public class MainActivity extends FragmentActivity implements
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         overridePendingTransition(R.anim.enter, R.anim.exit);*/
                         break;
-                    case R.id.nav_process_pe:
+                    case R.id.nav_process_pe :
                         FragmentTransaction fragmentProcessTransaction = mFragmentManager.beginTransaction();
 
                         /*Bundle arguments = new Bundle();
@@ -211,12 +219,12 @@ public class MainActivity extends FragmentActivity implements
 
                         fragmentProcessTransaction.replace(R.id.containerView, new PrimaryFragment()).commit();
                         break;
-                    case R.id.nav_process_eps:
+                    case R.id.nav_process_eps :
                         startActivity(new Intent(MainActivity.this, ServiceReport_1.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         overridePendingTransition(R.anim.enter, R.anim.exit);
                         break;
-                    case R.id.nav_toolbox:
+                    case R.id.nav_toolbox :
                         FragmentTransaction sampleFragmentTransaction = mFragmentManager.beginTransaction();
                         sampleFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
                         break;
@@ -279,8 +287,15 @@ public class MainActivity extends FragmentActivity implements
             case ACTION_VIEW_DETAILS : // Show Details of SJ on MDialog
                 showMDialogSJDetails(serviceJob);
                 break;
-            case ACTION_EDIT_JOB_SERVICE : // Show Details on ServiceReport_FRGMT_BEFORE View
             case ACTION_ALREADY_ON_PROCESS :
+                /*
+                SnackBarNotificationUtil
+                        .setSnackBar(findViewById(android.R.id.content), "Currently on process.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
+                break;
+                */
+            case ACTION_EDIT_JOB_SERVICE : // Show Details on ServiceReport_FRGMT_BEFORE View
                 confirmContinueTaskMDialog(serviceJob);
                 break;
             case ACTION_BEGIN_JOB_SERVICE : // Confirm Begin Task
@@ -311,7 +326,7 @@ public class MainActivity extends FragmentActivity implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        serviceJobStarTask(serviceJob, ACTION_BEGIN_JOB_SERVICE);
+                        serviceJobUpdateStatus(serviceJob, ACTION_BEGIN_JOB_SERVICE);
                     }
                 }).build();
 
@@ -338,9 +353,9 @@ public class MainActivity extends FragmentActivity implements
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         switch (serviceJob.getStatus()) {
                             case SERVICE_JOB_PENDING :
-                            case SERVICE_JOB_UNSIGNED : serviceJobStarTask(serviceJob, ACTION_EDIT_JOB_SERVICE);
+                            case SERVICE_JOB_UNSIGNED : serviceJobUpdateStatus(serviceJob, ACTION_EDIT_JOB_SERVICE);
                                 break;
-                            case SERVICE_JOB_ON_PROCESS : serviceJobStarTask(serviceJob, ACTION_ALREADY_ON_PROCESS);
+                            case SERVICE_JOB_ON_PROCESS : serviceJobUpdateStatus(serviceJob, ACTION_ALREADY_ON_PROCESS);
                                 break;
                         }
                     }
@@ -353,11 +368,12 @@ public class MainActivity extends FragmentActivity implements
 
     /**
      * This redirect to the SeriveJobViewPagerActivity considering the mode
+     * This Update the ServiceJob Status to OnProcess while being updated by the current user
      * @param serviceJob - data to process
      * @param mode - mode being done
      */
-    private void serviceJobStarTask(final ServiceJobWrapper serviceJob, final int mode) {
-        ServiceJobBegin_POST beginServiceJob = new ServiceJobBegin_POST();
+    private void serviceJobUpdateStatus(final ServiceJobWrapper serviceJob, final int mode) {
+        final ServiceJobBegin_POST beginServiceJob = new ServiceJobBegin_POST();
         beginServiceJob.setOnEventListener(new ServiceJobBegin_POST.OnEventListener() {
             @Override
             public void onEvent() {
@@ -366,8 +382,13 @@ public class MainActivity extends FragmentActivity implements
             }
 
             @Override
+            public void onError(String message) {
+                // TODO: Close progress dialog then try again if connected to internet
+            }
+
+            @Override
             public void onEventResult(WebResponse response) {
-                proceedViewPagerActivity(serviceJob, serviceJob.getStatus());
+                servicesJobStarTask(serviceJob, serviceJob.getStatus());
             }
         });
 
@@ -379,21 +400,68 @@ public class MainActivity extends FragmentActivity implements
                    - User re-open the app,
                    - or closed the app intentionally
             */
-            case ACTION_ALREADY_ON_PROCESS : proceedViewPagerActivity(serviceJob, serviceJob.getStatus()); break;
+            case ACTION_ALREADY_ON_PROCESS : servicesJobStarTask(serviceJob, serviceJob.getStatus()); break;
         }
+    }
+
+    /**
+     * This is Called After serviceJobUpdateStatus()
+     *  postGetListOfReplacementPartsDate
+     *  Then will populate the List of New Replacement Parts Rate For the Form,
+     *  if error, then will not proceed to Form/Update/Begin Task
+     * @param serviceJob
+     * @param status
+     */
+    private void servicesJobStarTask(final ServiceJobWrapper serviceJob, final String status) {
+        final ServiceJobBegin_POST beginServiceJob = new ServiceJobBegin_POST();
+        beginServiceJob.setOnEventListener(new ServiceJobBegin_POST.OnEventListener() {
+            @Override
+            public void onEvent() {
+                // TODO: Close progress dialog here
+                // TODO: Test Response if OK or not
+            }
+
+            @Override
+            public void onError(String message) {
+                // TODO: Close progress dialog then try again if connected to internet
+            }
+
+            @Override
+            public void onEventResult(WebResponse response) {
+                proceedViewPagerActivity(serviceJob, status, response.getStringResponse());
+            }
+        });
+
+        // To Start the Activity
+        beginServiceJob.postGetListOfReplacementPartsDate();
     }
 
     /**
      * Proceed to EDIT, BEGIN, SIGN or UNSIGNED the ServiceJob
      * @param serviceJob - Data to process
      * @param mode - mode of process or action
+     * @param JSONListPartsRate
      */
-    private void proceedViewPagerActivity(ServiceJobWrapper serviceJob, String mode) {
-        startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
-            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            .putExtra(SERVICE_JOB_SERVICE_KEY, serviceJob)
-            .putExtra(SERVICE_JOB_PREVIOUS_STATUS_KEY, mode));
-        overridePendingTransition(R.anim.enter, R.anim.exit);
+    private void proceedViewPagerActivity(ServiceJobWrapper serviceJob, String mode, String JSONListPartsRate) {
+        try {
+            ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList = new ConvertJSON().getResponseJSONPartReplacementRate(JSONListPartsRate);
+            Log.e(TAG, rateList.toString());
+
+            startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .putExtra(SERVICE_JOB_SERVICE_KEY, serviceJob)
+                    .putExtra(SERVICE_JOB_PREVIOUS_STATUS_KEY, mode)
+                    .putExtra(SERVICE_JOB_PARTS_REPLACEMENT_LIST, rateList));
+            overridePendingTransition(R.anim.enter, R.anim.exit);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Will Prpomt User that Prices for the form isnot ok
+        SnackBarNotificationUtil
+                .setSnackBar(findViewById(android.R.id.content), "Error on Parsing Parts Replacement Rates")
+                .setColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
     }
 
     /**

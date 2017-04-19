@@ -153,5 +153,6 @@
             android:theme="@style/AppTheme" />
 
         <service android:name="admin4.techelm.com.techelmtechnologies.utility.RecordingService" />
+
     </application>
 </manifest>

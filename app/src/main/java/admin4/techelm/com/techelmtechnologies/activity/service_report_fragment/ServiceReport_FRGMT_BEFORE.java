@@ -234,7 +234,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 // Delete the Service Job from SQLite DB on Back
                 hideKeyboard();
                 ((ServiceJobViewPagerActivity)getActivity()).deleteServiceJob();
-                ((ServiceJobViewPagerActivity)getActivity()).backToLandingPage();
+                ((ServiceJobViewPagerActivity)getActivity()).backToLandingPage(1);
             }
         });
 
@@ -290,7 +290,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         /*mEditTextRemarks.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mEditTextRemarks.setRawInputType(InputType.TYPE_CLASS_TEXT);*/
 
-        mEditTextRemarks.setOnTouchListener(new View.OnTouchListener() {
+        /*mEditTextRemarks.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -310,7 +310,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 }
                 return false;
             }
-        });
+        });*/
 
         /*mEditTextRemarks.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -357,6 +357,10 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         mSJDB.updateRequestIDRemarks_BEFORE(mServiceID, remarks);
         mSJDB.close();
         Log.e(TAG, "BEFOREsaveRemarksOnThread++");
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content), "Remarks saved.")
+                .setColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
     }
 
     public MaterialDialog showEditViewRemarksDialog(String remarks) {

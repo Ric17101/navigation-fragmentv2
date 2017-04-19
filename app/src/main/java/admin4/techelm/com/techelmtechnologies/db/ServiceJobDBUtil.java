@@ -3,7 +3,6 @@ package admin4.techelm.com.techelmtechnologies.db;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
@@ -12,8 +11,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.UserLoginWrapper;
 
@@ -69,7 +66,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
      */
     public interface OnDatabaseChangedListener {
         void onNewSJEntryAdded(String serviceNum);
-        void onSJEntryRenamed(String remarks);
+        void onSJEntryUpdated(String remarks);
         void onSJEntryDeleted();
     }
     /**
@@ -361,7 +358,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id, null);
         Log.e(LOG_TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onSJEntryRenamed(remarks);
+            mOnDatabaseChangedListener.onSJEntryUpdated(remarks);
         }
     }
 
@@ -382,7 +379,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
             ((Activity)getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mOnDatabaseChangedListener.onSJEntryRenamed(remarks);
+                    mOnDatabaseChangedListener.onSJEntryUpdated(remarks);
                 }
             });
         }
@@ -401,7 +398,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id, null);
         Log.e(LOG_TAG, "updateRequestIDRemarks_AFTER ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onSJEntryRenamed(remarks);
+            mOnDatabaseChangedListener.onSJEntryUpdated(remarks);
         }
     }
 
@@ -415,7 +412,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         Log.e(LOG_TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
 
         if (mOnDatabaseChangedListener != null) {
-            // mOnDatabaseChangedListener.onSJEntryRenamed(item.getServiceNumber());
+            // mOnDatabaseChangedListener.onSJEntryUpdated(item.getServiceNumber());
         }
     }
 
@@ -531,7 +528,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + item.getID(), null);
 
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onSJEntryRenamed(item.getServiceNumber());
+            mOnDatabaseChangedListener.onSJEntryUpdated(item.getServiceNumber());
         }
     }
 

@@ -188,7 +188,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
     }
 
     @Override
-    public void onSJEntryRenamed(String fileName) {
+    public void onSJEntryUpdated(String fileName) {
 
     }
 

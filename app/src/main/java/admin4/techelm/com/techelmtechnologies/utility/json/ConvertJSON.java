@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 public class ConvertJSON {
@@ -22,9 +23,7 @@ public class ConvertJSON {
     private static final String SJ_LIST_DELIM = ":-:";
     private boolean mResult = false;
 
-    public ConvertJSON() {
-
-    }
+    public ConvertJSON() { }
 
     /**
      * FALSE - BAD
@@ -164,7 +163,8 @@ public class ConvertJSON {
 
         Log.d(TAG, "Status" + json.getInt("status")+"");
         Log.d(TAG, "data " + ob1.toString());
-        Log.d(TAG, "parts_name " + jsonArray.getJSONObject(0).getString("parts_name"));
+        if (jsonArray.length() != 0)
+            Log.d(TAG, "parts_name " + jsonArray.getJSONObject(0).getString("parts_name"));
         /*
         int i = 0;
         do { // 24
@@ -175,5 +175,52 @@ public class ConvertJSON {
         } while (jsonLen > i);
         */
         return "UPDATE " + jsonArray.length() + "New Replacement Parts.";
+    }
+
+    /**
+     * Used to List the Parts Name and Unit Price on the Form before submission
+     * @param JSONResult
+     * @return
+     * @throws JSONException
+     */
+    public ArrayList<ServiceJobNewReplacementPartsRatesWrapper> getResponseJSONPartReplacementRate(String JSONResult) throws JSONException {
+        ArrayList<ServiceJobNewReplacementPartsRatesWrapper> partsRateList = new ArrayList<>();
+
+        // this.mResult = parsedServiceJob.size() >= 0;
+
+        JSONObject json = new JSONObject(JSONResult);
+        String str = "";
+
+        //JSONArray jsonArray = json.getJSONArray("uploaded_file");
+        // JSONObject ob1 = json.getJSONObject("parts_rates");
+        JSONArray jsonArray = json.getJSONArray("parts_rates");
+
+        int jsonLen = jsonArray.length();
+        this.mResult = jsonLen >= 0;
+
+        //Log.d(TAG, "Status" + json.getInt("status") + "");
+        Log.d(TAG, "data " + json.toString());
+        if (jsonLen == 0) {
+            return null;
+        } else {
+            Log.d(TAG, "parts_name " + jsonArray.getJSONObject(0).getString("parts_name"));
+        }
+        int i = 0;
+        do { // 24
+            ServiceJobNewReplacementPartsRatesWrapper rate = new ServiceJobNewReplacementPartsRatesWrapper();
+
+            JSONObject row = jsonArray.getJSONObject(i);
+            rate.setId(Integer.parseInt(row.getString("id")));
+            rate.setReplacementPartName(row.getString("parts_name"));
+            rate.setUnitPrice(row.getString("unit_price"));
+            rate.setDescription(row.getString("description"));
+            // Log.d(TAG, jsonArray.getJSONObject(i););
+            partsRateList.add(rate);
+            i++;
+        } while (jsonLen > i);
+
+        // return "UPDATE " + jsonArray.length() + "New Replacement Parts.";
+
+        return partsRateList;
     }
 }

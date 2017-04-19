@@ -120,17 +120,6 @@ public class AddReplacementPart_3 extends AppCompatActivity {
         spinnerQuantity = (Spinner) findViewById(R.id.spinnerQuantity);
         spinnerQuantity.setAdapter(adapter2);
 
-        // Spinner 3
-        options.add("option 5");
-        ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
-        spinnerUnitPrice = (Spinner) findViewById(R.id.spinnerUnitPrice);
-        spinnerUnitPrice.setAdapter(adapter3);
-
-        // Spinner 4
-        options.add("option 6");
-        ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
-        spinnerTotalPrice = (Spinner) findViewById(R.id.spinnerTotalPrice);
-        spinnerTotalPrice.setAdapter(adapter4);
     }
 
 }

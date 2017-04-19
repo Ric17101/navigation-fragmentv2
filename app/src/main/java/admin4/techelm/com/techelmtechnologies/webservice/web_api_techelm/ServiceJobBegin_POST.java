@@ -1,5 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm;
 
+import android.util.Log;
 import android.view.View;
 
 import java.text.SimpleDateFormat;
@@ -11,6 +12,8 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
+
 /**
  * Created by admin 4 on 17/03/2017.
  * This call run on Working Thread Alraedy
@@ -20,8 +23,6 @@ import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
 public class ServiceJobBegin_POST {
 
-    private static final String SERVICE_JOB_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/";
     private PostCommand postCommand;
     public static final String TAG = "ServiceJobBegin_POST";
 
@@ -32,7 +33,8 @@ public class ServiceJobBegin_POST {
     }
 
     public interface OnEventListener {
-        void onEvent();
+        void onEvent(); // May be send error or ok message
+        void onError(String message);
         void onEventResult(WebResponse response);
     }
 
@@ -42,7 +44,7 @@ public class ServiceJobBegin_POST {
     public void postStartDate(int id) {
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        String url = SERVICE_JOB_URL + "save_start_date";
+        String url = SERVICE_JOB_UPLOAD_URL + "save_start_date";
         webServiceInfo.setUrl(url);
 
     /*add parameter*/
@@ -59,7 +61,7 @@ public class ServiceJobBegin_POST {
     public void postContinueDate(int id) {
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        String url = SERVICE_JOB_URL + "save_continue_start_date";
+        String url = SERVICE_JOB_UPLOAD_URL + "save_continue_start_date";
         webServiceInfo.setUrl(url);
 
     /*add parameter*/
@@ -73,10 +75,35 @@ public class ServiceJobBegin_POST {
         executeWebServiceRequest();
     }
 
+    public void postGetListOfReplacementPartsDate() {
+    /*web info*/
+        WebServiceInfo webServiceInfo = new WebServiceInfo();
+        String url = SERVICE_JOB_UPLOAD_URL + "get_part_replacement_rates";
+        webServiceInfo.setUrl(url);
+
+    /*add parameter*/
+        webServiceInfo.addParam("id", "test");
+        //webServiceInfo.addParam("start_task_time", getCurrentDateTime());
+
+    /*postStartDate command*/
+        postCommand = new PostCommand(webServiceInfo);
+
+    /*request*/
+        executeWebServiceRequest();
+    }
+
+    /**
+     * On Event when:
+     *  - onBackPress
+     *  - onDestroy
+     *  - on Button Back
+     * @param id
+     * @param status
+     */
     public void postRevertStatus(int id, String status) {
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        String url = SERVICE_JOB_URL + "save_revert_status";
+        String url = SERVICE_JOB_UPLOAD_URL + "save_revert_status";
         webServiceInfo.setUrl(url);
 
     /*add parameter*/
@@ -90,6 +117,7 @@ public class ServiceJobBegin_POST {
         executeWebServiceRequest();
     }
 
+    // TODO: parse reponse
     private void executeWebServiceRequest() {
         WebServiceRequest webServiceRequest = new WebServiceRequest(postCommand);
         webServiceRequest.execute();
@@ -98,7 +126,10 @@ public class ServiceJobBegin_POST {
             public void onServiceCallback(WebResponse response) {
                 if (mOnEventListener != null) {
                     // mOnEventListener.onEvent();
+                    Log.e(TAG,  response.getStringResponse());
                     mOnEventListener.onEventResult(response);
+                } else {
+                    mOnEventListener.onError("Error. Try again later.");
                 }
             }
         });
