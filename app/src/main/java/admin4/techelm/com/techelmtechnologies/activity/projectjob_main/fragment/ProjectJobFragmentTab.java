@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFragmentTest;
@@ -62,6 +63,11 @@ public class ProjectJobFragmentTab extends Fragment {
          *Inflate tab_layout and setup Views.
          */
         View view = inflater.inflate(R.layout.tab_layout, null); // View x = inflater.inflate(R.layout.tab_layout, container, false);
+
+        // Just to show the Header Layout ONLY FOR THE ProjectJob - SECTION B
+        LinearLayout projectJobLayoutHeader = (LinearLayout) view.findViewById(R.id.projectJobLayoutHeader);
+        projectJobLayoutHeader.setVisibility(View.VISIBLE);
+
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         hScrollViewTab = (HorizontalScrollView) view.findViewById(R.id.hScrollViewTab);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
@@ -197,11 +203,11 @@ public class ProjectJobFragmentTab extends Fragment {
         private CharSequence setPageTitleB1(int position) {
             switch (position) {
                 case 0:
-                    return "Task list";
+                    return "TASK LIST";
                 case 1:
-                    return "Drawing";
+                    return "DRAWING";
                 case 2:
-                    return "Remarks";
+                    return "REMARKS";
             }
             return "";
         }
@@ -209,11 +215,11 @@ public class ProjectJobFragmentTab extends Fragment {
         private CharSequence setPageTitleB2B3(int position) {
             switch (position) {
                 case 0:
-                    return "Task list";
+                    return "TASK LIST";
                 case 1:
-                    return "In-process inspection";
+                    return "IN-PROCESS INSPECTION";
                 case 2:
-                    return "Completion date";
+                    return "COMPLETION DATE";
             }
             return "";
         }

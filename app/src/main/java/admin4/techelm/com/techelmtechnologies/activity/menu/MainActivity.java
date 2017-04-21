@@ -153,7 +153,8 @@ public class MainActivity extends FragmentActivity implements
         if (this.mProjectJobFormSelectorDialog != null)
             this.mProjectJobFormSelectorDialog.dismiss();
     }
-    /*@Override
+    /*
+    @Override
     public void onStart() {
         super.onStart();
     }
@@ -161,7 +162,8 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onResume() {
         super.onResume();
-    }*/
+    }
+    */
 
     private void logout() {
         if (new JSONHelper().isConnected(this)) {

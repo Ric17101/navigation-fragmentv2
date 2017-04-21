@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -80,7 +79,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projectjob);
+        setContentView(R.layout.activity_projectjob_list);
 
         fromBundle();
 
@@ -178,7 +177,8 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         switch(mode) {
             case ACTION_START_TASK:
                 Log.e(TAG, "This is ACTION_START_TASK");
-                showUpdateComment();
+                // showUpdateComment();
+                showProjectTaskForm();
                 //fromFragmentNavigate(1);
                 break;
             case ACTION_CONTINUE_TASK:
@@ -193,26 +193,6 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 Log.e(TAG, "This is ACTION_VIEW_TASK");
                 break;
         }
-    }
-
-    private void showMDialogSJDetails(ServiceJobWrapper serviceJob) {
-        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
-                .title("PROJECT JOB " + serviceJob.getServiceNumber())
-                .customView(R.layout.i_labels_report_details_modal, true)
-                .limitIconToDefaultSize()
-                .positiveText("OK")
-                .iconRes(R.mipmap.view_icon)
-                .autoDismiss(false)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                }).build();
-
-        new PopulateServiceJobViewDetails()
-                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);
-        md.show();
     }
 
     /**
@@ -259,7 +239,50 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     */
 
     /*************** B1 - Pre Installation Site Survey ***************/
+    private void showMDialogSJDetails(ServiceJobWrapper serviceJob) {
+        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+                .title("PROJECT JOB " + serviceJob.getServiceNumber())
+                .customView(R.layout.i_labels_report_details_modal, true)
+                .limitIconToDefaultSize()
+                .positiveText("OK")
+                .iconRes(R.mipmap.view_icon)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).build();
 
+        new PopulateServiceJobViewDetails()
+                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);
+        md.show();
+    }
+
+    public void showProjectTaskForm() {
+        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+                .title("Project Job Form")
+                .customView(R.layout.m_project_task_form, true)
+                .limitIconToDefaultSize()
+                .positiveText("SAVE")
+                .negativeText("CLOSE")
+                .iconRes(R.mipmap.edit_icon)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+        md.show();
+    }
 
     /*************** END B1 - Pre Installation Site Survey ***************/
 

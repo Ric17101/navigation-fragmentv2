@@ -1,6 +1,5 @@
-package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1;
+package admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,23 +12,16 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 
 /**
- * Created by Ratan on 7/29/2015.
+ *
  */
-public class DrawingFragmentTest extends Fragment {
-
-    private Context mContext;
-
+public class AttendanceFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.content_drawing_layout_test, container, false);
 
-        this.mContext = container.getContext();
-
+        View view = inflater.inflate(R.layout.attendance_layout, null);
         initButton(view);
-
         return view;
     }
     /**
@@ -39,12 +31,13 @@ public class DrawingFragmentTest extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        System.out.println("Drawing, currently under construction");
+        System.out.println("remarks, currently under construction");
     }
+
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        System.out.println("Drawing, currently under construction");
+        System.out.println("remarks, currently under construction");
     }
 
     private void initButton(View view) {
@@ -58,7 +51,6 @@ public class DrawingFragmentTest extends Fragment {
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);*/
                 ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(-1);
-
             }
         });
 

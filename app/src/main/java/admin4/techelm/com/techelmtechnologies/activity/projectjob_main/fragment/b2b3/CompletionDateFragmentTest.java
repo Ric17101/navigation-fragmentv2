@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_3;
@@ -29,7 +28,7 @@ public class CompletionDateFragmentTest extends Fragment  {
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i("Main","Completion Date xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        View view = inflater.inflate(R.layout.completion_date,container,false);
+        View view = inflater.inflate(R.layout.content_completion_date,container,false);
 
         initButton(view);
 

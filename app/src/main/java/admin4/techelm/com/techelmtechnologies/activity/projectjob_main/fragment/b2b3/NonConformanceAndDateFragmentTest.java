@@ -28,7 +28,7 @@ public class NonConformanceAndDateFragmentTest extends Fragment  {
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i("Main","yooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        View view = inflater.inflate(R.layout.b2_foms_conform_date,container,false);
+        View view = inflater.inflate(R.layout.content_b2_foms_conform_date,container,false);
 
         editTextB2RectificationDate = (EditText) view.findViewById(R.id.editTextB2RectificationDate);
         editTextB2RectificationDate.setOnClickListener(new View.OnClickListener() {

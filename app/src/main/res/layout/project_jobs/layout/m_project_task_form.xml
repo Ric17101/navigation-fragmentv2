@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/activity_horizontal_margin">
+
+    <TableLayout
+        android:id="@+id/TableLayoutLabels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="fill_vertical"
+                android:text="Property Office"
+                android:textStyle="normal|bold" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="fill_vertical"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/editTextPO"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="fill_vertical"
+                android:textSize="14sp" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="fill_vertical"
+                android:text="Tel"
+                android:textStyle="normal|bold" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="fill_vertical"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/editTextPOTel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="fill_vertical"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="fill_vertical"
+                android:text="Branch"
+                android:textStyle="normal|bold" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="fill_vertical"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/editTextPOBranch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="fill_vertical"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="fill_vertical"
+                android:text="Mobile"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="fill_vertical"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/editTextPOMobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="fill_vertical"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="fill_vertical"
+                android:text="TC LEW"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="fill_vertical"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/editTextTC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="fill_vertical"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="fill_vertical"
+                android:text="Tel"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="fill_vertical"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/editTextTCTel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="fill_vertical"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabel18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="fill_vertical"
+                android:text="Email"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textViewLabel11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="fill_vertical"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/editTextTCEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="fill_vertical"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textViewLabel15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="fill_vertical"
+                android:text="Mobile"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textViewLabel14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="fill_vertical"
+                android:text=":" />
+
+            <EditText
+                android:id="@+id/editTextTCMobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="fill_vertical"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="-6sp">
+
+            <include
+                layout="@layout/i_edit_text_remarks"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

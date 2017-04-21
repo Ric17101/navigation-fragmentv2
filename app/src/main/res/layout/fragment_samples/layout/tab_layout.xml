@@ -5,6 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <include layout="@layout/i_project_job_header" />
+
     <HorizontalScrollView
         android:id="@+id/hScrollViewTab"
         android:layout_width="fill_parent"
@@ -17,12 +19,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary1"
+            android:focusable="true"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/white"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/white"
-            android:focusable="true"
-            app:tabTextColor="@color/white"/>
+            app:tabTextColor="@color/white" />
+
     </HorizontalScrollView>
 
     <android.support.v4.view.ViewPager
@@ -31,7 +34,5 @@
         android:layout_height="match_parent">
 
     </android.support.v4.view.ViewPager>
-
-
 
 </LinearLayout>

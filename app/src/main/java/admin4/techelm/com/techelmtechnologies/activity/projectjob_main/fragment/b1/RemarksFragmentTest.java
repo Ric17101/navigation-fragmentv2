@@ -20,7 +20,7 @@ public class RemarksFragmentTest extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.remarks_layout_test, null);
+        View view = inflater.inflate(R.layout.content_remarks_layout_test, null);
         initButton(view);
         return view;
     }
