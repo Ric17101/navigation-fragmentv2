@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/textViewTitleCommentRemarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Non-conformance comment"
@@ -31,7 +31,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:scrollHorizontally="false"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/textView13"
+        android:layout_below="@+id/textViewTitleCommentRemarks"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

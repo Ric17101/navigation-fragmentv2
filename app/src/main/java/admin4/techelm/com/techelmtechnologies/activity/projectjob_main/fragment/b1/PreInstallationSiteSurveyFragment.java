@@ -134,7 +134,7 @@ public class PreInstallationSiteSurveyFragment extends Fragment
             @Override
             public void onClick(View view) {
                 // Delete the Service Job from SQLite DB on Back
-                ((ProjectJobViewPagerActivity)getActivity()).backToLandingPage(1);
+                ((ProjectJobViewPagerActivity)getActivity()).backToLandingPage(-1);
             }
         });
 

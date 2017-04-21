@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.ProjectJobFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.ProjectJobChooseFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
@@ -56,7 +56,8 @@ public class MainActivity extends FragmentActivity implements
         ServiceJobListAdapter.CallbackInterface,
         CalendarListAdapter.CallbackInterface,
         UnsignedServiceJobListAdapter.CallbackInterface,
-        ProjectJobListAdapter.CallbackInterface {
+        ProjectJobListAdapter.CallbackInterface
+    {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -219,7 +220,7 @@ public class MainActivity extends FragmentActivity implements
                         break;
                     case R.id.nav_projectjobs :
                         FragmentTransaction serviceProjectFragmentTransaction = mFragmentManager.beginTransaction();
-                        serviceProjectFragmentTransaction.replace(R.id.containerView, new ProjectJobFragment()).commit();
+                        serviceProjectFragmentTransaction.replace(R.id.containerView, new ProjectJobChooseFormFragment()).commit();
                         break;
                     case R.id.nav_checklist :
                         /*FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -611,7 +612,8 @@ public class MainActivity extends FragmentActivity implements
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 .putExtra(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm);
         startActivity(i);
-        overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
+        // overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
     /*************************** B. END PROJECT JOB *****************************/

@@ -1,6 +1,7 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -15,7 +16,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -175,9 +178,12 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         switch(mode) {
             case ACTION_START_TASK:
                 Log.e(TAG, "This is ACTION_START_TASK");
+                showUpdateComment();
+                //fromFragmentNavigate(1);
                 break;
             case ACTION_CONTINUE_TASK:
                 Log.e(TAG, "This is ACTION_CONTINUE_TASK");
+                fromFragmentNavigate(1);
                 break;
             case ACTION_VIEW_TASK:
                 showMDialogSJDetails(serviceJob);
@@ -230,34 +236,41 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
      *      -1 - PREVIOUS
      */
     public void fromFragmentNavigate(int nextOrPrevious) {
+        hideKeyboard();
         mPagerAdapter.setCurrentTab(nextOrPrevious);
     }
+    public void fromFragmentNavigateToTaskList() {
+        hideKeyboard();
+        mPagerAdapter.setCurrentToFirstTab();
+    }
+
+    public void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
+    }
+    /*************** END BUTTON FOR NEXT AND PREVIOUS ACTIONS ***************/
+
+
     /*
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-    }*/
+    }
+    */
 
     /*************** B1 - Pre Installation Site Survey ***************/
+
 
     /*************** END B1 - Pre Installation Site Survey ***************/
 
 
     /*************** B2 - In-process inspection (PW) ***************/
-    
-    /*************** END B2 - In-process inspection (PW) ***************/
-
-
     /*************** B3 - In-process inspection (EPS) ***************/
-
-    /*************** END B3 - In-process inspection (EPS) ***************/
-
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         _birthYear = year;
         _month = month + 1;
         _day = dayOfMonth;
-
 
         switch (this.mFragmentPosition) {
             case PROJECT_JOB_FRAGMENT_POSITION_2: ncadft.updateDisplay(_birthYear,_month,_day); break;
@@ -266,6 +279,11 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         }
     }
 
+    /**
+     * This called onClick of EditText
+     * @param fragment - Current Fragment Calling
+     * @param fragmentPosition - Position being paased by the Calling Fragment
+     */
     @TargetApi(Build.VERSION_CODES.N)
     public void showDateDialog(Fragment fragment, int fragmentPosition) {
         this.initCallingFragment(fragment, fragmentPosition);
@@ -293,4 +311,76 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         }
     }
 
+    public void showUpdateComment() {
+        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+                .title("Do you want to update comment?")
+                // .customView(R.layout.i_edit_text_remarks, true)
+                .limitIconToDefaultSize()
+                .positiveText("YES")
+                .negativeText("NO")
+                .neutralText("N/A")
+                .iconRes(R.mipmap.edit_icon)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        fromFragmentNavigate(1);
+                    }
+                })
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+
+        /*TextView textViewTitleCommentRemarks = (TextView) md.getCustomView().findViewById(R.id.textViewTitleCommentRemarks);
+        textViewTitleCommentRemarks.setText("");*/
+
+        /*new PopulateServiceJobViewDetails()
+                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);*/
+        md.show();
+    }
+
+    /**
+     * Called After Clicking Next at NonConformanceAndDateFragmentTest
+     */
+    public void showOKToSaveRectificationDate() {
+        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+                .title("DO YOU WANT TO SAVE RECTIFICATION DATE?")
+                // .customView(R.layout.i_edit_text_remarks, true)
+                .limitIconToDefaultSize()
+                .positiveText("YES")
+                .negativeText("NO")
+                .iconRes(R.mipmap.ic_action_info)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        fromFragmentNavigate(1);
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        fromFragmentNavigateToTaskList();
+                        showUpdateComment();
+                    }
+                })
+                .build();
+        md.show();
+    }
+
+    /*************** END B2 - In-process inspection (PW) ***************/
+    /*************** END B3 - In-process inspection (EPS) ***************/
 }

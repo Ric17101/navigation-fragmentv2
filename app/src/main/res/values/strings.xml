@@ -103,4 +103,11 @@
     <string name="replacement_parts">Replacement Parts</string>
     <string name="edit"><b><u>Edit</u></b></string>
     <string name="view"><b><u>View</u></b></string>
+
+    <!-- PROJECT JOBS SECTION B-->
+    <string name="piss">Pre installation site survey</string>
+    <string name="ipipw">In-process Inspection (PW)</string>
+    <string name="ipieps">In-process Inspection (EPS)</string>
+
+
 </resources>

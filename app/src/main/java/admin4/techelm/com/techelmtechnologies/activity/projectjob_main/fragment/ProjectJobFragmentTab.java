@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -65,11 +66,22 @@ public class ProjectJobFragmentTab extends Fragment {
         hScrollViewTab = (HorizontalScrollView) view.findViewById(R.id.hScrollViewTab);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
 
+        // This will prevent from swiping the ViewPager
+        viewPager.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                viewPager.setCurrentItem(viewPager.getCurrentItem());
+                return false;
+            }
+        });
         /**
          *Set an Apater for the View Pager
          */
         viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
         viewPager.setOffscreenPageLimit(2); // Three tabs all
+        // viewPager.setHorizontalScrollBarEnabled(false);
         /**
          * Now , this is a workaround ,
          * The setupWithViewPager dose't works without the runnable .
@@ -96,6 +108,9 @@ public class ProjectJobFragmentTab extends Fragment {
 
     public void setCurrentTab(int nextOrPrevious) {
         this.viewPager.setCurrentItem(getItem(nextOrPrevious), true);
+    }
+    public void setCurrentToFirstTab() {
+        this.viewPager.setCurrentItem(0);
     }
 
     private int getCurrentPosition() { return viewPager.getCurrentItem(); }

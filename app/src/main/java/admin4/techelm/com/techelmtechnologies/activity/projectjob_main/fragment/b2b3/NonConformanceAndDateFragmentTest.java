@@ -84,7 +84,8 @@ public class NonConformanceAndDateFragmentTest extends Fragment  {
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
-                ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
+                // ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
+                ((ProjectJobViewPagerActivity)getActivity()).showOKToSaveRectificationDate();
             }
         });
     }

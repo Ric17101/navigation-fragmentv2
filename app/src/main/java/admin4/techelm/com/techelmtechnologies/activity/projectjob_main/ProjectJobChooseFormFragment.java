@@ -41,9 +41,9 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_J
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class ProjectJobFragment extends Fragment
+public class ProjectJobChooseFormFragment extends Fragment
 {
-    private static final String TAG = ProjectJobFragment.class.getSimpleName();
+    private static final String TAG = ProjectJobChooseFormFragment.class.getSimpleName();
 
     private TextView name;
     private RobotoCalendarView robotoCalendarView;
@@ -88,14 +88,14 @@ public class ProjectJobFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        System.out.println("ProjectJobFragment: I'm on the onCreate");
+        System.out.println("ProjectJobChooseFormFragment: I'm on the onCreate");
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         //outState.putParcelable("results", results);
-        System.out.println("ProjectJobFragment: I'm on the onSaveInstanceState");
+        System.out.println("ProjectJobChooseFormFragment: I'm on the onSaveInstanceState");
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class ProjectJobFragment extends Fragment
         } else { // Restore the Data List again
             mListAdapter.swapData(results);
         }
-        System.out.println("ProjectJobFragment: I'm on the onActivityCreated");
+        System.out.println("ProjectJobChooseFormFragment: I'm on the onActivityCreated");
     }
 
     private void setContext(Context c) {
