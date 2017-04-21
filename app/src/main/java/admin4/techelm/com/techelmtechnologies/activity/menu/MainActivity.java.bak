@@ -33,6 +33,7 @@ import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
+import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.PrimaryFragment;
 import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.TabFragment;
 import admin4.techelm.com.techelmtechnologies.activity.login.LoginActivity2;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
@@ -69,7 +70,7 @@ public class MainActivity extends FragmentActivity implements
 
     SessionManager mSession;
 
-    // B. Project Job Setup - B2,B3
+    // A. Project Job Setup
     private MaterialDialog mProjectJobFormSelectorDialog;
 
     @Override
@@ -222,9 +223,8 @@ public class MainActivity extends FragmentActivity implements
                         serviceProjectFragmentTransaction.replace(R.id.containerView, new ProjectJobFragment()).commit();
                         break;
                     case R.id.nav_checklist :
-                        /*FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                        ncadft = new NonConformanceAndDateFragmentTest();
-                        fragmentTransaction.replace(R.id.containerView, ncadft).commit();*/
+                        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.containerView, new ProjectJobFragment()).commit();
 
                         /*startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -236,8 +236,8 @@ public class MainActivity extends FragmentActivity implements
                         /*Bundle arguments = new Bundle();
                         arguments.putBundle(FRAGMENT_TRANSACTION_KEY, getFragmentManager());
                         fragmentProcessTransaction.setArguments(arguments);*/
-                        /*cdft = new CompletionDateFragmentTest();
-                        fragmentProcessTransaction.replace(R.id.containerView, cdft).commit();*/
+
+                        fragmentProcessTransaction.replace(R.id.containerView, new PrimaryFragment()).commit();
                         break;
                     case R.id.nav_process_eps :
                         startActivity(new Intent(MainActivity.this, ServiceReport_1.class)

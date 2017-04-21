@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,18 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PreInstallationSiteSurveyFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.RemarksFragmentTest;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2b3.CompletionDateFragmentTest;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2b3.NonConformanceAndDateFragmentTest;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
 
 // This is the same as FragmentPagerAdapters
 public class ProjectJobFragmentTab extends Fragment {
 
+    private final static String TAG = ProjectJobFragmentTab.class.getSimpleName();
     private TabLayout tabLayout;
     private HorizontalScrollView hScrollViewTab;
     private ViewPager viewPager;
@@ -31,7 +38,7 @@ public class ProjectJobFragmentTab extends Fragment {
 
     private int mTypeOfForm;
 
-    public ProjectJobFragmentTab newInstance(int typeOfForm) {
+    public static ProjectJobFragmentTab newInstance(int typeOfForm) {
         ProjectJobFragmentTab fragment = new ProjectJobFragmentTab();
         Bundle args = new Bundle();
 
@@ -106,6 +113,18 @@ public class ProjectJobFragmentTab extends Fragment {
          */
         @Override
         public Fragment getItem(int position) {
+            Log.e(TAG, "getItem(Postion):"+position);
+            switch (mTypeOfForm) {
+                case PROJECT_JOB_FORM_B1: return setFragmentB1(position);
+                case PROJECT_JOB_FORM_B2: return setFragmentB2(position);
+                case PROJECT_JOB_FORM_B3: return setFragmentB3(position);
+                default: break;
+            }
+            return null;
+        }
+
+        private Fragment setFragmentB1(int position) {
+
             switch (position) {
                 case 0:
                     return new PreInstallationSiteSurveyFragment();
@@ -113,6 +132,30 @@ public class ProjectJobFragmentTab extends Fragment {
                     return new DrawingFragmentTest(); // return UpdatesFragment.newInstance(position);
                 case 2:
                     return new RemarksFragmentTest(); // return SentFragment_OLD.newInstance(position);
+            }
+            return null;
+        }
+
+        private Fragment setFragmentB2(int position) {
+            switch (position) {
+                case 0:
+                    return new PreInstallationSiteSurveyFragment();
+                case 1:
+                    return new NonConformanceAndDateFragmentTest();
+                case 2:
+                    return new CompletionDateFragmentTest();
+            }
+            return null;
+        }
+
+        private Fragment setFragmentB3(int position) {
+            switch (position) {
+                case 0:
+                    return new PreInstallationSiteSurveyFragment();
+                case 1:
+                    return new NonConformanceAndDateFragmentTest();
+                case 2:
+                    return new CompletionDateFragmentTest();
             }
             return null;
         }
@@ -126,7 +169,17 @@ public class ProjectJobFragmentTab extends Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
+            Log.e(TAG, "getPageTitle(Postion):"+position);
+            switch (mTypeOfForm) {
+                case PROJECT_JOB_FORM_B1: return setPageTitleB1(position);
+                case PROJECT_JOB_FORM_B2: return setPageTitleB2B3(position);
+                case PROJECT_JOB_FORM_B3: return setPageTitleB2B3(position);
+                default: break;
+            }
+            return null;
+        }
 
+        private CharSequence setPageTitleB1(int position) {
             switch (position) {
                 case 0:
                     return "Task list";
@@ -135,7 +188,19 @@ public class ProjectJobFragmentTab extends Fragment {
                 case 2:
                     return "Remarks";
             }
-            return null;
+            return "";
+        }
+
+        private CharSequence setPageTitleB2B3(int position) {
+            switch (position) {
+                case 0:
+                    return "Task list";
+                case 1:
+                    return "In-process inspection";
+                case 2:
+                    return "Completion date";
+            }
+            return "";
         }
 
         public Fragment getActiveFragment(ViewPager container, int position) {

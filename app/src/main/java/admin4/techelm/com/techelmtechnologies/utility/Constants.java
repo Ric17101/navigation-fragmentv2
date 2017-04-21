@@ -84,4 +84,11 @@ public final class Constants {
     public static final int PROJECT_JOB_FORM_B1 = 1;
     public static final int PROJECT_JOB_FORM_B2 = 2;
     public static final int PROJECT_JOB_FORM_B3 = 3;
+
+    // FRAGMENT POSITION
+    public static final int PROJECT_JOB_FRAGMENT_POSITION_1 = 1;
+    public static final int PROJECT_JOB_FRAGMENT_POSITION_2 = 2;
+    public static final int PROJECT_JOB_FRAGMENT_POSITION_3 = 3;
+
+
 }

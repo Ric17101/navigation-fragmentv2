@@ -1,15 +1,22 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment;
 
+import android.annotation.TargetApi;
 import android.app.ActivityOptions;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +29,8 @@ import java.util.HashMap;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2b3.CompletionDateFragmentTest;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2b3.NonConformanceAndDateFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.adapter.PreInstallationSiteSurveyListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
@@ -34,10 +43,12 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_2;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_3;
 
 public class ProjectJobViewPagerActivity extends FragmentActivity implements
-        PreInstallationSiteSurveyListAdapter.CallbackInterface/*,
-        ProjectJobB1ListAdapter.CallbackInterface */{
+        PreInstallationSiteSurveyListAdapter.CallbackInterface,
+        DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = ProjectJobViewPagerActivity.class.getSimpleName();
 
@@ -53,6 +64,15 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     // PAGER TAB Type of Form
     private int modeOfForm = 0;
+
+    // B. Project Job Setup - B2,B3
+    private NonConformanceAndDateFragmentTest ncadft;
+    private CompletionDateFragmentTest cdft;
+    private int _day;
+    private int _month;
+    private int _birthYear;
+    DatePickerDialog mDialog;
+    private int mFragmentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,6 +232,11 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     public void fromFragmentNavigate(int nextOrPrevious) {
         mPagerAdapter.setCurrentTab(nextOrPrevious);
     }
+    /*
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+    }*/
 
     /*************** B1 - Pre Installation Site Survey ***************/
 
@@ -227,5 +252,45 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     /*************** END B3 - In-process inspection (EPS) ***************/
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        _birthYear = year;
+        _month = month + 1;
+        _day = dayOfMonth;
+
+
+        switch (this.mFragmentPosition) {
+            case PROJECT_JOB_FRAGMENT_POSITION_2: ncadft.updateDisplay(_birthYear,_month,_day); break;
+            case PROJECT_JOB_FRAGMENT_POSITION_3: cdft.updateDisplay(_birthYear,_month,_day); break;
+            default: break;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    public void showDateDialog(Fragment fragment, int fragmentPosition) {
+        this.initCallingFragment(fragment, fragmentPosition);
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+
+        mDialog = new DatePickerDialog(this, this,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        mDialog.show();
+    }
+
+    /**
+     * This only to set what Fragment Calls the Calendar Event from the Fragment
+     *  then set the EditText/Display only
+     * @param fragment
+     */
+    private void initCallingFragment(Fragment fragment, int fragmentPosition) {
+        this.mFragmentPosition = fragmentPosition;
+        switch (fragmentPosition) {
+            case PROJECT_JOB_FRAGMENT_POSITION_2 : ncadft = (NonConformanceAndDateFragmentTest)fragment; break;
+            case PROJECT_JOB_FRAGMENT_POSITION_3 : cdft = (CompletionDateFragmentTest) fragment; break;
+            default: break;
+        }
+    }
 
 }
