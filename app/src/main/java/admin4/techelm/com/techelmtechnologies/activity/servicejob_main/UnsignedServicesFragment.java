@@ -81,6 +81,7 @@ public class UnsignedServicesFragment extends Fragment implements
 
     /**
      * These Two Lines should be included on every Fragment to maintain the state and do not load again
+     *
      * @param savedInstanceState
      */
     @Override
@@ -89,12 +90,14 @@ public class UnsignedServicesFragment extends Fragment implements
         setRetainInstance(true);
         System.out.println("UnsignedServicesFragment: I'm on the onCreate");
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         setRetainInstance(true);
         System.out.println("UnsignedServicesFragment: I'm on the onSaveInstanceState");
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -127,6 +130,7 @@ public class UnsignedServicesFragment extends Fragment implements
                 R.color.refresh_progress_2,
                 R.color.refresh_progress_3);
     }
+
     private void hideSwipeRefreshing() {
         if (swipeRefreshCalendarLayout != null)
             swipeRefreshCalendarLayout.setRefreshing(false);
@@ -137,7 +141,7 @@ public class UnsignedServicesFragment extends Fragment implements
     }
 
     public void setupResultsList(View view) {
-        mListAdapter = new UnsignedServiceJobListAdapter(view.getContext());
+        mListAdapter = new UnsignedServiceJobListAdapter(getActivity()); // this should be view.getContext() else Just getActivity from FragmentActivity
         mSearchResultsList.setAdapter(mListAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
@@ -244,19 +248,19 @@ public class UnsignedServicesFragment extends Fragment implements
             mContext = context;
             // System.gc();
         }
+
         private String getDetailsLink() {
             StringBuilder sb = new StringBuilder();
             sb.append(SERVICE_JOB_UPLOAD_URL);
             sb.append("get_date_services_unsigend_services");
             return sb.toString();
         }
+
         /**
-         *
          * @param JSONResult
-         * @return
-         *      null - no data
-         *      '' - no internet connection/ server error
-         *      String - successful aResponse
+         * @return null - no data
+         * '' - no internet connection/ server error
+         * String - successful aResponse
          */
         private String parseServiceListJSON(String JSONResult) {
             if (JSONResult == null || JSONResult == "")
@@ -380,7 +384,9 @@ public class UnsignedServicesFragment extends Fragment implements
         }
 
         @Override
-        protected void onPreExecute() { super.onPreExecute(); }
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
         /**
          * resultStatus
@@ -396,7 +402,7 @@ public class UnsignedServicesFragment extends Fragment implements
                 parsedServiceJob = parseServiceListJSON(JSONHelper.POST(getDetailsLink()));
                 if (parsedServiceJob.equals("ok")) {
                     ConvertJSON cJSON = new ConvertJSON();
-                    ArrayList<ServiceJobWrapper> resultList =  cJSON.serviceJobList(serviceList);
+                    ArrayList<ServiceJobWrapper> resultList = cJSON.serviceJobList(serviceList);
                     resultStatus = (cJSON.hasResult() ? 1 : 3);
                     return resultList;
                 } else if (parsedServiceJob.equals("null")) {
@@ -419,22 +425,22 @@ public class UnsignedServicesFragment extends Fragment implements
         @Override
         protected void onPostExecute(List<ServiceJobWrapper> list) {
             switch (resultStatus) {
-                case 1 :
+                case 1:
                     results = list;
                     mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
                     mListAdapter.swapData(list);
                     mSearchResultsList.setVisibility(View.VISIBLE);
                     textViewUnsignedSJResult.setVisibility(View.GONE);
                     break;
-                case 2 :
+                case 2:
                     messageFromTask("There's no data on the Date ");
                     mSearchResultsList.setVisibility(View.GONE);
                     textViewUnsignedSJResult.setText("No service job this time.\nSwipe to refresh");
                     textViewUnsignedSJResult.setVisibility(View.VISIBLE);
                     noResultSnackBar();
                     break;
-                case 3 :
-                default :
+                case 3:
+                default:
                     messageFromTask("Error Check your Internet Connection");
                     noInternetSnackBar();
                     break;
@@ -443,6 +449,7 @@ public class UnsignedServicesFragment extends Fragment implements
         }
 
         @Override
-        protected void onCancelled() { }
+        protected void onCancelled() {
+        }
     }
 }

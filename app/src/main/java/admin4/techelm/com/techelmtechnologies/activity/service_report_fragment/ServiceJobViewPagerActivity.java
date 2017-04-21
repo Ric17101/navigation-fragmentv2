@@ -76,28 +76,30 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         setBackGroundLayout();
 
         if (fromBundle() != null) { // if Null don't show anything
-            mViewPager = (ViewPager) findViewById(R.id.pager);
-            mPagerAdapter = new ServiceJobFragmentPagerAdapter(getSupportFragmentManager(),
-                    this.mServiceJobFromBundle,
-                    this.rateList);
-            mViewPager.setAdapter(mPagerAdapter);
-            mViewPager.setOffscreenPageLimit(3); // Set to Four Pages
-            mTabPager = (PagerSlidingTabStrip) findViewById(R.id.tabsStrip);
-            mTabPager.setViewPager(mViewPager);
-
-            // Save Service Job from Bundle
-            createdServiceJob(this.mServiceJobFromBundle);
+            init_ViewPager();
         } else {
             Snackbar.make(this.findViewById(android.R.id.content),
                     "No data selected from calendar.", Snackbar.LENGTH_LONG)
                     .setAction("OK", null).show();
         }
+    }
 
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setPopupTheme(R.style.ThemeOverlay_AppCompat_Light);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }*/
+    private void init_ViewPager() {
+        /**
+         * Lets inflate the very first fragment
+         * Here , we are inflating the TabFragment as the first Fragment
+         */
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new ServiceJobFragmentPagerAdapter(getSupportFragmentManager(),
+                this.mServiceJobFromBundle,
+                this.rateList);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3); // Set to Four Pages
+        mTabPager = (PagerSlidingTabStrip) findViewById(R.id.tabsStrip);
+        mTabPager.setViewPager(mViewPager);
+
+        // Save Service Job from Bundle
+        createdServiceJob(this.mServiceJobFromBundle);
     }
 
     /**

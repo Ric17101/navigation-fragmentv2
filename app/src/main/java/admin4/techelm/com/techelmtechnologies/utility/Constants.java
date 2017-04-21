@@ -65,6 +65,8 @@ public final class Constants {
     public static final String SERVICE_JOB_TAKEN_KEY = "TAKEN";
     /** Type is Object ServiceJobNewReplacementPartsRatesWrapper */
     public static final String SERVICE_JOB_PARTS_REPLACEMENT_LIST = "REPLACEMENT_LIST";
+    /** Type is String. */
+    public static final String PROJECT_JOB_FORM_TYPE_KEY = "TYPE_OF_FORM";
 
     /**** SECTION B ****/
     // ACTION PROJECT JOB
@@ -77,4 +79,9 @@ public final class Constants {
     public static final String PROJECT_JOB_CHOOSE_FORM = "10";
     public static final String PROJECT_JOB_START_TASK = "11";
     public static final String PROJECT_JOB_CONTINUE_TASK = "12";
+
+    // TYPE OF FORM
+    public static final int PROJECT_JOB_FORM_B1 = 1;
+    public static final int PROJECT_JOB_FORM_B2 = 2;
+    public static final int PROJECT_JOB_FORM_B3 = 3;
 }

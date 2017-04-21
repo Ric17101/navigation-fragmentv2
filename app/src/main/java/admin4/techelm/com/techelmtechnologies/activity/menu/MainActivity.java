@@ -137,14 +137,25 @@ public class MainActivity extends FragmentActivity implements
         logout();
     }
 
-    /*@Override
-    public void onStart() {
-        super.onStart();
-    }
-
+    // onPause() or onDestroy()
     @Override
     public void onPause() {
         super.onPause();
+        dismissDialog();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dismissDialog();
+    }
+
+    private void dismissDialog() {
+        if (this.mProjectJobFormSelectorDialog != null)
+            this.mProjectJobFormSelectorDialog.dismiss();
+    }
+    /*@Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -543,9 +554,7 @@ public class MainActivity extends FragmentActivity implements
         protected void onCancelled() {
         }
     }*/
-
     /*************************** B. PROJECT JOB *****************************/
-
 
     private MaterialDialog initNewPartDialog() {
         boolean wrapInScrollView = false;
@@ -553,7 +562,7 @@ public class MainActivity extends FragmentActivity implements
                 .title("SELECT TYPE OF FORM")
                 .customView(R.layout.i_choose_type_of_form, wrapInScrollView)
                 .positiveText("Close")
-                //.iconRes(R.mipmap.replacepart_icon) // android:background="@mipmap/replacepart_icon"
+                // .iconRes(R.mipmap.replacepart_icon) // android:background="@mipmap/replacepart_icon"
                 .autoDismiss(false)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -574,26 +583,35 @@ public class MainActivity extends FragmentActivity implements
         cvPISS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ProjectJobViewPagerActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
+                startProjectJobsList(PROJECT_JOB_FORM_B1);
             }
         });
 
         cvPW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startProjectJobsList(PROJECT_JOB_FORM_B2);
             }
         });
 
         cvEPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startProjectJobsList(PROJECT_JOB_FORM_B3);
             }
         });
+    }
+
+    /**
+     *
+     * @param typeOfForm - This will Redirect to ServiceJobViewPagerActivity with extra intent of Type of Form
+     */
+    private void startProjectJobsList(int typeOfForm) {
+        Intent i = new Intent(MainActivity.this, ProjectJobViewPagerActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .putExtra(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm);
+        startActivity(i);
+        overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
     }
 
     /*************************** B. END PROJECT JOB *****************************/

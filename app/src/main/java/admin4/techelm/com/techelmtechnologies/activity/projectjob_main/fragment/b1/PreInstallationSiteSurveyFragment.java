@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -31,10 +33,12 @@ import java.util.Calendar;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.ServiceJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.adapter.PreInstallationSiteSurveyListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobB1ListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
@@ -53,9 +57,7 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_J
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class PreInstallationSiteSurveyFragment extends Fragment implements
-        PreInstallationSiteSurveyListAdapter.OnItemClickListener,
-        ProjectJobListAdapter.CallbackInterface
+public class PreInstallationSiteSurveyFragment extends Fragment
 {
     private static final String TAG = PreInstallationSiteSurveyFragment.class.getSimpleName();
     private static final int REQUEST_CODE = 1234;
@@ -88,10 +90,9 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
 
         setupSwipeRefreshServiceJobLayout(view);
 
-        if (results == null) {
-            // populateCardList();
-        }
         renderListFromCalendar(Calendar.getInstance());
+
+        initButton(view);
         return view;
     }
 
@@ -116,9 +117,6 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (results == null) { // If Data is Null then fetch the Data List again
-//            UpdateJobServiceTask task = new UpdateJobServiceTask(this.getView());
-//            task.execute("");
-            // populateCardList();
         } else { // Restore the Data List again
             mListAdapter.swapData(results);
         }
@@ -127,6 +125,27 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
 
     private void setContext(Context c) {
         this.mContext = c;
+    }
+
+    private void initButton(View view) {
+        /** BUTTON BACK */
+        Button button_back = (Button) view.findViewById(R.id.button_back);
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Delete the Service Job from SQLite DB on Back
+                ((ProjectJobViewPagerActivity)getActivity()).backToLandingPage(1);
+            }
+        });
+
+        /** BUTTON NEXT */
+        Button button_next = (Button) view.findViewById(R.id.button_next);
+        button_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
+            }
+        });
     }
 
     /***** SWIPE REFRESH LAYOUT *****/
@@ -226,45 +245,6 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
 
             }
         });*/
-    }
-
-    @Override
-    public void onHandleSelection(int position, ServiceJobWrapper serviceJob, int mode) {
-        switch(mode) {
-            case ACTION_START_TASK:
-                Log.e(TAG, "This is ACTION_START_TASK");
-                break;
-            case ACTION_CONTINUE_TASK:
-                Log.e(TAG, "This is ACTION_CONTINUE_TASK");
-                break;
-            case ACTION_VIEW_TASK:
-                showMDialogSJDetails(serviceJob);
-                Log.e(TAG, "This is ACTION_VIEW_TASK");
-                break;
-            default:
-                Log.e(TAG, "This is ACTION_VIEW_TASK");
-                break;
-        }
-    }
-
-    private void showMDialogSJDetails(ServiceJobWrapper serviceJob) {
-        MaterialDialog md = new MaterialDialog.Builder(getActivity())
-                .title("SERVICE JOB " + serviceJob.getServiceNumber())
-                .customView(R.layout.i_labels_report_details_modal, true)
-                .limitIconToDefaultSize()
-                .positiveText("OK")
-                .iconRes(R.mipmap.view_icon)
-                .autoDismiss(false)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                }).build();
-
-        new PopulateServiceJobViewDetails()
-                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);
-        md.show();
     }
 
     /**
@@ -524,8 +504,4 @@ public class PreInstallationSiteSurveyFragment extends Fragment implements
         protected void onCancelled() { }
     }
 
-    @Override
-    public void onClick(ServiceJobWrapper colorWrapper) {
-
-    }
 }

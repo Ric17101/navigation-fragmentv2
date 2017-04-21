@@ -4,7 +4,7 @@ import android.graphics.Color;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.PreInstallationSiteSurveyListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobB1ListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
@@ -81,13 +81,13 @@ public class FragmentSetListHelper_ProjectJob {
     }
 
     // Called at ProjecrJobListAdapter Only, Event to Select Type of Form
-    public void setActionOnClick(ProjectJobListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+    public void setActionOnClick(ProjectJobB1ListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
         mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_CHOOSE_FORM);
     }
 
     // Called at PreInstallationSiteSurveyListAdapter Only
     public void setActionOnClick(PreInstallationSiteSurveyListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
-        switch(status) {
+        switch (status) {
             case PROJECT_JOB_START_TASK :
                 mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_TASK);
                 break;

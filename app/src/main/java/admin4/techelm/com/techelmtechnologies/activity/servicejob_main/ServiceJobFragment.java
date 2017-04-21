@@ -221,6 +221,11 @@ public class ServiceJobFragment extends Fragment implements
         });*/
     }
 
+    @Override
+    public void onClick(ServiceJobWrapper colorWrapper) {
+
+    }
+
     /**
      * Called on click of Date CAlendar the render a list of Services at CardView
      * Show a list of SJ retrieved from API
@@ -478,8 +483,4 @@ public class ServiceJobFragment extends Fragment implements
         protected void onCancelled() { }
     }
 
-    @Override
-    public void onClick(ServiceJobWrapper colorWrapper) {
-
-    }
 }

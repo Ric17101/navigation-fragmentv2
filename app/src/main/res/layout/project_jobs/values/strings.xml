@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="piss">Pre installation site survey</string>
+    <string name="ipipw">In-process Inspection (PW)</string>
+    <string name="ipieps">In-process Inspection (EPS)</string>
+</resources>

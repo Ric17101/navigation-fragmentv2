@@ -31,12 +31,12 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary1"
         android:textColor="@color/white"
-        app:tabMaxWidth="0dp"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
         app:pstsIndicatorColor="@color/white"
         app:pstsIndicatorHeight="2sp"
-        app:pstsTabSwitch="false" />
+        app:pstsTabSwitch="false"
+        app:tabGravity="fill"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

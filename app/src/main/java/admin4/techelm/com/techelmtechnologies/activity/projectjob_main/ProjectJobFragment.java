@@ -41,8 +41,7 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_J
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class ProjectJobFragment extends Fragment implements
-        ProjectJobListAdapter.OnItemClickListener
+public class ProjectJobFragment extends Fragment
 {
     private static final String TAG = ProjectJobFragment.class.getSimpleName();
 
@@ -435,8 +434,4 @@ public class ProjectJobFragment extends Fragment implements
         protected void onCancelled() { }
     }
 
-    @Override
-    public void onClick(ServiceJobWrapper colorWrapper) {
-
-    }
 }
