@@ -3,6 +3,7 @@ package admin4.techelm.com.techelmtechnologies.task;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -14,10 +15,14 @@ import android.util.Log;
  * Implemented on ServiceJobViewPagerActivity to revert the Status of the ServiceJob
  */
 
-// NOT USED
+// NOT USED... NOT WORKING
 public class OnTaskKill extends Service {
 
     private onStopCallbackInterface mCallback = null;
+
+    public interface onStopCallbackInterface {
+        void onAppStop();
+    }
 
     public OnTaskKill(Activity act) {
         Log.e("OnTaskKill", "Im on the OntaskKill");
@@ -34,9 +39,5 @@ public class OnTaskKill extends Service {
     public void onTaskRemoved(Intent rootIntent) {
         mCallback.onAppStop();
         stopSelf();
-    }
-
-    public interface onStopCallbackInterface {
-        void onAppStop();
     }
 }

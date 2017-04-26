@@ -17,10 +17,9 @@ import android.widget.LinearLayout;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFragmentTest;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PreInstallationSiteSurveyFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.RemarksFragmentTest;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2b3.CompletionDateFragmentTest;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2b3.NonConformanceAndDateFragmentTest;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
@@ -34,7 +33,7 @@ public class ProjectJobFragmentTab extends Fragment {
     private TabLayout tabLayout;
     private HorizontalScrollView hScrollViewTab;
     private ViewPager viewPager;
-    public static int TAB_COUUNT = 3;
+    public static int TAB_COUNT = 3;
     Fragment mFragment;
     MyAdapter mPagerAdapter;
 
@@ -64,9 +63,7 @@ public class ProjectJobFragmentTab extends Fragment {
          */
         View view = inflater.inflate(R.layout.tab_layout, null); // View x = inflater.inflate(R.layout.tab_layout, container, false);
 
-        // Just to show the Header Layout ONLY FOR THE ProjectJob - SECTION B
-        LinearLayout projectJobLayoutHeader = (LinearLayout) view.findViewById(R.id.projectJobLayoutHeader);
-        projectJobLayoutHeader.setVisibility(View.VISIBLE);
+        setHeaderVisibilityByFragmentPosition(view);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         hScrollViewTab = (HorizontalScrollView) view.findViewById(R.id.hScrollViewTab);
@@ -101,6 +98,22 @@ public class ProjectJobFragmentTab extends Fragment {
         });
 
         return view;
+    }
+
+    // Just to show the Header Layout ONLY FOR THE ProjectJob - SECTION B
+    private void setHeaderVisibilityByFragmentPosition(View view) {
+        switch (mTypeOfForm) {
+            case PROJECT_JOB_FORM_B1:
+                LinearLayout projectJobLayoutHeader = (LinearLayout) view.findViewById(R.id.projectJobLayoutHeader);
+                projectJobLayoutHeader.setVisibility(View.VISIBLE);
+                break;
+            case PROJECT_JOB_FORM_B2:
+            case PROJECT_JOB_FORM_B3:
+                LinearLayout projectJobLayoutB2B3Header = (LinearLayout) view.findViewById(R.id.projectJobLayoutB2B3Header);
+                projectJobLayoutB2B3Header.setVisibility(View.VISIBLE);
+                break;
+            default: break;
+        }
     }
 
     // Just to Initialize the Button Next, Prev in ProjectJobViewPagerActivty
@@ -148,7 +161,7 @@ public class ProjectJobFragmentTab extends Fragment {
 
             switch (position) {
                 case 0:
-                    return new PreInstallationSiteSurveyFragment();
+                    return new PISSTaskListFragment();
                 case 1:
                     return new DrawingFragmentTest(); // return UpdatesFragment.newInstance(position);
                 case 2:
@@ -160,11 +173,9 @@ public class ProjectJobFragmentTab extends Fragment {
         private Fragment setFragmentB2(int position) {
             switch (position) {
                 case 0:
-                    return new PreInstallationSiteSurveyFragment();
+                    return new PISSTaskListFragment();
                 case 1:
-                    return new NonConformanceAndDateFragmentTest();
-                case 2:
-                    return new CompletionDateFragmentTest();
+                    return new IPITaskListFinalFragment();
             }
             return null;
         }
@@ -172,17 +183,22 @@ public class ProjectJobFragmentTab extends Fragment {
         private Fragment setFragmentB3(int position) {
             switch (position) {
                 case 0:
-                    return new PreInstallationSiteSurveyFragment();
+                    return new PISSTaskListFragment();
                 case 1:
-                    return new NonConformanceAndDateFragmentTest();
-                case 2:
-                    return new CompletionDateFragmentTest();
+                    return new IPITaskListFinalFragment();
             }
             return null;
         }
 
         @Override
-        public int getCount() { return TAB_COUUNT; }
+        public int getCount() {
+            switch (mTypeOfForm) {
+                case PROJECT_JOB_FORM_B1: return TAB_COUNT;
+                case PROJECT_JOB_FORM_B2:
+                case PROJECT_JOB_FORM_B3: return TAB_COUNT - 1;
+                default: return TAB_COUNT;
+            }
+        }
 
         /**
          * This method returns the title of the tab according to the position.
@@ -190,7 +206,7 @@ public class ProjectJobFragmentTab extends Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Log.e(TAG, "getPageTitle(Postion):"+position);
+            Log.e(TAG, "getPageTitle(Postion):" + position);
             switch (mTypeOfForm) {
                 case PROJECT_JOB_FORM_B1: return setPageTitleB1(position);
                 case PROJECT_JOB_FORM_B2: return setPageTitleB2B3(position);
@@ -217,14 +233,14 @@ public class ProjectJobFragmentTab extends Fragment {
                 case 0:
                     return "TASK LIST";
                 case 1:
-                    return "IN-PROCESS INSPECTION";
-                case 2:
-                    return "COMPLETION DATE";
+                    return "FINAL";
+                /*case 2:
+                    return "COMPLETION DATE";*/
             }
             return "";
         }
 
-        public Fragment getActiveFragment(ViewPager container, int position) {
+        private Fragment getActiveFragment(ViewPager container, int position) {
             String name = makeFragmentName(container.getId(), position);
             return getChildFragmentManager().findFragmentByTag(name);
         }

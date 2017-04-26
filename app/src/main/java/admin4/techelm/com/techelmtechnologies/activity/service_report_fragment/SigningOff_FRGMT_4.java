@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -34,18 +35,18 @@ import java.io.File;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.PartsSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobRecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobJSON_POST;
@@ -74,6 +75,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
     private static ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
     private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
+    private TextView textViewLabelTotalAmount;
 
     // B. SIGNATURE PAD
     private RelativeLayout mRelativeLayout;
@@ -115,6 +117,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
         initSignaturePadPopUp(view);
         initButton(view);
 
+        textViewLabelTotalAmount = (TextView) view.findViewById(R.id.textViewLabelTotalAmount);
+
         if (this.mServiceJobFromBundle != null) { // if Null don't show anything
             mServiceID = mServiceJobFromBundle.getID();
 
@@ -125,6 +129,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
                             mServiceJobFromBundle,
                             View.GONE,
                             TAG);
+
+            setTextViewTotalPrice();
         }
 
         return view;
@@ -158,6 +164,15 @@ public class SigningOff_FRGMT_4 extends Fragment {
         /** BUTTON VIEW DETAILS */
         ImageButton buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
         buttonViewDetails.setVisibility(View.GONE);
+    }
+
+    // Show total price of New Parts included
+    public void setTextViewTotalPrice() {
+        PartsSJDBUtil partsSJDBUtil = new PartsSJDBUtil(getActivity());
+        partsSJDBUtil.open();
+        Double totalPrice = partsSJDBUtil.getTotalPriceOfNewPartsBySJID(this.mServiceID);
+        partsSJDBUtil.close();
+        textViewLabelTotalAmount.setText(totalPrice+"");
     }
 
     public MaterialDialog showSigningDialog(View view) {
@@ -310,13 +325,14 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
     /*********** A. SERVICE DETAILS ***********/
     public void fromActivity_onNewSJEntryAdded(String serviceNum) {
-        System.out.print("onNewSJEntryAdded: Called");
+        System.out.print("onNewIPI_PWDEntryAdded: Called");
+        setTextViewTotalPrice();
     }
     public void fromActivity_onSJEntryRenamed(String fileName) {
-        System.out.print("onSJEntryUpdated: Called");
+        System.out.print("onIPI_PWDEntryUpdated: Called");
     }
     public void fromActivity_onSJEntryDeleted() {
-        System.out.print("onSJEntryDeleted: Called");
+        System.out.print("onIPI_PWDEntryDeleted: Called");
     }
 
     /*********** A. END SERVICE DETAILS ***********/
@@ -385,7 +401,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         private boolean testIfUploadsHasCaptures() {
             // TEST Uploads
-            UploadsDBUtil mUploadsDB = new UploadsDBUtil(getActivity());
+            UploadsSJDBUtil mUploadsDB = new UploadsSJDBUtil(getActivity());
             mUploadsDB.open();
             boolean result = mUploadsDB.hasInsertedRecordings(mServiceID);
             mUploadsDB.close();
@@ -394,7 +410,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         private boolean testIfRecordingsHasRecordings() {
             // TEST Recordings
-            RecordingDBUtil mRecordingsDB = new RecordingDBUtil(getActivity());
+            RecordingSJDBUtil mRecordingsDB = new RecordingSJDBUtil(getActivity());
             mRecordingsDB.open();
             boolean result = mRecordingsDB.hasInsertedRecordings(mServiceID);
             mRecordingsDB.close();
@@ -666,7 +682,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
      * @param remarks
      */
     private void uploadJSONNewParts(int serviceJobID, String remarks) {
-        PartsDBUtil db = new PartsDBUtil(getActivity());
+        PartsSJDBUtil db = new PartsSJDBUtil(getActivity());
         db.open();
         List<ServiceJobNewPartsWrapper> list = db.getAllPartsBySJID(serviceJobID);
         db.close();
@@ -708,7 +724,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
      */
     private void uploadCaptures(int serviceJobID) {
         // Prepare and get Data Parameter from SQLiteDB
-        UploadsDBUtil mUploadsDB = new UploadsDBUtil(this.mContext);
+        UploadsSJDBUtil mUploadsDB = new UploadsSJDBUtil(this.mContext);
         mUploadsDB.open();
         List<ServiceJobUploadsWrapper> mUploadResults = mUploadsDB.getAllUploadsBySJID(serviceJobID);
         mUploadsDB.close();
@@ -780,7 +796,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
      */
     private void uploadRecordings(int serviceJobID) {
         // Prepare and get Data Parameter from SQLiteDB
-        RecordingDBUtil mRecordingsDB = new RecordingDBUtil(this.mContext);
+        RecordingSJDBUtil mRecordingsDB = new RecordingSJDBUtil(this.mContext);
         mRecordingsDB.open();
         List<ServiceJobRecordingWrapper> mRecordResults = mRecordingsDB.getAllRecordingsBySJID(serviceJobID);
         mRecordingsDB.close();

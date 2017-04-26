@@ -30,8 +30,9 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
 import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
@@ -56,7 +57,7 @@ public class ProjectJobChooseFormFragment extends Fragment
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
     private List<ServiceJobWrapper> results = null;
-    private CalendarSJTask_RenderList mAuthTask = null;
+    private SJTask_RenderList mAuthTask = null;
 
     @Nullable
     @Override
@@ -158,7 +159,8 @@ public class ProjectJobChooseFormFragment extends Fragment
 
     private void renderListFromCalendar(Calendar daySelectedCalendar) {
         String formattedDate = new CalendarFragment().convertLongDateToSimpleDate(daySelectedCalendar);
-        mAuthTask = new CalendarSJTask_RenderList(formattedDate, "", mContext);
+        mAuthTask = new SJTask_RenderList(formattedDate, "", mContext);
+        new TaskCanceller(mAuthTask).setWait(getActivity());
         mAuthTask.execute((Void) null);
     }
 
@@ -171,6 +173,12 @@ public class ProjectJobChooseFormFragment extends Fragment
                         getResources().getString(R.string.noInternetConnection))
                 .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
+    }
+
+    private void noResultTryAgain() {
+        mSearchResultsList.setVisibility(View.GONE);
+        textViewSJResult.setText("Try again later.");
+        textViewSJResult.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -197,7 +205,7 @@ public class ProjectJobChooseFormFragment extends Fragment
     }
 
     private void populateCardList() {
-        results = new Calendar_ServiceJob_DBUtil(mContext).getAllDetailsOfServiceJob();
+        results = new CalendarSJDBUtil(mContext).getAllDetailsOfServiceJob();
         mSearchResultsList.setHasFixedSize(true);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(mContext));
         mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
@@ -214,7 +222,7 @@ public class ProjectJobChooseFormFragment extends Fragment
      * Called on click of Date CAlendar the render a list of Services at CardView
      * Show a list of SJ retrieved from API
      */
-    private class CalendarSJTask_RenderList extends AsyncTask<Void, Void, List<ServiceJobWrapper>> {
+    private class SJTask_RenderList extends AsyncTask<Void, Void, List<ServiceJobWrapper>> {
 
         public final String TAG = CalendarFragment.class.getSimpleName();
         private final String SJ_LIST_DELIM = ":-:";
@@ -226,7 +234,7 @@ public class ProjectJobChooseFormFragment extends Fragment
         private GetCommand getCommand;
         private ArrayList<String> serviceList = new ArrayList<String>();
 
-        public CalendarSJTask_RenderList(String date, String id, Context context) {
+        public SJTask_RenderList(String date, String id, Context context) {
             mDate = date;
             mID = id;
             mContext = context;
@@ -431,7 +439,10 @@ public class ProjectJobChooseFormFragment extends Fragment
         }
 
         @Override
-        protected void onCancelled() { }
+        protected void onCancelled() {
+            noResultTryAgain();
+            hideSwipeRefreshing();
+        }
     }
 
 }

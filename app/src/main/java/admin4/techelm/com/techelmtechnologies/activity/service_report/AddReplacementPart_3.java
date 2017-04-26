@@ -12,7 +12,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 public class AddReplacementPart_3 extends AppCompatActivity {
 

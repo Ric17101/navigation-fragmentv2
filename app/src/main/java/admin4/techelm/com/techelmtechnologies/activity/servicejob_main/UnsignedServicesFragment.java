@@ -22,16 +22,15 @@ import org.json.JSONObject;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
-import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
@@ -193,6 +192,7 @@ public class UnsignedServicesFragment extends Fragment implements
 
     private void renderListFromAPI() {
         mAuthTask = new UnsignedFormSJTask_RenderList(this.mContext);
+        new TaskCanceller(mAuthTask).setWait(getActivity());
         mAuthTask.execute((Void) null);
     }
 
@@ -202,7 +202,7 @@ public class UnsignedServicesFragment extends Fragment implements
             @Override
             public void run() {
                 //results = getAllDetailsOfLetters();
-                results = new Calendar_ServiceJob_DBUtil(mContext).getAllDetailsOfServiceJob();
+                results = new CalendarSJDBUtil(mContext).getAllDetailsOfServiceJob();
                 mSearchResultsList.setHasFixedSize(true);
                 mSearchResultsList.setLayoutManager(new LinearLayoutManager(mContext));
                 mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
@@ -225,6 +225,12 @@ public class UnsignedServicesFragment extends Fragment implements
     private void noResultSnackBar() {
         mSearchResultsList.setVisibility(View.GONE);
         textViewUnsignedSJResult.setText("No service job this time.\nSwipe to refresh");
+        textViewUnsignedSJResult.setVisibility(View.VISIBLE);
+    }
+
+    private void noResultTryAgain() {
+        mSearchResultsList.setVisibility(View.GONE);
+        textViewUnsignedSJResult.setText("Try again later.");
         textViewUnsignedSJResult.setVisibility(View.VISIBLE);
     }
 
@@ -450,6 +456,8 @@ public class UnsignedServicesFragment extends Fragment implements
 
         @Override
         protected void onCancelled() {
+            noResultTryAgain();
+            hideSwipeRefreshing();
         }
     }
 }

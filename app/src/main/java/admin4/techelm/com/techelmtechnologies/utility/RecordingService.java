@@ -22,7 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.activity.service_report.ServiceReport_1;
 
 public class RecordingService extends Service {
@@ -42,7 +42,7 @@ public class RecordingService extends Service {
 
     private MediaRecorder mRecorder = null;
 
-    private RecordingDBUtil mDatabase;
+    private RecordingSJDBUtil mDatabase;
     private long mStartingTimeMillis = 0;
     private long mElapsedMillis = 0;
     private int mElapsedSeconds = 0;
@@ -59,7 +59,7 @@ public class RecordingService extends Service {
     // This not working??? I dont know why, is it because this class is only a Service Class???
     public interface OnTimerChangedListener {
         void onTimerChanged(int seconds);
-        // RecordingDBUtil onHandleGetDB();
+        // RecordingSJDBUtil onHandleGetDB();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class RecordingService extends Service {
         super.onCreate();
         try {
             // onTimerChangedListener = (OnTimerChangedListener) getApplication();
-            mDatabase = new RecordingDBUtil(getApplicationContext(),
+            mDatabase = new RecordingSJDBUtil(getApplicationContext(),
                     "From Recording service, can't implement Interface here.");
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception

@@ -26,7 +26,7 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.FragmentSetListHelper_ServiceJob;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.*;
 

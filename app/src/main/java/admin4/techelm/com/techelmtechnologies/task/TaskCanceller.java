@@ -1,6 +1,10 @@
 package admin4.techelm.com.techelmtechnologies.task;
 
+import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Handler;
+
+import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 
 /**
  * Created by admin 4 on 31/03/2017.
@@ -27,16 +31,59 @@ import android.os.AsyncTask;
             handler= new Handler(Looper.getMainLooper());
  */
 
+/** @VERSION2
+ * You can use this as follow
+
+     yourTask = new SJTask_RenderList(formattedDate, "", mContext);
+     new TaskCanceller(yourTask).setWait(getActivity());
+     yourTask.execute((Void) null)
+
+ * In version 1 you need to call this.mHandler.removeCallbacks(this.mTaskCanceller);,
+ *  then in Version 2 don't need to do anuthing since this is Automatically Handled by the run() method
+ * And then you call the Override onCalled in you Asynctask Class, like so; for your own action
+
+     @Override
+     protected void onCancelled() {
+         Log.i(TAG, "onCancelled hideSwipeRefreshing() new SJTask_RenderList()");
+     }
+
+ */
 public class TaskCanceller implements Runnable {
+
+    private final static long LONG_DELAY = 20000;
+    private long taskDelay = 5*1000; // 2 Seconds if not connected to internet
+
     private AsyncTask task;
+    private Handler mHandler = null;
+    private TaskCanceller mTaskCanceller;
 
     public TaskCanceller(AsyncTask task) {
+        this.mHandler = new Handler();
         this.task = task;
+        this.mTaskCanceller = this;
+    }
+
+    public TaskCanceller setWait(Activity activity) {
+        if (new JSONHelper().isConnected(activity)) {
+            taskDelay = LONG_DELAY;
+        }
+        this.mHandler.postDelayed(mTaskCanceller, taskDelay); // 20*1000 = 20 Seconds,
+        return this;
+    }
+
+    // Use this to Customize the Leng of Delay in Milliseconds
+    public void setLongDelay(long delay) {
+        this.taskDelay = delay;
     }
 
     @Override
     public void run() {
-        if (task.getStatus() == AsyncTask.Status.RUNNING )
-            task.cancel(true);
+        if (this.task.getStatus() == AsyncTask.Status.RUNNING )
+            this.task.cancel(true);
+        else { // Task is running already and 20 Secs is still counting
+            if (this.mTaskCanceller != null && this.mHandler != null) {
+                this.mHandler.removeCallbacks(this.mTaskCanceller);
+            }
+        }
     }
 }

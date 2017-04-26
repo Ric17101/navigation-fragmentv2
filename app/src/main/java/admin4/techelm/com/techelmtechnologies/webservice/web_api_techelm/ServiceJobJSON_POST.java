@@ -19,9 +19,8 @@ import java.net.URLConnection;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_DETAILS_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 
 /**

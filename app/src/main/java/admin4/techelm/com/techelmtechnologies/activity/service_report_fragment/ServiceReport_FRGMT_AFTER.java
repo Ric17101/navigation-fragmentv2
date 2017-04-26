@@ -27,15 +27,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -59,12 +55,12 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobRecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobUploadsListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobRecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
@@ -104,7 +100,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private ServiceJobUploadsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
     private List<ServiceJobUploadsWrapper> mUploadResults = null;
-    private UploadsDBUtil mUploadsDB;
+    private UploadsSJDBUtil mUploadsDB;
 
     private ImageButton mButtonViewUploadImage;
     private ProgressBar mProgressBarUploading;
@@ -126,7 +122,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private ServiceJobRecordingsListAdapter mListAdapter; // ListView Setup
     private RecyclerView mRecordResultsList;
     private List<ServiceJobRecordingWrapper> mResultsList = null;
-    private RecordingDBUtil mRecodingDB;
+    private RecordingSJDBUtil mRecodingDB;
 
     // SlidingPager Tab Set Up
     private static final String ARG_POSITION = "position";
@@ -431,7 +427,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     }
 
     private void populateUploadsCardList() {
-        mUploadsDB = new UploadsDBUtil(this.mContext);
+        mUploadsDB = new UploadsSJDBUtil(this.mContext);
         mUploadsDB.open();
         mUploadResults = mUploadsDB.getAllUploadsBySJID_ByTaken(mServiceID, UPLOAD_TAKEN);
         mUploadsDB.close();
@@ -856,7 +852,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mUploadsDB = new UploadsDBUtil(getActivity());
+                        mUploadsDB = new UploadsSJDBUtil(getActivity());
                         mUploadsDB.open();
                         mUploadsDB.removeItemWithId(id);
                         mUploadsDB.close();
@@ -881,7 +877,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     }
 
     private void populateRecordingsCardList() {
-        mRecodingDB = new RecordingDBUtil(this.mContext);
+        mRecodingDB = new RecordingSJDBUtil(this.mContext);
         mRecodingDB.open();
         mResultsList = mRecodingDB.getAllRecordingsBySJID_ByTaken(mServiceID, UPLOAD_TAKEN);
         mRecodingDB.close();
@@ -1053,7 +1049,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mRecodingDB = new RecordingDBUtil(getActivity());
+                        mRecodingDB = new RecordingSJDBUtil(getActivity());
                         mRecodingDB.open();
                         mRecodingDB.removeItemWithId(id);
                         mRecodingDB.close();

@@ -46,10 +46,10 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.PartsSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 
@@ -77,7 +77,7 @@ public class PartReplacement_FRGMT_2_v1 extends Fragment {
     private ServiceJobPartsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
     private List<ServiceJobNewPartsWrapper> mUploadResults = null;
-    private PartsDBUtil mPartsDB;
+    private PartsSJDBUtil mPartsDB;
     private CardView cardViewNewUpload; // TODO: Test this if has content else donot show "New Replacement Part Added. with check"
 
     private ImageButton mButtonViewUploadFileNew;
@@ -226,17 +226,17 @@ public class PartReplacement_FRGMT_2_v1 extends Fragment {
 
     /*********** A. SERVICE DETAILS ***********/
     /*@Override
-    public void onNewSJEntryAdded(String serviceNum) {
+    public void onNewIPI_PWDEntryAdded(String serviceNum) {
 
     }
 
     @Override
-    public void onSJEntryUpdated(String fileName) {
+    public void onIPI_PWDEntryUpdated(String fileName) {
 
     }
 
     @Override
-    public void onSJEntryDeleted() {
+    public void onIPI_PWDEntryDeleted() {
 
     }*/
 
@@ -289,7 +289,7 @@ public class PartReplacement_FRGMT_2_v1 extends Fragment {
     }
 
     private void populateUploadsCardList() {
-        mPartsDB = new PartsDBUtil(this.mContext);
+        mPartsDB = new PartsSJDBUtil(this.mContext);
         mPartsDB.open();
         mUploadResults = mPartsDB.getAllPartsBySJID(mServiceID);
         mPartsDB.close();
@@ -727,7 +727,7 @@ public class PartReplacement_FRGMT_2_v1 extends Fragment {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mPartsDB = new PartsDBUtil(getActivity());
+                        mPartsDB = new PartsSJDBUtil(getActivity());
                         mPartsDB.open();
                         mPartsDB.removeItemWithId(id);
                         mPartsDB.close();

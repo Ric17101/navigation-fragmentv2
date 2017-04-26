@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/pdf_library/pdf_library.iml" filepath="$PROJECT_DIR$/pdf_library/pdf_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/signature_pad_library/signature_pad_library.iml" filepath="$PROJECT_DIR$/signature_pad_library/signature_pad_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/sliding_panel_library/sliding_panel_library.iml" filepath="$PROJECT_DIR$/sliding_panel_library/sliding_panel_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zxing-orient/zxing-orient.iml" filepath="$PROJECT_DIR$/zxing-orient/zxing-orient.iml" />
     </modules>
   </component>
 </project>

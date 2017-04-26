@@ -33,13 +33,19 @@ import admin4.techelm.com.techelmtechnologies.BuildConfig;
       */
 public final class Constants {
 
-    public Constants() {} // Prevents instanciation of myself and my subclasses
+    public Constants() {} // Prevents instantiation of myself and my subclasses
 
     public static final String VERSION = BuildConfig.VERSION_NAME;
     public static String SERVICE_JOB_DETAILS_URL =
             "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/";
     public static String SERVICE_JOB_UPLOAD_URL = SERVICE_JOB_DETAILS_URL + "servicejob/";
 
+    /**** NAVIGATION DRAWER TO SHOW ON MAIN ACTIVITY ****/
+    public static final int NAVIGATION_DRAWER_SELECTED_SERVICEJOB = 0;
+    public static final int NAVIGATION_DRAWER_SELECTED_PROJECTJOB = 1;
+    public static final int NAVIGATION_DRAWER_SELECTED_OTHERS = 2;
+
+    /**** SECTION A ****/
     // ACTION, action is being called in the MainActivity
     public static final int ACTION_BEGIN_JOB_SERVICE = 0;
     public static final int ACTION_EDIT_JOB_SERVICE = 1;
@@ -56,6 +62,8 @@ public final class Constants {
 
     // Intent putExtra KEY, used to decode data passed to ServiceJobViewPagerActivity
     /** Type is int. */
+    public static final String LANDING_PAGE_ACTIVE_KEY = "LANDING_PAGE";
+    /** Type is int. */
     public static final String SERVICE_JOB_ID_KEY = "SERVICE_ID";
     /** Type is Object ServiceJobWrapper. */
     public static final String SERVICE_JOB_SERVICE_KEY = "SERVICE_JOB";
@@ -67,25 +75,30 @@ public final class Constants {
     public static final String SERVICE_JOB_PARTS_REPLACEMENT_LIST = "REPLACEMENT_LIST";
     /** Type is String. */
     public static final String PROJECT_JOB_FORM_TYPE_KEY = "TYPE_OF_FORM";
+    /** Type is View Object. */
+    public static final String PROJECT_JOB_FORM_DATE_FORM_KEY = "SHOW_ANOTHER_DIALOG";
 
     /**** SECTION B ****/
     // ACTION PROJECT JOB
     public static final int ACTION_CHOOSE_FORM = 10; // PROJECT JOB, Choosing the form
-    public static final int ACTION_START_TASK = 11;
-    public static final int ACTION_CONTINUE_TASK = 12;
-    public static final int ACTION_VIEW_TASK = 13;
+    public static final int ACTION_START_DRAWING = 11;
+    public static final int ACTION_START_TASK = 12;
+    public static final int ACTION_CONTINUE_TASK = 13;
+    public static final int ACTION_VIEW_TASK = 14;
+    public static final int ACTION_START_CORRECTIVE_ACTION_FORM = 15;
 
     // STATUS of Project Jobs, the Task Button
     public static final String PROJECT_JOB_CHOOSE_FORM = "10";
-    public static final String PROJECT_JOB_START_TASK = "11";
-    public static final String PROJECT_JOB_CONTINUE_TASK = "12";
+    public static final String PROJECT_JOB_START_DRAWING = "11";
+    public static final String PROJECT_JOB_START_TASK = "12";
+    public static final String PROJECT_JOB_CONTINUE_TASK = "13";
 
     // TYPE OF FORM
     public static final int PROJECT_JOB_FORM_B1 = 1;
     public static final int PROJECT_JOB_FORM_B2 = 2;
     public static final int PROJECT_JOB_FORM_B3 = 3;
 
-    // FRAGMENT POSITION
+    // FRAGMENT POSITION for Navigation between Fragments especially in the Forms
     public static final int PROJECT_JOB_FRAGMENT_POSITION_1 = 1;
     public static final int PROJECT_JOB_FRAGMENT_POSITION_2 = 2;
     public static final int PROJECT_JOB_FRAGMENT_POSITION_3 = 3;

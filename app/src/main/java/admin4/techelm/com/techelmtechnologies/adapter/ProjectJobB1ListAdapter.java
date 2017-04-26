@@ -23,12 +23,11 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.FragmentSetListHelper_ProjectJob;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_DETAILS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CHOOSE_FORM;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLETED;
 
 public class ProjectJobB1ListAdapter extends RecyclerView.Adapter<ProjectJobB1ListAdapter.ViewHolder> {
 
@@ -121,11 +120,6 @@ public class ProjectJobB1ListAdapter extends RecyclerView.Adapter<ProjectJobB1Li
                 .setInterpolator(new DecelerateInterpolator(3.f))
                 .setDuration(700)
                 .start();
-    }
-
-    // Test whether it is completed, then do nothing
-    private boolean isCompleted(String status) {
-        return status.equals(SERVICE_JOB_COMPLETED);
     }
 
     public interface CallbackInterface {

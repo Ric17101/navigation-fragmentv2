@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
 
 public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobPartsListAdapter.ViewHolder> {
 

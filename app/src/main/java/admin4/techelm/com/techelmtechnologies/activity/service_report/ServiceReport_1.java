@@ -51,13 +51,13 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobRecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobUploadsListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobRecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
@@ -69,9 +69,9 @@ public class ServiceReport_1 extends AppCompatActivity implements
         ServiceJobRecordingsListAdapter.CallbackInterface,
         ServiceJobUploadsListAdapter.CallbackInterface,
         RecordingService.OnTimerChangedListener,
-        RecordingDBUtil.OnDatabaseChangedListener,
+        RecordingSJDBUtil.OnDatabaseChangedListener,
         ServiceJobDBUtil.OnDatabaseChangedListener,
-        UploadsDBUtil.OnDatabaseChangedListener {
+        UploadsSJDBUtil.OnDatabaseChangedListener {
 
     private static final String TAG = "ServiceReport_1";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
@@ -98,7 +98,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     private ServiceJobUploadsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
     private List<ServiceJobUploadsWrapper> mUploadResults = null;
-    private UploadsDBUtil mUploadsDB;
+    private UploadsSJDBUtil mUploadsDB;
 
     // C. Recording controls
     private MaterialDialog mRecordingDialog;
@@ -117,7 +117,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     private ServiceJobRecordingsListAdapter mListAdapter; // ListView Setup
     private RecyclerView mRecordResultsList;
     private List<ServiceJobRecordingWrapper> mResultsList = null;
-    private RecordingDBUtil mRecodingDB;
+    private RecordingSJDBUtil mRecodingDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -313,7 +313,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     }
 
     private void populateUploadsCardList() {
-        mUploadsDB = new UploadsDBUtil(ServiceReport_1.this);
+        mUploadsDB = new UploadsSJDBUtil(ServiceReport_1.this);
         mUploadsDB.open();
         mUploadResults = mUploadsDB.getAllUploadsBySJID_ByTaken(mServiceID, "");
         mUploadsDB.close();
@@ -751,7 +751,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mUploadsDB = new UploadsDBUtil(ServiceReport_1.this);
+                        mUploadsDB = new UploadsSJDBUtil(ServiceReport_1.this);
                         mUploadsDB.open();
                         mUploadsDB.removeItemWithId(id);
                         mUploadsDB.close();
@@ -781,7 +781,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     }
 
     private void populateRecordingsCardList() {
-        mRecodingDB = new RecordingDBUtil(ServiceReport_1.this);
+        mRecodingDB = new RecordingSJDBUtil(ServiceReport_1.this);
         mRecodingDB.open();
         mResultsList = mRecodingDB.getAllRecordingsBySJID_ByTaken(mServiceID, "");
         mRecodingDB.close();
@@ -954,7 +954,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
             .onPositive(new MaterialDialog.SingleButtonCallback() {
                 @Override
                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    mRecodingDB = new RecordingDBUtil(ServiceReport_1.this);
+                    mRecodingDB = new RecordingSJDBUtil(ServiceReport_1.this);
                     mRecodingDB.open();
                     mRecodingDB.removeItemWithId(id);
                     mRecodingDB.close();

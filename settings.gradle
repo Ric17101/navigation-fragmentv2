@@ -3,4 +3,5 @@ include ':app',
         ':sliding_panel_library',
         ':signature_pad_library',
         ':page_tab_library',
-        ':pdf_library'
+        ':pdf_library',
+        ':zxing-orient'

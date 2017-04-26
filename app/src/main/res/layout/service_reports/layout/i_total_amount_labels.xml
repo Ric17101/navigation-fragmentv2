@@ -2,7 +2,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/TableLayoutLabels"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <TableRow
         android:layout_width="match_parent"
@@ -28,14 +28,19 @@
             android:text=":" />
 
         <TextView
-            android:id="@+id/textViewLabelTotalAmount"
+            android:id="@+id/textViewLabelDollar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="-3dp"
+            android:text="SGD$ " />
+
+        <TextView
+            android:id="@+id/textViewLabelTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1.6"
             android:gravity="fill_vertical"
-            android:text="SGD$ 100..." />
+            android:text="100..." />
     </TableRow>
 </TableLayout>

@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobRecordingWrapper;
 
 public class PlaybackFragment extends DialogFragment {
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -40,8 +41,8 @@ import admin4.techelm.com.techelmtechnologies.activity.service_report.ServiceRep
 import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.ServiceJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.ServiceJobFragmentTab;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewReplacementPartsRatesWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
@@ -57,6 +58,7 @@ public class MainActivity extends FragmentActivity implements
         CalendarListAdapter.CallbackInterface,
         UnsignedServiceJobListAdapter.CallbackInterface,
         ProjectJobListAdapter.CallbackInterface
+        // OnTaskKill.onStopCallbackInterface
     {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -64,6 +66,8 @@ public class MainActivity extends FragmentActivity implements
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
     NavigationView mNavigationUserView;
+    private int navigation_active = 0;
+
     ActionBarDrawerToggle mDrawerToggle;
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
@@ -149,6 +153,15 @@ public class MainActivity extends FragmentActivity implements
         dismissDialog();
     }
 
+        /**
+     * Can be used to title the TAB on the ViewPagerActivity
+     * By using the MODE CONSTANT of modeOfForm
+     */
+    private int fromBundleToActiveNavigation() {
+        Intent intent = getIntent();
+        return intent.getIntExtra(LANDING_PAGE_ACTIVE_KEY, 0);
+    }
+
     private void dismissDialog() {
         if (this.mProjectJobFormSelectorDialog != null)
             this.mProjectJobFormSelectorDialog.dismiss();
@@ -204,11 +217,13 @@ public class MainActivity extends FragmentActivity implements
          */
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.containerView, new ServiceJobFragmentTab()).commit(); // tO RENDER THE  1st TAB on MAIN MENU
+        Fragment activeFragment = (fromBundleToActiveNavigation() == 0 ? new ServiceJobFragmentTab() : new ProjectJobChooseFormFragment());
+        mFragmentTransaction.replace(R.id.containerView, activeFragment).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
         /**
          * Setup click events on the Navigation View Items.
          */
+        mNavigationView.getMenu().getItem(fromBundleToActiveNavigation()).setChecked(true);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -306,7 +321,7 @@ public class MainActivity extends FragmentActivity implements
         String strOut = "Position: " + position + " \nService Job:" + serviceJob.toString() + "\nMode: " + action;
         System.out.print(strOut);
 
-        switch(action) {
+        switch (action) {
             /*************************** SERVICE JOB *****************************/
             case ACTION_VIEW_DETAILS : // Show Details of SJ on MDialog
                 showMDialogSJDetails(serviceJob);
@@ -318,9 +333,10 @@ public class MainActivity extends FragmentActivity implements
                         .setColor(getResources().getColor(R.color.colorPrimary1))
                         .show();
                 break;
+                // TODO: This should Indicate who is Currently Editing the Service Job is client wants to... also on the status of the SJ
                 */
             case ACTION_EDIT_JOB_SERVICE : // Show Details on ServiceReport_FRGMT_BEFORE View
-                confirmContinueTaskMDialog(serviceJob);
+            confirmContinueTaskMDialog(serviceJob);
                 break;
             case ACTION_BEGIN_JOB_SERVICE : // Confirm Begin Task
                 confirmBeginTaskMDialog(serviceJob);
@@ -330,6 +346,7 @@ public class MainActivity extends FragmentActivity implements
                         .setSnackBar(findViewById(android.R.id.content), "Already completed.")
                         .setColor(getResources().getColor(R.color.colorPrimary1))
                         .show();
+                break;
             /*************************** END SERVICE JOB *****************************/
 
 
@@ -614,7 +631,6 @@ public class MainActivity extends FragmentActivity implements
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 .putExtra(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm);
         startActivity(i);
-        // overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
         overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 

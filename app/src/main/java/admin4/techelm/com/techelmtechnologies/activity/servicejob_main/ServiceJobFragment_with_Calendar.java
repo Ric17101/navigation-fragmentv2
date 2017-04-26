@@ -33,8 +33,8 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
@@ -429,7 +429,7 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
     }
 
     private void populateCardList() {
-        results = new Calendar_ServiceJob_DBUtil(mContext).getAllDetailsOfServiceJob();
+        results = new CalendarSJDBUtil(mContext).getAllDetailsOfServiceJob();
         mSearchResultsList.setHasFixedSize(true);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(mContext));
         mSearchResultsList.setItemAnimator(new DefaultItemAnimator());

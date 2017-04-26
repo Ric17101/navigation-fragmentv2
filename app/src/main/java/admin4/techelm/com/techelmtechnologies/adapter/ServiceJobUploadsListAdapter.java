@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
 
 public class ServiceJobUploadsListAdapter extends RecyclerView.Adapter<ServiceJobUploadsListAdapter.ViewHolder> {
 

@@ -9,13 +9,9 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.SentFragment_OLD;
 import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.UpdatesFragment;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PreInstallationSiteSurveyFragment;
-import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.PartReplacement_FRGMT_2;
-import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.ServiceReport_FRGMT_AFTER;
-import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.ServiceReport_FRGMT_BEFORE;
-import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.SigningOff_FRGMT_4;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewReplacementPartsRatesWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 public class ProjectJobFragmentPagerAdapter_NOT_USED extends FragmentPagerAdapter {
 
@@ -45,7 +41,7 @@ public class ProjectJobFragmentPagerAdapter_NOT_USED extends FragmentPagerAdapte
         System.out.print("ServiceJobFragmentPagerAdapter : This is from getITEM ");
         switch (position) {
             case 0:
-                return new PreInstallationSiteSurveyFragment();
+                return new PISSTaskListFragment();
             case 1:
                 return UpdatesFragment.newInstance(position);
             case 2:

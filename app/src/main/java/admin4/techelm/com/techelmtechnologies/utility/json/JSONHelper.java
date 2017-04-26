@@ -98,7 +98,7 @@ public class JSONHelper {
      * @param activity - the Calling Activity / Context
      * @return
      */
-    public boolean isConnected(FragmentActivity activity){
+    public boolean isConnected(Activity activity){
         ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected())

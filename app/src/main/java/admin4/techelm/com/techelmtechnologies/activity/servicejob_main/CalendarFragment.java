@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,12 +25,12 @@ import org.json.JSONObject;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
@@ -71,12 +72,17 @@ public class CalendarFragment extends Fragment implements
 
     private List<ServiceJobWrapper> results = null;
     private List<String> SERVICE_JOB = null;
+
+
+    // C. Task Killer
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private CalendarSJTask_RenderList mAuthTask = null;
+    private CalendarSJTask_RenderList mAuthCalendarTask = null;
+    private ParseJasonToDateDotsTask mAuthDotTask = null;
+    //private TaskCanceller mTaskCanceller;
 
-    // @Nullable
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -279,8 +285,10 @@ public class CalendarFragment extends Fragment implements
     private void renderListFromCalendar(Calendar daySelectedCalendar) {
         String formattedDate = convertLongDateToSimpleDate(daySelectedCalendar);
 
-        mAuthTask = new CalendarSJTask_RenderList(formattedDate, "", mContext);
-        mAuthTask.execute((Void) null);
+        mAuthCalendarTask = new CalendarSJTask_RenderList(formattedDate, "", mContext);
+        //mTaskCanceller = new TaskCanceller(mAuthCalendarTask);
+        new TaskCanceller(mAuthCalendarTask).setWait(getActivity());
+        mAuthCalendarTask.execute((Void) null);
         name.setText(formattedDate);
     }
 
@@ -361,7 +369,10 @@ public class CalendarFragment extends Fragment implements
                     // textView23.setText(response.getStringResponse());
                     // TODO: Add this inside the Asynctask
                     //getListSJ(response.getStringResponse());
-                    new ParseJasonToDateDotsTask().execute(response.getStringResponse());
+
+                    mAuthDotTask = new ParseJasonToDateDotsTask();
+                    new TaskCanceller(mAuthDotTask).setWait(getActivity());
+                    mAuthDotTask.execute(response.getStringResponse());
                 }
             });
         }
@@ -427,6 +438,13 @@ public class CalendarFragment extends Fragment implements
             }
             hideSwipeRefreshing();
         }
+
+        @Override
+        protected void onCancelled() {
+            noResultTryAgain();
+            hideSwipeRefreshing();
+            Log.i(TAG, "onCancelled hideSwipeRefreshing() new SJTask_RenderList()");
+        }
     }
 
 
@@ -461,7 +479,7 @@ public class CalendarFragment extends Fragment implements
     }
 
     private void populateCardList() {
-        results = new Calendar_ServiceJob_DBUtil(mContext).getAllDetailsOfServiceJob();
+        results = new CalendarSJDBUtil(mContext).getAllDetailsOfServiceJob();
         mCalendarResultsList.setHasFixedSize(true);
         mCalendarResultsList.setLayoutManager(new LinearLayoutManager(mContext));
         mCalendarResultsList.setItemAnimator(new DefaultItemAnimator());
@@ -501,6 +519,12 @@ public class CalendarFragment extends Fragment implements
     private void noResultSnackBar() {
         mCalendarResultsList.setVisibility(View.GONE);
         textViewCalendarResult.setText("No service job this time.");
+        textViewCalendarResult.setVisibility(View.VISIBLE);
+    }
+
+    private void noResultTryAgain() {
+        mCalendarResultsList.setVisibility(View.GONE);
+        textViewCalendarResult.setText("Try again later.");
         textViewCalendarResult.setVisibility(View.VISIBLE);
     }
 
@@ -780,6 +804,11 @@ public class CalendarFragment extends Fragment implements
         }
 
         @Override
-        protected void onCancelled() { }
+        protected void onCancelled() {
+            noResultTryAgain();
+            hideSwipeRefreshing();
+            Log.i(TAG, "onCancelled hideSwipeRefreshing() new SJTask_RenderList()");
+        }
+
     }
 }

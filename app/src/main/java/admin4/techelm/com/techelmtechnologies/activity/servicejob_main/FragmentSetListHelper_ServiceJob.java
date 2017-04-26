@@ -6,7 +6,7 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_ALREADY_COMPLETED;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_ALREADY_ON_PROCESS;

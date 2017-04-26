@@ -43,16 +43,16 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.PartsSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 
 public class PartReplacement_2 extends AppCompatActivity implements
         ServiceJobPartsListAdapter.CallbackInterface,
         ServiceJobDBUtil.OnDatabaseChangedListener,
-        PartsDBUtil.OnDatabaseChangedListener {
+        PartsSJDBUtil.OnDatabaseChangedListener {
 
     private static final String TAG = "PartReplacement_FRGMT_2";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
@@ -78,7 +78,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
     private ServiceJobPartsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
     private List<ServiceJobNewPartsWrapper> mUploadResults = null;
-    private PartsDBUtil mPartsDB;
+    private PartsSJDBUtil mPartsDB;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,7 +245,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
     }
 
     private void populatePartsCardList() {
-        mPartsDB = new PartsDBUtil(PartReplacement_2.this);
+        mPartsDB = new PartsSJDBUtil(PartReplacement_2.this);
         mPartsDB.open();
         mUploadResults = mPartsDB.getAllPartsBySJID(mServiceID);
         mPartsDB.close();
@@ -663,7 +663,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mPartsDB = new PartsDBUtil(PartReplacement_2.this);
+                        mPartsDB = new PartsSJDBUtil(PartReplacement_2.this);
                         mPartsDB.open();
                         mPartsDB.removeItemWithId(id);
                         mPartsDB.close();

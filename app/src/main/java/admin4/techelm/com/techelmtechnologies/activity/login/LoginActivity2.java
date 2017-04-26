@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
@@ -177,6 +178,7 @@ public class LoginActivity2 extends AppCompatActivity implements
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new LoginActivityAuthenticationTask(email, password, this);
+            new TaskCanceller(mAuthTask).setWait(LoginActivity2.this);
             mAuthTask.execute((Void) null);
         }
     }

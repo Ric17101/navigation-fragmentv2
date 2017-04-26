@@ -3,15 +3,18 @@ package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment
 import android.graphics.Color;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.PreInstallationSiteSurveyListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.IPITaskListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.PISSTaskListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobB1ListAdapter;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_CORRECTIVE_ACTION_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CONTINUE_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLETED;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_NEW;
@@ -85,11 +88,11 @@ public class FragmentSetListHelper_ProjectJob {
         mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_CHOOSE_FORM);
     }
 
-    // Called at PreInstallationSiteSurveyListAdapter Only
-    public void setActionOnClick(PreInstallationSiteSurveyListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+    // Called at PISSTaskListAdapter Only
+    public void setActionOnClick(PISSTaskListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
         switch (status) {
-            case PROJECT_JOB_START_TASK :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_TASK);
+            case PROJECT_JOB_START_DRAWING :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_DRAWING);
                 break;
             case PROJECT_JOB_CONTINUE_TASK :
                 mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_CONTINUE_TASK);
@@ -97,6 +100,11 @@ public class FragmentSetListHelper_ProjectJob {
             default :
                 break;
         }
+    }
+
+    // Called at IPITaskListAdapter Only
+    public void setActionOnClick(IPITaskListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+        mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_CORRECTIVE_ACTION_FORM);
     }
 
 

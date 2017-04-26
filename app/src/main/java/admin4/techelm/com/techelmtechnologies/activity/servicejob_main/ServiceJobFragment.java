@@ -25,23 +25,20 @@ import org.json.JSONObject;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.Calendar_ServiceJob_DBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
-import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceListener;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
@@ -168,6 +165,7 @@ public class ServiceJobFragment extends Fragment implements
     private void renderListFromCalendar(Calendar daySelectedCalendar) {
         String formattedDate = new CalendarFragment().convertLongDateToSimpleDate(daySelectedCalendar);
         mAuthTask = new CalendarSJTask_RenderList(formattedDate, "", mContext);
+        new TaskCanceller(mAuthTask).setWait(getActivity());
         mAuthTask.execute((Void) null);
         //name.setText(formattedDate);
     }
@@ -182,6 +180,12 @@ public class ServiceJobFragment extends Fragment implements
                 .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
         // removeRobotoCalendarDots();
+    }
+
+    private void noResultTryAgain() {
+        mSearchResultsList.setVisibility(View.GONE);
+        textViewSJResult.setText("Try again later.");
+        textViewSJResult.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -208,7 +212,7 @@ public class ServiceJobFragment extends Fragment implements
     }
 
     private void populateCardList() {
-        results = new Calendar_ServiceJob_DBUtil(mContext).getAllDetailsOfServiceJob();
+        results = new CalendarSJDBUtil(mContext).getAllDetailsOfServiceJob();
         mSearchResultsList.setHasFixedSize(true);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(mContext));
         mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
@@ -263,10 +267,12 @@ public class ServiceJobFragment extends Fragment implements
          *      null - no data
          *      '' - no internet connection/ server error
          *      String - successful aResponse
+         *      TODO: JSONResult is "error" When refused by the server, don't know why
          */
         private String parseServiceListJSON(String JSONResult) {
-            if (JSONResult == null || JSONResult == "")
+            if (JSONResult == null || JSONResult == "" || JSONResult == "error")
                 return "";
+
             try {
                 JSONObject json = new JSONObject(JSONResult);
                 String str = "";
@@ -480,7 +486,11 @@ public class ServiceJobFragment extends Fragment implements
         }
 
         @Override
-        protected void onCancelled() { }
+        protected void onCancelled() {
+            noResultTryAgain();
+            hideSwipeRefreshing();
+            Log.i(TAG, "onCancelled hideSwipeRefreshing() new SJTask_RenderList()");
+        }
     }
 
 }

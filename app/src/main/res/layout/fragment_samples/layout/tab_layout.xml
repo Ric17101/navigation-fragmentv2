@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/i_project_job_header" />
+    <include layout="@layout/i_project_task_b1_header" />
+    <include layout="@layout/i_project_task_b2b3_header" />
 
     <HorizontalScrollView
         android:id="@+id/hScrollViewTab"
@@ -20,9 +21,10 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary1"
             android:focusable="true"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/white"
-            app:tabMode="fixed"
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/white" />
 

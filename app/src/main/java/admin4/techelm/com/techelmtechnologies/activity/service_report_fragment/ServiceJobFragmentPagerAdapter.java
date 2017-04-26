@@ -7,8 +7,8 @@ import android.support.v4.view.ViewPager;
 
 import java.util.List;
 
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewReplacementPartsRatesWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
 

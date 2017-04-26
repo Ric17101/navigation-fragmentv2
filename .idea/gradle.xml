@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/pdf_library" />
             <option value="$PROJECT_DIR$/signature_pad_library" />
             <option value="$PROJECT_DIR$/sliding_panel_library" />
+            <option value="$PROJECT_DIR$/zxing-orient" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -22,16 +20,16 @@ import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobRecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobUploadsListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.PartsDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.RecordingDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.ServiceJobDBUtil;
-import admin4.techelm.com.techelmtechnologies.db.UploadsDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.PartsSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.LicensesFragment;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewPartsWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobNewReplacementPartsRatesWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobRecordingWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobUploadsWrapper;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobRecordingWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
@@ -44,11 +42,11 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_J
 public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         ServiceJobRecordingsListAdapter.CallbackInterface, // A. ServiceReport_FRGMT_BEFORE
         ServiceJobUploadsListAdapter.CallbackInterface,
-        RecordingDBUtil.OnDatabaseChangedListener,
+        RecordingSJDBUtil.OnDatabaseChangedListener,
         ServiceJobDBUtil.OnDatabaseChangedListener, // [A & B & D]
-        UploadsDBUtil.OnDatabaseChangedListener,
+        UploadsSJDBUtil.OnDatabaseChangedListener,
         ServiceJobPartsListAdapter.CallbackInterface, // B. PartReplacement_FRGMT_2
-        PartsDBUtil.OnDatabaseChangedListener
+        PartsSJDBUtil.OnDatabaseChangedListener//,
         // OnTaskKill.onStopCallbackInterface // TODO: if user close the app permanently
 {
 
@@ -337,6 +335,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     @Override
     public void onNewPartsEntryAdded(String fileName) {
         getFragmentPartReplacement().fromActivity_onNewPartsEntryAdded(fileName);
+        getFragmentSigningOff().setTextViewTotalPrice();
     }
     @Override
     public void onPartsEntryRenamed(String fileName) {
@@ -345,6 +344,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     @Override
     public void onPartsEntryDeleted() {
         getFragmentPartReplacement().fromActivity_onPartsEntryDeleted();
+        getFragmentSigningOff().setTextViewTotalPrice();
     }
 
     private PartReplacement_FRGMT_2 getFragmentPartReplacement() {

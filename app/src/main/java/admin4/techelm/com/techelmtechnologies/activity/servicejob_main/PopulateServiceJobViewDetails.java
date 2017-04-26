@@ -4,13 +4,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 /**
  * Reusable Content Populating for i_labels_report_details.xml
@@ -82,14 +81,12 @@ public class PopulateServiceJobViewDetails {
     }
 
     /**
-     * View on the Fragments onClick View
+     * View Details on the Fragments onClick View
      * @param vDialog - view of the Material View
      * @param serviceJob - ServiceJob Wrapper from CalendarFragment
      */
     public void populateServiceJobDetails(View vDialog, ServiceJobWrapper serviceJob, int visibility, String TAG) {
         this.setViewElements(vDialog, serviceJob, visibility);
-
-        mExpandLayout = (ExpandableRelativeLayout) vDialog.findViewById(R.id.expandableLayout);
 
         // TextView More and Hide
         textViewHideShow = (TextView) vDialog.findViewById(R.id.textViewHideShow);
@@ -117,6 +114,10 @@ public class PopulateServiceJobViewDetails {
                 doHideOrShow();
             }
         });
+
+        // Panel Hiding/Showing
+        mExpandLayout = (ExpandableRelativeLayout) vDialog.findViewById(R.id.expandableLayout);
+        hideView();
     }
 
     private void doHideOrShow() {
