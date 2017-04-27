@@ -269,17 +269,6 @@ public class RecordingSJDBUtil extends DatabaseAccess {
         boolean result;
         if (cursor.moveToFirst()) {
             result = true;
-            /*FileUtility fileUtil = new FileUtility(getContext());
-            do {
-                ServiceJobRecordingWrapper recordItem = new ServiceJobRecordingWrapper();
-                recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceId(cursor.getString(1));
-                recordItem.setName(cursor.getString(2));
-                recordItem.setFilePath(cursor.getString(3));
-                recordItem.setLength(cursor.getInt(4));
-                recordItem.setTime(cursor.getLong(5));
-                fileUtil.isFileExist();
-            } while (cursor.moveToNext());*/
         } else { // no data
             result = false;
         }
