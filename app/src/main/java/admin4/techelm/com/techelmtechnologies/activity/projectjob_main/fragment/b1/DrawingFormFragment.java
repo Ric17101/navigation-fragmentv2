@@ -11,16 +11,13 @@ import android.widget.Button;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 
-/**
- * Created by Ratan on 7/29/2015.
- */
-public class RemarksFragmentTest extends Fragment {
+public class DrawingFormFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.content_remarks_layout_test, null);
+        View view = inflater.inflate(R.layout.content_b1_drawing_and_remarks_form, null);
         initButton(view);
         return view;
     }

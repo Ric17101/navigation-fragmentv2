@@ -1,6 +1,5 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -47,7 +46,7 @@ public class DrawingFragmentTest extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.content_drawing_layout_test, container, false);
+        View view = inflater.inflate(R.layout.content_b1_drawing_layout_test, container, false);
 
         this.mContext = container.getContext();
 
@@ -73,7 +72,6 @@ public class DrawingFragmentTest extends Fragment implements View.OnClickListene
         btnDraw.setOnClickListener(this);
         btnBlue.setOnClickListener(this);
         btnSave.setOnClickListener(this);
-
 
         initButton(view);
 

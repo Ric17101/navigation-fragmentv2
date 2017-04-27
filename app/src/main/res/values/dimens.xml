@@ -9,6 +9,8 @@
     <dimen name="framelayout_width">250sp</dimen>
     <dimen name="framelayoutXL_width">400sp</dimen>
     <dimen name="margin_login_components">10sp</dimen>
+    <dimen name="previous_newt_height">68sp</dimen>
+    <dimen name="list_bottom_height">84sp</dimen>
 
     <!-- CheeseCake Sampler -->
     <dimen name="detail_backdrop_height">256sp</dimen>

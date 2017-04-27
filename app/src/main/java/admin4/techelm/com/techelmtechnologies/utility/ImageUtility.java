@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -189,7 +191,7 @@ public class ImageUtility {
     }
 
     // TODO: Image Resizing Before upload/save to Gallery Directory
-    public File rescaleImageFile(File file){
+    public File rescaleImageFile(File file) {
         try {
             // BitmapFactory options to downsize the image
             BitmapFactory.Options o = new BitmapFactory.Options();
@@ -229,6 +231,47 @@ public class ImageUtility {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /************* IMAGE UTIL USED IN FRAGMENT FORMS *****************/
+    public static Bitmap rotateImageIfRequired(Bitmap img, Uri selectedImage) throws IOException {
+
+        ExifInterface ei = new ExifInterface(selectedImage.getPath());
+        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                return rotateImage(img, 90);
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                return rotateImage(img, 180);
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                return rotateImage(img, 270);
+            default:
+                return img;
+        }
+    }
+
+    private static Bitmap rotateImage(Bitmap img, int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
+        img.recycle();
+        return rotatedImg;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 0) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
 }

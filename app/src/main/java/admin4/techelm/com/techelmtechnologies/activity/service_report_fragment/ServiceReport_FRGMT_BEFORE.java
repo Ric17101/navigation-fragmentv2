@@ -62,6 +62,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploads
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
+import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
@@ -697,7 +698,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 mPicUri = getPickImageResultUri(data);
                 try {
                     mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mPicUri);
-                    mBitmap = rotateImageIfRequired(mBitmap, mPicUri);
+                    mBitmap = ImageUtility.rotateImageIfRequired(mBitmap, mPicUri);
                     // mBitmap = getResizedBitmap(mBitmap, 500);
 
                     /*CircleImageView croppedImageView = (CircleImageView) mCameraDialog.getCustomView().findViewById(R.id.img_profile);
@@ -717,46 +718,6 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 imageView.setImageBitmap(mBitmap);
             }
         }
-    }
-
-    private static Bitmap rotateImageIfRequired(Bitmap img, Uri selectedImage) throws IOException {
-
-        ExifInterface ei = new ExifInterface(selectedImage.getPath());
-        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-        switch (orientation) {
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                return rotateImage(img, 90);
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                return rotateImage(img, 180);
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                return rotateImage(img, 270);
-            default:
-                return img;
-        }
-    }
-
-    private static Bitmap rotateImage(Bitmap img, int degree) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degree);
-        Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
-        img.recycle();
-        return rotatedImg;
-    }
-
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 0) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
     /**

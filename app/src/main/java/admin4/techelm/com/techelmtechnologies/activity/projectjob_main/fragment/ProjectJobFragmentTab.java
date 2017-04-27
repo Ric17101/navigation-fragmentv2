@@ -16,9 +16,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.RemarksFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
@@ -33,7 +33,7 @@ public class ProjectJobFragmentTab extends Fragment {
     private TabLayout tabLayout;
     private HorizontalScrollView hScrollViewTab;
     private ViewPager viewPager;
-    public static int TAB_COUNT = 3;
+    public static int TAB_COUNT = 2;
     Fragment mFragment;
     MyAdapter mPagerAdapter;
 
@@ -163,9 +163,7 @@ public class ProjectJobFragmentTab extends Fragment {
                 case 0:
                     return new PISSTaskListFragment();
                 case 1:
-                    return new DrawingFragmentTest(); // return UpdatesFragment.newInstance(position);
-                case 2:
-                    return new RemarksFragmentTest(); // return SentFragment_OLD.newInstance(position);
+                    return new DrawingFormFragment(); // return UpdatesFragment.newInstance(position);
             }
             return null;
         }
@@ -191,14 +189,7 @@ public class ProjectJobFragmentTab extends Fragment {
         }
 
         @Override
-        public int getCount() {
-            switch (mTypeOfForm) {
-                case PROJECT_JOB_FORM_B1: return TAB_COUNT;
-                case PROJECT_JOB_FORM_B2:
-                case PROJECT_JOB_FORM_B3: return TAB_COUNT - 1;
-                default: return TAB_COUNT;
-            }
-        }
+        public int getCount() { return TAB_COUNT; }
 
         /**
          * This method returns the title of the tab according to the position.
@@ -221,9 +212,7 @@ public class ProjectJobFragmentTab extends Fragment {
                 case 0:
                     return "TASK LIST";
                 case 1:
-                    return "DRAWING";
-                case 2:
-                    return "REMARKS";
+                    return "DRAWING FORM";
             }
             return "";
         }
@@ -234,8 +223,6 @@ public class ProjectJobFragmentTab extends Fragment {
                     return "TASK LIST";
                 case 1:
                     return "FINAL";
-                /*case 2:
-                    return "COMPLETION DATE";*/
             }
             return "";
         }

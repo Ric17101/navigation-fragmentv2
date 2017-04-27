@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/content_last_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewTitlesubContractor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sub-Contractor"
+                android:textStyle="normal|bold" />
+
+            <EditText
+                android:id="@+id/editTextSubContractor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:background="@color/white"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+            <include layout="@layout/i_signature_pad_layout" />
+
+            <TextView
+                android:id="@+id/textViewTitleDispositioned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dispositioned By"
+                android:textStyle="normal|bold" />
+
+            <EditText
+                android:id="@+id/editTextDispositioned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:background="@color/white"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <include layout="@layout/i_signature_pad_layout" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include layout="@layout/button_previous_next" />
+
+</RelativeLayout>

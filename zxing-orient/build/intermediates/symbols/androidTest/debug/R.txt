@@ -619,7 +619,7 @@ int id multiply 0x7f0c001b
 int id never 0x7f0c0027
 int id none 0x7f0c0015
 int id normal 0x7f0c0011
-int id notification_background 0x7f0c0078
+int id notification_background 0x7f0c0077
 int id notification_main_column 0x7f0c0073
 int id notification_main_column_container 0x7f0c0072
 int id options_tool_bar 0x7f0c0060
@@ -631,7 +631,7 @@ int id quit 0x7f0c000b
 int id radio 0x7f0c0047
 int id restart_preview 0x7f0c000c
 int id return_scan_result 0x7f0c000d
-int id right_icon 0x7f0c0077
+int id right_icon 0x7f0c0078
 int id right_side 0x7f0c0074
 int id screen 0x7f0c001c
 int id scrollIndicatorDown 0x7f0c003d

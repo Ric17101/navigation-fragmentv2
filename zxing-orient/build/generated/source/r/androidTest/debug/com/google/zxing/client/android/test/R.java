@@ -1939,7 +1939,7 @@ containing a value of this type.
         public static final int never=0x7f0c0027;
         public static final int none=0x7f0c0015;
         public static final int normal=0x7f0c0011;
-        public static final int notification_background=0x7f0c0078;
+        public static final int notification_background=0x7f0c0077;
         public static final int notification_main_column=0x7f0c0073;
         public static final int notification_main_column_container=0x7f0c0072;
         public static final int options_tool_bar=0x7f0c0060;
@@ -1951,7 +1951,7 @@ containing a value of this type.
         public static final int radio=0x7f0c0047;
         public static final int restart_preview=0x7f0c000c;
         public static final int return_scan_result=0x7f0c000d;
-        public static final int right_icon=0x7f0c0077;
+        public static final int right_icon=0x7f0c0078;
         public static final int right_side=0x7f0c0074;
         public static final int screen=0x7f0c001c;
         public static final int scrollIndicatorDown=0x7f0c003d;

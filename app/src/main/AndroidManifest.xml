@@ -162,6 +162,12 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".utility.image_download.DownloadImageActivity"
+            android:label="Image Download"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <service android:name="admin4.techelm.com.techelmtechnologies.utility.RecordingService" />
 

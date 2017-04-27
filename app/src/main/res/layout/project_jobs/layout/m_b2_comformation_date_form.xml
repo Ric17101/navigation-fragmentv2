@@ -7,18 +7,7 @@
 
     <include layout="@layout/include_this_then_no_edit_text_is_focus" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:layout_marginTop="18sp"
-        android:text="Comment"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
-    <Spinner
-        android:id="@+id/spinnerComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"
-        android:focusable="true"/>
+    <include layout="@layout/i_comments_spinner" />
 
     <TextView
         android:id="@+id/textViewTitleCommentRemarks"

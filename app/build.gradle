@@ -107,4 +107,10 @@ dependencies {
 
     // Expandable Layout with Animation
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
+
+    // Image Download
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    // QRCode
+    compile project(path: ':zxing-orient')
 }
