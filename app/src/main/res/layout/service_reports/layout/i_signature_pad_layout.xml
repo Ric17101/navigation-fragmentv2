@@ -42,7 +42,8 @@
                 android:layout_height="170sp"
                 android:layout_gravity="center"
                 android:background="?selectableItemBackgroundBorderless"
-                card_view:srcCompat="@drawable/composea" />
+                android:src="@drawable/composea"/>
+
         </android.support.v7.widget.CardView>
     </FrameLayout>
 

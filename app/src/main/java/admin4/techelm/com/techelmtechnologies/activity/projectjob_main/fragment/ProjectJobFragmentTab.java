@@ -20,6 +20,7 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.SigningOff_FRGMT_4;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
@@ -164,6 +165,7 @@ public class ProjectJobFragmentTab extends Fragment {
                     return new PISSTaskListFragment();
                 case 1:
                     return new DrawingFormFragment(); // return UpdatesFragment.newInstance(position);
+                    // return new SigningOff_FRGMT_4(); // return UpdatesFragment.newInstance(position);
             }
             return null;
         }

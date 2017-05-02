@@ -104,6 +104,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null)
         position = getArguments().getInt(ARG_POSITION);
     }
 
