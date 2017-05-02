@@ -113,4 +113,7 @@ dependencies {
 
     // QRCode
     compile project(path: ':zxing-orient')
+
+    // Image Zoom
+    compile 'com.alexvasilkov:gesture-views:2.3.0'
 }

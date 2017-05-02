@@ -7,16 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 
 public class DrawingFormFragment extends Fragment {
 
+    private View rootView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        this.rootView = container.getRootView();
         View view = inflater.inflate(R.layout.content_b1_drawing_and_remarks_form, null);
         initButton(view);
         return view;
@@ -37,7 +39,7 @@ public class DrawingFormFragment extends Fragment {
         System.out.println("remarks, currently under construction");
     }
 
-    private void initButton(View view) {
+    private void initButton(final View view) {
         /** BUTTON BACK */
         Button button_back = (Button) view.findViewById(R.id.button_back);
         button_back.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +67,19 @@ public class DrawingFormFragment extends Fragment {
                 ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigateToTaskList();
             }
         });
+
+        ImageButton imageButtonViewDrawing = (ImageButton) view.findViewById(R.id.imageButtonViewDrawing);
+        imageButtonViewDrawing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 showDrawingCanvasFragment(view);
+            }
+        });
+
     }
 
+    public void showDrawingCanvasFragment(View view) {
+        System.out.println("showDrawingCanvasFragment");
+        ((ProjectJobViewPagerActivity)getActivity()).showDrawingCanvasFragment();
+    }
 }

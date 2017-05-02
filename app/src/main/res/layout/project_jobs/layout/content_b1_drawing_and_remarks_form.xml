@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawing_content_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -22,7 +23,11 @@
 
             <include layout="@layout/i_comments_spinner" />
 
-            <include layout="@layout/i_signature_pad_layout" />
+            <include layout="@layout/i_drawing_view" />
+
+            <ViewSwitcher
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <include layout="@layout/i_edit_text_remarks" />
         </LinearLayout>

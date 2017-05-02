@@ -7,5 +7,7 @@ import android.graphics.Bitmap;
  */
 
 public interface UILListener {
-
+    void OnHandleError(String message);
+    void OnHandleStartDownload(String message);
+    void OnHandleLoadingCompleted(String imageURI, Bitmap imageLoaded);
 }

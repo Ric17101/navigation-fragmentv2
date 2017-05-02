@@ -99,6 +99,8 @@ public class LoginActivity2 extends AppCompatActivity implements
      *      ServiceJobViewPagerActivity
      *      Login
      *      ServiceReport_TaskCompleted_5
+     *      ProjectJobViewPagerActivity
+     *      ToolboxMeetingPagerActivity
      */
     private void setBackGroundLayout() {
         LinearLayout backgroundLayout = (LinearLayout) findViewById(R.id.linearLayoutLogin);

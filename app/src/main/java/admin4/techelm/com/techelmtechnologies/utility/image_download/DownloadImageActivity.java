@@ -8,13 +8,12 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.utility.UILDownloader;
 
 /**
  * Created by admin 4 on 27/04/2017.
  */
 
-public class DownloadImageActivity extends AppCompatActivity implements UILDownloader.CallbackInterface {
+public class DownloadImageActivity extends AppCompatActivity implements UILListener {
 
     private final static String TAG = DownloadImageActivity.class.getSimpleName();
     private static final String IMAGE_URL = "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/downloadables/drawing_test2.jpg";

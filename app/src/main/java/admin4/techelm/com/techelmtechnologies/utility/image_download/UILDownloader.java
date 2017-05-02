@@ -1,11 +1,10 @@
-package admin4.techelm.com.techelmtechnologies.utility;
+package admin4.techelm.com.techelmtechnologies.utility.image_download;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
@@ -26,7 +25,6 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import java.io.File;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.utility.image_download.UILListener;
 
 /**
  * Created 27/04/2017 by admin4
@@ -55,13 +53,7 @@ public class UILDownloader {
 	private DisplayImageOptions mOptions;
 	private ImageLoaderConfiguration mConfig;
 	private ImageLoader mImageLoader;
-	private CallbackInterface mCallback;
-
-	public interface CallbackInterface {
-		void OnHandleError(String message);
-		void OnHandleStartDownload(String message);
-		void OnHandleLoadingCompleted(String imageURI, Bitmap imageLoaded);
-	}
+	private UILListener mCallback;
 
 	private UILDownloader () {}
 
@@ -72,7 +64,7 @@ public class UILDownloader {
 		this.mContext = context;
 
 		try {
-			this.mCallback = (CallbackInterface) context;
+			this.mCallback = (UILListener) context;
 			this.initUIL();
 		} catch (ClassCastException ex) {
 			Log.e(TAG, "Must implement the CallbackInterface in the Activity", ex);
@@ -158,6 +150,8 @@ public class UILDownloader {
                     mCallback.OnHandleLoadingCompleted(imageUri, loadedImage);
 				}
 			});
+		} else {
+			mCallback.OnHandleError("onLoadingFailed " + "Something went wrong.");
 		}
 	}
 

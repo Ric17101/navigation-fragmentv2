@@ -1,11 +1,10 @@
-package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment;
+package admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
 import android.os.Build;
@@ -16,16 +15,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,18 +36,17 @@ import java.util.HashMap;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingCanvasFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobFragmentTab;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.CompletionDateFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.NonConformanceAndDateFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.adapter.IPITaskListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.PISSTaskListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.ToolboxMeetingListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.InterfaceDialogHolder;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.OpenDialog;
-import admin4.techelm.com.techelmtechnologies.utility.image_download.UILDownloader;
-import admin4.techelm.com.techelmtechnologies.utility.image_download.UILListener;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_CORRECTIVE_ACTION_FORM;
@@ -67,14 +62,12 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_3;
 
-public class ProjectJobViewPagerActivity extends FragmentActivity implements
-        PISSTaskListAdapter.CallbackInterface,
-        IPITaskListAdapter.CallbackInterface,
+public class ToolboxMeetingPagerActivity extends FragmentActivity implements
+        ToolboxMeetingListAdapter.CallbackInterface,
         DatePickerDialog.OnDateSetListener,
-        OpenDialog,
-        UILListener {
+        OpenDialog {
 
-    private static final String TAG = ProjectJobViewPagerActivity.class.getSimpleName();
+    private static final String TAG = ToolboxMeetingPagerActivity.class.getSimpleName();
 
     SessionManager mSession;
 
@@ -84,15 +77,10 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     // PAGER TAB SETUP
     private PagerSlidingTabStrip mTabPager;
     private ViewPager mViewPager;
-    private ProjectJobFragmentTab mPagerAdapter;
+    private ToolboxMeetingFragmentTab mPagerAdapter;
 
     // PAGER TAB Type of Form
     private int modeOfForm = 0;
-
-    // B. Project Job Setup - B2,B3
-    private NonConformanceAndDateFragmentTest ncadft;
-    private CompletionDateFragmentTest cdft;
-    private DrawingCanvasFragment dcf;
 
     DatePickerDialog mDialog;
     private EditText editTextB2B3CompletionDate; // This is used for multiple pop up views
@@ -108,7 +96,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projectjob_list);
+        setContentView(R.layout.activity_toolbox_meeting_list);
 
         fromBundle();
 
@@ -137,34 +125,14 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
          */
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mPagerAdapter = new ProjectJobFragmentTab().newInstance(this.modeOfForm);
+        mPagerAdapter = new ToolboxMeetingFragmentTab().newInstance();
         mFragmentTransaction.replace(R.id.containerView, mPagerAdapter).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
         this.mViewPager = mPagerAdapter.getViewPager();
     }
 
-    /*@Override
-    public void onResume() {
-
-        super.onResume();
-
-        getCurrentFocus().setFocusableInTouchMode(true);
-        getCurrentFocus().requestFocus();
-        getCurrentFocus().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-                    return true;
-                }
-
-                return false;
-            }
-        });
-    }*/
-
     private void setViewPagerTitleBar() {
-        TextView textViewProjectJobTitleTab = (TextView) findViewById(R.id.textViewProjectJobTitleTab);
+        TextView textViewProjectJobTitleTab = (TextView) findViewById(R.id.textViewToolboxTitleTab);
         switch (this.modeOfForm) {
             case PROJECT_JOB_FORM_B1: textViewProjectJobTitleTab.setText(R.string.piss); break;
             case PROJECT_JOB_FORM_B2: textViewProjectJobTitleTab.setText(R.string.ipipw); break;
@@ -182,9 +150,10 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
      *      Login
      *      ServiceReport_TaskCompleted_5
      *      ProjectJobViewPagerActivity
+     *      ToolboxMeetingPagerActivity
      */
     private void setBackGroundLayout() {
-        LinearLayout backgroundLayout = (LinearLayout) findViewById(R.id.activity_projectjob);
+        LinearLayout backgroundLayout = (LinearLayout) findViewById(R.id.activity_toolbox);
         backgroundLayout.setBackground(new ImageUtility(this).ResizeImage(R.drawable.background));
     }
 
@@ -214,16 +183,8 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-        onBackPress();
-    }
-
-    public void onBackPress() {
-        if (mFragmentManager.getBackStackEntryCount() > 0) { // This is usually for DrawingCanvasFragment on backPress
-            mFragmentManager.popBackStack();
-        } else {
-            backToLandingPage(1);
-            // super.onBackPressed();
-        }
+        super.onBackPressed();
+        backToLandingPage(1);
     }
 
     @Override
@@ -263,10 +224,10 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
      * @param mode
      */
     public void backToLandingPage(final int mode) {
-        Intent intent = new Intent(ProjectJobViewPagerActivity.this, MainActivity.class);
+        Intent intent = new Intent(ToolboxMeetingPagerActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(LANDING_PAGE_ACTIVE_KEY, NAVIGATION_DRAWER_SELECTED_PROJECTJOB);
-        Bundle bundle = ActivityOptions.makeCustomAnimation(ProjectJobViewPagerActivity.this,
+        Bundle bundle = ActivityOptions.makeCustomAnimation(ToolboxMeetingPagerActivity.this,
                 R.anim.left_to_right, R.anim.right_to_left).toBundle();
         startActivity(intent, bundle);
         finish();
@@ -304,7 +265,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     /*************** B1 - Pre Installation Site Survey ***************/
     private void showMDialogSJDetails(ServiceJobWrapper serviceJob) {
-        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+        MaterialDialog md = new MaterialDialog.Builder(ToolboxMeetingPagerActivity.this)
                 .title("PROJECT JOB " + serviceJob.getServiceNumber())
                 .customView(R.layout.i_labels_report_details_modal, true)
                 .limitIconToDefaultSize()
@@ -341,7 +302,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     }
 
     private void showB1FormDialog() {
-        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+        MaterialDialog md = new MaterialDialog.Builder(ToolboxMeetingPagerActivity.this)
                 .title("Project Job Form")
                 .limitIconToDefaultSize()
                 .positiveText("SAVE")
@@ -365,62 +326,14 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         md.show();
     }
 
-    public void showDrawingCanvasFragment() {
-        System.out.println("showDrawingCanvasFragment");
-        if (true) {
-            //if (view.findViewById(R.id.containerView) != null) {
-            DrawingCanvasFragment canvas = new DrawingCanvasFragment();
-            FragmentTransaction trans = mFragmentManager.beginTransaction(); // OR getSupportFragmentManager().beginTransaction();
-            trans.replace(R.id.containerView, canvas).addToBackStack("DRAWING_CANVAS");
-            trans.commit();
-        }
-    }
-
-    public void downloadImageFromURL(Fragment drawingFragment, String url, ImageView mockImageView) {
-        Log.e(TAG, "downloadImageFromURL "  + url);
-        this.dcf = (DrawingCanvasFragment) drawingFragment;
-        UILDownloader downloader = new UILDownloader(ProjectJobViewPagerActivity.this);
-        downloader.setImageFrom(url);
-        downloader.setImageView(mockImageView);
-        downloader.start();
-    }
-
-    @Override
-    public void OnHandleError(String message) {
-        Log.e(TAG, "OnHandleError " + message);
-    }
-
-    @Override
-    public void OnHandleStartDownload(String message) {
-        Log.e(TAG, "OnHandleStartDownload " + message);
-    }
-
-    @Override
-    public void OnHandleLoadingCompleted(String imageURI, Bitmap imageLoaded) {
-        Log.e(TAG, "OnHandleLoadingCompleted "  + imageURI);
-        this.dcf.initCanvasView(imageLoaded);
-    }
-
     /*************** END B1 - Pre Installation Site Survey ***************/
 
 
     /*************** B2 - In-process inspection (PW) ***************/
     /*************** B3 - In-process inspection (EPS) ***************/
-    /*@Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        _birthYear = year;
-        _month = month + 1;
-        _day = dayOfMonth;
-
-        switch (this.mFragmentPosition) {
-            case PROJECT_JOB_FRAGMENT_POSITION_2: ncadft.updateDisplay(_birthYear,_month,_day); break;
-            case PROJECT_JOB_FRAGMENT_POSITION_3: cdft.updateDisplay(_birthYear,_month,_day); break;
-            default: break;
-        }
-    }*/
 
     private void showB2B3FormDialog() {
-        MaterialDialog md2 = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+        MaterialDialog md2 = new MaterialDialog.Builder(ToolboxMeetingPagerActivity.this)
                 .title("Confirmation Date")
                 .limitIconToDefaultSize()
                 .positiveText("SAVE")
@@ -447,7 +360,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         options.add("YES");
         options.add("NO");
         options.add("NA");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ProjectJobViewPagerActivity.this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ToolboxMeetingPagerActivity.this,
                 android.R.layout.simple_spinner_item, options);
         Spinner spinnerComment = (Spinner) md2.getCustomView().findViewById(R.id.spinnerComment);
         spinnerComment.setAdapter(adapter);
@@ -470,7 +383,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
      * TODO: This is implemented both on B2 and B3, should be only per class
      */
     private void showB2B3CorrectiveActionFormDialog() {
-        MaterialDialog md2 = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+        MaterialDialog md2 = new MaterialDialog.Builder(ToolboxMeetingPagerActivity.this)
                 .title("Corrective Actions")
                 .limitIconToDefaultSize()
                 .positiveText("SAVE")
@@ -581,35 +494,6 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         dialog.show();
     }
 
-    // TODO: Should use this inside a Fragment Class?
-    /*public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-        @TargetApi(Build.VERSION_CODES.N)
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the date chosen by the user
-            editTextB2B3CompletionDate.setText(_month +"/"+_day+"/"+_birthYear);
-        }
-    }*/
-
-    /*public void updateDateEditText(int _birthYear, int _month, int _day) {
-        Log.i("HEY", _month +"/"+_day+"/"+_birthYear);
-
-        editTextB2B3CompletionDate.setText(_month +"/"+_day+"/"+_birthYear);
-    }*/
-
     /**
      * This only to set what Fragment Calls the Calendar Event from the Fragment
      *  then set the EditText/Display only
@@ -618,14 +502,14 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     private void initCallingFragment(Fragment fragment, int fragmentPosition) {
         this.mFragmentPosition = fragmentPosition;
         switch (fragmentPosition) {
-            case PROJECT_JOB_FRAGMENT_POSITION_2 : ncadft = (NonConformanceAndDateFragmentTest)fragment; break;
-            case PROJECT_JOB_FRAGMENT_POSITION_3 : cdft = (CompletionDateFragmentTest) fragment; break;
+//            case PROJECT_JOB_FRAGMENT_POSITION_2 : ncadft = (NonConformanceAndDateFragmentTest)fragment; break;
+//            case PROJECT_JOB_FRAGMENT_POSITION_3 : cdft = (CompletionDateFragmentTest) fragment; break;
             default: break;
         }
     }
 
     public void showUpdateComment() {
-        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+        MaterialDialog md = new MaterialDialog.Builder(ToolboxMeetingPagerActivity.this)
                 .title("Do you want to update comment?")
                 // .customView(R.layout.i_edit_text_remarks, true)
                 .limitIconToDefaultSize()
@@ -655,11 +539,6 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 })
                 .build();
 
-        /*TextView textViewTitleCommentRemarks = (TextView) md.getCustomView().findViewById(R.id.textViewTitleCommentRemarks);
-        textViewTitleCommentRemarks.setText("");*/
-
-        /*new PopulateServiceJobViewDetails()
-                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);*/
         md.show();
     }
 
@@ -667,7 +546,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
      * Called After Clicking Next at NonConformanceAndDateFragmentTest
      */
     public void showOKToSaveRectificationDate() {
-        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
+        MaterialDialog md = new MaterialDialog.Builder(ToolboxMeetingPagerActivity.this)
                 .title("DO YOU WANT TO SAVE RECTIFICATION DATE?")
                 // .customView(R.layout.i_edit_text_remarks, true)
                 .limitIconToDefaultSize()

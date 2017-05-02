@@ -108,6 +108,8 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
      *      ServiceJobViewPagerActivity
      *      Login
      *      ServiceReport_TaskCompleted_5
+     *      ProjectJobViewPagerActivity
+     *      ToolboxMeetingPagerActivity
      */
     private void setBackGroundLayout() {
         LinearLayout backgroundLayout = (LinearLayout) findViewById(R.id.activity_pager_sliding_tab_layout);

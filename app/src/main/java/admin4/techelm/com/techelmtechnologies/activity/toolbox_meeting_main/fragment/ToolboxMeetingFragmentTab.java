@@ -1,4 +1,4 @@
-package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment;
+package admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,41 +9,31 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFormFragment;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobFragmentTab;
+import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.ToolboxMeetingListFragment;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
 
-// This is the same as FragmentPagerAdapters
-public class ProjectJobFragmentTab extends Fragment {
+public class ToolboxMeetingFragmentTab extends Fragment {
 
-    private final static String TAG = ProjectJobFragmentTab.class.getSimpleName();
+    private final static String TAG = ToolboxMeetingFragmentTab.class.getSimpleName();
     private TabLayout tabLayout;
     private HorizontalScrollView hScrollViewTab;
     private ViewPager viewPager;
-    public static int TAB_COUNT = 2;
-    Fragment mFragment;
-    MyAdapter mPagerAdapter;
+    public static final int TAB_COUNT = 2;
+    private MyAdapter mPagerAdapter;
 
-    private int mTypeOfForm;
-
-    public static ProjectJobFragmentTab newInstance(int typeOfForm) {
-        ProjectJobFragmentTab fragment = new ProjectJobFragmentTab();
-        Bundle args = new Bundle();
+    public static ToolboxMeetingFragmentTab newInstance() {
+        ToolboxMeetingFragmentTab fragment = new ToolboxMeetingFragmentTab();
+        /*Bundle args = new Bundle();
 
         args.putInt(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm);
-        fragment.setArguments(args);
+        fragment.setArguments(args);*/
 
         return fragment;
     }
@@ -51,7 +41,6 @@ public class ProjectJobFragmentTab extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mTypeOfForm = getArguments().getInt(PROJECT_JOB_FORM_TYPE_KEY);
     }
 
     @Nullable
@@ -62,14 +51,12 @@ public class ProjectJobFragmentTab extends Fragment {
          */
         View view = inflater.inflate(R.layout.tab_layout, null); // View x = inflater.inflate(R.layout.tab_layout, container, false);
 
-        setHeaderVisibilityByFragmentPosition(view);
-
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         hScrollViewTab = (HorizontalScrollView) view.findViewById(R.id.hScrollViewTab);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
 
         // This will prevent from swiping the ViewPager
-        viewPager.setOnTouchListener(new View.OnTouchListener()
+        /*viewPager.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
             public boolean onTouch(View v, MotionEvent event)
@@ -77,7 +64,7 @@ public class ProjectJobFragmentTab extends Fragment {
                 viewPager.setCurrentItem(viewPager.getCurrentItem());
                 return false;
             }
-        });
+        });*/
         /**
          *Set an Apater for the View Pager
          */
@@ -97,22 +84,6 @@ public class ProjectJobFragmentTab extends Fragment {
         });
 
         return view;
-    }
-
-    // Just to show the Header Layout ONLY FOR THE ProjectJob - SECTION B
-    private void setHeaderVisibilityByFragmentPosition(View view) {
-        switch (mTypeOfForm) {
-            case PROJECT_JOB_FORM_B1:
-                LinearLayout projectJobLayoutHeader = (LinearLayout) view.findViewById(R.id.projectJobLayoutHeader);
-                projectJobLayoutHeader.setVisibility(View.VISIBLE);
-                break;
-            case PROJECT_JOB_FORM_B2:
-            case PROJECT_JOB_FORM_B3:
-                LinearLayout projectJobLayoutB2B3Header = (LinearLayout) view.findViewById(R.id.projectJobLayoutB2B3Header);
-                projectJobLayoutB2B3Header.setVisibility(View.VISIBLE);
-                break;
-            default: break;
-        }
     }
 
     // Just to Initialize the Button Next, Prev in ProjectJobViewPagerActivty
@@ -135,10 +106,8 @@ public class ProjectJobFragmentTab extends Fragment {
     private int getItem(int i) { return getCurrentPosition() + i; }
 
     class MyAdapter extends FragmentPagerAdapter {
-        FragmentManager cFragmentManager;
         public MyAdapter(FragmentManager fm) {
             super(fm);
-            cFragmentManager = fm;
         }
 
         /**
@@ -146,44 +115,11 @@ public class ProjectJobFragmentTab extends Fragment {
          */
         @Override
         public Fragment getItem(int position) {
-            Log.e(TAG, "getItem(Postion):"+position);
-            switch (mTypeOfForm) {
-                case PROJECT_JOB_FORM_B1: return setFragmentB1(position);
-                case PROJECT_JOB_FORM_B2: return setFragmentB2(position);
-                case PROJECT_JOB_FORM_B3: return setFragmentB3(position);
-                default: break;
-            }
-            return null;
-        }
-
-        private Fragment setFragmentB1(int position) {
-
             switch (position) {
                 case 0:
-                    return new PISSTaskListFragment();
+                    return new AttendanceFragment();
                 case 1:
-                    return new DrawingFormFragment(); // return UpdatesFragment.newInstance(position);
-                    // return new SigningOff_FRGMT_4(); // return UpdatesFragment.newInstance(position);
-            }
-            return null;
-        }
-
-        private Fragment setFragmentB2(int position) {
-            switch (position) {
-                case 0:
-                    return new PISSTaskListFragment();
-                case 1:
-                    return new IPITaskListFinalFragment();
-            }
-            return null;
-        }
-
-        private Fragment setFragmentB3(int position) {
-            switch (position) {
-                case 0:
-                    return new PISSTaskListFragment();
-                case 1:
-                    return new IPITaskListFinalFragment();
+                    return new MeetingDetailsFragment();
             }
             return null;
         }
@@ -198,33 +134,13 @@ public class ProjectJobFragmentTab extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             Log.e(TAG, "getPageTitle(Postion):" + position);
-            switch (mTypeOfForm) {
-                case PROJECT_JOB_FORM_B1: return setPageTitleB1(position);
-                case PROJECT_JOB_FORM_B2: return setPageTitleB2B3(position);
-                case PROJECT_JOB_FORM_B3: return setPageTitleB2B3(position);
-                default: break;
+            switch (position) {
+                case 0:
+                    return "Attendance";
+                case 1:
+                    return "Meeting details";
             }
             return null;
-        }
-
-        private CharSequence setPageTitleB1(int position) {
-            switch (position) {
-                case 0:
-                    return "TASK LIST";
-                case 1:
-                    return "DRAWING FORM";
-            }
-            return "";
-        }
-
-        private CharSequence setPageTitleB2B3(int position) {
-            switch (position) {
-                case 0:
-                    return "TASK LIST";
-                case 1:
-                    return "FINAL";
-            }
-            return "";
         }
 
         private Fragment getActiveFragment(ViewPager container, int position) {

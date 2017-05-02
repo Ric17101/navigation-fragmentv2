@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/coordinator_layout"
-    tools:context=".activity.toolbox_meeting_main.AttendanceFragment">
+    tools:context=".activity.toolbox_meeting_main.fragment.AttendanceFragment">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

@@ -73,6 +73,8 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
      *      ServiceJobViewPagerActivity
      *      Login
      *      ServiceReport_TaskCompleted_5
+     *      ProjectJobViewPagerActivity
+     *      ToolboxMeetingPagerActivity
      */
     private void setBackGroundLayout() {
         CoordinatorLayout backgroundLayout = (CoordinatorLayout) findViewById(R.id.activity_service_report_task_completed_layout);

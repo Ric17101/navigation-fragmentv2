@@ -4,20 +4,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/mockImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/mockImageview"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/linearLayoutCanvas"
         android:layout_width="match_parent"
-        android:layout_height="390sp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/btnDraw"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/previous_newt_height"
         android:background="@android:color/white"
         android:orientation="vertical">
 
-        <admin4.techelm.com.techelmtechnologies.utility.drawing.CanvasView
-            android:id="@+id/canvas"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal" />
+            android:layout_height="match_parent">
+            <admin4.techelm.com.techelmtechnologies.utility.drawing.CanvasView
+                android:id="@+id/canvas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <com.alexvasilkov.gestures.views.GestureFrameLayout
+                android:id="@+id/gestureView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:visibility="gone">
+                <!-- GestureFrameLayout can contain only one child -->
+
+            </com.alexvasilkov.gestures.views.GestureFrameLayout>
+
+        </FrameLayout>
+
     </LinearLayout>
 
 
@@ -83,8 +106,15 @@
         android:inputType="textPersonName"
         android:text="Canvas View" />
 
-
-
+    <Button
+        android:id="@+id/btnZoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnRedo"
+        android:layout_alignBottom="@+id/btnRedo"
+        android:layout_toEndOf="@+id/btnSave"
+        android:layout_toRightOf="@+id/btnSave"
+        android:text="Zoom mode" />
 
 </RelativeLayout>
 

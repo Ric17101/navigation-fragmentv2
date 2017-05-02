@@ -1,4 +1,4 @@
-package admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main;
+package admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.fragment;
 
 import android.Manifest;
 import android.content.Context;
@@ -16,6 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
@@ -33,6 +36,8 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     Button btnScanCode;
     private static final String TAG = AttendanceFragment.class.getSimpleName();
     private static final int REQUEST_CAMERA = 0x00000011;
+    ArrayList<String> list;
+
 
 
     @Nullable
@@ -46,6 +51,8 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
         btnScanCode = (Button) view.findViewById(R.id.btnScanCode);
         btnScanCode.setOnClickListener(this);
+
+        list = new ArrayList<String>();
 
         if (ContextCompat.checkSelfPermission(this.mContext, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -124,6 +131,13 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         ZxingOrientResult scanResult = ZxingOrient.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null && scanResult.getContents() != null) {
+
+            list.add(scanResult.getContents());
+            Toast.makeText(getActivity(),
+                    scanResult.getContents() + " has been scanned.", Toast.LENGTH_LONG).show();
+            for (String scanned : list){
+                Log.i("Scanned Items: ", scanned);
+            }
         }
     }
 
@@ -173,5 +187,4 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             break;
         }
     }
-
 }

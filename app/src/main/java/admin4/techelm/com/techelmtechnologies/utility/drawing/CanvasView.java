@@ -36,7 +36,9 @@ public class CanvasView extends View {
     public enum Mode {
         DRAW,
         TEXT,
-        ERASER
+        ERASER,
+        DISABLE,
+        ENABLE
     }
 
     // Enumeration for Drawer
@@ -49,6 +51,17 @@ public class CanvasView extends View {
         QUADRATIC_BEZIER,
         QUBIC_BEZIER
     }
+
+    // Custom admin4
+    private boolean editMode = false;
+    public void setEditMode(Mode mode) {
+        if (mode == Mode.DISABLE) {
+            editMode = false;
+        } else {
+            editMode = true;
+        }
+    }
+
 
     private Context context = null;
     private Canvas canvas = null;
@@ -432,20 +445,21 @@ public class CanvasView extends View {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                this.onActionDown(event);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                this.onActionMove(event);
-                break;
-            case MotionEvent.ACTION_UP:
-                this.onActionUp(event);
-                break;
-            default:
-                break;
+        if (editMode == true) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    this.onActionDown(event);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    this.onActionMove(event);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    this.onActionUp(event);
+                    break;
+                default:
+                    break;
+            }
         }
-
         // Re draw
         this.invalidate();
 

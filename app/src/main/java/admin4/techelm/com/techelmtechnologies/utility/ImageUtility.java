@@ -34,13 +34,10 @@ import java.io.IOException;
          setDirectoryName("images").
          load();
  *      ImageSaver.setExternal(boolean)
+ *      CREDIT TO: Ilya Gazman on 3/6/2016.
  */
 
 public class ImageUtility {
-
-    /**
-     * Created by Ilya Gazman on 3/6/2016.
-     */
 
     private String directoryName = "images";
     private String fileName = "image.png";
@@ -71,11 +68,12 @@ public class ImageUtility {
         return file.delete();
     }
 
-    public void save(Bitmap bitmapImage) {
+    public boolean save(Bitmap bitmapImage) {
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(createFile());
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -87,6 +85,7 @@ public class ImageUtility {
                 e.printStackTrace();
             }
         }
+        return false;
     }
 
     @NonNull
