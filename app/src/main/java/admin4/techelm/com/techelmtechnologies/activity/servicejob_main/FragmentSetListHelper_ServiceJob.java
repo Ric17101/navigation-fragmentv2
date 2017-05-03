@@ -3,15 +3,15 @@ package admin4.techelm.com.techelmtechnologies.activity.servicejob_main;
 import android.graphics.Color;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_CalendarListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_UnsignedListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobListener;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_ALREADY_COMPLETED;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_ALREADY_ON_PROCESS;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_BEGIN_JOB_SERVICE;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_EDIT_JOB_SERVICE;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_BEGIN;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_EDIT;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLETED;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_NEW;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_ON_PROCESS;
@@ -87,18 +87,18 @@ public class FragmentSetListHelper_ServiceJob {
         return taskText;
     }
 
-    // Called at CalendarListAdapter Only
-    public void setActionOnClick(CalendarListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+    // Called at SJ_CalendarListAdapter Only
+    public void setActionOnClick(SJ_CalendarListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
         switch(status) {
             case SERVICE_JOB_COMPLETED :
                 mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_COMPLETED);
                 break;
             case SERVICE_JOB_NEW :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_BEGIN_JOB_SERVICE);
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_BEGIN);
                 break;
             case SERVICE_JOB_PENDING :
             case SERVICE_JOB_UNSIGNED :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT_JOB_SERVICE);
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT);
                 break;
             case SERVICE_JOB_ON_PROCESS :
                 mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_ON_PROCESS);
@@ -108,13 +108,13 @@ public class FragmentSetListHelper_ServiceJob {
         }
     }
 
-    // Called at ServiceJobListAdapter Only
+    // Called at SJ_ListAdapter Only
     // Action EDIT only
-    public void setActionOnClick(UnsignedServiceJobListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+    public void setActionOnClick(SJ_UnsignedListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
         switch(status) {
             case SERVICE_JOB_PENDING :
             case SERVICE_JOB_UNSIGNED :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT_JOB_SERVICE);
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT);
                 break;
             case SERVICE_JOB_ON_PROCESS :
                 mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_ON_PROCESS);
@@ -124,18 +124,18 @@ public class FragmentSetListHelper_ServiceJob {
         }
     }
 
-    // Called at ServiceJobListAdapter Only
-    public void setActionOnClick(ServiceJobListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+    // Called at SJ_ListAdapter Only
+    public void setActionOnClick(ServiceJobListener mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
         switch(status) {
             case SERVICE_JOB_COMPLETED :
                 mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_COMPLETED);
                 break;
             case SERVICE_JOB_NEW :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_BEGIN_JOB_SERVICE);
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_BEGIN);
                 break;
             case SERVICE_JOB_PENDING :
             case SERVICE_JOB_UNSIGNED :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT_JOB_SERVICE);
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_EDIT);
                 break;
             case SERVICE_JOB_ON_PROCESS :
                 mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_ALREADY_ON_PROCESS);

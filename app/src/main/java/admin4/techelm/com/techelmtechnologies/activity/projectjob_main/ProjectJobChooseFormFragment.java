@@ -29,16 +29,17 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
-import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
-import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.adapter.PJ_ListAdapter;
+import admin4.techelm.com.techelmtechnologies.db.projectjob.ProjectJobDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
-import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_LIST_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -52,12 +53,12 @@ public class ProjectJobChooseFormFragment extends Fragment
     private SlidingUpPanelLayout mLayout;
 
     private Context mContext;
-    private ProjectJobListAdapter mListAdapter;
+    private PJ_ListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
-    private List<ServiceJobWrapper> results = null;
-    private SJTask_RenderList mAuthTask = null;
+    private List<ProjectJobWrapper> results = null;
+    private PJTask_RenderList mAuthTask = null;
 
     @Nullable
     @Override
@@ -140,7 +141,7 @@ public class ProjectJobChooseFormFragment extends Fragment
         textViewSJResult.setVisibility(View.GONE);
     }
     public void setupResultsList(View view) {
-        mListAdapter = new ProjectJobListAdapter(view.getContext());
+        mListAdapter = new PJ_ListAdapter(view.getContext());
         mSearchResultsList.setAdapter(mListAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
@@ -159,7 +160,7 @@ public class ProjectJobChooseFormFragment extends Fragment
 
     private void renderListFromCalendar(Calendar daySelectedCalendar) {
         String formattedDate = new CalendarFragment().convertLongDateToSimpleDate(daySelectedCalendar);
-        mAuthTask = new SJTask_RenderList(formattedDate, "", mContext);
+        mAuthTask = new PJTask_RenderList(formattedDate, "", mContext);
         new TaskCanceller(mAuthTask).setWait(getActivity());
         mAuthTask.execute((Void) null);
     }
@@ -205,7 +206,7 @@ public class ProjectJobChooseFormFragment extends Fragment
     }
 
     private void populateCardList() {
-        results = new CalendarSJDBUtil(mContext).getAllDetailsOfServiceJob();
+        results = new ProjectJobDBUtil(mContext).getAllProjects();
         mSearchResultsList.setHasFixedSize(true);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(mContext));
         mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
@@ -222,30 +223,22 @@ public class ProjectJobChooseFormFragment extends Fragment
      * Called on click of Date CAlendar the render a list of Services at CardView
      * Show a list of SJ retrieved from API
      */
-    private class SJTask_RenderList extends AsyncTask<Void, Void, List<ServiceJobWrapper>> {
+    private class PJTask_RenderList extends AsyncTask<Void, Void, List<ProjectJobWrapper>> {
 
         public final String TAG = CalendarFragment.class.getSimpleName();
-        private final String SJ_LIST_DELIM = ":-:";
 
         private String mDate;
         private String mID;
         private int resultStatus = 0;
 
         private GetCommand getCommand;
-        private ArrayList<String> serviceList = new ArrayList<String>();
+        private ArrayList<String> projectList = new ArrayList<String>();
 
-        public SJTask_RenderList(String date, String id, Context context) {
+        public PJTask_RenderList(String date, String id, Context context) {
             mDate = date;
             mID = id;
             mContext = context;
             // System.gc();
-        }
-        private String getDetailsLink() {
-            StringBuilder sb = new StringBuilder();
-            sb.append(SERVICE_JOB_UPLOAD_URL);
-            // sb.append("get_date_services/" + mDate);
-            sb.append("get_all_services/");
-            return sb.toString();
         }
 
         /**
@@ -263,8 +256,8 @@ public class ProjectJobChooseFormFragment extends Fragment
                 JSONObject json = new JSONObject(JSONResult);
                 String str = "";
 
-                JSONArray jsonArray = json.getJSONArray("servicelist");
-                int jsonLen = json.getJSONArray("servicelist").length();
+                JSONArray jsonArray = json.getJSONArray("projectlist");
+                int jsonLen = json.getJSONArray("projectlist").length();
                 if (jsonLen == 0)
                     return "null";
 
@@ -274,98 +267,69 @@ public class ProjectJobChooseFormFragment extends Fragment
                 str += "\n--------\n";
                 str += "ID: " + jsonArray.getJSONObject(0).getString("id");
                 str += "\n--------\n";
-                str += "Service No: " + jsonArray.getJSONObject(0).getString("service_no");
+                str += "Service No: " + jsonArray.getJSONObject(0).getString("project_ref");
                 str += "\n--------\n";
                 str += "Customer ID: " + jsonArray.getJSONObject(0).getString("customer_id");
                 str += "\n--------\n";
-                str += "Service ID: " + jsonArray.getJSONObject(0).getString("service_id");
+                str += "Service ID: " + jsonArray.getJSONObject(0).getString("start_date");
                 str += "\n--------\n";
-                str += "Engineer id: " + jsonArray.getJSONObject(0).getString("engineer_id");
+                str += "Engineer id: " + jsonArray.getJSONObject(0).getString("end_date");
                 str += "\n--------\n";
-                str += "Price ID: " + jsonArray.getJSONObject(0).getString("price_id");
+                str += "Price ID: " + jsonArray.getJSONObject(0).getString("target_completion_date");
                 str += "\n--------\n";
-                str += "Complaint: " + jsonArray.getJSONObject(0).getString("complaint");
+                str += "Complaint: " + jsonArray.getJSONObject(0).getString("first_inspector");
                 str += "\n--------\n";
-                str += "Remarks: " + jsonArray.getJSONObject(0).getString("remarks");
+                str += "Remarks: " + jsonArray.getJSONObject(0).getString("second_inspector");
                 str += "\n--------\n";
-                str += "Equipment Type: " + jsonArray.getJSONObject(0).getString("equipment_type");
+                str += "Equipment Type: " + jsonArray.getJSONObject(0).getString("third_inspector");
                 str += "\n--------\n";
-                str += "Serial No: " + jsonArray.getJSONObject(0).getString("serial_no");
+                str += "Serial No: " + jsonArray.getJSONObject(0).getString("status_flag");
                 str += "\n--------\n";
-                str += "Start Date: " + jsonArray.getJSONObject(0).getString("start_date");
+                str += "Start Date: " + jsonArray.getJSONObject(0).getString("fullname");
                 str += "\n--------\n";
-                str += "End Date: " + jsonArray.getJSONObject(0).getString("end_date");
+                str += "End Date: " + jsonArray.getJSONObject(0).getString("job_site");
                 str += "\n--------\n";
-                str += "Status: " + jsonArray.getJSONObject(0).getString("status");
+                str += "Status: " + jsonArray.getJSONObject(0).getString("fax");
 
                 Log.d(TAG, "parseJSON: " + str);
 
                 // jsonLen += 1;
                 int i = 0;
-                do { // 24 + 2
+                do { // 12
                     StringBuilder jsonRes = new StringBuilder();
                     jsonRes.append(jsonArray.getJSONObject(i).getString("id"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("service_no"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("project_ref"))
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("customer_id"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("service_id"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("engineer_id"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("price_id"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("complaint"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("remarks"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("remarks_before"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("remarks_after"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("equipment_type"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("serial_no"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0])
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0])
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("status"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("contract_servicing"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("warranty_servicing"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("charges"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("contract_repair"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("warranty_repair"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("others"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("type_of_service"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("signature_name"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("start_date_task"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("end_date_task"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
+                            /*.append(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0])
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0])*/
+                            .append(jsonArray.getJSONObject(i).getString("start_date"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("end_date"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("target_completion_date"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("first_inspector"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("second_inspector"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("third_inspector"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("status_flag"))
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("fullname"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("job_site"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("fax"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("phone_no"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("engineer_name"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                     ;
-                    serviceList.add(jsonRes.toString());
+                    projectList.add(jsonRes.toString());
                     i++;
                 } while (jsonLen > i);
 
@@ -388,13 +352,13 @@ public class ProjectJobChooseFormFragment extends Fragment
          * 3 - no internet??? or blank reponse
          */
         @Override
-        protected List<ServiceJobWrapper> doInBackground(Void... params) {
+        protected List<ProjectJobWrapper> doInBackground(Void... params) {
             String parsedServiceJob = "";
             try {
-                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(getDetailsLink()));
+                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(PROJECT_JOB_LIST_URL));
                 if (parsedServiceJob.equals("ok")) {
-                    ConvertJSON cJSON = new ConvertJSON();
-                    ArrayList<ServiceJobWrapper> resultList =  cJSON.serviceJobList(serviceList);
+                    ConvertJSON_PJ cJSON = new ConvertJSON_PJ();
+                    ArrayList<ProjectJobWrapper> resultList =  cJSON.projectJobList(projectList);
                     resultStatus = (cJSON.hasResult() ? 1 : 3);
                     return (resultStatus == 1 ? resultList : null);
                 } else if (parsedServiceJob.equals("null")) {
@@ -415,7 +379,7 @@ public class ProjectJobChooseFormFragment extends Fragment
         }
 
         @Override
-        protected void onPostExecute(List<ServiceJobWrapper> list) {
+        protected void onPostExecute(List<ProjectJobWrapper> list) {
             switch (resultStatus) {
                 case 1 :
                     results = list;

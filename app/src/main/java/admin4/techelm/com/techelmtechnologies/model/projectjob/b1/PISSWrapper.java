@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package admin4.techelm.com.techelmtechnologies.model.projectjob.piss_b1;
+package admin4.techelm.com.techelmtechnologies.model.projectjob.b1;
 
 import android.os.Parcel;
 import android.os.Parcelable;

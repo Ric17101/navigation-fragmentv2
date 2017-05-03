@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_PartsListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.PartsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
@@ -50,7 +50,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 
 public class PartReplacement_2 extends AppCompatActivity implements
-        ServiceJobPartsListAdapter.CallbackInterface,
+        SJ_PartsListAdapter.CallbackInterface,
         ServiceJobDBUtil.OnDatabaseChangedListener,
         PartsSJDBUtil.OnDatabaseChangedListener {
 
@@ -75,7 +75,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
 
     private final static int ALL_PERMISSIONS_RESULT = 107;
 
-    private ServiceJobPartsListAdapter mUploadListAdapter; // ListView Setup
+    private SJ_PartsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
     private List<ServiceJobNewPartsWrapper> mUploadResults = null;
     private PartsSJDBUtil mPartsDB;
@@ -239,7 +239,7 @@ public class PartReplacement_2 extends AppCompatActivity implements
     }
 
     public void setupUploadsResultsList() {
-        mUploadListAdapter = new ServiceJobPartsListAdapter(PartReplacement_2.this);
+        mUploadListAdapter = new SJ_PartsListAdapter(PartReplacement_2.this);
         mUploadResultsList.setAdapter(mUploadListAdapter);
         mUploadResultsList.setLayoutManager(new LinearLayoutManager(PartReplacement_2.this));
     }

@@ -100,7 +100,7 @@ public class CalendarSJDBUtil extends DatabaseAccess {
      * TEST
      ***********************************/
 
-    // Getting Details Data of all ALPHABET
+    // Getting Details Data of all ServiceJob
     public List<ServiceJobWrapper> getAllDetailsOfServiceJob() {
         ArrayList<ServiceJobWrapper> translationList = new ArrayList<>();
         int x = 0;

@@ -1,5 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.activity.servicejob_main;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -18,25 +19,27 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper
 
 public class PopulateServiceJobViewDetails {
 
+    private static final String TAG = PopulateServiceJobViewDetails.class.getSimpleName();
     private int PANEL_STATUS = 0;
-    TextView textViewLabelCustomerName;
-    TextView textViewLabelJobSite;
-    TextView textViewLabelServiceNo;
-    TextView textViewLabelTypeOfService;
-    TextView textViewLabelTelephone;
-    TextView textViewLabelFax;
-    TextView textViewLabelEquipmentType;
-    TextView textViewLabelModel;
-    TextView textViewComplaints;
-    TextView textViewRemarksActions;
-    TextView textViewHideShow;
+    private TextView textViewLabelCustomerName;
+    private TextView textViewLabelJobSite;
+    private TextView textViewLabelServiceNo;
+    private TextView textViewLabelTypeOfService;
+    private TextView textViewLabelTelephone;
+    private TextView textViewLabelFax;
+    private TextView textViewLabelEquipmentType;
+    private TextView textViewLabelModel;
+    private TextView textViewComplaints;
+    private TextView textViewRemarksActions;
+    private TextView textViewHideShow;
 
-    TableLayout TableLayoutLabels;
-    LinearLayout linearLayoutRemarks;
+    private TableLayout TableLayoutLabels;
+    private LinearLayout linearLayoutRemarks;
 
     private ExpandableRelativeLayout mExpandLayout;
 
     private void setViewElements(View view, ServiceJobWrapper serviceJob, int visibility) {
+        Log.e(TAG, "setViewElements " +serviceJob.toString() );
         // SERVICE JOB Controls
         ImageButton buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
         buttonViewDetails.setVisibility(View.GONE);

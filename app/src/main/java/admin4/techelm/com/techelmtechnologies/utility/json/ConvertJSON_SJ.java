@@ -17,13 +17,13 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
-public class ConvertJSON {
+public class ConvertJSON_SJ {
 
-    private static final String TAG = ConvertJSON.class.getSimpleName();
+    private static final String TAG = ConvertJSON_SJ.class.getSimpleName();
     private static final String SJ_LIST_DELIM = ":-:";
     private boolean mResult = false;
 
-    public ConvertJSON() { }
+    public ConvertJSON_SJ() { }
 
     /**
      * FALSE - BAD
@@ -54,7 +54,7 @@ public class ConvertJSON {
             sw.setCustomerID(jsonArray.getJSONObject(i).getString("customer_id"));
             sw.setServiceID(jsonArray.getJSONObject(i).getString("service_id"));
             sw.setEngineerID(jsonArray.getJSONObject(i).getString("engineer_id"));
-            sw.setTypeOfService(jsonArray.getJSONObject(i).getString("price_id"));
+            sw.setPriceID(jsonArray.getJSONObject(i).getString("price_id"));
             sw.setComplaintsOrSymptoms(jsonArray.getJSONObject(i).getString("complaint"));
             sw.setActionsOrRemarks(jsonArray.getJSONObject(i).getString("remarks"));
             sw.setBeforeRemarks(jsonArray.getJSONObject(i).getString("remarks_before"));

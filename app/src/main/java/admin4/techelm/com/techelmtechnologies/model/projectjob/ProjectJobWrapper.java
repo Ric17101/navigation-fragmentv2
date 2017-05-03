@@ -48,6 +48,10 @@ public class ProjectJobWrapper implements Parcelable {
     private String _end_date;
     private int _status_flag;
 
+    // My Custom Attributes from the WEB
+    private String _fax;
+    private String _telephone;
+
     // Empty constructor
     public ProjectJobWrapper() { }
 
@@ -64,6 +68,8 @@ public class ProjectJobWrapper implements Parcelable {
         _start_date = in.readString();
         _end_date = in.readString();
         _status_flag = in.readInt();
+        _fax = in.readString();
+        _telephone = in.readString();
     }
 
     @Override
@@ -80,6 +86,8 @@ public class ProjectJobWrapper implements Parcelable {
         dest.writeString(_start_date);
         dest.writeString(_end_date);
         dest.writeInt(_status_flag);
+        dest.writeString(_fax);
+        dest.writeString(_telephone);
     }
 
     @Override
@@ -99,7 +107,9 @@ public class ProjectJobWrapper implements Parcelable {
                 "\n1st Inspector : " + this._first_inspector +
                 "\n2nd Inspector : " + this._second_inspector +
                 "\n3rd Inspector : " + this._third_inspector +
-                "\nProject Site : " + this._project_site
+                "\nProject Site : " + this._project_site +
+                "\nFax : " + this._fax +
+                "\nTelephone : " + this._telephone
                 ;
     }
 
@@ -192,5 +202,15 @@ public class ProjectJobWrapper implements Parcelable {
         this._status_flag = data;
     }
 
+    public String getFax() {
+        return this._fax;
+    }
+    public void setFax(String val) { this._fax = val; }
 
+    public String getTelephone() {
+        return this._telephone;
+    }
+    public void setTelephone(String val) {
+        this._telephone = val;
+    }
 }

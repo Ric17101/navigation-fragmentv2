@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.db.DatabaseAccess;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.ipi_pw_b2.IPI_PWCActionWrapper;
-import admin4.techelm.com.techelmtechnologies.utility.FileUtility;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_PWCActionWrapper;
 
 /**
  * Created by admin 4 on 26/04/2017.
@@ -56,7 +55,7 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the CallbackInterface in the Activity", ex);
+            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }

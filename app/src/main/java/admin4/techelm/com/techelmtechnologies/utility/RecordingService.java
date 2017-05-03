@@ -71,7 +71,7 @@ public class RecordingService extends Service {
                     "From Recording service, can't implement Interface here.");
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the CallbackInterface in the Activity", ex);
+            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
     }
 

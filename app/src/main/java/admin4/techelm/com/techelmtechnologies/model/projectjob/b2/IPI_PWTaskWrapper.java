@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package admin4.techelm.com.techelmtechnologies.model.projectjob.ipi_pw_b2;
+package admin4.techelm.com.techelmtechnologies.model.projectjob.b2;
 
 import android.os.Parcel;
 import android.os.Parcelable;

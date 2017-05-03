@@ -30,9 +30,9 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.*;
 
-public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<UnsignedServiceJobListAdapter.ViewHolder> {
+public class SJ_CalendarListAdapter extends RecyclerView.Adapter<SJ_CalendarListAdapter.ViewHolder> {
 
-    private static final String TAG = "UnsignedSJAdapter";
+    private static final String LOG_TAG = "RecyclerViewAdapter";
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
 
@@ -48,7 +48,7 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
 
     private FragmentSetListHelper_ServiceJob mSetHelper;
 
-    public UnsignedServiceJobListAdapter(Context context) {
+    public SJ_CalendarListAdapter(Context context) {
         mContext = context;
 
         // .. Attach the interface
@@ -56,12 +56,12 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
             mCallback = (CallbackInterface) context; // TODO: Troubleshooting the OnClickListener of the CardView Buttons inside the RecyclerView
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e("MyAdapter", "Must implement the CallbackInterface in the Activity", ex);
+            Log.e("MyAdapter", "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
 
-    public UnsignedServiceJobListAdapter(List<ServiceJobWrapper> serviceJobList) {
+    public SJ_CalendarListAdapter(List<ServiceJobWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }
@@ -79,7 +79,6 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.search_results_servicejob_list_item, parent, false);
-//                .inflate(R.layout.search_results_number_list_item, parent, false);
         mContext = view.getContext();
         return new ViewHolder(view);
     }
@@ -96,17 +95,12 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
         holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
         holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
-
-        // Set GONE for Status only applied to Unsigned Services form
         holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()));
-        holder.textViewStatus.setVisibility(View.GONE);
-        // holder.textViewLabelStatus.setVisibility(View.GONE);
-        // holder.textViewColumnStatusLabel.setVisibility(View.GONE);
-        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
 
-        Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
+        Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
@@ -167,7 +161,7 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
          * @param position - the position
          * @param servicejob     - the text to pass back
          */
-        void onHandleSelection(int position, ServiceJobWrapper servicejob, int action);
+        void onHandleSelection(int position, ServiceJobWrapper servicejob, int mode);
     }
 
     public interface OnItemClickListener {
@@ -183,18 +177,15 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
         private final TextView textViewCustomer;
         private final TextView textViewEngineer;
         private final TextView textViewStatus;
-        // private final TextView textViewLabelStatus;
-        // private final TextView textViewColumnStatusLabel;
-
-//        private final ImageButton buttonEditDetails;
-//        private final ImageButton buttonViewDetails;
-        private final ImageButton buttonTask;
         private final TextView textViewTask;
-//        private final TextView textViewEditDetails;
-//        private final TextView textViewViewDetails;
 
-//        private final FrameLayout frameLayoutButtonResults;
-        private final FrameLayout frameLayoutButtonSJ;
+        /*private final ImageButton buttonEditDetails;
+        private final ImageButton buttonViewDetails;*/
+        private final ImageButton buttonTask;
+        private final TextView textViewEditDetails;
+        private final TextView textViewViewDetails;
+
+         private final FrameLayout frameLayoutButtonSJ;
 
         private ViewHolder(View view) {
             super(view);
@@ -208,29 +199,24 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
             textViewServiceNum = (TextView) view.findViewById(R.id.textViewServiceNum);
             textViewCustomer = (TextView) view.findViewById(R.id.textViewCustomer);
             textViewEngineer = (TextView) view.findViewById(R.id.textViewEngineer);
-
             textViewStatus = (TextView) view.findViewById(R.id.textViewStatus);
-            // textViewLabelStatus = (TextView) view.findViewById(R.id.textViewLabelStatus);
-            // textViewColumnStatusLabel = (TextView) view.findViewById(R.id.textViewColumnStatusLabel);
 
-            textViewTask = (TextView) view.findViewById(R.id.textViewTask);
-
-            // ImageButtons
+            // ImageButtons, REMOVE AND requested by Chris for all TABS in MAIN ACTIVITY
             /*buttonEditDetails = (ImageButton) view.findViewById(R.id.buttonEditDetails);
             buttonEditDetails.setOnClickListener(this);
             buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
             buttonViewDetails.setOnClickListener(this);*/
+            textViewTask = (TextView) view.findViewById(R.id.textViewTask);
+
+            // ImageButtons
             buttonTask = (ImageButton) view.findViewById(R.id.buttonTask);
             buttonTask.setOnClickListener(this);
 
             // ImageButton Links
-            /*textViewEditDetails = (TextView) view.findViewById(R.id.textViewEditDetails);
+            textViewEditDetails = (TextView) view.findViewById(R.id.textViewEditDetails);
             // textViewEditDetails.setOnClickListener(this);
             textViewViewDetails = (TextView) view.findViewById(R.id.textViewViewDetails);
-            // textViewViewDetails.setOnClickListener(this);*/
-
-            /*frameLayoutButtonResults = (FrameLayout) view.findViewById(R.id.frameLayoutButtonResults);
-            frameLayoutButtonResults.setOnClickListener(this);*/
+            // textViewViewDetails.setOnClickListener(this);
 
             frameLayoutButtonSJ = (FrameLayout) view.findViewById(R.id.frameLayoutButtonSJ);
             frameLayoutButtonSJ.setOnClickListener(this);
@@ -242,12 +228,13 @@ public class UnsignedServiceJobListAdapter extends RecyclerView.Adapter<Unsigned
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
                 }
-            } else if (v.getId() == buttonTask.getId()/*v.getId() == buttonEditDetails.getId()*/) {
+            } else
+            if (v.getId() == buttonTask.getId()) {
                 if (mCallback != null) {
                     mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), mDataSet.get(getAdapterPosition()).getStatus());
                 }
             }
+
         }
     }
-
 }

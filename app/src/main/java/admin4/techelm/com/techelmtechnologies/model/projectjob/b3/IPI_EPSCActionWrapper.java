@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package admin4.techelm.com.techelmtechnologies.model.projectjob.ipi_pw_b2;
+package admin4.techelm.com.techelmtechnologies.model.projectjob.b3;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class IPI_PWCActionWrapper implements Parcelable {
+public class IPI_EPSCActionWrapper implements Parcelable {
 
-    public static final Creator<IPI_PWCActionWrapper> CREATOR = new Creator<IPI_PWCActionWrapper>() {
+    public static final Creator<IPI_EPSCActionWrapper> CREATOR = new Creator<IPI_EPSCActionWrapper>() {
         @Override
-        public IPI_PWCActionWrapper createFromParcel(Parcel in) {
-            return new IPI_PWCActionWrapper(in);
+        public IPI_EPSCActionWrapper createFromParcel(Parcel in) {
+            return new IPI_EPSCActionWrapper(in);
         }
 
         @Override
-        public IPI_PWCActionWrapper[] newArray(int size) {
-            return new IPI_PWCActionWrapper[size];
+        public IPI_EPSCActionWrapper[] newArray(int size) {
+            return new IPI_EPSCActionWrapper[size];
         }
     };
 
@@ -46,9 +46,9 @@ public class IPI_PWCActionWrapper implements Parcelable {
     private String _disposition;
 
     // Empty constructor
-    public IPI_PWCActionWrapper() { }
+    public IPI_EPSCActionWrapper() { }
 
-    protected IPI_PWCActionWrapper(Parcel in) {
+    protected IPI_EPSCActionWrapper(Parcel in) {
         _id = in.readInt();
         _projectjob_ipi_pw_id = in.readString();
         _serial_no = in.readString();

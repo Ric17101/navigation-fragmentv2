@@ -24,11 +24,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
-import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
@@ -45,12 +45,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_BY_MONTH_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class CalendarFragment extends Fragment implements
         RobotoCalendarView.RobotoCalendarListener,
-        CalendarListAdapter.OnItemClickListener // not used onClick Interface
+        SJ_CalendarListAdapter.OnItemClickListener // not used onClick Interface
 {
     private static final String SERVICE_JOB_URL =
             "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/";
@@ -63,7 +65,7 @@ public class CalendarFragment extends Fragment implements
     private Context mContext;
     private TextView name;
     private TextView textViewCalendarResult;
-    private CalendarListAdapter mListAdapter;
+    private SJ_CalendarListAdapter mListAdapter;
     private RecyclerView mCalendarResultsList;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -228,7 +230,7 @@ public class CalendarFragment extends Fragment implements
         textViewCalendarResult.setVisibility(View.GONE);
     }
     public void setupResultsList(View view) {
-        mListAdapter = new CalendarListAdapter(view.getContext());
+        mListAdapter = new SJ_CalendarListAdapter(view.getContext());
         mCalendarResultsList.setAdapter(mListAdapter);
         mLayoutManager = new LinearLayoutManager(view.getContext());
         mCalendarResultsList.setLayoutManager(mLayoutManager);
@@ -336,7 +338,7 @@ public class CalendarFragment extends Fragment implements
 
     /**
      * To be implemented at Fragments later
-     * or Use a another class uusing CallbackInterface for more modularity
+     * or Use a another class uusing ProjectJobListener for more modularity
      */
     private class CalendarServiceJobDatesDots_POST {
         private PostCommand postCommand;
@@ -349,8 +351,8 @@ public class CalendarFragment extends Fragment implements
         public void post(final int month, final int year) {
         /*web info*/
             WebServiceInfo webServiceInfo = new WebServiceInfo();
-            String url = SERVICE_JOB_URL + "get_date_services_by_month";
-            webServiceInfo.setUrl(url);
+            // String url = SERVICE_JOB_URL + "get_date_services_by_month";
+            webServiceInfo.setUrl(SERVICE_JOB_BY_MONTH_URL);
 
         /*add parameter*/
             webServiceInfo.addParam("month", month+"");
@@ -397,7 +399,7 @@ public class CalendarFragment extends Fragment implements
                 return null;
             }
             try {
-                ConvertJSON cJSON = new ConvertJSON();
+                ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
                 ArrayList<ServiceJobWrapper> resultList = cJSON.parseServiceListJSON(JSONResult);
                 hasResutFlag = cJSON.hasResult();
                 // return (hasResutFlag ? resultList : null);
@@ -443,7 +445,7 @@ public class CalendarFragment extends Fragment implements
         protected void onCancelled() {
             noResultTryAgain();
             hideSwipeRefreshing();
-            Log.i(TAG, "onCancelled hideSwipeRefreshing() new SJTask_RenderList()");
+            Log.i(TAG, "onCancelled hideSwipeRefreshing() new PJTask_RenderList()");
         }
     }
 
@@ -544,8 +546,6 @@ public class CalendarFragment extends Fragment implements
      */
     private class CalendarSJTask_RenderList extends AsyncTask<Void, Void, List<ServiceJobWrapper>> {
 
-        private final String SJ_LIST_DELIM = ":-:";
-
         private String mDate;
         private String mID;
         private int resultStatus = 0;
@@ -580,7 +580,7 @@ public class CalendarFragment extends Fragment implements
          *      null - no data
          *      '' - no internet connection/ server error
          *      String - successful aResponse
-         *      TODO: Do this on the ConvertJSON.java
+         *      TODO: Do this on the ConvertJSON_SJ.java
          *          Same with Unsigned and Service Job classes
          */
         private String parseServiceListJSON(String JSONResult) {
@@ -632,65 +632,65 @@ public class CalendarFragment extends Fragment implements
                 do { // 24 + 2
                     StringBuilder jsonRes = new StringBuilder();
                     jsonRes.append(jsonArray.getJSONObject(i).getString("id"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("service_no"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("customer_id"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("service_id"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("engineer_id"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("price_id"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("complaint"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("remarks"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("remarks_before"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("remarks_after"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("equipment_type"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("serial_no"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0])
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0])
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("status"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("contract_servicing"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("warranty_servicing"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("charges"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("contract_repair"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("warranty_repair"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("others"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("type_of_service"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("signature_name"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("start_date_task"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("end_date_task"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("fullname"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("job_site"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("fax"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("phone_no"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("engineer_name"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                     ;
 
                     serviceList.add(jsonRes.toString());
@@ -754,7 +754,7 @@ public class CalendarFragment extends Fragment implements
             try {
                 parsedServiceJob = parseServiceListJSON(JSONHelper.GET(getDetailsLink()));
                 if (parsedServiceJob.equals("ok")) {
-                    ConvertJSON cJSON = new ConvertJSON();
+                    ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
                     ArrayList<ServiceJobWrapper> resultList =  cJSON.serviceJobList(serviceList);
                     resultStatus = (cJSON.hasResult() ? 1 : 3);
                     // return (resultStatus == 1 ? resultList : null);
@@ -807,7 +807,7 @@ public class CalendarFragment extends Fragment implements
         protected void onCancelled() {
             noResultTryAgain();
             hideSwipeRefreshing();
-            Log.i(TAG, "onCancelled hideSwipeRefreshing() new SJTask_RenderList()");
+            Log.i(TAG, "onCancelled hideSwipeRefreshing() new PJTask_RenderList()");
         }
 
     }

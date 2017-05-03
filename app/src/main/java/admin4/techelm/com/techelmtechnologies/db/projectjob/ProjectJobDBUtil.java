@@ -59,7 +59,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the CallbackInterface in the Activity", ex);
+            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
@@ -130,7 +130,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         return translationList;
     }*/
 
-    public List<ProjectJobWrapper> getAllRecordings() {
+    public List<ProjectJobWrapper> getAllProjects() {
         ArrayList<ProjectJobWrapper> list = new ArrayList<ProjectJobWrapper>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);

@@ -28,25 +28,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.PopulateProjectJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.ProjectJobChooseFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
-import admin4.techelm.com.techelmtechnologies.adapter.CalendarListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
-import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.TabFragment;
+import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.ToolboxMeetingListFragment;
+import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.fragment.ToolboxMeetingPagerActivity;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_CalendarListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.TM_ListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_UnsignedListAdapter;
 import admin4.techelm.com.techelmtechnologies.activity.login.LoginActivity2;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.service_report.ServiceReport_1;
 import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.ServiceJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.ServiceJobFragmentTab;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobListener;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
-import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
@@ -54,10 +58,11 @@ import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.Service
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.*;
 
 public class MainActivity extends FragmentActivity implements
-        ServiceJobListAdapter.CallbackInterface,
-        CalendarListAdapter.CallbackInterface,
-        UnsignedServiceJobListAdapter.CallbackInterface,
-        ProjectJobListAdapter.CallbackInterface
+        ServiceJobListener,
+        SJ_CalendarListAdapter.CallbackInterface,
+        SJ_UnsignedListAdapter.CallbackInterface,
+        ProjectJobListener,
+        TM_ListAdapter.CallbackInterface
         // OnTaskKill.onStopCallbackInterface
     {
 
@@ -266,7 +271,7 @@ public class MainActivity extends FragmentActivity implements
                         break;
                     case R.id.nav_toolbox :
                         FragmentTransaction sampleFragmentTransaction = mFragmentManager.beginTransaction();
-                        sampleFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+                        sampleFragmentTransaction.replace(R.id.containerView, new ToolboxMeetingListFragment()).commit();
                         break;
                 }
                 return false;
@@ -306,11 +311,11 @@ public class MainActivity extends FragmentActivity implements
     }
 
     /**
-     * Handles the Event onClick CallbackInterface for the CardViewList
+     * Handles the Event onClick ProjectJobListener for the CardViewList
      *  From  AdpterList
-     *      - CalendarListAdapter
-     *      - UnsignedServiceJobListAdapter
-     *      - ServiceJobListAdapter
+     *      - SJ_CalendarListAdapter
+     *      - SJ_UnsignedListAdapter
+     *      - SJ_ListAdapter
      *
      * @param position   - the position
      * @param serviceJob - the text to pass back
@@ -337,10 +342,10 @@ public class MainActivity extends FragmentActivity implements
                 break;
                 // TODO: This should Indicate who is Currently Editing the Service Job is client wants to... also on the status of the SJ
                 */
-            case ACTION_EDIT_JOB_SERVICE : // Show Details on ServiceReport_FRGMT_BEFORE View
-            confirmContinueTaskMDialog(serviceJob);
+            case ACTION_EDIT: // Show Details on ServiceReport_FRGMT_BEFORE View
+                confirmContinueTaskMDialog(serviceJob);
                 break;
-            case ACTION_BEGIN_JOB_SERVICE : // Confirm Begin Task
+            case ACTION_BEGIN: // Confirm Begin Task
                 confirmBeginTaskMDialog(serviceJob);
                 break;
             case ACTION_ALREADY_COMPLETED :
@@ -350,14 +355,25 @@ public class MainActivity extends FragmentActivity implements
                         .show();
                 break;
             /*************************** END SERVICE JOB *****************************/
+        }
+    }
 
-
+    @Override
+    public void onHandleSelection(int position, ProjectJobWrapper projectWrapper, int action) {
+        switch (action) {
+            case ACTION_VIEW_DETAILS : // Show Details of SJ on MDialog
+                showMDialogPJDetails(projectWrapper);
+                break;
             /*************************** PROJECT JOB *****************************/
             case ACTION_CHOOSE_FORM :
                 this.mProjectJobFormSelectorDialog.show();
                 initFormSelectorButton(this.mProjectJobFormSelectorDialog.getCustomView());
                 break;
             /*************************** END PROJECT JOB *****************************/
+
+            case ACTION_TOOLBOX_MEETING :
+                startToolBoxMeetingViewPager();
+                break;
         }
     }
 
@@ -379,7 +395,7 @@ public class MainActivity extends FragmentActivity implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        serviceJobUpdateStatus(serviceJob, ACTION_BEGIN_JOB_SERVICE);
+                        serviceJobUpdateStatus(serviceJob, ACTION_BEGIN);
                     }
                 }).build();
 
@@ -406,7 +422,7 @@ public class MainActivity extends FragmentActivity implements
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         switch (serviceJob.getStatus()) {
                             case SERVICE_JOB_PENDING :
-                            case SERVICE_JOB_UNSIGNED : serviceJobUpdateStatus(serviceJob, ACTION_EDIT_JOB_SERVICE);
+                            case SERVICE_JOB_UNSIGNED : serviceJobUpdateStatus(serviceJob, ACTION_EDIT);
                                 break;
                             case SERVICE_JOB_ON_PROCESS : serviceJobUpdateStatus(serviceJob, ACTION_ALREADY_ON_PROCESS);
                                 break;
@@ -446,8 +462,8 @@ public class MainActivity extends FragmentActivity implements
         });
 
         switch (mode) {
-            case ACTION_BEGIN_JOB_SERVICE : beginServiceJob.postStartDate(serviceJob.getID()); break;
-            case ACTION_EDIT_JOB_SERVICE : beginServiceJob.postContinueDate(serviceJob.getID()); break;
+            case ACTION_BEGIN: beginServiceJob.postStartDate(serviceJob.getID()); break;
+            case ACTION_EDIT: beginServiceJob.postContinueDate(serviceJob.getID()); break;
             /*
                 WE DON'T Save DATE_TIME here (ACTION_ALREADY_ON_PROCESS), cases are
                    - User re-open the app,
@@ -497,7 +513,7 @@ public class MainActivity extends FragmentActivity implements
      */
     private void proceedViewPagerActivity(ServiceJobWrapper serviceJob, String mode, String JSONListPartsRate) {
         try {
-            ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList = new ConvertJSON().getResponseJSONPartReplacementRate(JSONListPartsRate);
+            ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList = new ConvertJSON_SJ().getResponseJSONPartReplacementRate(JSONListPartsRate);
             Log.e(TAG, rateList.toString());
 
             startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
@@ -577,6 +593,25 @@ public class MainActivity extends FragmentActivity implements
         }
     }*/
     /*************************** B. PROJECT JOB *****************************/
+    private void showMDialogPJDetails(ProjectJobWrapper projectJob) {
+        MaterialDialog md = new MaterialDialog.Builder(this)
+                .title("PROJECT JOB " + projectJob.getProjectRef())
+                .customView(R.layout.i_labels_project_job_details, true)
+                .limitIconToDefaultSize()
+                .positiveText("OK")
+                .iconRes(R.mipmap.view_icon)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).build();
+
+        new PopulateProjectJobViewDetails()
+                .populateServiceJobDetails(md.getCustomView(), projectJob, View.GONE, TAG);
+        md.show();
+    }
 
     private MaterialDialog initNewPartDialog() {
         boolean wrapInScrollView = false;
@@ -625,7 +660,6 @@ public class MainActivity extends FragmentActivity implements
     }
 
     /**
-     *
      * @param typeOfForm - This will Redirect to ServiceJobViewPagerActivity with extra intent of Type of Form
      */
     private void startProjectJobsList(int typeOfForm) {
@@ -637,4 +671,13 @@ public class MainActivity extends FragmentActivity implements
     }
 
     /*************************** B. END PROJECT JOB *****************************/
-}
+
+    private void startToolBoxMeetingViewPager() {
+        Intent i = new Intent(MainActivity.this, ToolboxMeetingPagerActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                /*.putExtra(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm)*/;
+        startActivity(i);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
+    }
+
+    }

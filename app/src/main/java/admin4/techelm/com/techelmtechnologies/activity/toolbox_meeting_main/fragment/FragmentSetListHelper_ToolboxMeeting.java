@@ -3,9 +3,9 @@ package admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.fra
 import android.graphics.Color;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.IPITaskListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.PISSTaskListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobB1ListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobListener;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
@@ -83,14 +83,12 @@ public class FragmentSetListHelper_ToolboxMeeting {
         return taskText;
     }
 
-    // Called at ProjecrJobListAdapter Only, Event to Select Type of Form
-    public void setActionOnClick(ProjectJobB1ListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
-        mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_CHOOSE_FORM);
-    }
-
-    // Called at PISSTaskListAdapter Only
-    public void setActionOnClick(PISSTaskListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+    // Called at PJ_PISSTaskListAdapter Only
+    public void setActionOnClick(ServiceJobListener mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
         switch (status) {
+            case PROJECT_JOB_CHOOSE_FORM :
+                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_CHOOSE_FORM);
+                break;
             case PROJECT_JOB_START_DRAWING :
                 mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_DRAWING);
                 break;
@@ -102,8 +100,8 @@ public class FragmentSetListHelper_ToolboxMeeting {
         }
     }
 
-    // Called at IPITaskListAdapter Only
-    public void setActionOnClick(IPITaskListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+    // Called at PJ_IPITaskListAdapter Only
+    public void setActionOnClick(ProjectJobListener mCallback, int adapterPosition, ProjectJobWrapper serviceJobWrapper, String status) {
         mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_CORRECTIVE_ACTION_FORM);
     }
 

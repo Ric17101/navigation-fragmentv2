@@ -18,7 +18,7 @@ import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_VIEW_DETAIL_URL;
 
 public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
 
@@ -115,7 +115,7 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
                 .titleDefault(getString(R.string.app_name))
                 .swipeRefreshColorRes(R.color.colorPrimary1)
                 .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
-                .show(SERVICE_JOB_UPLOAD_URL + "view_details?servicejob_id=" + this.mServiceJobFromBundle.getID());
+                .show(SERVICE_JOB_VIEW_DETAIL_URL + this.mServiceJobFromBundle.getID());
     }
 
 

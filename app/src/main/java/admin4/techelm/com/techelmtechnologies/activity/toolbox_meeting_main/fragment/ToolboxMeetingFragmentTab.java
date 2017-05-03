@@ -14,10 +14,6 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobFragmentTab;
-import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.ToolboxMeetingListFragment;
-
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
 
 public class ToolboxMeetingFragmentTab extends Fragment {
 

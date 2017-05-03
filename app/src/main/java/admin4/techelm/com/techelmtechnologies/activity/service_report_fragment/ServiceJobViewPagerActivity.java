@@ -17,9 +17,9 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobPartsListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobRecordingsListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobUploadsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_PartsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.PartsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
@@ -40,12 +40,12 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_J
 
 
 public class ServiceJobViewPagerActivity extends AppCompatActivity implements
-        ServiceJobRecordingsListAdapter.CallbackInterface, // A. ServiceReport_FRGMT_BEFORE
-        ServiceJobUploadsListAdapter.CallbackInterface,
+        SJ_RecordingsListAdapter.CallbackInterface, // A. ServiceReport_FRGMT_BEFORE
+        SJ_UploadsListAdapter.CallbackInterface,
         RecordingSJDBUtil.OnDatabaseChangedListener,
         ServiceJobDBUtil.OnDatabaseChangedListener, // [A & B & D]
         UploadsSJDBUtil.OnDatabaseChangedListener,
-        ServiceJobPartsListAdapter.CallbackInterface, // B. PartReplacement_FRGMT_2
+        SJ_PartsListAdapter.CallbackInterface, // B. PartReplacement_FRGMT_2
         PartsSJDBUtil.OnDatabaseChangedListener//,
         // OnTaskKill.onStopCallbackInterface // TODO: if user close the app permanently
 {

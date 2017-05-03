@@ -9,9 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -52,8 +50,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobRecordingsListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobUploadsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
@@ -98,7 +96,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
 
     private final static int ALL_PERMISSIONS_RESULT = 107;
 
-    private ServiceJobUploadsListAdapter mUploadListAdapter; // ListView Setup
+    private SJ_UploadsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
     private List<ServiceJobUploadsWrapper> mUploadResults = null;
     private UploadsSJDBUtil mUploadsDB;
@@ -120,7 +118,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     private Chronometer mChronometer = null;
     long timeWhenPaused = 0; //stores time when user clicks pause button
 
-    private ServiceJobRecordingsListAdapter mListAdapter; // ListView Setup
+    private SJ_RecordingsListAdapter mListAdapter; // ListView Setup
     private RecyclerView mRecordResultsList;
     private List<ServiceJobRecordingWrapper> mResultsList = null;
     private RecordingSJDBUtil mRecodingDB;
@@ -462,7 +460,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     }
 
     public void setupUploadsResultsList() {
-        mUploadListAdapter = new ServiceJobUploadsListAdapter(getActivity());
+        mUploadListAdapter = new SJ_UploadsListAdapter(getActivity());
         mUploadResultsList.setAdapter(mUploadListAdapter);
         mUploadResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
     }
@@ -872,7 +870,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     }
 
     public void setupRecordingsResultsList() {
-        mListAdapter = new ServiceJobRecordingsListAdapter(this.mContext);
+        mListAdapter = new SJ_RecordingsListAdapter(this.mContext);
         mRecordResultsList.setAdapter(mListAdapter);
         mRecordResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
     }

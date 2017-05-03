@@ -157,7 +157,6 @@ public class ProjectJobFragmentTab extends Fragment {
         }
 
         private Fragment setFragmentB1(int position) {
-
             switch (position) {
                 case 0:
                     return new PISSTaskListFragment();

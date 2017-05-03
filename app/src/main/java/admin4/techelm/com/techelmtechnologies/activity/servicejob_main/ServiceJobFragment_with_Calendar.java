@@ -32,10 +32,10 @@ import java.util.Date;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_ListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
-import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
@@ -50,7 +50,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ServiceJobFragment_with_Calendar extends Fragment implements
         RobotoCalendarView.RobotoCalendarListener,
-        ServiceJobListAdapter.OnItemClickListener
+        SJ_ListAdapter.OnItemClickListener
 {
     private static final String TAG = ServiceJobFragment_with_Calendar.class.getSimpleName();
     private static final int REQUEST_CODE = 1234;
@@ -61,7 +61,7 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
     private SlidingUpPanelLayout mLayout;
 
     private Context mContext;
-    private ServiceJobListAdapter mListAdapter;
+    private SJ_ListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
@@ -155,7 +155,7 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
         textViewSJResult.setVisibility(View.GONE);
     }
     public void setupResultsList(View view) {
-        mListAdapter = new ServiceJobListAdapter(view.getContext());
+        mListAdapter = new SJ_ListAdapter(view.getContext());
         mSearchResultsList.setAdapter(mListAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
@@ -268,7 +268,7 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
 
     /**
      * To be implemented at Fragments later
-     * or Use a another class uusing CallbackInterface for more modularity
+     * or Use a another class uusing ProjectJobListener for more modularity
      */
     private class CalendarServiceJobDatesDots_POST {
         private PostCommand postCommand;
@@ -326,7 +326,7 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
                 return null;
             }
             try {
-                ConvertJSON cJSON = new ConvertJSON();
+                ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
                 ArrayList<ServiceJobWrapper> resultList = cJSON.parseServiceListJSON(JSONResult);
                 hasResutFlag = cJSON.hasResult();
                 // return (hasResutFlag ? resultList : null);
@@ -654,7 +654,7 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
             try {
                 parsedServiceJob = parseServiceListJSON(JSONHelper.GET(getDetailsLink()));
                 if (parsedServiceJob.equals("ok")) {
-                    ConvertJSON cJSON = new ConvertJSON();
+                    ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
                     ArrayList<ServiceJobWrapper> resultList =  cJSON.serviceJobList(serviceList);
                     resultStatus = (cJSON.hasResult() ? 1 : 3);
                     return (resultStatus == 1 ? resultList : null);

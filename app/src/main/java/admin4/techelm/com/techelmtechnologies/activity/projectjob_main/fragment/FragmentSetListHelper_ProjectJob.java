@@ -1,26 +1,33 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.IPITaskListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.PISSTaskListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ProjectJobB1ListAdapter;
-import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_CORRECTIVE_ACTION_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CHOOSE_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_COMPLETED;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CONTINUE_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CORRECTIVE_ACTION_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_NEW;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_ON_PROCESS;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PENDING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLETED;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_NEW;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_ON_PROCESS;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_PENDING;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UNSIGNED;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_UNSIGNED;
 
 /**
  * Created by admin 4 on 03/04/2017.
@@ -36,15 +43,15 @@ public class FragmentSetListHelper_ProjectJob {
 
     public String setStatus(String status) {
         switch (status) {
-            case SERVICE_JOB_NEW: status = "New";
+            case PROJECT_JOB_NEW: status = "New";
                 break;
-            case SERVICE_JOB_UNSIGNED: status = "Unsigned";
+            case PROJECT_JOB_UNSIGNED: status = "Unsigned";
                 break;
-            case SERVICE_JOB_COMPLETED: status = "Completed";
+            case PROJECT_JOB_COMPLETED: status = "Completed";
                 break;
-            case SERVICE_JOB_ON_PROCESS: status = "On Process";
+            case PROJECT_JOB_ON_PROCESS: status = "On Process";
                 break;
-            case SERVICE_JOB_PENDING: status = "Pending";
+            case PROJECT_JOB_PENDING: status = "Pending";
                 break;
             default : status = "";
                 break;
@@ -54,9 +61,9 @@ public class FragmentSetListHelper_ProjectJob {
 
     public int setColor(String status) {
         switch (status) {
-            case "" : return Color.BLUE;
+            case "" : return Color.BLACK;
             case PROJECT_JOB_CHOOSE_FORM: return Color.RED;
-            default: return Color.BLACK;
+            default: return Color.BLUE;
         }
     }
 
@@ -83,29 +90,35 @@ public class FragmentSetListHelper_ProjectJob {
         return taskText;
     }
 
-    // Called at ProjecrJobListAdapter Only, Event to Select Type of Form
-    public void setActionOnClick(ProjectJobB1ListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
-        mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_CHOOSE_FORM);
+    public Spinner setSpinnerComment(Context context, View view) {
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("YES");
+        options.add("NO");
+        options.add("NA");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                android.R.layout.simple_spinner_item, options);
+        Spinner spinnerComment = (Spinner) view.findViewById(R.id.spinnerComment);
+        spinnerComment.setAdapter(adapter);
+        return spinnerComment;
     }
 
-    // Called at PISSTaskListAdapter Only
-    public void setActionOnClick(PISSTaskListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
+    // Called at PJ_PISSTaskListAdapter Only
+    public void setActionOnClick(ProjectJobListener mCallback, int adapterPosition, ProjectJobWrapper ProjectJobWrapper, String status) {
         switch (status) {
+            case PROJECT_JOB_CHOOSE_FORM :
+                mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_CHOOSE_FORM);
+                break;
+            case PROJECT_JOB_CORRECTIVE_ACTION_FORM :
+                mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_START_CORRECTIVE_ACTION_FORM);
+                break;
             case PROJECT_JOB_START_DRAWING :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_DRAWING);
+                mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_START_DRAWING);
                 break;
             case PROJECT_JOB_CONTINUE_TASK :
-                mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_CONTINUE_TASK);
+                mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_CONTINUE_TASK);
                 break;
             default :
                 break;
         }
     }
-
-    // Called at IPITaskListAdapter Only
-    public void setActionOnClick(IPITaskListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobWrapper serviceJobWrapper, String status) {
-        mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_CORRECTIVE_ACTION_FORM);
-    }
-
-
 }

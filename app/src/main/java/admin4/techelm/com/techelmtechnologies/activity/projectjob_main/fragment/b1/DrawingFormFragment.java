@@ -1,5 +1,7 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,13 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.FragmentSetListHelper_ProjectJob;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 
 public class DrawingFormFragment extends Fragment {
 
     private View rootView;
+    private ImageButton imageButtonViewDrawing;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,11 +50,7 @@ public class DrawingFormFragment extends Fragment {
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*startActivity(new Intent(AddReplacementPart_FRGMT_3.this, PartReplacement_FRGMT_2.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
-                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);*/
-                ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(-1);
+                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(-1);
             }
         });
 
@@ -68,7 +69,7 @@ public class DrawingFormFragment extends Fragment {
             }
         });
 
-        ImageButton imageButtonViewDrawing = (ImageButton) view.findViewById(R.id.imageButtonViewDrawing);
+        imageButtonViewDrawing = (ImageButton) view.findViewById(R.id.imageButtonViewDrawing);
         imageButtonViewDrawing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +77,19 @@ public class DrawingFormFragment extends Fragment {
             }
         });
 
+        Spinner spinner = new FragmentSetListHelper_ProjectJob().setSpinnerComment(getActivity(), view);
+
+    }
+
+    private void setDrawableImageSignature(Bitmap drawableImageSignature) {
+        BitmapDrawable ob = new BitmapDrawable(getResources(), drawableImageSignature);
+        imageButtonViewDrawing.setBackground(ob);
+        // imageButtonViewSignature.setBackgroundDrawable(ob);
+
+        // Set to wrap content signature
+        ViewGroup.LayoutParams params = imageButtonViewDrawing.getLayoutParams();
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        imageButtonViewDrawing.setLayoutParams(params);
     }
 
     public void showDrawingCanvasFragment(View view) {

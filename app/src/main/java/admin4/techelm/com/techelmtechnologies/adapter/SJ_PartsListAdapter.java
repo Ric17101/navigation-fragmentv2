@@ -23,7 +23,7 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
 
-public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobPartsListAdapter.ViewHolder> {
+public class SJ_PartsListAdapter extends RecyclerView.Adapter<SJ_PartsListAdapter.ViewHolder> {
 
     private static final String LOG_TAG = "PartsListAdapter";
     private final int CHECK_CODE = 0x1;
@@ -38,7 +38,7 @@ public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobP
     private OnItemClickListener mItemsOnClickListener;
     private int counterOnBindViewHolder = 0;
 
-    public ServiceJobPartsListAdapter(Activity context) {
+    public SJ_PartsListAdapter(Activity context) {
         mContext = context;
 
         // .. Attach the interface
@@ -46,12 +46,12 @@ public class ServiceJobPartsListAdapter extends RecyclerView.Adapter<ServiceJobP
             mCallback = (CallbackInterface) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the CallbackInterface in the Activity", ex);
+            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         // System.gc();
     }
 
-    public ServiceJobPartsListAdapter(List<ServiceJobNewPartsWrapper> serviceJobList) {
+    public SJ_PartsListAdapter(List<ServiceJobNewPartsWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }

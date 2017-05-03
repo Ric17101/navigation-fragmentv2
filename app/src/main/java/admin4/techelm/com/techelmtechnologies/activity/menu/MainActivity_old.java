@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.techelmtechnologies.admin4.R;
-import com.techelmtechnologies.admin4.adapter.ServiceJobListAdapter;
+import com.techelmtechnologies.admin4.adapter.SJ_ListAdapter;
 import com.techelmtechnologies.admin4.servicejob.CalendarFragment;
 import com.techelmtechnologies.admin4.servicejob.ServiceJobWrapper;
 
@@ -38,7 +38,7 @@ import java.util.List;
  * TODO: REMOVE ASYSNTASK if necessary to see what is wrong with the runnables
  *//*
 
-public class MainActivity_old extends AppCompatActivity implements ServiceJobListAdapter.CallbackInterface {
+public class MainActivity_old extends AppCompatActivity implements SJ_ListAdapter.ProjectJobListener {
 
     private DrawerLayout mDrawerLayout;
 

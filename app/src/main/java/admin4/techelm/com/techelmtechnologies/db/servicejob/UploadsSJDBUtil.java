@@ -53,7 +53,7 @@ public class UploadsSJDBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the CallbackInterface in the Activity", ex);
+            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }

@@ -34,7 +34,7 @@ import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 /** @VERSION2
  * You can use this as follow
 
-     yourTask = new SJTask_RenderList(formattedDate, "", mContext);
+     yourTask = new PJTask_RenderList(formattedDate, "", mContext);
      new TaskCanceller(yourTask).setWait(getActivity());
      yourTask.execute((Void) null)
 
@@ -44,7 +44,7 @@ import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 
      @Override
      protected void onCancelled() {
-         Log.i(TAG, "onCancelled hideSwipeRefreshing() new SJTask_RenderList()");
+         Log.i(TAG, "onCancelled hideSwipeRefreshing() new PJTask_RenderList()");
      }
 
  */

@@ -67,7 +67,7 @@ public class UILDownloader {
 			this.mCallback = (UILListener) context;
 			this.initUIL();
 		} catch (ClassCastException ex) {
-			Log.e(TAG, "Must implement the CallbackInterface in the Activity", ex);
+			Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
 		}
 	}
     /**

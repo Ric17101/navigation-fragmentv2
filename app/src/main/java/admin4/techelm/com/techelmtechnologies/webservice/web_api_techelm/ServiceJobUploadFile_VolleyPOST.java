@@ -172,7 +172,7 @@ public class ServiceJobUploadFile_VolleyPOST {
         protected void onProgressUpdate(Void... values) {
         }
 
-        // This is also implemented at ConvertJSON
+        // This is also implemented at ConvertJSON_SJ
         private NetworkResponseData convertNetworkJSONResponse(String resultResponse) {
             try {
                 JSONObject aResult = new JSONObject(resultResponse);

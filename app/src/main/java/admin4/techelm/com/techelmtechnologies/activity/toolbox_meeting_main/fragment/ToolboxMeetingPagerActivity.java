@@ -36,34 +36,23 @@ import java.util.HashMap;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobFragmentTab;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.CompletionDateFragmentTest;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.NonConformanceAndDateFragmentTest;
-import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
-import admin4.techelm.com.techelmtechnologies.adapter.IPITaskListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.PISSTaskListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ToolboxMeetingListAdapter;
-import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.PopulateProjectJobViewDetails;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.FragmentSetListHelper_ProjectJob;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.InterfaceDialogHolder;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.OpenDialog;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_CORRECTIVE_ACTION_FORM;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_DRAWING;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_TASK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LANDING_PAGE_ACTIVE_KEY;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.NAVIGATION_DRAWER_SELECTED_PROJECTJOB;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.NAVIGATION_DRAWER_SELECTED_TOOLBOX;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_2;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_3;
 
 public class ToolboxMeetingPagerActivity extends FragmentActivity implements
-        ToolboxMeetingListAdapter.CallbackInterface,
+        // TM_ListAdapter.ProjectJobListener,
         DatePickerDialog.OnDateSetListener,
         OpenDialog {
 
@@ -113,13 +102,13 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
      */
     private void fromBundle() {
         Intent intent = getIntent();
-        this.modeOfForm = intent.getIntExtra(PROJECT_JOB_FORM_TYPE_KEY, 0);
+        this.modeOfForm = intent.getIntExtra(PROJECT_JOB_FORM_TYPE_KEY, 0); // This is not used yet
 
         setViewPagerTitleBar();
     }
 
     private void init_ViewPager() {
-        /**
+        /*
          * Lets inflate the very first fragment
          * Here , we are inflating the TabFragment as the first Fragment
          */
@@ -187,8 +176,8 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
         backToLandingPage(1);
     }
 
-    @Override
-    public void onHandleSelection(int position, ServiceJobWrapper serviceJob, int mode) {
+    /*@Override
+    public void onHandleSelection(int position, ProjectJobWrapper serviceJob, int mode) {
         switch (mode) {
             case ACTION_START_DRAWING :
                 if (this.modeOfForm == PROJECT_JOB_FORM_B1)
@@ -216,7 +205,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
                 Log.e(TAG, "This is ACTION_VIEW_TASK");
                 break;
         }
-    }
+    }*/
 
     /**
      * TODO:  THIS should do the reversion of status when task has been cancelled or barcprecssesesseses
@@ -226,7 +215,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
     public void backToLandingPage(final int mode) {
         Intent intent = new Intent(ToolboxMeetingPagerActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(LANDING_PAGE_ACTIVE_KEY, NAVIGATION_DRAWER_SELECTED_PROJECTJOB);
+        intent.putExtra(LANDING_PAGE_ACTIVE_KEY, NAVIGATION_DRAWER_SELECTED_TOOLBOX);
         Bundle bundle = ActivityOptions.makeCustomAnimation(ToolboxMeetingPagerActivity.this,
                 R.anim.left_to_right, R.anim.right_to_left).toBundle();
         startActivity(intent, bundle);
@@ -264,25 +253,6 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
     */
 
     /*************** B1 - Pre Installation Site Survey ***************/
-    private void showMDialogSJDetails(ServiceJobWrapper serviceJob) {
-        MaterialDialog md = new MaterialDialog.Builder(ToolboxMeetingPagerActivity.this)
-                .title("PROJECT JOB " + serviceJob.getServiceNumber())
-                .customView(R.layout.i_labels_report_details_modal, true)
-                .limitIconToDefaultSize()
-                .positiveText("OK")
-                .iconRes(R.mipmap.view_icon)
-                .autoDismiss(false)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                }).build();
-
-        new PopulateServiceJobViewDetails()
-                .populateServiceJobDetailsMaterialDialog(md.getCustomView(), serviceJob, View.GONE, TAG);
-        md.show();
-    }
 
     /**
      * Button Click on Next/Preview or Save
@@ -356,14 +326,8 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
                 .build();
 
         // Set Spinner Comment
-        ArrayList<String> options = new ArrayList<String>();
-        options.add("YES");
-        options.add("NO");
-        options.add("NA");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ToolboxMeetingPagerActivity.this,
-                android.R.layout.simple_spinner_item, options);
-        Spinner spinnerComment = (Spinner) md2.getCustomView().findViewById(R.id.spinnerComment);
-        spinnerComment.setAdapter(adapter);
+        Spinner spinnerComment = new FragmentSetListHelper_ProjectJob().setSpinnerComment(ToolboxMeetingPagerActivity.this, md2.getCustomView());
+
 
         // Set up EditText for Date Picker Dialog date
         final View view = md2.getCustomView();

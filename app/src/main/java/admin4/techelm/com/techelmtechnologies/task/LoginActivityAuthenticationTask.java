@@ -19,6 +19,8 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.LOGIN_URL;
+
 /**
  * Represents an asynchronous login/registration task used to authenticate
  * the user.
@@ -26,8 +28,7 @@ import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boolean> {
 
     public static final String TAG = LoginActivityAuthenticationTask.class.getSimpleName();
-    public static final String LOGIN_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/auth/user";
+
     private String[] USER_CREDENTIALS = new String[]{""};
     private static final String[] DUMMY_CREDENTIALS = new String[] {
             "foo@example.com:hello", "bar@example.com:world", "@dev:password:"
@@ -56,7 +57,7 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
         try {
             mCallback = (CallbackInterface) context;
         } catch (ClassCastException ex) {
-            Log.e("TASK", "Must implement the LoginActivityAuthenticationTask in the Activity", ex);
+            Log.e(TAG, "Must implement the LoginActivityAuthenticationTask in the Activity", ex);
         }
         System.gc();
     }

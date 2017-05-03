@@ -24,11 +24,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_ListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
-import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
@@ -41,12 +41,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_LIST_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class ServiceJobFragment extends Fragment implements
-        ServiceJobListAdapter.OnItemClickListener
+        SJ_ListAdapter.OnItemClickListener
 {
     private static final String TAG = ServiceJobFragment.class.getSimpleName();
     private static final int REQUEST_CODE = 1234;
@@ -57,7 +58,7 @@ public class ServiceJobFragment extends Fragment implements
     private SlidingUpPanelLayout mLayout;
 
     private Context mContext;
-    private ServiceJobListAdapter mListAdapter;
+    private SJ_ListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
@@ -145,7 +146,7 @@ public class ServiceJobFragment extends Fragment implements
         textViewSJResult.setVisibility(View.GONE);
     }
     public void setupResultsList(View view) {
-        mListAdapter = new ServiceJobListAdapter(view.getContext());
+        mListAdapter = new SJ_ListAdapter(view.getContext());
         mSearchResultsList.setAdapter(mListAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
@@ -252,14 +253,6 @@ public class ServiceJobFragment extends Fragment implements
             mContext = context;
             // System.gc();
         }
-        private String getDetailsLink() {
-            StringBuilder sb = new StringBuilder();
-            sb.append(SERVICE_JOB_UPLOAD_URL);
-            // sb.append("get_date_services/" + mDate);
-            sb.append("get_all_services/");
-            return sb.toString();
-        }
-
         /**
          *
          * @param JSONResult
@@ -438,9 +431,9 @@ public class ServiceJobFragment extends Fragment implements
         protected List<ServiceJobWrapper> doInBackground(Void... params) {
             String parsedServiceJob = "";
             try {
-                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(getDetailsLink()));
+                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(SERVICE_JOB_LIST_URL));
                 if (parsedServiceJob.equals("ok")) {
-                    ConvertJSON cJSON = new ConvertJSON();
+                    ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
                     ArrayList<ServiceJobWrapper> resultList =  cJSON.serviceJobList(serviceList);
                     resultStatus = (cJSON.hasResult() ? 1 : 3);
                     return (resultStatus == 1 ? resultList : null);
@@ -489,7 +482,7 @@ public class ServiceJobFragment extends Fragment implements
         protected void onCancelled() {
             noResultTryAgain();
             hideSwipeRefreshing();
-            Log.i(TAG, "onCancelled hideSwipeRefreshing() new SJTask_RenderList()");
+            Log.i(TAG, "onCancelled hideSwipeRefreshing() new PJTask_RenderList()");
         }
     }
 

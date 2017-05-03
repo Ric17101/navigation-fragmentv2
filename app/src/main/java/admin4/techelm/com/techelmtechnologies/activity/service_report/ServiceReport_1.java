@@ -49,8 +49,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobRecordingsListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.ServiceJobUploadsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
@@ -66,8 +66,8 @@ import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
 import static android.Manifest.permission.CAMERA;
 
 public class ServiceReport_1 extends AppCompatActivity implements
-        ServiceJobRecordingsListAdapter.CallbackInterface,
-        ServiceJobUploadsListAdapter.CallbackInterface,
+        SJ_RecordingsListAdapter.CallbackInterface,
+        SJ_UploadsListAdapter.CallbackInterface,
         RecordingService.OnTimerChangedListener,
         RecordingSJDBUtil.OnDatabaseChangedListener,
         ServiceJobDBUtil.OnDatabaseChangedListener,
@@ -95,7 +95,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
 
     private final static int ALL_PERMISSIONS_RESULT = 107;
 
-    private ServiceJobUploadsListAdapter mUploadListAdapter; // ListView Setup
+    private SJ_UploadsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
     private List<ServiceJobUploadsWrapper> mUploadResults = null;
     private UploadsSJDBUtil mUploadsDB;
@@ -114,7 +114,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     private Chronometer mChronometer = null;
     long timeWhenPaused = 0; //stores time when user clicks pause button
 
-    private ServiceJobRecordingsListAdapter mListAdapter; // ListView Setup
+    private SJ_RecordingsListAdapter mListAdapter; // ListView Setup
     private RecyclerView mRecordResultsList;
     private List<ServiceJobRecordingWrapper> mResultsList = null;
     private RecordingSJDBUtil mRecodingDB;
@@ -307,7 +307,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     }
 
     public void setupUploadsResultsList() {
-        mUploadListAdapter = new ServiceJobUploadsListAdapter(ServiceReport_1.this);
+        mUploadListAdapter = new SJ_UploadsListAdapter(ServiceReport_1.this);
         mUploadResultsList.setAdapter(mUploadListAdapter);
         mUploadResultsList.setLayoutManager(new LinearLayoutManager(ServiceReport_1.this));
     }
@@ -775,7 +775,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     }
 
     public void setupRecordingsResultsList() {
-        mListAdapter = new ServiceJobRecordingsListAdapter(ServiceReport_1.this);
+        mListAdapter = new SJ_RecordingsListAdapter(ServiceReport_1.this);
         mRecordResultsList.setAdapter(mListAdapter);
         mRecordResultsList.setLayoutManager(new LinearLayoutManager(ServiceReport_1.this));
     }

@@ -7,7 +7,7 @@
 
     <include layout="@layout/i_labels_report_details_uppper_i_labels"/>
 
-    <include layout="@layout/i_labels_report_details_i_content"/>
+    <include layout="@layout/i_labels_report_details_i_content" />
 
     <include layout="@layout/i_labels_report_details_i_more"/>
 </LinearLayout>

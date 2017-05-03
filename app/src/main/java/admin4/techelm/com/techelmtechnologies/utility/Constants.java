@@ -38,17 +38,26 @@ public final class Constants {
     public static final String VERSION = BuildConfig.VERSION_NAME;
     public static String SERVICE_JOB_DETAILS_URL =
             "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/";
-    public static String SERVICE_JOB_UPLOAD_URL = SERVICE_JOB_DETAILS_URL + "servicejob/";
+    public static final String LOGIN_URL = SERVICE_JOB_DETAILS_URL + "auth/user";
+    public static final String SERVICE_JOB_UPLOAD_URL = SERVICE_JOB_DETAILS_URL + "servicejob/";
+    public static final String SERVICE_JOB_LIST_URL = SERVICE_JOB_UPLOAD_URL + "get_all_services/";
+    public static final String SERVICE_JOB_UNSIGNED_LIST_URL = SERVICE_JOB_UPLOAD_URL + "get_date_services_unsigend_services/";
+    public static final String SERVICE_JOB_VIEW_DETAIL_URL = SERVICE_JOB_UPLOAD_URL + "view_details?servicejob_id=";
+    public static final String SERVICE_JOB_BY_MONTH_URL = SERVICE_JOB_UPLOAD_URL + "get_date_services_by_month";
+    public static final String PROJECT_JOB_URL = SERVICE_JOB_DETAILS_URL + "projectjob/";
+    public static final String PROJECT_JOB_LIST_URL = PROJECT_JOB_URL + "get_all_services/";
+
+    public static final String LIST_DELIM = ":-:";
 
     /**** NAVIGATION DRAWER TO SHOW ON MAIN ACTIVITY ****/
     public static final int NAVIGATION_DRAWER_SELECTED_SERVICEJOB = 0;
     public static final int NAVIGATION_DRAWER_SELECTED_PROJECTJOB = 1;
-    public static final int NAVIGATION_DRAWER_SELECTED_OTHERS = 2;
+    public static final int NAVIGATION_DRAWER_SELECTED_TOOLBOX = 5;
 
     /**** SECTION A ****/
     // ACTION, action is being called in the MainActivity
-    public static final int ACTION_BEGIN_JOB_SERVICE = 0;
-    public static final int ACTION_EDIT_JOB_SERVICE = 1;
+    public static final int ACTION_BEGIN = 0;
+    public static final int ACTION_EDIT = 1;
     public static final int ACTION_VIEW_DETAILS = 2;
     public static final int ACTION_ALREADY_COMPLETED = 3;
     public static final int ACTION_ALREADY_ON_PROCESS = 4; // This already being called as Continue whenever service
@@ -71,7 +80,7 @@ public final class Constants {
     public static final String SERVICE_JOB_PREVIOUS_STATUS_KEY = "SERVICE_JOB_PREVIOUS_STATUS";
     /** Type is String. */
     public static final String SERVICE_JOB_TAKEN_KEY = "TAKEN";
-    /** Type is Object ServiceJobNewReplacementPartsRatesWrapper */
+    /** Type is Object ServiceJobNewReplacementPartsRatesWrapper. */
     public static final String SERVICE_JOB_PARTS_REPLACEMENT_LIST = "REPLACEMENT_LIST";
     /** Type is String. */
     public static final String PROJECT_JOB_FORM_TYPE_KEY = "TYPE_OF_FORM";
@@ -79,6 +88,13 @@ public final class Constants {
     public static final String PROJECT_JOB_FORM_DATE_FORM_KEY = "SHOW_ANOTHER_DIALOG";
 
     /**** SECTION B ****/
+    // STATUS of Project Jobs, the Task Button
+    public static final String PROJECT_JOB_NEW = "0";
+    public static final String PROJECT_JOB_UNSIGNED = "1";
+    public static final String PROJECT_JOB_PENDING = "2";
+    public static final String PROJECT_JOB_COMPLETED = "3";
+    public static final String PROJECT_JOB_ON_PROCESS = "4";
+
     // ACTION PROJECT JOB
     public static final int ACTION_CHOOSE_FORM = 10; // PROJECT JOB, Choosing the form
     public static final int ACTION_START_DRAWING = 11;
@@ -86,12 +102,13 @@ public final class Constants {
     public static final int ACTION_CONTINUE_TASK = 13;
     public static final int ACTION_VIEW_TASK = 14;
     public static final int ACTION_START_CORRECTIVE_ACTION_FORM = 15;
+    public static final int ACTION_TOOLBOX_MEETING = 16;
 
-    // STATUS of Project Jobs, the Task Button
     public static final String PROJECT_JOB_CHOOSE_FORM = "10";
     public static final String PROJECT_JOB_START_DRAWING = "11";
     public static final String PROJECT_JOB_START_TASK = "12";
     public static final String PROJECT_JOB_CONTINUE_TASK = "13";
+    public static final String PROJECT_JOB_CORRECTIVE_ACTION_FORM = "15";
 
     // TYPE OF FORM
     public static final int PROJECT_JOB_FORM_B1 = 1;

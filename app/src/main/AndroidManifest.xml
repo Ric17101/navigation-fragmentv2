@@ -101,6 +101,17 @@
         </activity>
 
         <activity
+            android:name=".activity.toolbox_meeting_main.fragment.ToolboxMeetingPagerActivity"
+            android:label="Toolbox meeting"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".webservice.EmailWebserviceActivity"
             android:label="Webservice"
             android:configChanges="orientation"

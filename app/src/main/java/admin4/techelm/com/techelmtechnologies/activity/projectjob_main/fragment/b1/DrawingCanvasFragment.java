@@ -37,7 +37,7 @@ import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 public class DrawingCanvasFragment extends Fragment implements
         View.OnClickListener
     {
-
+    // Sampler
     private static final String IMAGE_URL = "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/downloadables/drawing_test2.jpg";
 
     private Context mContext;
@@ -246,12 +246,18 @@ public class DrawingCanvasFragment extends Fragment implements
         image = new ImageUtility(getActivity());
         image.setExternal(true);
         image.setDirectoryName("DRAWING");
+
+        String message = "";
         if (image.save(bitmap2)) {
-            SnackBarNotificationUtil
-                    .setSnackBar(getActivity().findViewById(android.R.id.content),
-                            "Image saved.")
-                    .setColor(getResources().getColor(R.color.colorPrimary1))
-                    .show();
+            message = "Image saved.";
+        } else {
+            message = "Can't save image.";
         }
+
+        SnackBarNotificationUtil
+                .setSnackBar(getActivity().findViewById(android.R.id.content),
+                        message)
+                .setColor(getResources().getColor(R.color.colorPrimary1))
+                .show();
     }
 }

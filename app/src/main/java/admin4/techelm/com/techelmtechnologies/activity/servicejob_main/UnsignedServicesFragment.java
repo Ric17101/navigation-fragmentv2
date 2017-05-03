@@ -21,28 +21,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.UnsignedServiceJobListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_UnsignedListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
-import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UNSIGNED_LIST_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class UnsignedServicesFragment extends Fragment implements
-        UnsignedServiceJobListAdapter.OnItemClickListener {
+        SJ_UnsignedListAdapter.OnItemClickListener {
 
     public final String TAG = UnsignedServicesFragment.class.getSimpleName();
 
-    private UnsignedServiceJobListAdapter mListAdapter;
+    private SJ_UnsignedListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
     private static final int REQUEST_CODE = 1234;
 
@@ -140,7 +141,7 @@ public class UnsignedServicesFragment extends Fragment implements
     }
 
     public void setupResultsList(View view) {
-        mListAdapter = new UnsignedServiceJobListAdapter(getActivity()); // this should be view.getContext() else Just getActivity from FragmentActivity
+        mListAdapter = new SJ_UnsignedListAdapter(getActivity()); // this should be view.getContext() else Just getActivity from FragmentActivity
         mSearchResultsList.setAdapter(mListAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
@@ -253,13 +254,6 @@ public class UnsignedServicesFragment extends Fragment implements
         public UnsignedFormSJTask_RenderList(Context context) {
             mContext = context;
             // System.gc();
-        }
-
-        private String getDetailsLink() {
-            StringBuilder sb = new StringBuilder();
-            sb.append(SERVICE_JOB_UPLOAD_URL);
-            sb.append("get_date_services_unsigend_services");
-            return sb.toString();
         }
 
         /**
@@ -405,9 +399,9 @@ public class UnsignedServicesFragment extends Fragment implements
         protected List<ServiceJobWrapper> doInBackground(Void... params) {
             String parsedServiceJob = "";
             try {
-                parsedServiceJob = parseServiceListJSON(JSONHelper.POST(getDetailsLink()));
+                parsedServiceJob = parseServiceListJSON(JSONHelper.POST(SERVICE_JOB_UNSIGNED_LIST_URL));
                 if (parsedServiceJob.equals("ok")) {
-                    ConvertJSON cJSON = new ConvertJSON();
+                    ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
                     ArrayList<ServiceJobWrapper> resultList = cJSON.serviceJobList(serviceList);
                     resultStatus = (cJSON.hasResult() ? 1 : 3);
                     return resultList;

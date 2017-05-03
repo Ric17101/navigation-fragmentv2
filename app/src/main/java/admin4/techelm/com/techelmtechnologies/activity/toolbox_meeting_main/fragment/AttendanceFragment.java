@@ -21,8 +21,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
-import admin4.techelm.com.techelmtechnologies.utility.drawing.CanvasView;
 import me.sudar.zxingorient.Barcode;
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
@@ -89,7 +87,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);*/
-                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(-1);
+                ((ToolboxMeetingPagerActivity) getActivity()).fromFragmentNavigate(-1);
             }
         });
 
@@ -102,7 +100,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
-                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(1);
+                ((ToolboxMeetingPagerActivity) getActivity()).backToLandingPage(1);
             }
         });
     }

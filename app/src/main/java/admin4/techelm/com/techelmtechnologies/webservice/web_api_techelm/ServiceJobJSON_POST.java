@@ -18,7 +18,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 
-import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
@@ -160,7 +160,7 @@ public class ServiceJobJSON_POST {
                 dataString = getInputStringToString(is);
                 Log.e(TAG, dataString);
                 Log.e(TAG, "Message "+conn.getResponseMessage());
-                String response = new ConvertJSON().getResponseJSONfromServiceJob(dataString);
+                String response = new ConvertJSON_SJ().getResponseJSONfromServiceJob(dataString);
                 mOnEventListener.onJSONPostResult(response);
             //}
         } catch (IOException | JSONException e) {
