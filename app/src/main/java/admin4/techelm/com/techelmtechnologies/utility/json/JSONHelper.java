@@ -99,12 +99,19 @@ public class JSONHelper {
      * @return
      */
     public boolean isConnected(Activity activity){
-        ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
+        ConnectivityManager connMgr = null;
+        try {
+            connMgr = (ConnectivityManager) activity.getSystemService(Activity.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected())
+                return true;
+            else
+                return false;
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+
+        return false;
     }
 
 }

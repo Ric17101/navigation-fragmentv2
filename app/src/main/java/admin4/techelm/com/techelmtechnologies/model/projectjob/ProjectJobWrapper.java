@@ -34,7 +34,8 @@ public class ProjectJobWrapper implements Parcelable {
         }
     };
 
-    //private variables 12
+    //private variables 12 + 2
+    // TODO: Add CPCode Here....
     private int _id; // ProjectJob ID from the WEB API, should exist only once on local DB
     private String _proj_ref;
     private String _project_site;
@@ -117,17 +118,12 @@ public class ProjectJobWrapper implements Parcelable {
      * GET AND SET METHOD
      */
 
-    public int getID() {
-        return this._id;
-    }
-
+    public int getID() { return this._id; }
     public void setID(int id) {
         this._id = id;
     }
 
-    public String getProjectRef() {
-        return this._proj_ref;
-    }
+    public String getProjectRef() { return this._proj_ref; }
     public void setProjectRef(String structure) {
         this._proj_ref = structure;
     }

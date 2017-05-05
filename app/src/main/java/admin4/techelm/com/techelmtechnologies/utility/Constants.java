@@ -15,6 +15,7 @@ import admin4.techelm.com.techelmtechnologies.BuildConfig;
  *
  */
 
+public final class Constants {
     /*
         0 - New - Begin Task
         1 - unsigned - Can be Edited
@@ -31,21 +32,23 @@ import admin4.techelm.com.techelmtechnologies.BuildConfig;
         Service JOB Form TAB:
             - SHOW ALL SERVICE JOBS
       */
-public final class Constants {
-
     public Constants() {} // Prevents instantiation of myself and my subclasses
 
     public static final String VERSION = BuildConfig.VERSION_NAME;
-    public static String SERVICE_JOB_DETAILS_URL =
+    public static String DOMAIN_URL =
             "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/";
-    public static final String LOGIN_URL = SERVICE_JOB_DETAILS_URL + "auth/user";
-    public static final String SERVICE_JOB_UPLOAD_URL = SERVICE_JOB_DETAILS_URL + "servicejob/";
+    public static final String LOGIN_URL = DOMAIN_URL + "auth/user";
+    public static final String SERVICE_JOB_UPLOAD_URL = DOMAIN_URL + "servicejob/";
     public static final String SERVICE_JOB_LIST_URL = SERVICE_JOB_UPLOAD_URL + "get_all_services/";
     public static final String SERVICE_JOB_UNSIGNED_LIST_URL = SERVICE_JOB_UPLOAD_URL + "get_date_services_unsigend_services/";
     public static final String SERVICE_JOB_VIEW_DETAIL_URL = SERVICE_JOB_UPLOAD_URL + "view_details?servicejob_id=";
     public static final String SERVICE_JOB_BY_MONTH_URL = SERVICE_JOB_UPLOAD_URL + "get_date_services_by_month";
-    public static final String PROJECT_JOB_URL = SERVICE_JOB_DETAILS_URL + "projectjob/";
+
+    public static final String PROJECT_JOB_URL = DOMAIN_URL + "projectjob/";
     public static final String PROJECT_JOB_LIST_URL = PROJECT_JOB_URL + "get_all_services/";
+    public static final String PROJECT_JOB_PISS_DETAILS_URL = PROJECT_JOB_URL + "get_piss_details?id=";
+    public static final String PROJECT_JOB_PISS_TASK_LIST_URL = PROJECT_JOB_URL + "get_piss_tasks?projectjob_piss_id=";
+    public static final String PROJECT_JOB_PISS_TASK_DETAILS_URL = PROJECT_JOB_URL + "get_piss_tasks_detail?id=";
 
     public static final String LIST_DELIM = ":-:";
 
@@ -84,6 +87,10 @@ public final class Constants {
     public static final String SERVICE_JOB_PARTS_REPLACEMENT_LIST = "REPLACEMENT_LIST";
     /** Type is String. */
     public static final String PROJECT_JOB_FORM_TYPE_KEY = "TYPE_OF_FORM";
+    /** Type is ProjectJobWrapper Object. */
+    public static final String PROJECT_JOB_KEY = "PROJECT_JOB";
+    /** Type is PISSTaskWrapper Object. */
+    public static final String PROJECT_JOB_PISS_TASK_KEY = "PROJECT_JOB_TASK";
     /** Type is View Object. */
     public static final String PROJECT_JOB_FORM_DATE_FORM_KEY = "SHOW_ANOTHER_DIALOG";
 
@@ -102,13 +109,19 @@ public final class Constants {
     public static final int ACTION_CONTINUE_TASK = 13;
     public static final int ACTION_VIEW_TASK = 14;
     public static final int ACTION_START_CORRECTIVE_ACTION_FORM = 15;
-    public static final int ACTION_TOOLBOX_MEETING = 16;
+    public static final int ACTION_START_IPI_TASK_FORM = 16;
+    public static final int ACTION_START_IPI_CORRECTIVE_ACTION_TASK_FORM = 17;
+    public static final int ACTION_TOOLBOX_MEETING = 18;
+    public static final int ACTION_TASK_START_DRAWING = 19;
 
     public static final String PROJECT_JOB_CHOOSE_FORM = "10";
-    public static final String PROJECT_JOB_START_DRAWING = "11";
+    public static final String PROJECT_JOB_START_DRAWING = "11"; // This is for showB2B3FormDialog() @ ProjectJobViewPagerActivity
     public static final String PROJECT_JOB_START_TASK = "12";
     public static final String PROJECT_JOB_CONTINUE_TASK = "13";
     public static final String PROJECT_JOB_CORRECTIVE_ACTION_FORM = "15";
+    public static final String PROJECT_JOB_IPI_TASK_FORM = "16";
+    public static final String PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM = "17";
+    public static final String PROJECT_JOB_TASK_START_DRAWING = "18";
 
     // TYPE OF FORM
     public static final int PROJECT_JOB_FORM_B1 = 1;
@@ -119,4 +132,7 @@ public final class Constants {
     public static final int PROJECT_JOB_FRAGMENT_POSITION_1 = 1;
     public static final int PROJECT_JOB_FRAGMENT_POSITION_2 = 2;
     public static final int PROJECT_JOB_FRAGMENT_POSITION_3 = 3;
+
+    // FRAGMENT BACKSTACK
+    public static final String FRAGMENT_BACK_STACK = "DRAWING_CANVAS";
 }

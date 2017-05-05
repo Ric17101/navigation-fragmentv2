@@ -14,35 +14,42 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
 
 // This is the same as FragmentPagerAdapters
 public class ProjectJobFragmentTab extends Fragment {
 
     private final static String TAG = ProjectJobFragmentTab.class.getSimpleName();
     private TabLayout tabLayout;
+    private View mView;
     private HorizontalScrollView hScrollViewTab;
     private ViewPager viewPager;
     public static int TAB_COUNT = 2;
     Fragment mFragment;
     MyAdapter mPagerAdapter;
 
+    // Instance Varibles
     private int mTypeOfForm;
+    private ProjectJobWrapper mProjectJob;
 
-    public static ProjectJobFragmentTab newInstance(int typeOfForm) {
+    public static ProjectJobFragmentTab newInstance(int typeOfForm, ProjectJobWrapper projectJobWrapper) {
         ProjectJobFragmentTab fragment = new ProjectJobFragmentTab();
         Bundle args = new Bundle();
 
         args.putInt(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm);
+        args.putParcelable(PROJECT_JOB_KEY, projectJobWrapper);
         fragment.setArguments(args);
 
         return fragment;
@@ -51,7 +58,12 @@ public class ProjectJobFragmentTab extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fromBundle();
+    }
+
+    private void fromBundle() {
         this.mTypeOfForm = getArguments().getInt(PROJECT_JOB_FORM_TYPE_KEY);
+        this.mProjectJob = getArguments().getParcelable(PROJECT_JOB_KEY);
     }
 
     @Nullable
@@ -96,12 +108,62 @@ public class ProjectJobFragmentTab extends Fragment {
             }
         });
 
+        /**
+         * Init Header Based on the Form being passed
+         */
+        initHeader(view);
+
         return view;
+    }
+
+    private void initHeader(View view) {
+        switch (this.mTypeOfForm) {
+            case PROJECT_JOB_FORM_B1:
+                inti_B1HeaderDetails(view);
+                break;
+            case PROJECT_JOB_FORM_B2:
+            case PROJECT_JOB_FORM_B3:
+                inti_B2HeaderDetails(view);
+                Log.e(TAG, "initHeader");
+                break;
+            default: break;
+        }
+    }
+
+    // Header for B1
+    private void inti_B1HeaderDetails(View view) {
+        TextView textViewLabelProjectRef = (TextView) view.findViewById(R.id.textViewLabelProjectRef);
+        TextView textViewLabelCPCode = (TextView) view.findViewById(R.id.textViewLabelCPCode);
+        TextView textViewLabelAttendedBy = (TextView) view.findViewById(R.id.textViewLabelAttendedBy);
+        TextView textViewLabelDateOfSiteWalk = (TextView) view.findViewById(R.id.textViewLabelDateOfSiteWalk);
+
+        textViewLabelProjectRef.setText(this.mProjectJob.getProjectRef());
+        textViewLabelCPCode.setText(this.mProjectJob.getID()+"");
+        textViewLabelAttendedBy.setText(this.mProjectJob.getFirstInspector());
+        textViewLabelDateOfSiteWalk.setText(this.mProjectJob.getStartDate());
+    }
+
+    // Header for B2 and B3
+    private void inti_B2HeaderDetails(View view) {
+        TextView textViewLabelProjRef = (TextView) view.findViewById(R.id.textViewLabelProjRef);
+        TextView textViewLabelDateOfSiteWalk2 = (TextView) view.findViewById(R.id.textViewLabelDateOfSiteWalk2); // This is not used...
+        TextView textViewLabelProjectSite = (TextView) view.findViewById(R.id.textViewLabelProjectSite);
+        TextView textViewLabelSubContractor = (TextView) view.findViewById(R.id.textViewLabelSubContractor);
+        TextView textViewLabelInspectionDate = (TextView) view.findViewById(R.id.textViewLabelInspectionDate);
+        TextView textViewLabelWorkCompletionDate = (TextView) view.findViewById(R.id.textViewLabelWorkCompletionDate);
+        TextView textViewLabelSignature = (TextView) view.findViewById(R.id.textViewLabelSignature);
+
+        textViewLabelProjRef.setText(this.mProjectJob.getProjectRef());
+        textViewLabelProjectSite.setText(this.mProjectJob.getProjectSite());
+        textViewLabelSubContractor.setText(this.mProjectJob.getSecondInspector());
+        textViewLabelInspectionDate.setText(this.mProjectJob.getStartDate());
+        textViewLabelWorkCompletionDate.setText(this.mProjectJob.getTargetCompletionDate());
+        textViewLabelSignature.setText(this.mProjectJob.getStatus() + "");
     }
 
     // Just to show the Header Layout ONLY FOR THE ProjectJob - SECTION B
     private void setHeaderVisibilityByFragmentPosition(View view) {
-        switch (mTypeOfForm) {
+        switch (this.mTypeOfForm) {
             case PROJECT_JOB_FORM_B1:
                 LinearLayout projectJobLayoutHeader = (LinearLayout) view.findViewById(R.id.projectJobLayoutHeader);
                 projectJobLayoutHeader.setVisibility(View.VISIBLE);
@@ -135,7 +197,9 @@ public class ProjectJobFragmentTab extends Fragment {
     private int getItem(int i) { return getCurrentPosition() + i; }
 
     class MyAdapter extends FragmentPagerAdapter {
+
         FragmentManager cFragmentManager;
+
         public MyAdapter(FragmentManager fm) {
             super(fm);
             cFragmentManager = fm;
@@ -148,7 +212,7 @@ public class ProjectJobFragmentTab extends Fragment {
         public Fragment getItem(int position) {
             Log.e(TAG, "getItem(Postion):"+position);
             switch (mTypeOfForm) {
-                case PROJECT_JOB_FORM_B1: return setFragmentB1(position);
+                case PROJECT_JOB_FORM_B1: return PISSTaskListFragment.newInstance(mProjectJob);
                 case PROJECT_JOB_FORM_B2: return setFragmentB2(position);
                 case PROJECT_JOB_FORM_B3: return setFragmentB3(position);
                 default: break;
@@ -156,23 +220,12 @@ public class ProjectJobFragmentTab extends Fragment {
             return null;
         }
 
-        private Fragment setFragmentB1(int position) {
-            switch (position) {
-                case 0:
-                    return new PISSTaskListFragment();
-                case 1:
-                    return new DrawingFormFragment(); // return UpdatesFragment.newInstance(position);
-                    // return new SigningOff_FRGMT_4(); // return UpdatesFragment.newInstance(position);
-            }
-            return null;
-        }
-
         private Fragment setFragmentB2(int position) {
             switch (position) {
                 case 0:
-                    return new PISSTaskListFragment();
+                    return PISSTaskListFragment.newInstance(mProjectJob);
                 case 1:
-                    return new IPITaskListFinalFragment();
+                    return IPITaskListFinalFragment.newInstance(mProjectJob);
             }
             return null;
         }
@@ -180,25 +233,31 @@ public class ProjectJobFragmentTab extends Fragment {
         private Fragment setFragmentB3(int position) {
             switch (position) {
                 case 0:
-                    return new PISSTaskListFragment();
+                    return PISSTaskListFragment.newInstance(mProjectJob);
                 case 1:
-                    return new IPITaskListFinalFragment();
+                    return IPITaskListFinalFragment.newInstance(mProjectJob);
             }
             return null;
         }
 
         @Override
-        public int getCount() { return TAB_COUNT; }
+        public int getCount() {
+            if (mTypeOfForm == PROJECT_JOB_FORM_B1) {
+                return 1;
+            } else {
+                return TAB_COUNT;
+            }
+        }
 
         /**
          * This method returns the title of the tab according to the position.
          */
-
         @Override
         public CharSequence getPageTitle(int position) {
             Log.e(TAG, "getPageTitle(Postion):" + position);
+
             switch (mTypeOfForm) {
-                case PROJECT_JOB_FORM_B1: return setPageTitleB1(position);
+                case PROJECT_JOB_FORM_B1: return "TASK LIST";
                 case PROJECT_JOB_FORM_B2: return setPageTitleB2B3(position);
                 case PROJECT_JOB_FORM_B3: return setPageTitleB2B3(position);
                 default: break;
@@ -206,6 +265,7 @@ public class ProjectJobFragmentTab extends Fragment {
             return null;
         }
 
+        // NOT USED
         private CharSequence setPageTitleB1(int position) {
             switch (position) {
                 case 0:

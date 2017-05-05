@@ -14,38 +14,38 @@
  * limitations under the License.
  */
 
-package admin4.techelm.com.techelmtechnologies.model.projectjob.b3;
+package admin4.techelm.com.techelmtechnologies.model.projectjob.b2;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class IPI_EPSWrapper implements Parcelable {
+public class IPI_Wrapper implements Parcelable {
 
-    public static final Creator<IPI_EPSWrapper> CREATOR = new Creator<IPI_EPSWrapper>() {
+    public static final Creator<IPI_Wrapper> CREATOR = new Creator<IPI_Wrapper>() {
         @Override
-        public IPI_EPSWrapper createFromParcel(Parcel in) {
-            return new IPI_EPSWrapper(in);
+        public IPI_Wrapper createFromParcel(Parcel in) {
+            return new IPI_Wrapper(in);
         }
 
         @Override
-        public IPI_EPSWrapper[] newArray(int size) {
-            return new IPI_EPSWrapper[size];
+        public IPI_Wrapper[] newArray(int size) {
+            return new IPI_Wrapper[size];
         }
     };
 
-    //private variables 4
+    // private variables 4
     private int _id;
-    private String _projectjob_id;
+    private int _projectjob_id;
     private String _sub_contractor;
     private String _date_inspected;
 
     // Empty constructor
-    public IPI_EPSWrapper() { }
+    public IPI_Wrapper() { }
 
-    protected IPI_EPSWrapper(Parcel in) {
+    protected IPI_Wrapper(Parcel in) {
         _id = in.readInt();
-        _projectjob_id = in.readString();
+        _projectjob_id = in.readInt();
         _sub_contractor = in.readString();
         _date_inspected = in.readString();
     }
@@ -53,7 +53,7 @@ public class IPI_EPSWrapper implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(_id);
-        dest.writeString(_projectjob_id);
+        dest.writeInt(_projectjob_id);
         dest.writeString(_sub_contractor);
         dest.writeString(_date_inspected);
     }
@@ -74,7 +74,6 @@ public class IPI_EPSWrapper implements Parcelable {
     /**
      * GET AND SET METHOD
      */
-
     public int getID() {
         return this._id;
     }
@@ -82,12 +81,10 @@ public class IPI_EPSWrapper implements Parcelable {
         this._id = id;
     }
 
-    public String getProjectJobID() {
+    public int getProjectJobID() {
         return this._projectjob_id;
     }
-    public void setProjectJobID(String structure) {
-        this._projectjob_id = structure;
-    }
+    public void setProjectJobID(int structure) { this._projectjob_id = structure; }
 
     public String getSubContractor() {
         return this._sub_contractor;

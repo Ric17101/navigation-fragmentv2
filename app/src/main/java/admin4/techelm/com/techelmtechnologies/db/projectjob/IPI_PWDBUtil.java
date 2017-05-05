@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.db.DatabaseAccess;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_PWWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_Wrapper;
 
 /**
  * Created by admin 4 on 26/04/2017.
@@ -66,7 +66,7 @@ public class IPI_PWDBUtil extends DatabaseAccess {
         Log.e(LOG_TAG, message);
     }
 
-    public int addServiceJob(IPI_PWWrapper item) {
+    public int addServiceJob(IPI_Wrapper item) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_PJ_ID, item.getID());
@@ -94,11 +94,11 @@ public class IPI_PWDBUtil extends DatabaseAccess {
         Log.e(LOG_TAG, "removeServiceJob " + serviceID);
     }
 
-    public List<IPI_PWWrapper> getAllDetailsOfServiceJob() {
-        ArrayList<IPI_PWWrapper> translationList = new ArrayList<>();
+    public List<IPI_Wrapper> getAllDetailsOfServiceJob() {
+        ArrayList<IPI_Wrapper> translationList = new ArrayList<>();
         int x = 0;
         do {
-            IPI_PWWrapper alpha = new IPI_PWWrapper();
+            IPI_Wrapper alpha = new IPI_Wrapper();
             alpha.setID(Integer.parseInt(x + ""));
             alpha.setProjectJobID(x);
             alpha.setSubContractor("00" + x);
@@ -111,14 +111,14 @@ public class IPI_PWDBUtil extends DatabaseAccess {
         return translationList;
     }
 
-    public List<IPI_PWWrapper> getAllRecordings() {
-        ArrayList<IPI_PWWrapper> list = new ArrayList<IPI_PWWrapper>();
+    public List<IPI_Wrapper> getAllRecordings() {
+        ArrayList<IPI_Wrapper> list = new ArrayList<IPI_Wrapper>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                IPI_PWWrapper recordItem = new IPI_PWWrapper();
+                IPI_Wrapper recordItem = new IPI_Wrapper();
                 recordItem.setID(Integer.parseInt(cursor.getString(0)));
                 recordItem.setProjectJobID(cursor.getInt(1));
                 recordItem.setSubContractor(cursor.getString(2));
@@ -149,14 +149,14 @@ public class IPI_PWDBUtil extends DatabaseAccess {
     }
 
 
-    public List<IPI_PWWrapper> getAllJSDetailsByID(int id) {
-        ArrayList<IPI_PWWrapper> list = new ArrayList<IPI_PWWrapper>();
+    public List<IPI_Wrapper> getAllJSDetailsByID(int id) {
+        ArrayList<IPI_Wrapper> list = new ArrayList<IPI_Wrapper>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE id="+id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                IPI_PWWrapper recordItem = new IPI_PWWrapper();
+                IPI_Wrapper recordItem = new IPI_Wrapper();
                 recordItem.setID(Integer.parseInt(cursor.getString(0)));
                 recordItem.setProjectJobID(cursor.getInt(1));
                 recordItem.setSubContractor(cursor.getString(2));
@@ -172,12 +172,12 @@ public class IPI_PWDBUtil extends DatabaseAccess {
         return list;
     }
 
-    public IPI_PWWrapper getAllJSDetailsByServiceJobID(int serviceJobID) {
+    public IPI_Wrapper getAllJSDetailsByServiceJobID(int serviceJobID) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE " + DBHelperItem.COLUMN_NAME_PJ_ID + "=" +serviceJobID;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
-        IPI_PWWrapper recordItem = new IPI_PWWrapper();
+        IPI_Wrapper recordItem = new IPI_Wrapper();
         if (cursor.moveToFirst()) {
             recordItem.setID(Integer.parseInt(cursor.getString(0)));
             recordItem.setProjectJobID(cursor.getInt(1));
@@ -240,10 +240,10 @@ public class IPI_PWDBUtil extends DatabaseAccess {
         }
     }
 
-    public IPI_PWWrapper getItemAt(int position) {
+    public IPI_Wrapper getItemAt(int position) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        IPI_PWWrapper recordItem = new IPI_PWWrapper();
+        IPI_Wrapper recordItem = new IPI_Wrapper();
         if (cursor.moveToPosition(position)) {
             recordItem.setID(Integer.parseInt(cursor.getString(0)));
             recordItem.setProjectJobID(cursor.getInt(1));
@@ -280,7 +280,7 @@ public class IPI_PWDBUtil extends DatabaseAccess {
         return count;
     }
 
-    public int addRecording(IPI_PWWrapper item) {
+    public int addRecording(IPI_Wrapper item) {
         SQLiteDatabase db = getDB();
 
         ContentValues cv = new ContentValues();
@@ -296,7 +296,7 @@ public class IPI_PWDBUtil extends DatabaseAccess {
         return rowId;
     }
 
-    public void renameItem(IPI_PWWrapper item, String serviceNum, String startDate) {
+    public void renameItem(IPI_Wrapper item, String serviceNum, String startDate) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_PJ_SERVICE_NO, serviceNum);

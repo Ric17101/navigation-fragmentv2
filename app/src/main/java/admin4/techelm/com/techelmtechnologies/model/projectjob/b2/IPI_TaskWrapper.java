@@ -20,21 +20,35 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class IPI_PWTaskWrapper implements Parcelable {
+public class IPI_TaskWrapper implements Parcelable {
 
-    public static final Creator<IPI_PWTaskWrapper> CREATOR = new Creator<IPI_PWTaskWrapper>() {
+    public static final Creator<IPI_TaskWrapper> CREATOR = new Creator<IPI_TaskWrapper>() {
         @Override
-        public IPI_PWTaskWrapper createFromParcel(Parcel in) {
-            return new IPI_PWTaskWrapper(in);
+        public IPI_TaskWrapper createFromParcel(Parcel in) {
+            return new IPI_TaskWrapper(in);
         }
 
         @Override
-        public IPI_PWTaskWrapper[] newArray(int size) {
-            return new IPI_PWTaskWrapper[size];
+        public IPI_TaskWrapper[] newArray(int size) {
+            return new IPI_TaskWrapper[size];
         }
     };
 
     //private variables 8
+    /*
+        {
+         "id":"2",
+         "projectjob_ipi_pw_id":"1",
+         "serial_no":"2",
+         "description":"test desc 2",
+         "status":"NO",
+         "non_conformance":"test",
+         "corrective_actions":"test",
+         "target_completion_date":"2017-05-08",
+         "status_flag":"4",
+         "form_type":"PW"
+         },
+     */
     private int _id;
     private String _projectjob_ipi_pw_id;
     private String _serial_no;
@@ -43,11 +57,13 @@ public class IPI_PWTaskWrapper implements Parcelable {
     private String _non_conformance;
     private String _corrective_actions;
     private String _target_completion_date;
+    private String _status_flag;
+    private String _form_type;
 
     // Empty constructor
-    public IPI_PWTaskWrapper() { }
+    public IPI_TaskWrapper() { }
 
-    protected IPI_PWTaskWrapper(Parcel in) {
+    protected IPI_TaskWrapper(Parcel in) {
         _id = in.readInt();
         _projectjob_ipi_pw_id = in.readString();
         _serial_no = in.readString();
@@ -56,6 +72,8 @@ public class IPI_PWTaskWrapper implements Parcelable {
         _non_conformance = in.readString();
         _corrective_actions = in.readString();
         _target_completion_date = in.readString();
+        _status_flag = in.readString();
+        _form_type = in.readString();
     }
 
     @Override
@@ -68,6 +86,8 @@ public class IPI_PWTaskWrapper implements Parcelable {
         dest.writeString(_non_conformance);
         dest.writeString(_corrective_actions);
         dest.writeString(_target_completion_date);
+        dest.writeString(_status_flag);
+        dest.writeString(_form_type);
     }
 
     @Override
@@ -83,7 +103,9 @@ public class IPI_PWTaskWrapper implements Parcelable {
                 "\n_status : " + this._status +
                 "\n_non_conformance : " + this._non_conformance +
                 "\n_corrective_actions : " + this._corrective_actions +
-                "\n_target_completion_date : " + this._target_completion_date
+                "\n_target_completion_date : " + this._target_completion_date +
+                "\n_status_flag : " + this._status_flag +
+                "\n_form_type : " + this._form_type
                 ;
     }
 
@@ -122,9 +144,7 @@ public class IPI_PWTaskWrapper implements Parcelable {
     public String getStatus() {
         return this._status;
     }
-    public void setStatus(String num) {
-        this._status = num;
-    }
+    public void setStatus(String num) { this._status = num; }
 
     public String getNonConformance() {
         return this._non_conformance;
@@ -146,5 +166,15 @@ public class IPI_PWTaskWrapper implements Parcelable {
     public void setTargetCompletionDate(String data) {
         this._target_completion_date = data;
     }
+
+    public String getStatusFlag() {
+        return this._status_flag;
+    }
+    public void setStatusFlag(String val) { this._status_flag = val; }
+
+    public String getFormType() {
+        return this._form_type;
+    }
+    public void setFormType(String val) { this._form_type = val; }
 
 }

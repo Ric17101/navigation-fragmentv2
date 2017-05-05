@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.SignatureImageButtonUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
@@ -200,7 +202,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
                         mSignaturePad = (SignaturePad) dialog.getCustomView().findViewById(R.id.signature_pad);
                         mSignaturePad.clear();
                         mSignUtil = new SignatureUtil(getActivity(), mSignaturePad); // Clear the Signature pad?
-                        setClearImageSignature();
+                        // setClearImageSignature();
+                        SignatureImageButtonUtil.setClearImageSignature(getResources(), imageButtonViewSignature);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -236,7 +239,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
                             saveSignatureToDBOnAfterSaveToGallery(mSignUtil); // SAVING FILES to DB
 
-                            setDrawableImageSignature(mSignUtil.loadBitmap());
+                            SignatureImageButtonUtil.setDrawableImageSignature(getResources(), imageButtonViewSignature, mSignUtil.loadBitmap());
+                            // setDrawableImageSignature(mSignUtil.loadBitmap());
                             dialog.dismiss();
                             setHasSignature(true);
                         } else {
@@ -297,23 +301,6 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 }
             }
         }
-    }
-
-    private void setClearImageSignature() {
-        BitmapDrawable ob = new BitmapDrawable(getResources(), String.valueOf(getResources().getDrawable(R.drawable.composea)));
-        imageButtonViewSignature.setBackground(ob);
-        // imageButtonViewSignature.setBackgroundDrawable(ob);
-    }
-
-    private void setDrawableImageSignature(Bitmap drawableImageSignature) {
-        BitmapDrawable ob = new BitmapDrawable(getResources(), drawableImageSignature);
-        imageButtonViewSignature.setBackground(ob);
-        // imageButtonViewSignature.setBackgroundDrawable(ob);
-
-        // Set to wrap content signature
-        ViewGroup.LayoutParams params = imageButtonViewSignature.getLayoutParams();
-        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        imageButtonViewSignature.setLayoutParams(params);
     }
 
     // This is used and Call at CalendarFragment also

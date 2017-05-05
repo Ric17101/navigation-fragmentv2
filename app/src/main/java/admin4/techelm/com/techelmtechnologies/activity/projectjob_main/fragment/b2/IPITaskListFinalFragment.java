@@ -30,17 +30,20 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
 import admin4.techelm.com.techelmtechnologies.adapter.PJ_IPITaskListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
-import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ_B2_IPITasks;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_LIST_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_LIST_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -58,14 +61,49 @@ public class IPITaskListFinalFragment extends Fragment
     private RecyclerView mSearchResultsList;
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
-    private List<ProjectJobWrapper> results = null;
+    private List<IPI_TaskWrapper> results = null;
     private PJTask_RenderList mAuthTask = null;
+
+    // Instance Variable
+    private ProjectJobWrapper mProjectJob;
+    private PISSTaskWrapper mProjectJobTask;
+
+    public static PISSTaskListFragment newInstance(ProjectJobWrapper projectJobWrapper) {
+        PISSTaskListFragment fragment = new PISSTaskListFragment();
+        Bundle args = new Bundle();
+
+        Log.e(TAG, "PISSTaskListFragment newInstance " + projectJobWrapper.toString());
+
+        args.putParcelable(PROJECT_JOB_KEY, projectJobWrapper);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    /**
+     * These Two Lines should be included on every Fragment to maintain the state and do not load again
+     * @param savedInstanceState
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        fromBundle();
+        // setRetainInstance(true);
+        System.out.println("ServiceJobFragment: I'm on the onCreate");
+    }
+
+    private void fromBundle() {
+        this.mProjectJob = getArguments().getParcelable(PROJECT_JOB_KEY);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
         View view = inflater.inflate(R.layout.content_b2_projectjob_tasks, container, false);
+
         setContext(container.getContext());
 
         setUpCalendarView(view);
@@ -82,16 +120,6 @@ public class IPITaskListFinalFragment extends Fragment
         return view;
     }
 
-    /**
-     * These Two Lines should be included on every Fragment to maintain the state and do not load again
-     * @param savedInstanceState
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        System.out.println("ServiceJobFragment: I'm on the onCreate");
-    }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -120,7 +148,7 @@ public class IPITaskListFinalFragment extends Fragment
             @Override
             public void onClick(View view) {
                 // Delete the Service Job from SQLite DB on Back
-                ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(-1);
+                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(-1);
             }
         });
 
@@ -130,8 +158,8 @@ public class IPITaskListFinalFragment extends Fragment
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
-                ((ProjectJobViewPagerActivity)getActivity()).showProjectTaskForm();
+            // ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
+             // ((ProjectJobViewPagerActivity) getActivity()).showProjectJobLastFormFragment();
             }
         });
     }
@@ -224,7 +252,7 @@ public class IPITaskListFinalFragment extends Fragment
      * Called on click of Date CAlendar the render a list of Services at CardView
      * Show a list of SJ retrieved from API
      */
-    private class PJTask_RenderList extends AsyncTask<Void, Void, List<ProjectJobWrapper>> {
+    private class PJTask_RenderList extends AsyncTask<Void, Void, List<IPI_TaskWrapper>> {
 
         public final String TAG = CalendarFragment.class.getSimpleName();
 
@@ -233,7 +261,7 @@ public class IPITaskListFinalFragment extends Fragment
         private int resultStatus = 0;
 
         private GetCommand getCommand;
-        private ArrayList<String> projectList = new ArrayList<String>();
+        private ArrayList<String> projectIPITaskList = new ArrayList<String>();
 
         public PJTask_RenderList(String date, String id, Context context) {
             mDate = date;
@@ -250,87 +278,64 @@ public class IPITaskListFinalFragment extends Fragment
          *      '' - no internet connection/ server error
          *      String - successful aResponse
          */
-        private String parseServiceListJSON(String JSONResult) {
+        private String parseIPITaskListJSON(String JSONResult) {
             if (JSONResult == null || JSONResult == "")
                 return "";
             try {
                 JSONObject json = new JSONObject(JSONResult);
                 String str = "";
 
-                JSONArray jsonArray = json.getJSONArray("projectlist");
-                int jsonLen = json.getJSONArray("projectlist").length();
+                JSONArray jsonArray = json.getJSONArray("projectlist_piss_tasks");
+                int jsonLen = json.getJSONArray("projectlist_piss_tasks").length();
                 if (jsonLen == 0)
                     return "null";
 
                 str += "names: " + jsonArray.getJSONObject(0).names();
                 str += "\n--------\n";
                 str += "jsonA length = " + jsonLen;
-                str += "\n--------\n";
-                str += "ID: " + jsonArray.getJSONObject(0).getString("id");
-                str += "\n--------\n";
-                str += "Service No: " + jsonArray.getJSONObject(0).getString("project_ref");
-                str += "\n--------\n";
-                str += "Customer ID: " + jsonArray.getJSONObject(0).getString("customer_id");
-                str += "\n--------\n";
-                str += "Service ID: " + jsonArray.getJSONObject(0).getString("start_date");
-                str += "\n--------\n";
-                str += "Engineer id: " + jsonArray.getJSONObject(0).getString("end_date");
-                str += "\n--------\n";
-                str += "Price ID: " + jsonArray.getJSONObject(0).getString("target_completion_date");
-                str += "\n--------\n";
-                str += "Complaint: " + jsonArray.getJSONObject(0).getString("first_inspector");
-                str += "\n--------\n";
-                str += "Remarks: " + jsonArray.getJSONObject(0).getString("second_inspector");
-                str += "\n--------\n";
-                str += "Equipment Type: " + jsonArray.getJSONObject(0).getString("third_inspector");
-                str += "\n--------\n";
-                str += "Serial No: " + jsonArray.getJSONObject(0).getString("status_flag");
-                str += "\n--------\n";
-                str += "Start Date: " + jsonArray.getJSONObject(0).getString("fullname");
-                str += "\n--------\n";
-                str += "End Date: " + jsonArray.getJSONObject(0).getString("job_site");
-                str += "\n--------\n";
-                str += "Status: " + jsonArray.getJSONObject(0).getString("fax");
 
                 Log.d(TAG, "parseJSON: " + str);
-
+                /*
+                GET http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/projectjob/get_ipi_tasks?projectjob_ipi_pw_id=1&form_type=PW
+                {
+                     "id":"2",
+                     "projectjob_ipi_pw_id":"1",
+                     "serial_no":"2",
+                     "description":"test desc 2",
+                     "status":"NO",
+                     "non_conformance":"test",
+                     "corrective_actions":"test",
+                     "target_completion_date":"2017-05-08",
+                     "status_flag":"4",
+                     "form_type":"PW"
+                     },
+                 */
                 // jsonLen += 1;
                 int i = 0;
                 do { // 12
                     StringBuilder jsonRes = new StringBuilder();
                     jsonRes.append(jsonArray.getJSONObject(i).getString("id"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("project_ref"))
+                            .append(jsonArray.getJSONObject(i).getString("projectjob_ipi_pw_id"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("customer_id"))
+                            .append(jsonArray.getJSONObject(i).getString("serial_no"))
                             .append(LIST_DELIM)
-                            /*.append(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0])
+                            .append(jsonArray.getJSONObject(i).getString("description"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0])*/
-                            .append(jsonArray.getJSONObject(i).getString("start_date"))
+                            .append(jsonArray.getJSONObject(i).getString("status"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("end_date"))
+                            .append(jsonArray.getJSONObject(i).getString("non_conformance"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("corrective_actions"))
                             .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("target_completion_date"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("first_inspector"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("second_inspector"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("third_inspector"))
-                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("status_flag"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("fullname"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("job_site"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("fax"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("phone_no"))
+                            .append(jsonArray.getJSONObject(i).getString("form_type"))
                             .append(LIST_DELIM)
                     ;
-                    projectList.add(jsonRes.toString());
+                    projectIPITaskList.add(jsonRes.toString());
                     i++;
                 } while (jsonLen > i);
 
@@ -353,13 +358,13 @@ public class IPITaskListFinalFragment extends Fragment
          * 3 - no internet??? or blank reponse
          */
         @Override
-        protected List<ProjectJobWrapper> doInBackground(Void... params) {
+        protected List<IPI_TaskWrapper> doInBackground(Void... params) {
             String parsedServiceJob = "";
             try {
-                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(PROJECT_JOB_LIST_URL));
+                parsedServiceJob = parseIPITaskListJSON(JSONHelper.GET(PROJECT_JOB_LIST_URL));
                 if (parsedServiceJob.equals("ok")) {
-                    ConvertJSON_PJ cJSON = new ConvertJSON_PJ();
-                    ArrayList<ProjectJobWrapper> resultList =  cJSON.projectJobList(projectList);
+                    ConvertJSON_PJ_B2_IPITasks cJSON = new ConvertJSON_PJ_B2_IPITasks();
+                    ArrayList<IPI_TaskWrapper> resultList =  cJSON.projectJobTaskList(projectIPITaskList);
                     resultStatus = (cJSON.hasResult() ? 1 : 3);
                     return (resultStatus == 1 ? resultList : null);
                 } else if (parsedServiceJob.equals("null")) {
@@ -380,7 +385,7 @@ public class IPITaskListFinalFragment extends Fragment
         }
 
         @Override
-        protected void onPostExecute(List<ProjectJobWrapper> list) {
+        protected void onPostExecute(List<IPI_TaskWrapper> list) {
             switch (resultStatus) {
                 case 1 :
                     results = list;

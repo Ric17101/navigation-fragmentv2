@@ -84,6 +84,8 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
                 recordItem.setConformance(cursor.getString(4));
                 recordItem.setComments(cursor.getString(5));
                 recordItem.setStatus(cursor.getString(6));
+                recordItem.setDrawingBefore(cursor.getString(7));
+                recordItem.setDrawingAfter(cursor.getString(8));
                 list.add(recordItem);
             } while (cursor.moveToNext());
         }
@@ -114,6 +116,8 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
                 recordItem.setConformance(cursor.getString(4));
                 recordItem.setComments(cursor.getString(5));
                 recordItem.setStatus(cursor.getString(6));
+                recordItem.setDrawingBefore(cursor.getString(7));
+                recordItem.setDrawingAfter(cursor.getString(8));
                 list.add(recordItem);
             } while (cursor.moveToNext());
         }
@@ -141,6 +145,8 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
                 recordItem.setConformance(cursor.getString(4));
                 recordItem.setComments(cursor.getString(5));
                 recordItem.setStatus(cursor.getString(6));
+                recordItem.setDrawingBefore(cursor.getString(7));
+                recordItem.setDrawingAfter(cursor.getString(8));
                 list.add(recordItem);
             } while (cursor.moveToNext());
         }
@@ -164,6 +170,8 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
             recordItem.setConformance(cursor.getString(4));
             recordItem.setComments(cursor.getString(5));
             recordItem.setStatus(cursor.getString(6));
+            recordItem.setDrawingBefore(cursor.getString(7));
+            recordItem.setDrawingAfter(cursor.getString(8));
         }
 
         if (!cursor.isClosed()) {

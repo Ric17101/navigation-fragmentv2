@@ -18,43 +18,57 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewTitlesubContractor"
+            <LinearLayout
+                android:id="@+id/linearLayoutSubContractor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sub-Contractor"
-                android:textStyle="normal|bold" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/editTextSubContractor"
+                <TextView
+                    android:id="@+id/textViewTitlesubContractor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sub-Contractor"
+                    android:textStyle="normal|bold" />
+
+                <EditText
+                    android:id="@+id/editTextSubContractor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:background="@color/white"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+                <include layout="@layout/i_signature_pad_layout" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutDispositionedBy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
-                android:background="@color/white"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/textViewTitleDispositioned"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dispositioned By"
+                    android:textStyle="normal|bold" />
 
-            <include layout="@layout/i_signature_pad_layout" />
+                <EditText
+                    android:id="@+id/editTextDispositioned"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:background="@color/white"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/textViewTitleDispositioned"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Dispositioned By"
-                android:textStyle="normal|bold" />
+                <include layout="@layout/i_signature_pad_layout" />
 
-            <EditText
-                android:id="@+id/editTextDispositioned"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
-                android:background="@color/white"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <include layout="@layout/i_signature_pad_layout" />
-
+            </LinearLayout>
         </LinearLayout>
-
     </ScrollView>
 
     <include layout="@layout/button_previous_next" />

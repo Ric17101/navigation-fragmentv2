@@ -26,6 +26,7 @@ android {
         main {
             res.srcDirs = [
                     'src/main/res/layout/toolbox_meeting',
+                    'src/main/res/layout/project_jobs_b1',
                     'src/main/res/layout/project_jobs',
                     'src/main/res/layout/pdf',
                     'src/main/res/layout/webview',

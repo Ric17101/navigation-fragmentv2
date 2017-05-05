@@ -62,7 +62,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textViewLabelCustomerName"
+                    android:id="@+id/textViewLabelProjectRef"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-3dp"
@@ -133,7 +133,7 @@
                 android:textColor="@android:color/white" />
 
             <TextView
-                android:id="@+id/textViewLabelJobSite"
+                android:id="@+id/textViewLabelCPCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
@@ -171,7 +171,7 @@
                 android:textColor="@android:color/white" />
 
             <TextView
-                android:id="@+id/textViewLabelServiceNo"
+                android:id="@+id/textViewLabelAttendedBy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"

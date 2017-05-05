@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.PopulateProjectJobViewDetails;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.PopulateProjectJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.ProjectJobChooseFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.ToolboxMeetingListFragment;
@@ -367,7 +367,7 @@ public class MainActivity extends FragmentActivity implements
             /*************************** PROJECT JOB *****************************/
             case ACTION_CHOOSE_FORM :
                 this.mProjectJobFormSelectorDialog.show();
-                initFormSelectorButton(this.mProjectJobFormSelectorDialog.getCustomView());
+                initFormSelectorButton(this.mProjectJobFormSelectorDialog.getCustomView(), projectWrapper);
                 break;
             /*************************** END PROJECT JOB *****************************/
 
@@ -632,7 +632,7 @@ public class MainActivity extends FragmentActivity implements
 
     // Set Up Listener to CardView for Selecting Type of forms
     // The components are initialized late in order to change the ID
-    private void initFormSelectorButton(View view) {
+    private void initFormSelectorButton(View view, final ProjectJobWrapper projectJob) {
         CardView cvPISS = (CardView) view.findViewById(R.id.cvPISS);
         CardView cvPW = (CardView) view.findViewById(R.id.cvPW);
         CardView cvEPS = (CardView) view.findViewById(R.id.cvEPS);
@@ -640,21 +640,21 @@ public class MainActivity extends FragmentActivity implements
         cvPISS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startProjectJobsList(PROJECT_JOB_FORM_B1);
+                startProjectJobsList(PROJECT_JOB_FORM_B1, projectJob);
             }
         });
 
         cvPW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startProjectJobsList(PROJECT_JOB_FORM_B2);
+                startProjectJobsList(PROJECT_JOB_FORM_B2, projectJob);
             }
         });
 
         cvEPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startProjectJobsList(PROJECT_JOB_FORM_B3);
+                startProjectJobsList(PROJECT_JOB_FORM_B3, projectJob);
             }
         });
     }
@@ -662,10 +662,11 @@ public class MainActivity extends FragmentActivity implements
     /**
      * @param typeOfForm - This will Redirect to ServiceJobViewPagerActivity with extra intent of Type of Form
      */
-    private void startProjectJobsList(int typeOfForm) {
+    private void startProjectJobsList(int typeOfForm, ProjectJobWrapper projectJob) {
         Intent i = new Intent(MainActivity.this, ProjectJobViewPagerActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                .putExtra(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm);
+                .putExtra(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm)
+                .putExtra(PROJECT_JOB_KEY, projectJob);
         startActivity(i);
         overridePendingTransition(R.anim.enter, R.anim.exit);
     }

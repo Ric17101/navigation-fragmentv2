@@ -23,22 +23,21 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
-import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.IPI_CorrectiveActionFinal_TaskListener;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_CorrectiveActionFinalWrapper;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_DETAILS;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
 
-public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.ViewHolder> {
+public class PJ_IPICorrectiveActionTaskListAdapter extends RecyclerView.Adapter<PJ_IPICorrectiveActionTaskListAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = PJ_B1ListAdapter.class.getSimpleName();
-    private final int CHECK_CODE = 0x1;
-    private final int SHORT_DURATION = 1000;
+    private static final String LOG_TAG = PJ_IPICorrectiveActionTaskListAdapter.class.getSimpleName();
 
-    private List<ProjectJobWrapper> mDataSet = new ArrayList<>();
-    private ProjectJobWrapper serviceJobDataSet;
-    private ProjectJobListener mCallback;
+    private List<IPI_CorrectiveActionFinalWrapper> mDataSet = new ArrayList<>();
+    private IPI_CorrectiveActionFinalWrapper dataSet;
+    private IPI_CorrectiveActionFinal_TaskListener mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
     private Context mContext;
@@ -48,12 +47,12 @@ public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.View
 
     private FragmentSetListHelper_ProjectJob mSetHelper;
 
-    public PJ_B1ListAdapter(Context context) {
+    public PJ_IPICorrectiveActionTaskListAdapter(Context context) {
         mContext = context;
 
         // .. Attach the interface
         try {
-            mCallback = (ProjectJobListener) context; // TODO: Troubleshooting the OnClickListener of the CardView Buttons inside the RecyclerView
+            mCallback = (IPI_CorrectiveActionFinal_TaskListener) context; // TODO: Troubleshooting the OnClickListener of the CardView Buttons inside the RecyclerView
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
             Log.e("MyAdapter", "Must implement the ProjectJobListener in the Activity", ex);
@@ -61,12 +60,12 @@ public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.View
         System.gc();
     }
 
-    public PJ_B1ListAdapter(List<ProjectJobWrapper> serviceJobList) {
+    public PJ_IPICorrectiveActionTaskListAdapter(List<IPI_CorrectiveActionFinalWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }
 
-    public void swapData(List<ProjectJobWrapper> mNewDataSet) {
+    public void swapData(List<IPI_CorrectiveActionFinalWrapper> mNewDataSet) {
         mDataSet = mNewDataSet;
         notifyDataSetChanged();
     }
@@ -87,19 +86,20 @@ public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         this.mSetHelper = new FragmentSetListHelper_ProjectJob();
 
-        serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewDay.setText(serviceJobDataSet.getProjectRef());
-        holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
-        holder.textViewDate.setText(serviceJobDataSet.getStartDate());
-        holder.textViewServiceNum.setText(serviceJobDataSet.getStatus() + "");
-        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
-        holder.textViewEngineer.setText(serviceJobDataSet.getFirstInspector());
-        holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()+""));
-        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()+""));
+        dataSet = mDataSet.get(holder.getAdapterPosition());
+        holder.textViewDay.setText(dataSet.getSerialNo()); // GREYED Below BIG Number
+        holder.textViewDateNumber.setText(dataSet.getID() + ""); // BIG Number
+        holder.textViewDate.setText(dataSet.getCarNo()); // BLACK Date Below
+        holder.textViewServiceNum.setText(dataSet.getProjectJobIPI_PWID() + "");
+        holder.textViewCustomer.setText(dataSet.getDescription());
+        holder.textViewEngineer.setText(dataSet.getTargetRemedyDate());
+        // holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()+""));
+        holder.textViewStatus.setText(dataSet.getID() + "");
+        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getRemarks() + ""));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
-        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()+""));
+        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getDisposition() + ""));
 
-        Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getProjectRef());
+        Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getSerialNo());
 
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
@@ -173,14 +173,14 @@ public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.View
         public void onClick(View v) {
             if (v.getId() == frameLayoutButtonSJ.getId()) {
                 if (mCallback != null) {
-                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
-
+                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_TASK);
                 }
-            } else if (v.getId() == buttonTask.getId() || v.getId() == textViewTask.getId()) {
+            } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
                 if (mCallback != null) {
-                    mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_CHOOSE_FORM);
+                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM);
                 }
             }
+
         }
     }
 }

@@ -1,4 +1,4 @@
-package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1;
+package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2;
 
 import android.content.Context;
 import android.content.Intent;
@@ -44,9 +44,9 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class PISSTaskListFragment extends Fragment
+public class IPITaskListFragment extends Fragment
 {
-    private static final String TAG = PISSTaskListFragment.class.getSimpleName();
+    private static final String TAG = IPITaskListFragment.class.getSimpleName();
     private static final int REQUEST_CODE = 1234;
 
     private TextView name;
@@ -66,8 +66,8 @@ public class PISSTaskListFragment extends Fragment
     private ProjectJobWrapper mProjectJob;
 
 
-    public static PISSTaskListFragment newInstance(ProjectJobWrapper projectJobWrapper) {
-        PISSTaskListFragment fragment = new PISSTaskListFragment();
+    public static IPITaskListFragment newInstance(ProjectJobWrapper projectJobWrapper) {
+        IPITaskListFragment fragment = new IPITaskListFragment();
         Bundle args = new Bundle();
 
         Log.e(TAG, "PISSTaskListFragment newInstance " + projectJobWrapper.toString());

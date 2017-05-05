@@ -1,4 +1,4 @@
-package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment;
+package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -6,27 +6,36 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-
 import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.IPITaskListener;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.IPI_CorrectiveActionFinal_TaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.PISSTaskListener;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_CorrectiveActionFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_CORRECTIVE_ACTION_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_DRAWING;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_TASK_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_TASK_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_COMPLETED;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CONTINUE_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CORRECTIVE_ACTION_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_TASK_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_NEW;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_ON_PROCESS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PENDING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_TASK_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_UNSIGNED;
 
 /**
@@ -103,8 +112,8 @@ public class FragmentSetListHelper_ProjectJob {
     }
 
     // Called at PJ_PISSTaskListAdapter Only
-    public void setActionOnClick(ProjectJobListener mCallback, int adapterPosition, ProjectJobWrapper ProjectJobWrapper, String status) {
-        switch (status) {
+    public void setActionOnClick(ProjectJobListener mCallback, int adapterPosition, ProjectJobWrapper ProjectJobWrapper, String mode) {
+        switch (mode) {
             case PROJECT_JOB_CHOOSE_FORM :
                 mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_CHOOSE_FORM);
                 break;
@@ -119,6 +128,32 @@ public class FragmentSetListHelper_ProjectJob {
                 break;
             default :
                 break;
+        }
+    }
+
+    public void setActionOnClick(PISSTaskListener mCallback, int adapterPosition, PISSTaskWrapper pissTaskWrapper, String mode) {
+        switch (mode) {
+            case PROJECT_JOB_TASK_START_DRAWING :
+                mCallback.onHandleSelection(adapterPosition, pissTaskWrapper,  ACTION_TASK_START_DRAWING);
+                break;
+            case PROJECT_JOB_CORRECTIVE_ACTION_FORM :
+                mCallback.onHandleSelection(adapterPosition, pissTaskWrapper, ACTION_START_CORRECTIVE_ACTION_FORM);
+                break;
+        }
+    }
+
+    public void setActionOnClick(IPITaskListener mCallback, int adapterPosition, IPI_TaskWrapper ipiTaskWrapper, String mode) {
+        switch (mode) {
+            case PROJECT_JOB_IPI_TASK_FORM :
+                mCallback.onHandleSelection(adapterPosition, ipiTaskWrapper, ACTION_START_IPI_TASK_FORM);
+                break;
+        }
+    }
+
+    public void setActionOnClick(IPI_CorrectiveActionFinal_TaskListener mCallback, int adapterPosition, IPI_CorrectiveActionFinalWrapper ipiCorrectiveActionFinalWrapper, String mode) {
+        switch (mode) {
+            case PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM :
+                mCallback.onHandleSelection(adapterPosition, ipiCorrectiveActionFinalWrapper, ACTION_START_IPI_TASK_FORM);
         }
     }
 }

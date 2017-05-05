@@ -42,6 +42,8 @@ public class PISSTaskWrapper implements Parcelable {
     private String _conformance;
     private String _comments;
     private String _status;
+    private String _drawing_before;
+    private String _drawing_after;
 
     // Empty constructor
     public PISSTaskWrapper() { }
@@ -54,6 +56,8 @@ public class PISSTaskWrapper implements Parcelable {
         _conformance = in.readString();
         _comments = in.readString();
         _status = in.readString();
+        _drawing_before = in.readString();
+        _drawing_after = in.readString();
     }
 
     @Override
@@ -65,6 +69,8 @@ public class PISSTaskWrapper implements Parcelable {
         dest.writeString(_conformance);
         dest.writeString(_comments);
         dest.writeString(_status);
+        dest.writeString(_drawing_before);
+        dest.writeString(_drawing_after);
     }
 
     @Override
@@ -79,7 +85,9 @@ public class PISSTaskWrapper implements Parcelable {
                 "\n_description : " + this._description +
                 "\n_conformance : " + this._conformance +
                 "\n_comments : " + this._comments +
-                "\n_status : " + this._status
+                "\n_status : " + this._status +
+                "\n_drawing_after" + _drawing_before +
+                "\n_drawing_after" + _drawing_after
                 ;
     }
 
@@ -101,12 +109,8 @@ public class PISSTaskWrapper implements Parcelable {
         this._projectjob_piss_id = structure;
     }
 
-    public String getSerialNo() {
-        return this._serial_no;
-    }
-    public void setSerialNo(String val) {
-        this._serial_no = val;
-    }
+    public String getSerialNo() { return this._serial_no; }
+    public void setSerialNo(String val) { this._serial_no = val; }
 
     public String getDescription() {
         return this._description;
@@ -132,8 +136,20 @@ public class PISSTaskWrapper implements Parcelable {
     public String getStatus() {
         return this._status;
     }
-    public void setStatus(String val) {
-        this._status = val;
+    public void setStatus(String val) { this._status = val; }
+
+    public String getDrawingBefore() {
+        return this._drawing_before;
+    }
+    public void setDrawingBefore(String val) {
+        this._drawing_before = val;
+    }
+
+    public String getDrawingAfter() {
+        return this._drawing_after;
+    }
+    public void setDrawingAfter(String val) {
+        this._drawing_after = val;
     }
 
 }

@@ -22,21 +22,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.FragmentSetListHelper_ProjectJob;
-import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.PISSTaskListener;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_TASK_START_DRAWING;
 
 public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskListAdapter.ViewHolder> {
 
     private static final String TAG = PJ_PISSTaskListAdapter.class.getSimpleName();
 
-    private List<ProjectJobWrapper> mDataSet = new ArrayList<>();
-    private ProjectJobWrapper serviceJobDataSet;
-    private ProjectJobListener mCallback;
+    private List<PISSTaskWrapper> mDataSet = new ArrayList<>();
+    private PISSTaskWrapper dataSet;
+    private PISSTaskListener mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
     private Context mContext;
@@ -51,20 +51,20 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
 
         // .. Attach the interface
         try {
-            mCallback = (ProjectJobListener) context; // TODO: Troubleshooting the OnClickListener of the CardView Buttons inside the RecyclerView
+            mCallback = (PISSTaskListener) context; // TODO: Troubleshooting the OnClickListener of the CardView Buttons inside the RecyclerView
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e("MyAdapter", "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
 
-    public PJ_PISSTaskListAdapter(List<ProjectJobWrapper> serviceJobList) {
+    public PJ_PISSTaskListAdapter(List<PISSTaskWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }
 
-    public void swapData(List<ProjectJobWrapper> mNewDataSet) {
+    public void swapData(List<PISSTaskWrapper> mNewDataSet) {
         mDataSet = mNewDataSet;
         notifyDataSetChanged();
     }
@@ -85,19 +85,20 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         this.mSetHelper = new FragmentSetListHelper_ProjectJob();
 
-        serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewDay.setText(serviceJobDataSet.getProjectRef());
-        holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
-        holder.textViewDate.setText(serviceJobDataSet.getStartDate());
-        holder.textViewServiceNum.setText(serviceJobDataSet.getStatus() + "");
-        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
-        holder.textViewEngineer.setText(serviceJobDataSet.getFirstInspector());
-        holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()+""));
-        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()+""));
+        dataSet = mDataSet.get(holder.getAdapterPosition());
+        holder.textViewDay.setText(dataSet.getSerialNo()); // GREYED Below BIG Number
+        holder.textViewDateNumber.setText(dataSet.getID() + ""); // BIG Number
+        holder.textViewDate.setText(dataSet.getStatus()); // BLACK Date Below
+        holder.textViewServiceNum.setText(dataSet.getComments() + "");
+        holder.textViewCustomer.setText(dataSet.getDescription());
+        holder.textViewEngineer.setText(dataSet.getConformance());
+        // holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()+""));
+        holder.textViewStatus.setText(dataSet.getStatus()+ "");
+        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatus()+""));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
-        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()+""));
+        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatus()+""));
 
-        Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getProjectRef());
+        Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getSerialNo());
 
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
@@ -124,7 +125,7 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
     }
 
     public interface OnItemClickListener {
-        void onClick(ProjectJobWrapper colorWrapper);
+        void onClick(PISSTaskWrapper colorWrapper);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -175,7 +176,7 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
                 }
             } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
                 if (mCallback != null) {
-                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), PROJECT_JOB_START_DRAWING);
+                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), PROJECT_JOB_TASK_START_DRAWING);
                 }
             }
 

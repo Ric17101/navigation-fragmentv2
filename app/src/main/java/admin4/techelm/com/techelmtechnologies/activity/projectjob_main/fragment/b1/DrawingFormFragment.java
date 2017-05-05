@@ -13,21 +13,49 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.FragmentSetListHelper_ProjectJob;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
+
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
 
 public class DrawingFormFragment extends Fragment {
 
     private View rootView;
     private ImageButton imageButtonViewDrawing;
+
+    // Instance variable
+    private PISSTaskWrapper mProjectJobTask;
+
+    public static DrawingFormFragment newInstance(PISSTaskWrapper pissTaskWrapper) {
+        DrawingFormFragment fragment = new DrawingFormFragment();
+        Bundle args = new Bundle();
+
+        args.putParcelable(PROJECT_JOB_PISS_TASK_KEY, pissTaskWrapper);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+        fromBundle();
+    }
+
+    private void fromBundle() {
+        this.mProjectJobTask = getArguments().getParcelable(PROJECT_JOB_PISS_TASK_KEY);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.rootView = container.getRootView();
         View view = inflater.inflate(R.layout.content_b1_drawing_and_remarks_form, null);
+
         initButton(view);
         return view;
     }
+
     /**
      * These Two Lines should be included on every Fragment to maintain the state and donnot load again
      * @param outState
@@ -50,7 +78,8 @@ public class DrawingFormFragment extends Fragment {
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(-1);
+                // ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(-1);
+                ((ProjectJobViewPagerActivity) getActivity()).onBackPress();
             }
         });
 
@@ -60,12 +89,8 @@ public class DrawingFormFragment extends Fragment {
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*startActivity(new Intent(AddReplacementPart_FRGMT_3.this, SigningOff_FRGMT_4.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
-                overridePendingTransition(R.anim.enter, R.anim.exit);*/
-                // ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
-                ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigateToTaskList();
+                // ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigateToTaskList();
+                ((ProjectJobViewPagerActivity) getActivity()).onBackPress();
             }
         });
 
@@ -73,7 +98,7 @@ public class DrawingFormFragment extends Fragment {
         imageButtonViewDrawing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 showDrawingCanvasFragment(view);
+                 showDrawingCanvasFragment(mProjectJobTask);
             }
         });
 
@@ -92,8 +117,8 @@ public class DrawingFormFragment extends Fragment {
         imageButtonViewDrawing.setLayoutParams(params);
     }
 
-    public void showDrawingCanvasFragment(View view) {
+    public void showDrawingCanvasFragment(PISSTaskWrapper taskWrapper) {
         System.out.println("showDrawingCanvasFragment");
-        ((ProjectJobViewPagerActivity)getActivity()).showDrawingCanvasFragment();
+        ((ProjectJobViewPagerActivity)getActivity()).showDrawingCanvasFragment(taskWrapper);
     }
 }

@@ -20,17 +20,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class IPI_PWCActionWrapper implements Parcelable {
+public class IPI_CActionWrapper_NOT_USED implements Parcelable {
 
-    public static final Creator<IPI_PWCActionWrapper> CREATOR = new Creator<IPI_PWCActionWrapper>() {
+    public static final Creator<IPI_CActionWrapper_NOT_USED> CREATOR = new Creator<IPI_CActionWrapper_NOT_USED>() {
         @Override
-        public IPI_PWCActionWrapper createFromParcel(Parcel in) {
-            return new IPI_PWCActionWrapper(in);
+        public IPI_CActionWrapper_NOT_USED createFromParcel(Parcel in) {
+            return new IPI_CActionWrapper_NOT_USED(in);
         }
 
         @Override
-        public IPI_PWCActionWrapper[] newArray(int size) {
-            return new IPI_PWCActionWrapper[size];
+        public IPI_CActionWrapper_NOT_USED[] newArray(int size) {
+            return new IPI_CActionWrapper_NOT_USED[size];
         }
     };
 
@@ -46,9 +46,9 @@ public class IPI_PWCActionWrapper implements Parcelable {
     private String _disposition;
 
     // Empty constructor
-    public IPI_PWCActionWrapper() { }
+    public IPI_CActionWrapper_NOT_USED() { }
 
-    protected IPI_PWCActionWrapper(Parcel in) {
+    protected IPI_CActionWrapper_NOT_USED(Parcel in) {
         _id = in.readInt();
         _projectjob_ipi_pw_id = in.readString();
         _serial_no = in.readString();

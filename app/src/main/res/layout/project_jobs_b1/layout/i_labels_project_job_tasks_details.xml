@@ -13,7 +13,6 @@
         android:layout_height="wrap_content">
 
 
-
         <TableRow
             android:id="@+id/rowTableTypeOfService"
             android:layout_width="match_parent"
@@ -27,7 +26,7 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="fill_vertical"
-                android:text="Project Reference"
+                android:text="S/No."
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -41,7 +40,7 @@
                 android:text=":" />
 
             <TextView
-                android:id="@+id/textViewProjectRef"
+                android:id="@+id/textViewSerialNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
@@ -63,7 +62,7 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
-                android:text="Customer"
+                android:text="Description"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -77,7 +76,7 @@
                 android:text=":" />
 
             <TextView
-                android:id="@+id/textViewCustomerName"
+                android:id="@+id/textViewDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
@@ -99,7 +98,7 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
-                android:text="Date"
+                android:text="Comments"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -113,7 +112,7 @@
                 android:text=":" />
 
             <TextView
-                android:id="@+id/textViewDate"
+                android:id="@+id/textViewComments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
@@ -135,7 +134,7 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
-                android:text="Target Completion Date"
+                android:text="Status"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -149,7 +148,7 @@
                 android:text=":" />
 
             <TextView
-                android:id="@+id/textViewTargetCompletionDate"
+                android:id="@+id/textViewStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
@@ -158,119 +157,6 @@
                 android:text="Text" />
         </TableRow>
 
-        <TableRow
-            android:id="@+id/rowTableFirstInspector"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10sp">
-
-            <TextView
-                android:id="@+id/textViewLabelFirstInspector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".2"
-                android:gravity="fill_vertical"
-                android:text="First Inspector"
-                android:textStyle="normal|bold" />
-
-            <TextView
-                android:id="@+id/textViewLabel11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".1"
-                android:gravity="center_vertical"
-                android:text=":" />
-
-            <TextView
-                android:id="@+id/textViewFirstInspector"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:text="Text" />
-
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/rowTableSecondInspector"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10sp">
-
-            <TextView
-                android:id="@+id/textViewLabelSecondInspector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".2"
-                android:gravity="fill_vertical"
-                android:text="Second Inspector"
-                android:textStyle="normal|bold" />
-
-            <TextView
-                android:id="@+id/textViewLabel12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".1"
-                android:gravity="center_vertical"
-                android:text=":" />
-
-            <TextView
-                android:id="@+id/textViewSecondInspector"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:text="Text" />
-
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/rowTableThirdInspector"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10sp">
-
-            <TextView
-                android:id="@+id/textViewLabelThirdInspector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".2"
-                android:gravity="fill_vertical"
-                android:text="Third Inspector"
-                android:textStyle="normal|bold" />
-
-            <TextView
-                android:id="@+id/textViewLabel10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".1"
-                android:gravity="center_vertical"
-                android:text=":" />
-
-            <TextView
-                android:id="@+id/textViewThirdInspector"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:text="Text" />
-
-
-        </TableRow>
     </TableLayout>
 
 </LinearLayout>

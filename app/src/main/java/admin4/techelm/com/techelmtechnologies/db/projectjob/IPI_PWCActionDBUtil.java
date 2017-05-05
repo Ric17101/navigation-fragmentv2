@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.db.DatabaseAccess;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_PWCActionWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_CActionWrapper_NOT_USED;
 
 /**
  * Created by admin 4 on 26/04/2017.
@@ -71,14 +71,14 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
         Log.e(LOG_TAG, message);
     }
 
-    public List<IPI_PWCActionWrapper> getAllRecordings() {
-        ArrayList<IPI_PWCActionWrapper> list = new ArrayList<IPI_PWCActionWrapper>();
+    public List<IPI_CActionWrapper_NOT_USED> getAllRecordings() {
+        ArrayList<IPI_CActionWrapper_NOT_USED> list = new ArrayList<IPI_CActionWrapper_NOT_USED>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                IPI_PWCActionWrapper recordItem = new IPI_PWCActionWrapper();
+                IPI_CActionWrapper_NOT_USED recordItem = new IPI_CActionWrapper_NOT_USED();
                 recordItem.setID(Integer.parseInt(cursor.getString(0)));
                 recordItem.setProjectJob_IPI_PWID(cursor.getString(1));
                 recordItem.setSerialNo(cursor.getString(2));
@@ -104,8 +104,8 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
 
 
 
-    public List<IPI_PWCActionWrapper> getAllRecordingsBySJID_ByTaken(int id, String taken) {
-        ArrayList<IPI_PWCActionWrapper> list = new ArrayList<IPI_PWCActionWrapper>();
+    public List<IPI_CActionWrapper_NOT_USED> getAllRecordingsBySJID_ByTaken(int id, String taken) {
+        ArrayList<IPI_CActionWrapper_NOT_USED> list = new ArrayList<IPI_CActionWrapper_NOT_USED>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE servicejob_id=" + id
                 + " AND taken='" + taken + "'";
@@ -113,7 +113,7 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                IPI_PWCActionWrapper recordItem = new IPI_PWCActionWrapper();
+                IPI_CActionWrapper_NOT_USED recordItem = new IPI_CActionWrapper_NOT_USED();
                 recordItem.setID(Integer.parseInt(cursor.getString(0)));
                 recordItem.setProjectJob_IPI_PWID(cursor.getString(1));
                 recordItem.setSerialNo(cursor.getString(2));
@@ -134,15 +134,15 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
         return list;
     }
 
-    public List<IPI_PWCActionWrapper> getAllRecordingsBySJID(int id) {
-        ArrayList<IPI_PWCActionWrapper> list = new ArrayList<IPI_PWCActionWrapper>();
+    public List<IPI_CActionWrapper_NOT_USED> getAllRecordingsBySJID(int id) {
+        ArrayList<IPI_CActionWrapper_NOT_USED> list = new ArrayList<IPI_CActionWrapper_NOT_USED>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE servicejob_id=" + id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                IPI_PWCActionWrapper recordItem = new IPI_PWCActionWrapper();
+                IPI_CActionWrapper_NOT_USED recordItem = new IPI_CActionWrapper_NOT_USED();
                 recordItem.setID(Integer.parseInt(cursor.getString(0)));
                 recordItem.setProjectJob_IPI_PWID(cursor.getString(1));
                 recordItem.setSerialNo(cursor.getString(2));
@@ -163,10 +163,10 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
         return list;
     }
 
-    public IPI_PWCActionWrapper getItemAt(int position) {
+    public IPI_CActionWrapper_NOT_USED getItemAt(int position) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        IPI_PWCActionWrapper recordItem = new IPI_PWCActionWrapper();
+        IPI_CActionWrapper_NOT_USED recordItem = new IPI_CActionWrapper_NOT_USED();
         if (cursor.moveToPosition(position)) {
             recordItem.setID(Integer.parseInt(cursor.getString(0)));
             recordItem.setProjectJob_IPI_PWID(cursor.getString(1));
@@ -224,7 +224,7 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
         return rowId;
     }
 
-    public void renameItem(IPI_PWCActionWrapper item, String recordingName, String filePath) {
+    public void renameItem(IPI_CActionWrapper_NOT_USED item, String recordingName, String filePath) {
         SQLiteDatabase db = getDB();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_NAME, recordingName);

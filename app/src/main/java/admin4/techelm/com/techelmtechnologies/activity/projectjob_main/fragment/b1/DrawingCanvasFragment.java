@@ -25,11 +25,14 @@ import android.widget.LinearLayout;
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.drawing.CanvasView;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
 
 /**
  * Created by Ratan on 7/29/2015.
@@ -54,6 +57,28 @@ public class DrawingCanvasFragment extends Fragment implements
 
     ImageView mockImageView;
     GestureView mGestureView;
+
+    private PISSTaskWrapper mTask;
+
+    public static DrawingCanvasFragment newInstamce(PISSTaskWrapper pissTaskWrapper) {
+        DrawingCanvasFragment fragment = new DrawingCanvasFragment();
+        Bundle args = new Bundle();
+
+        args.putParcelable(PROJECT_JOB_PISS_TASK_KEY, pissTaskWrapper);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fromBundle();
+    }
+
+    private void fromBundle() {
+        this.mTask = getArguments().getParcelable(PROJECT_JOB_PISS_TASK_KEY);
+    }
 
     @Nullable
     @Override
@@ -101,7 +126,9 @@ public class DrawingCanvasFragment extends Fragment implements
         downloader.start();*/
         mGestureView = (GestureView) view.findViewById(R.id.gestureView);
         mockImageView = (ImageView) view.findViewById(R.id.mockImageView);
-        ((ProjectJobViewPagerActivity) getActivity()).downloadImageFromURL(DrawingCanvasFragment.this, IMAGE_URL, mockImageView);
+        //((ProjectJobViewPagerActivity) getActivity()).downloadImageFromURL(DrawingCanvasFragment.this, IMAGE_URL, mockImageView);
+        ((ProjectJobViewPagerActivity) getActivity())
+                .downloadImageFromURL(DrawingCanvasFragment.this, this.mTask.getDrawingBefore(), mockImageView);
     }
 
     private void initGestureView(View view) {
