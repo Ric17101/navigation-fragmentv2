@@ -153,7 +153,7 @@ public class PISSTaskListFragment extends Fragment
 
         /** BUTTON NEXT */
         Button button_next = (Button) view.findViewById(R.id.button_next);
-        // button_next.setText("SAVE");
+        button_next.setText("SAVE");
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -41,7 +41,8 @@ public class ConvertJSON_PJ_B2_IPITasks {
              "form_type":"PW"
              },
          {...}
-        ]}
+        ]
+        }
      * @return
      */
     public boolean hasResult() {

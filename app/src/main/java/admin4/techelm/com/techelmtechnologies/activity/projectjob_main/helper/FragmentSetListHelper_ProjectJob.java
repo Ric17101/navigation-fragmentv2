@@ -10,18 +10,19 @@ import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.IPITaskListener;
-import admin4.techelm.com.techelmtechnologies.adapter.listener.IPI_CorrectiveActionFinal_TaskListener;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.IPIFinalTaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.PISSTaskListener;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_CorrectiveActionFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_CORRECTIVE_ACTION_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_DRAWING;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_CORRECTIVE_ACTION_TASK_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_TASK_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_TASK_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CHOOSE_FORM;
@@ -150,10 +151,10 @@ public class FragmentSetListHelper_ProjectJob {
         }
     }
 
-    public void setActionOnClick(IPI_CorrectiveActionFinal_TaskListener mCallback, int adapterPosition, IPI_CorrectiveActionFinalWrapper ipiCorrectiveActionFinalWrapper, String mode) {
+    public void setActionOnClick(IPIFinalTaskListener mCallback, int adapterPosition, IPI_TaskFinalWrapper ipiCorrectiveActionFinalWrapper, String mode) {
         switch (mode) {
             case PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM :
-                mCallback.onHandleSelection(adapterPosition, ipiCorrectiveActionFinalWrapper, ACTION_START_IPI_TASK_FORM);
+                mCallback.onHandleSelection(adapterPosition, ipiCorrectiveActionFinalWrapper, ACTION_START_IPI_CORRECTIVE_ACTION_TASK_FORM);
         }
     }
 }

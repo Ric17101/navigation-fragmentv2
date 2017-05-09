@@ -269,18 +269,17 @@ public class DrawingCanvasFragment extends Fragment implements
     private void saveImage() {
         bitmap2 = canvas.getBitmap();
 
-        // image = new ImageUtility(mContext);
         image = new ImageUtility(getActivity());
         image.setExternal(true);
         image.setDirectoryName("DRAWING");
 
+        // Notify message to user
         String message = "";
-        if (image.save(bitmap2)) {
+        if (image.save(bitmap2)) { // save image to storage
             message = "Image saved.";
         } else {
             message = "Can't save image.";
         }
-
         SnackBarNotificationUtil
                 .setSnackBar(getActivity().findViewById(android.R.id.content),
                         message)

@@ -36,6 +36,7 @@ import java.util.HashMap;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.ProjectJobLastFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.PopulateProjectJobTaskViewDetails;
@@ -44,15 +45,18 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.CompletionDateFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.NonConformanceAndDateFragmentTest;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.PopulateProjectJob_IPIFinalTaskViewDetails;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.PopulateProjectJob_IPITaskViewDetails;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.IPITaskListener;
-import admin4.techelm.com.techelmtechnologies.adapter.listener.IPI_CorrectiveActionFinal_TaskListener;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.IPIFinalTaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.PISSTaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_CorrectiveActionFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.InterfaceDialogHolder;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.OpenDialog;
 import admin4.techelm.com.techelmtechnologies.utility.image_download.UILDownloader;
@@ -81,7 +85,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         ProjectJobListener,
         PISSTaskListener,
         IPITaskListener,
-        IPI_CorrectiveActionFinal_TaskListener,
+        IPIFinalTaskListener,
         DatePickerDialog.OnDateSetListener,
         OpenDialog,
         UILListener {
@@ -131,6 +135,14 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         loginSessionTest();
 
         init_ViewPager();
+
+        initPermissions();
+    }
+
+    private void initPermissions() {
+        PermissionUtil.verrifyReadStoragePermissions(this);
+        PermissionUtil.verrifyWriteStoragePermissions(this);
+        PermissionUtil.verrifyCameraPermissions(this);
     }
 
     /**
@@ -190,7 +202,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     /**
      * This method uses LargeHeap and Hardware Acceleration on the AndroidManifest file in order to
-     * set the Background image of the App/Activities
+     *  set the Background image of the App/Activities
      * @ called at
      *      MainActivity
      *      ServiceJobViewPagerActivity
@@ -264,7 +276,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 showMDialogPJDetails(serviceJob);
                 Log.e(TAG, "This is ACTION_VIEW_TASK");
                 break;
-            case ACTION_START_CORRECTIVE_ACTION_FORM:
+            case ACTION_START_CORRECTIVE_ACTION_FORM: // TODO: REMOVE??
                 showB2B3CorrectiveActionFormDialog();
                 break;
             default :
@@ -290,7 +302,10 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     @Override
     public void onHandleSelection(int position, IPI_TaskWrapper ipiTaskWrapper, int mode) {
         switch (mode) {
-            case ACTION_START_CORRECTIVE_ACTION_FORM :
+            case ACTION_VIEW_TASK :
+                showMDialogPJ_IPITaskDetails(ipiTaskWrapper);
+                break;
+            case ACTION_START_CORRECTIVE_ACTION_FORM : // TODO: change this to proper action
                 Log.e(TAG, "This is ACTION_START_CORRECTIVE_ACTION_FORM");
                 showB2B3CorrectiveActionFormDialog();
                 break;
@@ -302,10 +317,13 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     }
 
     @Override
-    public void onHandleSelection(int position, IPI_CorrectiveActionFinalWrapper ipiCorrectiveActionFinalWrapper, int mode) {
+    public void onHandleSelection(int position, IPI_TaskFinalWrapper ipiTaskFinalWrapper, int mode) {
         switch (mode) {
+            case ACTION_VIEW_TASK :
+                showMDialogPJ_IPIFinalTaskDetails(ipiTaskFinalWrapper);
+                break;
             case ACTION_START_IPI_CORRECTIVE_ACTION_TASK_FORM :
-
+                showB2B3CorrectiveActionFormDialog();
                 break;
         }
     }
@@ -387,6 +405,45 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         md.show();
     }
 
+    private void showMDialogPJ_IPITaskDetails(IPI_TaskWrapper ipiTaskWrapper) {
+        MaterialDialog md = new MaterialDialog.Builder(this)
+                .title(ipiTaskWrapper.getSerialNo() + ".) IN-PROCESS INSTALLATION DETAILS")
+                .customView(R.layout.m_content_project_job_ipi_tasks_details, true)
+                .limitIconToDefaultSize()
+                .positiveText("OK")
+                .iconRes(R.mipmap.view_icon)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).build();
+
+        new PopulateProjectJob_IPITaskViewDetails()
+                .populateServiceJobDetails(md.getCustomView(), ipiTaskWrapper, TAG);
+        md.show();
+    }
+
+    private void showMDialogPJ_IPIFinalTaskDetails(IPI_TaskFinalWrapper ipiTaskFinalWrapper) {
+        MaterialDialog md = new MaterialDialog.Builder(this)
+                .title(ipiTaskFinalWrapper.getSerialNo() + ".) IN-PROCESS FINAL DETAILS")
+                .customView(R.layout.m_content_project_job_ipi_final_tasks_details, true)
+                .limitIconToDefaultSize()
+                .positiveText("OK")
+                .iconRes(R.mipmap.view_icon)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).build();
+        new PopulateProjectJob_IPIFinalTaskViewDetails()
+                .populateServiceJobDetails(md.getCustomView(), ipiTaskFinalWrapper, TAG);
+        md.show();
+    }
+
     /**
      * Button Click on Next/Preview or Save
      */
@@ -430,6 +487,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     public void showDrawingCanvasFragment(PISSTaskWrapper taskWrapper) {
         System.out.println("showDrawingCanvasFragment");
+
         if (true) {
             //if (view.findViewById(R.id.containerView) != null) {
             DrawingCanvasFragment canvas = DrawingCanvasFragment.newInstamce(taskWrapper);
@@ -441,6 +499,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     public void showDrawingFormFragment(PISSTaskWrapper task) {
         System.out.println("showDrawingFormFragment");
+
         DrawingFormFragment form = DrawingFormFragment.newInstance(task);
         FragmentTransaction trans = mFragmentManager.beginTransaction();
         trans.replace(R.id.containerView, form).addToBackStack(FRAGMENT_BACK_STACK);
@@ -450,6 +509,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     // TODO: Should implement also on th DrawingFormFragment.jaca and DrawingCanvasFragment
     public void downloadImageFromURL(Fragment drawingFragment, String url, ImageView mockImageView) {
         Log.e(TAG, "downloadImageFromURL "  + url);
+
         this.dcf = (DrawingCanvasFragment) drawingFragment;
         UILDownloader downloader = new UILDownloader(ProjectJobViewPagerActivity.this);
         downloader.setImageFrom(url);
@@ -481,9 +541,9 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     /*************** B2 - In-process inspection (PW) ***************/
     /*************** B3 - In-process inspection (EPS) ***************/
-    public void showProjectJobLastFormFragment(PISSTaskWrapper task) {
+    public void showProjectJobLastFormFragment(/*IPI_TaskFinalWrapper task*/) {
         System.out.println("showDrawingFormFragment");
-        ProjectJobLastFormFragment form = ProjectJobLastFormFragment.newInstance(this.mProjectJob, task);
+        ProjectJobLastFormFragment form = ProjectJobLastFormFragment.newInstance(this.mProjectJob);
         FragmentTransaction trans = mFragmentManager.beginTransaction();
         trans.replace(R.id.containerView, form).addToBackStack(FRAGMENT_BACK_STACK);
         trans.commit();

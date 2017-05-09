@@ -29,21 +29,29 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
-import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
-import admin4.techelm.com.techelmtechnologies.adapter.PJ_PISSTaskListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.PJ_IPITaskListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
-import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ_B1_Tasks;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ_B2_IPITasks;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_EPS;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_PW;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_TASK_LIST_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_LIST_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * In-process Inspection (PW and EPS)
+ * TASK LIST
+ */
 public class IPITaskListFragment extends Fragment
 {
     private static final String TAG = IPITaskListFragment.class.getSimpleName();
@@ -55,23 +63,24 @@ public class IPITaskListFragment extends Fragment
     private SlidingUpPanelLayout mLayout;
 
     private Context mContext;
-    private PJ_PISSTaskListAdapter mListAdapter;
+    private PJ_IPITaskListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
-    private List<PISSTaskWrapper> results = null;
-    private PJTaskList_RenderList mAuthTask = null;
+    private List<IPI_TaskWrapper> results = null;
+    private PJ_IPITaskList_RenderList mAuthTask = null;
 
     // Instance Variable
     private ProjectJobWrapper mProjectJob;
+    private int mTypeOfForm;
 
-
-    public static IPITaskListFragment newInstance(ProjectJobWrapper projectJobWrapper) {
+    public static IPITaskListFragment newInstance(ProjectJobWrapper projectJobWrapper, int projectJobForm) {
         IPITaskListFragment fragment = new IPITaskListFragment();
         Bundle args = new Bundle();
 
         Log.e(TAG, "PISSTaskListFragment newInstance " + projectJobWrapper.toString());
 
+        args.putInt(PROJECT_JOB_FORM_TYPE_KEY, projectJobForm);
         args.putParcelable(PROJECT_JOB_KEY, projectJobWrapper);
         fragment.setArguments(args);
 
@@ -93,6 +102,7 @@ public class IPITaskListFragment extends Fragment
     }
 
     private void fromBundle() {
+        this.mTypeOfForm = getArguments().getInt(PROJECT_JOB_FORM_TYPE_KEY);
         this.mProjectJob = getArguments().getParcelable(PROJECT_JOB_KEY);
     }
 
@@ -116,6 +126,7 @@ public class IPITaskListFragment extends Fragment
         renderTaskList();
 
         initButton(view);
+
         return view;
     }
 
@@ -188,7 +199,7 @@ public class IPITaskListFragment extends Fragment
         textViewSJResult.setVisibility(View.GONE);
     }
     public void setupResultsList(View view) {
-        mListAdapter = new PJ_PISSTaskListAdapter(view.getContext());
+        mListAdapter = new PJ_IPITaskListAdapter(view.getContext());
         mSearchResultsList.setAdapter(mListAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
@@ -207,7 +218,7 @@ public class IPITaskListFragment extends Fragment
     }
 
     private void renderTaskList() {
-        mAuthTask = new PJTaskList_RenderList(mProjectJob.getID()+"", mContext);
+        mAuthTask = new PJ_IPITaskList_RenderList(mProjectJob.getID()+"", mContext);
         mAuthTask.execute((Void) null);
         //name.setText(formattedDate);
     }
@@ -251,9 +262,9 @@ public class IPITaskListFragment extends Fragment
      * Called on click of Date CAlendar the render a list of Services at CardView
      * Show a list of SJ retrieved from API
      */
-    private class PJTaskList_RenderList extends AsyncTask<Void, Void, List<PISSTaskWrapper>> {
+    private class PJ_IPITaskList_RenderList extends AsyncTask<Void, Void, List<IPI_TaskWrapper>> {
 
-        public final String TAG = CalendarFragment.class.getSimpleName();
+        public final String TAG = PJ_IPITaskList_RenderList.class.getSimpleName();
 
         private String projectjob_piss_id;
         private int resultStatus = 0;
@@ -261,14 +272,29 @@ public class IPITaskListFragment extends Fragment
         private GetCommand getCommand;
         private ArrayList<String> projectList = new ArrayList<String>();
 
-        public PJTaskList_RenderList(String id, Context context) {
+        public PJ_IPITaskList_RenderList(String id, Context context) {
             projectjob_piss_id = id;
             mContext = context;
             // System.gc();
         }
+
+        private String getURL() {
+            String url = "";
+            switch (mTypeOfForm) {
+                case PROJECT_JOB_FORM_B2:
+                    url = String.format(PROJECT_JOB_IPI_TASK_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_EPS);
+                    break;
+                case PROJECT_JOB_FORM_B3:
+                    url = String.format(PROJECT_JOB_IPI_TASK_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_PW);
+                    break;
+                default: return "";
+            }
+            Log.e(TAG, "getURL() " + url);
+            return url;
+        }
+
         /**
-         *
-         * @param JSONResult
+         * @param JSONResult - JSON Result from the web
          * @return
          *      null - no data
          *      '' - no internet connection/ server error
@@ -281,8 +307,8 @@ public class IPITaskListFragment extends Fragment
                 JSONObject json = new JSONObject(JSONResult);
                 String str = "";
 
-                JSONArray jsonArray = json.getJSONArray("projectlist_piss_tasks");
-                int jsonLen = json.getJSONArray("projectlist_piss_tasks").length();
+                JSONArray jsonArray = json.getJSONArray("projectlist_ipi_tasks");
+                int jsonLen = json.getJSONArray("projectlist_ipi_tasks").length();
                 if (jsonLen == 0)
                     return "null";
 
@@ -297,21 +323,23 @@ public class IPITaskListFragment extends Fragment
                     StringBuilder jsonRes = new StringBuilder();
                     jsonRes.append(jsonArray.getJSONObject(i).getString("id"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("projectjob_piss_id"))
+                            .append(jsonArray.getJSONObject(i).getString("projectjob_ipi_pw_id"))
                             .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("serial_no"))
                             .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("description"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("conformance"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("comments"))
-                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("status"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("drawing_before"))
+                            .append(jsonArray.getJSONObject(i).getString("non_conformance"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("drawing_after"))
+                            .append(jsonArray.getJSONObject(i).getString("corrective_actions"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("target_completion_date"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("status_flag"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("form_type"))
                             .append(LIST_DELIM)
                     ;
                     projectList.add(jsonRes.toString());
@@ -337,26 +365,28 @@ public class IPITaskListFragment extends Fragment
          * 3 - no internet??? or blank reponse
          */
         @Override
-        protected List<PISSTaskWrapper> doInBackground(Void... params) {
+        protected List<IPI_TaskWrapper> doInBackground(Void... params) {
             String parsedServiceJob = "";
             try {
-                parsedServiceJob = parseServiceListJSON(
-                        JSONHelper.GET(PROJECT_JOB_PISS_TASK_LIST_URL + projectjob_piss_id));
-                if (parsedServiceJob.equals("ok")) {
-                    ConvertJSON_PJ_B1_Tasks cJSON = new ConvertJSON_PJ_B1_Tasks();
-                    ArrayList<PISSTaskWrapper> resultList =  cJSON.projectJobTaskList(projectList);
-                    resultStatus = (cJSON.hasResult() ? 1 : 3);
-                    return (resultStatus == 1 ? resultList : null);
-                } else if (parsedServiceJob.equals("null")) {
-                    resultStatus = 2;
-                    return null;
-                } else if (parsedServiceJob.equals("")) {
-                    // NO CONNECTION
-                    resultStatus = 3;
-                    return null;
-                } else {
-                    Thread.sleep(2000); // Simulate network access.
-                    return null; // Data Return is null or either no internet
+                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(getURL()));
+                // JSONHelper.GET(PROJECT_JOB_PISS_TASK_LIST_URL + projectjob_piss_id));
+                switch (parsedServiceJob) {
+                    case "ok":
+                        ConvertJSON_PJ_B2_IPITasks cJSON = new ConvertJSON_PJ_B2_IPITasks();
+                        ArrayList<IPI_TaskWrapper> resultList = cJSON.projectJobTaskList(projectList);
+                        resultStatus = (cJSON.hasResult() ? 1 : 3);
+                        return (resultStatus == 1 ? resultList : null);
+                    case "null":
+                        resultStatus = 2;
+                        return null;
+                    case "":
+                        // NO CONNECTION
+                        resultStatus = 3;
+                        return null;
+                    default:
+                        Thread.sleep(2000); // Simulate network access.
+
+                        return null; // Data Return is null or either no internet
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -365,7 +395,7 @@ public class IPITaskListFragment extends Fragment
         }
 
         @Override
-        protected void onPostExecute(List<PISSTaskWrapper> list) {
+        protected void onPostExecute(List<IPI_TaskWrapper> list) {
             switch (resultStatus) {
                 case 1 :
                     results = list;

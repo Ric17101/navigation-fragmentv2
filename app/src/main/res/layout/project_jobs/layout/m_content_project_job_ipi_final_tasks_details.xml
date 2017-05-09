@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearLayoutShown"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20sp"
@@ -50,23 +49,164 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/rowTableCarNo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabelCarNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="center_vertical"
+                android:text="Car No."
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="center_vertical"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/textViewCarNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="Text" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/rowDescriptionCorrectiveAction"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabelDescriptionCorrectiveAction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="center_vertical"
+                android:text="Description of Corrective Actions"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textViewLabel19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="center_vertical"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/textViewDescriptionCorrectiveAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="Text" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/rowTableTargetRemedyDate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabelTargetRemedyDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="center_vertical"
+                android:text="Target Remedy Date"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textViewLabel17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="center_vertical"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/textViewTargetRemedyDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="Text" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/rowTableTargetCompletionDate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabelTargetCompletionDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".2"
+                android:gravity="center_vertical"
+                android:text="Target Completion Date"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="center_vertical"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/textViewTargetCompletionDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="Text" />
+        </TableRow>
+
+        <TableRow
             android:id="@+id/rowTableTelephone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10sp">
 
             <TextView
-                android:id="@+id/textViewLabelCustomerName"
+                android:id="@+id/textViewLabelRemarks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
-                android:text="Description"
+                android:text="Remarks"
                 android:textStyle="normal|bold" />
 
             <TextView
-                android:id="@+id/textViewLabel15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
@@ -85,24 +225,25 @@
                 android:text="Text" />
         </TableRow>
 
+
         <TableRow
-            android:id="@+id/rowTableFax"
+            android:id="@+id/rowNonConformance"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10sp">
 
             <TextView
-                android:id="@+id/textViewLabelDate"
+                android:id="@+id/textViewLabelDisposition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
-                android:text="Comments"
+                android:text="Disposition"
                 android:textStyle="normal|bold" />
 
             <TextView
-                android:id="@+id/textViewLabel16"
+                android:id="@+id/textViewLabel18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
@@ -112,7 +253,7 @@
                 android:text=":" />
 
             <TextView
-                android:id="@+id/textViewComments"
+                android:id="@+id/textViewDisposition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
@@ -121,41 +262,6 @@
                 android:text="Text" />
         </TableRow>
 
-        <TableRow
-            android:id="@+id/rowTableEquipmentType"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10sp">
-
-            <TextView
-                android:id="@+id/textViewLabelTargetCompletionDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".2"
-                android:gravity="center_vertical"
-                android:text="Status"
-                android:textStyle="normal|bold" />
-
-            <TextView
-                android:id="@+id/textViewLabel17"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".1"
-                android:gravity="center_vertical"
-                android:text=":" />
-
-            <TextView
-                android:id="@+id/textViewStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:text="Text" />
-        </TableRow>
 
     </TableLayout>
 

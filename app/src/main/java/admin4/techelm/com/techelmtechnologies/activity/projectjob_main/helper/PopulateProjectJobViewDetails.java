@@ -26,7 +26,7 @@ public class PopulateProjectJobViewDetails {
         textViewProjectRef = (TextView) view.findViewById(R.id.textViewProjectRef);
         textViewCustomerName = (TextView) view.findViewById(R.id.textViewCustomerName);
         textViewDate = (TextView) view.findViewById(R.id.textViewDate);
-        textViewTargetCompletionDate = (TextView) view.findViewById(R.id.textViewTargetCompletionDate);
+        textViewTargetCompletionDate = (TextView) view.findViewById(R.id.textViewTargetRemedyDate);
         textViewFirstInspector = (TextView) view.findViewById(R.id.textViewFirstInspector);
         textViewSecondInspector = (TextView) view.findViewById(R.id.textViewSecondInspector);
         textViewThirdInspector = (TextView) view.findViewById(R.id.textViewThirdInspector);

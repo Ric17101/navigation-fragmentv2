@@ -2,7 +2,7 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 
 /**
  * Created by admin 4 on 16/02/2017.
- * Services Rendered at the Recycler View after clicking Calendar Date
+ * Services Rendered at the Recycler View
  */
 
 import android.content.Context;
@@ -23,21 +23,21 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
-import admin4.techelm.com.techelmtechnologies.adapter.listener.IPI_CorrectiveActionFinal_TaskListener;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.IPIFinalTaskListener;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_CorrectiveActionFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
 
-public class PJ_IPICorrectiveActionTaskListAdapter extends RecyclerView.Adapter<PJ_IPICorrectiveActionTaskListAdapter.ViewHolder> {
+public class PJ_IPIFinalTaskListAdapter extends RecyclerView.Adapter<PJ_IPIFinalTaskListAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = PJ_IPICorrectiveActionTaskListAdapter.class.getSimpleName();
+    private static final String TAG = PJ_IPIFinalTaskListAdapter.class.getSimpleName();
 
-    private List<IPI_CorrectiveActionFinalWrapper> mDataSet = new ArrayList<>();
-    private IPI_CorrectiveActionFinalWrapper dataSet;
-    private IPI_CorrectiveActionFinal_TaskListener mCallback;
+    private List<IPI_TaskFinalWrapper> mDataSet = new ArrayList<>();
+    private IPI_TaskFinalWrapper dataSet;
+    private IPIFinalTaskListener mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
     private Context mContext;
@@ -47,25 +47,25 @@ public class PJ_IPICorrectiveActionTaskListAdapter extends RecyclerView.Adapter<
 
     private FragmentSetListHelper_ProjectJob mSetHelper;
 
-    public PJ_IPICorrectiveActionTaskListAdapter(Context context) {
+    public PJ_IPIFinalTaskListAdapter(Context context) {
         mContext = context;
 
         // .. Attach the interface
         try {
-            mCallback = (IPI_CorrectiveActionFinal_TaskListener) context; // TODO: Troubleshooting the OnClickListener of the CardView Buttons inside the RecyclerView
+            mCallback = (IPIFinalTaskListener) context; // TODO: Troubleshooting the OnClickListener of the CardView Buttons inside the RecyclerView
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e("MyAdapter", "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
 
-    public PJ_IPICorrectiveActionTaskListAdapter(List<IPI_CorrectiveActionFinalWrapper> serviceJobList) {
+    public PJ_IPIFinalTaskListAdapter(List<IPI_TaskFinalWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }
 
-    public void swapData(List<IPI_CorrectiveActionFinalWrapper> mNewDataSet) {
+    public void swapData(List<IPI_TaskFinalWrapper> mNewDataSet) {
         mDataSet = mNewDataSet;
         notifyDataSetChanged();
     }
@@ -99,7 +99,7 @@ public class PJ_IPICorrectiveActionTaskListAdapter extends RecyclerView.Adapter<
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getDisposition() + ""));
 
-        Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getSerialNo());
+        Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getSerialNo());
 
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);

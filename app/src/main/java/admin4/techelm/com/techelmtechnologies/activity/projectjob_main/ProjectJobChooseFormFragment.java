@@ -264,32 +264,6 @@ public class ProjectJobChooseFormFragment extends Fragment
                 str += "names: " + jsonArray.getJSONObject(0).names();
                 str += "\n--------\n";
                 str += "jsonA length = " + jsonLen;
-                str += "\n--------\n";
-                str += "ID: " + jsonArray.getJSONObject(0).getString("id");
-                str += "\n--------\n";
-                str += "Service No: " + jsonArray.getJSONObject(0).getString("project_ref");
-                str += "\n--------\n";
-                str += "Customer ID: " + jsonArray.getJSONObject(0).getString("customer_id");
-                str += "\n--------\n";
-                str += "Service ID: " + jsonArray.getJSONObject(0).getString("start_date");
-                str += "\n--------\n";
-                str += "Engineer id: " + jsonArray.getJSONObject(0).getString("end_date");
-                str += "\n--------\n";
-                str += "Price ID: " + jsonArray.getJSONObject(0).getString("target_completion_date");
-                str += "\n--------\n";
-                str += "Complaint: " + jsonArray.getJSONObject(0).getString("first_inspector");
-                str += "\n--------\n";
-                str += "Remarks: " + jsonArray.getJSONObject(0).getString("second_inspector");
-                str += "\n--------\n";
-                str += "Equipment Type: " + jsonArray.getJSONObject(0).getString("third_inspector");
-                str += "\n--------\n";
-                str += "Serial No: " + jsonArray.getJSONObject(0).getString("status_flag");
-                str += "\n--------\n";
-                str += "Start Date: " + jsonArray.getJSONObject(0).getString("fullname");
-                str += "\n--------\n";
-                str += "End Date: " + jsonArray.getJSONObject(0).getString("job_site");
-                str += "\n--------\n";
-                str += "Status: " + jsonArray.getJSONObject(0).getString("fax");
 
                 Log.d(TAG, "parseJSON: " + str);
 

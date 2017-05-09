@@ -20,36 +20,37 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class IPI_CorrectiveActionFinalWrapper implements Parcelable {
+public class IPI_TaskFinalWrapper implements Parcelable {
 
-    public static final Creator<IPI_CorrectiveActionFinalWrapper> CREATOR = new Creator<IPI_CorrectiveActionFinalWrapper>() {
+    public static final Creator<IPI_TaskFinalWrapper> CREATOR = new Creator<IPI_TaskFinalWrapper>() {
         @Override
-        public IPI_CorrectiveActionFinalWrapper createFromParcel(Parcel in) {
-            return new IPI_CorrectiveActionFinalWrapper(in);
+        public IPI_TaskFinalWrapper createFromParcel(Parcel in) {
+            return new IPI_TaskFinalWrapper(in);
         }
 
         @Override
-        public IPI_CorrectiveActionFinalWrapper[] newArray(int size) {
-            return new IPI_CorrectiveActionFinalWrapper[size];
+        public IPI_TaskFinalWrapper[] newArray(int size) {
+            return new IPI_TaskFinalWrapper[size];
         }
     };
 
     //private variables 10
     /*
+    GET : http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/projectjob/get_ipi_tasks?projectjob_ipi_pw_id=2&form_type=PW
         {
-         "projectlist_ipi_correctiveactions": [
-             {
-             "id":"1",
-             "projectjob_ipi_pw_id":"1",
-             "serial_no":"1",
-             "car_no":"test",
-             "description":"test desc1.1",
-             "target_remedy_date":"2017-05-20",
-             "completion_date":"0000-00-00",
-             "remarks":"test",
-             "dispostion":"test",
-             "form_type":"PW"
-             },
+           "projectlist_ipi_correctiveactions":[
+            {
+                "id":"7",
+                "projectjob_ipi_pw_id":"3",
+                "serial_no":"3",
+                "car_no":"test3",
+                "description":"test desc 3.3",
+                "target_remedy_date":"2017-05-28",
+                "completion_date":"0000-00-00",
+                "remarks":"test",
+                "dispostion":"test",
+                "form_type":"PW"
+            },
          {...}
      */
     private int _id;
@@ -64,9 +65,9 @@ public class IPI_CorrectiveActionFinalWrapper implements Parcelable {
     private String _form_type;
 
     // Empty constructor
-    public IPI_CorrectiveActionFinalWrapper() { }
+    public IPI_TaskFinalWrapper() { }
 
-    protected IPI_CorrectiveActionFinalWrapper(Parcel in) {
+    protected IPI_TaskFinalWrapper(Parcel in) {
         _id = in.readInt();
         _projectjob_ipi_pw_id = in.readString();
         _serial_no = in.readString();

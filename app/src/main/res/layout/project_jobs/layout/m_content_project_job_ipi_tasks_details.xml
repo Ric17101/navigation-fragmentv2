@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearLayoutShown"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20sp"
@@ -77,78 +76,6 @@
 
             <TextView
                 android:id="@+id/textViewRemarks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:text="Text" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/rowTableFax"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10sp">
-
-            <TextView
-                android:id="@+id/textViewLabelDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".2"
-                android:gravity="center_vertical"
-                android:text="Comments"
-                android:textStyle="normal|bold" />
-
-            <TextView
-                android:id="@+id/textViewLabel16"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".1"
-                android:gravity="center_vertical"
-                android:text=":" />
-
-            <TextView
-                android:id="@+id/textViewComments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:text="Text" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/rowTableEquipmentType"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10sp">
-
-            <TextView
-                android:id="@+id/textViewLabelTargetCompletionDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".2"
-                android:gravity="center_vertical"
-                android:text="Status"
-                android:textStyle="normal|bold" />
-
-            <TextView
-                android:id="@+id/textViewLabel17"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginTop="-3dp"
-                android:layout_weight=".1"
-                android:gravity="center_vertical"
-                android:text=":" />
-
-            <TextView
-                android:id="@+id/textViewStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"

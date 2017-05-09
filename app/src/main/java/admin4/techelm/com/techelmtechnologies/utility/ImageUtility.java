@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Display;
@@ -22,6 +21,8 @@ import java.io.IOException;
 
 /**
  * Created by admin 4 on 22/02/2017.
+ * This location works best if you want the created images to be shared
+ *  between applications and persist after your app has been uninstalled.
  * USAGE:
      * To save:
          new ImageSaver(context).
@@ -39,10 +40,11 @@ import java.io.IOException;
 
 public class ImageUtility {
 
+    private static final String TAG = ImageUtility.class.getSimpleName();
     private String directoryName = "images";
     private String fileName = "image.png";
     private Context context;
-    private boolean external;
+    private boolean external = false;
 
     public ImageUtility(Context context) {
         this.context = context;
@@ -70,6 +72,10 @@ public class ImageUtility {
 
     public boolean save(Bitmap bitmapImage) {
         FileOutputStream fileOutputStream = null;
+
+        Log.e(TAG, "Directory is isExternalStorageReadable: " + isExternalStorageReadable());
+        Log.e(TAG, "Directory is isExternalStorageWritable: " + isExternalStorageWritable());
+        
         try {
             fileOutputStream = new FileOutputStream(createFile());
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
@@ -101,11 +107,12 @@ public class ImageUtility {
     }
 
     private File getAlbumStorageDir(String albumName) {
-        /*File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName);*/
+        /*File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albumName);*/
         String mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        // String mFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
         mFilePath += "/TELCHEM/" + albumName;
         File file = new File(mFilePath);
+
         if (!file.mkdirs()) {
             Log.e("ImageUtility", "Directory not created");
         }

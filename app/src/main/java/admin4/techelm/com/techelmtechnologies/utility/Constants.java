@@ -49,6 +49,10 @@ public final class Constants {
     public static final String PROJECT_JOB_PISS_DETAILS_URL = PROJECT_JOB_URL + "get_piss_details?id=";
     public static final String PROJECT_JOB_PISS_TASK_LIST_URL = PROJECT_JOB_URL + "get_piss_tasks?projectjob_piss_id=";
     public static final String PROJECT_JOB_PISS_TASK_DETAILS_URL = PROJECT_JOB_URL + "get_piss_tasks_detail?id=";
+    public static final String PROJECT_JOB_FORM_TASK_APPEND = "&form_type=";
+    // public static final String PROJECT_JOB_IPI_TASK_LIST_URL = PROJECT_JOB_URL + "get_ipi_tasks?projectjob_ipi_pw_id=";
+    public static final String PROJECT_JOB_IPI_TASK_LIST_URL = PROJECT_JOB_URL + "get_ipi_tasks?projectjob_ipi_pw_id=%d&form_type=%s";
+    public static final String PROJECT_JOB_IPI_TASK_FINAL_LIST_URL = PROJECT_JOB_URL + "get_ipi_correctiveAction?projectjob_ipi_pw_id=%d&form_type=%s";
 
     public static final String LIST_DELIM = ":-:";
 
@@ -91,6 +95,8 @@ public final class Constants {
     public static final String PROJECT_JOB_KEY = "PROJECT_JOB";
     /** Type is PISSTaskWrapper Object. */
     public static final String PROJECT_JOB_PISS_TASK_KEY = "PROJECT_JOB_TASK";
+    /** Type is IPIFinalTaskWrapper Object. */
+    public static final String PROJECT_JOB_IPI_FINAL_TASK_KEY = "PROJECT_JOB_IPI_FINAL_TASK";
     /** Type is View Object. */
     public static final String PROJECT_JOB_FORM_DATE_FORM_KEY = "SHOW_ANOTHER_DIALOG";
 
@@ -127,6 +133,8 @@ public final class Constants {
     public static final int PROJECT_JOB_FORM_B1 = 1;
     public static final int PROJECT_JOB_FORM_B2 = 2;
     public static final int PROJECT_JOB_FORM_B3 = 3;
+    public static final String PROJECT_JOB_FORM_EPS = "EPS";
+    public static final String PROJECT_JOB_FORM_PW = "PW";
 
     // FRAGMENT POSITION for Navigation between Fragments especially in the Forms
     public static final int PROJECT_JOB_FRAGMENT_POSITION_1 = 1;

@@ -22,15 +22,18 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SignatureImageButtonUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_FINAL_TASK_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
 
 /**
  * Created by Admin4 on 05/05/2017.
+ * AFTER BUTTON SAVE in B2 and B3
  */
 public class ProjectJobLastFormFragment extends Fragment {
 
@@ -49,14 +52,14 @@ public class ProjectJobLastFormFragment extends Fragment {
 
     // Instance Variables;
     ProjectJobWrapper mProjectJob;
-    PISSTaskWrapper mTask;
+    // IPI_TaskFinalWrapper mTask;
 
-    public static ProjectJobLastFormFragment newInstance(ProjectJobWrapper project, PISSTaskWrapper task) {
+    public static ProjectJobLastFormFragment newInstance(ProjectJobWrapper project) {
         ProjectJobLastFormFragment fragment = new ProjectJobLastFormFragment();
         Bundle args = new Bundle();
 
         args.putParcelable(PROJECT_JOB_KEY, project);
-        args.putParcelable(PROJECT_JOB_PISS_TASK_KEY, task);
+        //args.putParcelable(PROJECT_JOB_IPI_FINAL_TASK_KEY, task);
 
         fragment.setArguments(args);
         return fragment;
@@ -70,7 +73,7 @@ public class ProjectJobLastFormFragment extends Fragment {
 
     private void fromBundle() {
         this.mProjectJob = getArguments().getParcelable(PROJECT_JOB_KEY);
-        this.mTask = getArguments().getParcelable(PROJECT_JOB_PISS_TASK_KEY);
+        //this.mTask = getArguments().getParcelable(PROJECT_JOB_IPI_FINAL_TASK_KEY);
     }
 
     @Nullable
@@ -134,21 +137,28 @@ public class ProjectJobLastFormFragment extends Fragment {
     }
 
     private void initFormView(final View view) {
+        // Sub Contractor Signature setup
         LinearLayout linearLayoutSubContractor = (LinearLayout) view.findViewById(R.id.linearLayoutSubContractor);
-        LinearLayout linearLayoutDispositionedBy = (LinearLayout) view.findViewById(R.id.linearLayoutDispositionedBy);
-
         imageButtonViewSignatureSubContractor = (ImageButton) linearLayoutSubContractor.findViewById(R.id.imageButtonViewSignature);
         imageButtonViewSignatureSubContractor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MaterialDialog md = showSigningDialog(view, Signature.SUBCONTRACTOR);
+            }
+        });
+        TextView textViewTitleCommentRemarksSubContractor = (TextView) linearLayoutSubContractor.findViewById(R.id.textViewTitleCommentRemarks);
+        textViewTitleCommentRemarksSubContractor.setText("Sub Contractor Signature");
+
+        // Disposition Signature setup
+        LinearLayout linearLayoutDispositionedBy = (LinearLayout) view.findViewById(R.id.linearLayoutDispositionedBy);
+        imageButtonViewSignatureDisposition = (ImageButton) linearLayoutDispositionedBy.findViewById(R.id.imageButtonViewSignature);
+        imageButtonViewSignatureDisposition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MaterialDialog md = showSigningDialog(view, Signature.DISPOSITION);
             }
         });
-        imageButtonViewSignatureDisposition = (ImageButton) linearLayoutSubContractor.findViewById(R.id.imageButtonViewSignature);
-
-        TextView textViewTitleCommentRemarksSubContractor = (TextView) linearLayoutSubContractor.findViewById(R.id.textViewTitleCommentRemarks);
-        textViewTitleCommentRemarksSubContractor.setText("Sub Contractor Signature");
-        TextView textViewTitleCommentRemarksDisposition = (TextView) linearLayoutSubContractor.findViewById(R.id.textViewTitleCommentRemarks);
+        TextView textViewTitleCommentRemarksDisposition = (TextView) linearLayoutDispositionedBy.findViewById(R.id.textViewTitleCommentRemarks);
         textViewTitleCommentRemarksDisposition.setText("Disposition Signature");
     }
 
@@ -220,19 +230,13 @@ public class ProjectJobLastFormFragment extends Fragment {
         mSignaturePad = (SignaturePad) dialog.getCustomView().findViewById(R.id.signature_pad);
         mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
-            public void onStartSigning() {
-
-            }
+            public void onStartSigning() { }
 
             @Override
-            public void onSigned() {
-
-            }
+            public void onSigned() { }
 
             @Override
-            public void onClear() {
-
-            }
+            public void onClear() { }
         });
 
         Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
@@ -249,9 +253,9 @@ public class ProjectJobLastFormFragment extends Fragment {
                     SignatureImageButtonUtil.setDrawableImageSignature(getResources(),
                             imageButtonViewSignatureDisposition, mSignatureUtil.loadBitmap());
                     break;
-                case SUBCONTRACTOR :
+                case SUBCONTRACTOR:
                     SignatureImageButtonUtil.setDrawableImageSignature(getResources(),
-                            imageButtonViewSignatureDisposition, mSignatureUtil.loadBitmap());
+                            imageButtonViewSignatureSubContractor, mSignatureUtil.loadBitmap());
                     break;
             }
             dialog.dismiss();

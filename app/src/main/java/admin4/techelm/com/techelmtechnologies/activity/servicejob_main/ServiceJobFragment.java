@@ -482,7 +482,7 @@ public class ServiceJobFragment extends Fragment implements
         protected void onCancelled() {
             noResultTryAgain();
             hideSwipeRefreshing();
-            Log.i(TAG, "onCancelled hideSwipeRefreshing() new PJTaskList_RenderList()");
+            Log.i(TAG, "onCancelled hideSwipeRefreshing() new PJ_IPITaskList_RenderList()");
         }
     }
 

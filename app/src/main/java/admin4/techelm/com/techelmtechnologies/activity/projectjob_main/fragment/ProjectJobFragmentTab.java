@@ -20,6 +20,7 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFragment;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
@@ -223,9 +224,9 @@ public class ProjectJobFragmentTab extends Fragment {
         private Fragment setFragmentB2(int position) {
             switch (position) {
                 case 0:
-                    return PISSTaskListFragment.newInstance(mProjectJob);
+                    return IPITaskListFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B2);
                 case 1:
-                    return IPITaskListFinalFragment.newInstance(mProjectJob);
+                    return IPITaskListFinalFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B2);
             }
             return null;
         }
@@ -233,9 +234,9 @@ public class ProjectJobFragmentTab extends Fragment {
         private Fragment setFragmentB3(int position) {
             switch (position) {
                 case 0:
-                    return PISSTaskListFragment.newInstance(mProjectJob);
+                    return IPITaskListFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B3);
                 case 1:
-                    return IPITaskListFinalFragment.newInstance(mProjectJob);
+                    return IPITaskListFinalFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B3);
             }
             return null;
         }

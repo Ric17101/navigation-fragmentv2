@@ -8,12 +8,12 @@
         android:id="@+id/textViewVersionSplash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textViewDescription"
+        android:layout_above="@+id/textViewRemarks"
         android:layout_centerHorizontal="true"
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/textViewDescription"
+        android:id="@+id/textViewRemarks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
