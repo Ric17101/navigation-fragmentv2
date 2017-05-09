@@ -37,7 +37,7 @@ import admin4.techelm.com.techelmtechnologies.task.LoginActivityAuthenticationTa
  * A login screen that offers login via email/password.
  */
 public class LoginActivity2 extends AppCompatActivity implements
-        LoginActivityAuthenticationTask.CallbackInterface {
+        LoginAuthenticationTaskListener {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -197,6 +197,7 @@ public class LoginActivity2 extends AppCompatActivity implements
 
     /**
      * Shows the progress UI and hides the login form.
+     * TODO: implement this on seprate class ProgressbarUtil.jva
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {

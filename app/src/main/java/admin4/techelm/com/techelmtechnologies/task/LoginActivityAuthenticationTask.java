@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import admin4.techelm.com.techelmtechnologies.activity.login.LoginAuthenticationTaskListener;
 import admin4.techelm.com.techelmtechnologies.db.UserDBUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.model.UserLoginWrapper;
@@ -41,7 +42,7 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
     private int connected = 1;
     private int loginStatus = 0;
 
-    private CallbackInterface mCallback;
+    private LoginAuthenticationTaskListener mCallback;
     private LoginActivityAuthenticationTask mAuthTask = null;
     private Context mContext; // Not really useful in here
 
@@ -55,7 +56,7 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
         // .. Attach the interface
         mContext = context;
         try {
-            mCallback = (CallbackInterface) context;
+            mCallback = (LoginAuthenticationTaskListener) context;
         } catch (ClassCastException ex) {
             Log.e(TAG, "Must implement the LoginActivityAuthenticationTask in the Activity", ex);
         }
@@ -69,19 +70,6 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
         loginUser.append("?user=" + mEmail);
         loginUser.append("&password=" + mPassword);
         return loginUser.toString();
-    }
-
-    public interface CallbackInterface {
-        /**
-         * Callback invoked when clicked and onProgress
-         */
-        void onHandleSelection(int position, UserLoginWrapper user, int mode);
-        void onHandleShowProgessLogin(boolean taskStatus);
-        void onHandleAuthTask(LoginActivityAuthenticationTask mAuthTask);
-        void onHandleEmailError(String emailError);
-        void onHandlePasswordError(String passwordError);
-        void onHandleSuccessLogin(UserLoginWrapper user);
-        void onHandleShowDetails(String details);
     }
 
     /**

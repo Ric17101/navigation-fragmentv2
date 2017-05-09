@@ -256,7 +256,6 @@ public class ProjectJobFragmentTab extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             Log.e(TAG, "getPageTitle(Postion):" + position);
-
             switch (mTypeOfForm) {
                 case PROJECT_JOB_FORM_B1: return "TASK LIST";
                 case PROJECT_JOB_FORM_B2: return setPageTitleB2B3(position);
@@ -269,20 +268,16 @@ public class ProjectJobFragmentTab extends Fragment {
         // NOT USED
         private CharSequence setPageTitleB1(int position) {
             switch (position) {
-                case 0:
-                    return "TASK LIST";
-                case 1:
-                    return "DRAWING FORM";
+                case 0: return "TASK LIST";
+                case 1: return "DRAWING FORM";
             }
             return "";
         }
 
         private CharSequence setPageTitleB2B3(int position) {
             switch (position) {
-                case 0:
-                    return "TASK LIST";
-                case 1:
-                    return "FINAL";
+                case 0: return "TASK LIST";
+                case 1: return "FINAL";
             }
             return "";
         }

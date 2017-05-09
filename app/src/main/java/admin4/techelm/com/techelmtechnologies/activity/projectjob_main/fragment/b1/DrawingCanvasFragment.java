@@ -270,7 +270,7 @@ public class DrawingCanvasFragment extends Fragment implements
         bitmap2 = canvas.getBitmap();
 
         image = new ImageUtility(getActivity());
-        image.setExternal(true);
+        image.setExternal(false);
         image.setDirectoryName("DRAWING");
 
         // Notify message to user

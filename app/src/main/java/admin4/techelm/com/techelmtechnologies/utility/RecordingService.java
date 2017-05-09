@@ -68,7 +68,7 @@ public class RecordingService extends Service {
         try {
             // onTimerChangedListener = (OnTimerChangedListener) getApplication();
             mDatabase = new RecordingSJDBUtil(getApplicationContext(),
-                    "From Recording service, can't implement Interface here.");
+                    "From Recording service, can implement Interface here.");
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
             Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
@@ -156,7 +156,7 @@ public class RecordingService extends Service {
 
             File f = new File(mFilePath);
             if (!f.mkdirs()) {
-                Log.e("RecordingDIR", "Directory not created");
+                Log.e("RecordingDIR", "Directory not created...count=" +count);
             }
             file = new File(mFilePath, mFileName);
 
@@ -219,4 +219,5 @@ public class RecordingService extends Service {
 
         return mBuilder.build();
     }
+
 }
