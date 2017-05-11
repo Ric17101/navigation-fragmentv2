@@ -16,6 +16,7 @@ import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper
 
 /**
  * Created by admin 4 on 21/02/2017.
+ *
  */
 
 public class ProjectJobDBUtil extends DatabaseAccess {
@@ -137,20 +138,20 @@ public class ProjectJobDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ProjectJobWrapper recordItem = new ProjectJobWrapper();
-                recordItem.setID(Integer.parseInt(cursor.getString(0)));
-                recordItem.setProjectRef(cursor.getString(1));
-                recordItem.setProjectSite(cursor.getString(2));
-                recordItem.setTargetCompletionDate(cursor.getString(3));
-                recordItem.setFirstInspector(cursor.getString(4));
-                recordItem.setSecondInspector(cursor.getString(5));
-                recordItem.setThirdInspector(cursor.getString(6));
-                recordItem.setCustomerID(cursor.getInt(7));
-                recordItem.setCustomerName(cursor.getString(8));
-                recordItem.setStartDate(cursor.getString(9));
-                recordItem.setEndDate(cursor.getString(10));
-                recordItem.setStatus(cursor.getInt(11));
-                list.add(recordItem);
+                ProjectJobWrapper item = new ProjectJobWrapper();
+                item.setID(Integer.parseInt(cursor.getString(0)));
+                item.setProjectRef(cursor.getString(1));
+                item.setProjectSite(cursor.getString(2));
+                item.setTargetCompletionDate(cursor.getString(3));
+                item.setFirstInspector(cursor.getString(4));
+                item.setSecondInspector(cursor.getString(5));
+                item.setThirdInspector(cursor.getString(6));
+                item.setCustomerID(cursor.getInt(7));
+                item.setCustomerName(cursor.getString(8));
+                item.setStartDate(cursor.getString(9));
+                item.setEndDate(cursor.getString(10));
+                item.setStatus(cursor.getInt(11));
+                list.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -183,20 +184,20 @@ public class ProjectJobDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ProjectJobWrapper recordItem = new ProjectJobWrapper();
-                recordItem.setID(Integer.parseInt(cursor.getString(0)));
-                recordItem.setProjectRef(cursor.getString(1));
-                recordItem.setProjectSite(cursor.getString(2));
-                recordItem.setTargetCompletionDate(cursor.getString(3));
-                recordItem.setFirstInspector(cursor.getString(4));
-                recordItem.setSecondInspector(cursor.getString(5));
-                recordItem.setThirdInspector(cursor.getString(6));
-                recordItem.setCustomerID(cursor.getInt(7));
-                recordItem.setCustomerName(cursor.getString(8));
-                recordItem.setStartDate(cursor.getString(9));
-                recordItem.setEndDate(cursor.getString(10));
-                recordItem.setStatus(cursor.getInt(11));
-                list.add(recordItem);
+                ProjectJobWrapper item = new ProjectJobWrapper();
+                item.setID(Integer.parseInt(cursor.getString(0)));
+                item.setProjectRef(cursor.getString(1));
+                item.setProjectSite(cursor.getString(2));
+                item.setTargetCompletionDate(cursor.getString(3));
+                item.setFirstInspector(cursor.getString(4));
+                item.setSecondInspector(cursor.getString(5));
+                item.setThirdInspector(cursor.getString(6));
+                item.setCustomerID(cursor.getInt(7));
+                item.setCustomerName(cursor.getString(8));
+                item.setStartDate(cursor.getString(9));
+                item.setEndDate(cursor.getString(10));
+                item.setStatus(cursor.getInt(11));
+                list.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -212,27 +213,27 @@ public class ProjectJobDBUtil extends DatabaseAccess {
                 + " WHERE " + DBHelperItem.COLUMN_NAME_PJ_ID + "=" +serviceJobID;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
-        ProjectJobWrapper recordItem = new ProjectJobWrapper();
+        ProjectJobWrapper item = new ProjectJobWrapper();
         if (cursor.moveToFirst()) {
-            recordItem.setID(Integer.parseInt(cursor.getString(0)));
-            recordItem.setProjectRef(cursor.getString(1));
-            recordItem.setProjectSite(cursor.getString(2));
-            recordItem.setTargetCompletionDate(cursor.getString(3));
-            recordItem.setFirstInspector(cursor.getString(4));
-            recordItem.setSecondInspector(cursor.getString(5));
-            recordItem.setThirdInspector(cursor.getString(6));
-            recordItem.setCustomerID(cursor.getInt(7));
-            recordItem.setCustomerName(cursor.getString(8));
-            recordItem.setStartDate(cursor.getString(9));
-            recordItem.setEndDate(cursor.getString(10));
-            recordItem.setStatus(cursor.getInt(11));
+            item.setID(Integer.parseInt(cursor.getString(0)));
+            item.setProjectRef(cursor.getString(1));
+            item.setProjectSite(cursor.getString(2));
+            item.setTargetCompletionDate(cursor.getString(3));
+            item.setFirstInspector(cursor.getString(4));
+            item.setSecondInspector(cursor.getString(5));
+            item.setThirdInspector(cursor.getString(6));
+            item.setCustomerID(cursor.getInt(7));
+            item.setCustomerName(cursor.getString(8));
+            item.setStartDate(cursor.getString(9));
+            item.setEndDate(cursor.getString(10));
+            item.setStatus(cursor.getInt(11));
         }
-        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + recordItem.toString());
+        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        return recordItem;
+        return item;
     }
 
     /**
@@ -279,33 +280,33 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         Log.e(LOG_TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
 
         if (mOnDatabaseChangedListener != null) {
-            // mOnDatabaseChangedListener.onIPI_PWDEntryUpdated(item.getServiceNumber());
+            // mOnDatabaseChangedListener.onIPI_DEntryUpdated(item.getServiceNumber());
         }
     }
 
     public ProjectJobWrapper getItemAt(int position) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        ProjectJobWrapper recordItem = new ProjectJobWrapper();
+        ProjectJobWrapper item = new ProjectJobWrapper();
         if (cursor.moveToPosition(position)) {
-            recordItem.setID(Integer.parseInt(cursor.getString(0)));
-            recordItem.setProjectRef(cursor.getString(1));
-            recordItem.setProjectSite(cursor.getString(2));
-            recordItem.setTargetCompletionDate(cursor.getString(3));
-            recordItem.setFirstInspector(cursor.getString(4));
-            recordItem.setSecondInspector(cursor.getString(5));
-            recordItem.setThirdInspector(cursor.getString(6));
-            recordItem.setCustomerID(cursor.getInt(7));
-            recordItem.setCustomerName(cursor.getString(8));
-            recordItem.setStartDate(cursor.getString(9));
-            recordItem.setEndDate(cursor.getString(10));
-            recordItem.setStatus(cursor.getInt(11));
+            item.setID(Integer.parseInt(cursor.getString(0)));
+            item.setProjectRef(cursor.getString(1));
+            item.setProjectSite(cursor.getString(2));
+            item.setTargetCompletionDate(cursor.getString(3));
+            item.setFirstInspector(cursor.getString(4));
+            item.setSecondInspector(cursor.getString(5));
+            item.setThirdInspector(cursor.getString(6));
+            item.setCustomerID(cursor.getInt(7));
+            item.setCustomerName(cursor.getString(8));
+            item.setStartDate(cursor.getString(9));
+            item.setEndDate(cursor.getString(10));
+            item.setStatus(cursor.getInt(11));
         }
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        return recordItem;
+        return item;
     }
 
     public void removeItemWithId(int id) {
@@ -379,8 +380,8 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         Cursor cursor = getDB().rawQuery(selectQuery, null);
         boolean result;
         if (cursor.moveToFirst()) {
-            String recordItem = cursor.getString(0);
-            if ("".equals(recordItem) || recordItem == null) {
+            String item = cursor.getString(0);
+            if ("".equals(item) || item == null) {
                 result = false;
             } else {
                 result = true;

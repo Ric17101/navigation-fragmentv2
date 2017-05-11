@@ -38,7 +38,7 @@ public class IPI_TaskWrapper implements Parcelable {
     /*
         {
          "id":"2",
-         "projectjob_ipi_pw_id":"1",
+         "projectjob_id":"1",
          "serial_no":"2",
          "description":"test desc 2",
          "status":"NO",
@@ -50,7 +50,7 @@ public class IPI_TaskWrapper implements Parcelable {
          },
      */
     private int _id;
-    private String _projectjob_ipi_pw_id;
+    private int _projectjob_id;
     private String _serial_no;
     private String _description;
     private String _status;
@@ -65,7 +65,7 @@ public class IPI_TaskWrapper implements Parcelable {
 
     protected IPI_TaskWrapper(Parcel in) {
         _id = in.readInt();
-        _projectjob_ipi_pw_id = in.readString();
+        _projectjob_id = in.readInt();
         _serial_no = in.readString();
         _description = in.readString();
         _status = in.readString();
@@ -79,7 +79,7 @@ public class IPI_TaskWrapper implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(_id);
-        dest.writeString(_projectjob_ipi_pw_id);
+        dest.writeInt(_projectjob_id);
         dest.writeString(_serial_no);
         dest.writeString(_description);
         dest.writeString(_status);
@@ -97,7 +97,7 @@ public class IPI_TaskWrapper implements Parcelable {
 
     public String toString() {
         return "\nID : " + this._id +
-                "\n_projectjob_ipi_pw_id : " + this._projectjob_ipi_pw_id +
+                "\n_projectjob_id : " + this._projectjob_id +
                 "\n_serial_no : " + this._serial_no +
                 "\n_description : " + this._description +
                 "\n_status : " + this._status +
@@ -120,12 +120,10 @@ public class IPI_TaskWrapper implements Parcelable {
         this._id = id;
     }
 
-    public String getProjectJobIPI_PWID() {
-        return this._projectjob_ipi_pw_id;
+    public int getProjectJob_ID() {
+        return this._projectjob_id;
     }
-    public void setProjectJobIPI_PWID(String structure) {
-        this._projectjob_ipi_pw_id = structure;
-    }
+    public void setProjectJob_ID(int id) { this._projectjob_id = id; }
 
     public String getSerialNo() {
         return this._serial_no;

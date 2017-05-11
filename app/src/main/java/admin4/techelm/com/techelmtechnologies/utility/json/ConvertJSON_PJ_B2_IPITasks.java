@@ -30,7 +30,7 @@ public class ConvertJSON_PJ_B2_IPITasks {
          "projectlist_ipi_tasks": [
              {
              "id":"2",
-             "projectjob_ipi_pw_id":"1",
+             "projectjob_id":"1",
              "serial_no":"2",
              "description":"test desc 2",
              "status":"NO",
@@ -65,7 +65,7 @@ public class ConvertJSON_PJ_B2_IPITasks {
         do { // 10
             IPI_TaskWrapper pw = new IPI_TaskWrapper();
             pw.setID(Integer.parseInt(jsonArray.getJSONObject(i).getString("id")));
-            pw.setProjectJobIPI_PWID(jsonArray.getJSONObject(i).getString("projectjob_ipi_pw_id"));
+            pw.setProjectJob_ID(jsonArray.getJSONObject(i).getInt("projectjob_id"));
             pw.setSerialNo(jsonArray.getJSONObject(i).getString("serial_no"));
             pw.setDescription(jsonArray.getJSONObject(i).getString("description"));
             pw.setStatus(jsonArray.getJSONObject(i).getString("status"));
@@ -102,7 +102,7 @@ public class ConvertJSON_PJ_B2_IPITasks {
             String[] pieces = credential.split(LIST_DELIM);
 
             sw.setID(Integer.parseInt(pieces[0]));
-            sw.setProjectJobIPI_PWID(pieces[1]);
+            sw.setProjectJob_ID(Integer.parseInt(pieces[1]));
             sw.setSerialNo(pieces[2]);
             sw.setDescription(pieces[3]);
             sw.setStatus(pieces[4]);

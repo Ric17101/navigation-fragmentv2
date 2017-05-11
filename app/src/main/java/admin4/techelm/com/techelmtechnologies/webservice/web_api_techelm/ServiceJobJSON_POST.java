@@ -22,7 +22,6 @@ import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_NEW_PARTS_UPLOAD_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 
 /**
  * Created by admin 4 on 22/03/2017.

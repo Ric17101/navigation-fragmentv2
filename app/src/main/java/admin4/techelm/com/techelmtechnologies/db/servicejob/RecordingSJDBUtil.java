@@ -78,16 +78,16 @@ public class RecordingSJDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobRecordingWrapper recordItem = new ServiceJobRecordingWrapper();
-                recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceId(cursor.getString(1));
-                recordItem.setName(cursor.getString(2));
-                recordItem.setFilePath(cursor.getString(3));
-                recordItem.setLength(cursor.getInt(4));
-                recordItem.setTime(cursor.getLong(5));
-                recordItem.setTaken(cursor.getString(6));
-                if (FileUtility.isFileExist(recordItem.getFilePath())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
-                    list.add(recordItem);
+                ServiceJobRecordingWrapper item = new ServiceJobRecordingWrapper();
+                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setServiceId(cursor.getString(1));
+                item.setName(cursor.getString(2));
+                item.setFilePath(cursor.getString(3));
+                item.setLength(cursor.getInt(4));
+                item.setTime(cursor.getLong(5));
+                item.setTaken(cursor.getString(6));
+                if (FileUtility.isFileExist(item.getFilePath())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(item);
                 }
             } while (cursor.moveToNext());
         }
@@ -110,16 +110,16 @@ public class RecordingSJDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobRecordingWrapper recordItem = new ServiceJobRecordingWrapper();
-                recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceId(cursor.getString(1));
-                recordItem.setName(cursor.getString(2));
-                recordItem.setFilePath(cursor.getString(3));
-                recordItem.setLength(cursor.getInt(4));
-                recordItem.setTime(cursor.getLong(5));
-                recordItem.setTaken(cursor.getString(6));
-                if (FileUtility.isFileExist(recordItem.getFilePath())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
-                    list.add(recordItem);
+                ServiceJobRecordingWrapper item = new ServiceJobRecordingWrapper();
+                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setServiceId(cursor.getString(1));
+                item.setName(cursor.getString(2));
+                item.setFilePath(cursor.getString(3));
+                item.setLength(cursor.getInt(4));
+                item.setTime(cursor.getLong(5));
+                item.setTaken(cursor.getString(6));
+                if (FileUtility.isFileExist(item.getFilePath())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(item);
                 }
             } while (cursor.moveToNext());
         }
@@ -139,16 +139,16 @@ public class RecordingSJDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobRecordingWrapper recordItem = new ServiceJobRecordingWrapper();
-                recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceId(cursor.getString(1));
-                recordItem.setName(cursor.getString(2));
-                recordItem.setFilePath(cursor.getString(3));
-                recordItem.setLength(cursor.getInt(4));
-                recordItem.setTime(cursor.getLong(5));
-                recordItem.setTaken(cursor.getString(6));
-                if (FileUtility.isFileExist(recordItem.getFilePath())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
-                    list.add(recordItem);
+                ServiceJobRecordingWrapper item = new ServiceJobRecordingWrapper();
+                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setServiceId(cursor.getString(1));
+                item.setName(cursor.getString(2));
+                item.setFilePath(cursor.getString(3));
+                item.setLength(cursor.getInt(4));
+                item.setTime(cursor.getLong(5));
+                item.setTaken(cursor.getString(6));
+                if (FileUtility.isFileExist(item.getFilePath())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(item);
                 }
             } while (cursor.moveToNext());
         }
@@ -163,21 +163,21 @@ public class RecordingSJDBUtil extends DatabaseAccess {
     public ServiceJobRecordingWrapper getItemAt(int position) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        ServiceJobRecordingWrapper recordItem = new ServiceJobRecordingWrapper();
+        ServiceJobRecordingWrapper item = new ServiceJobRecordingWrapper();
         if (cursor.moveToPosition(position)) {
-            recordItem.setId(Integer.parseInt(cursor.getString(0)));
-            recordItem.setServiceId(cursor.getString(1));
-            recordItem.setName(cursor.getString(2));
-            recordItem.setFilePath(cursor.getString(3));
-            recordItem.setLength(cursor.getInt(4));
-            recordItem.setTime(cursor.getLong(5));
-            recordItem.setTaken(cursor.getString(6));
+            item.setId(Integer.parseInt(cursor.getString(0)));
+            item.setServiceId(cursor.getString(1));
+            item.setName(cursor.getString(2));
+            item.setFilePath(cursor.getString(3));
+            item.setLength(cursor.getInt(4));
+            item.setTime(cursor.getLong(5));
+            item.setTaken(cursor.getString(6));
         }
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        return recordItem;
+        return item;
     }
 
     public void removeItemWithId(int id) {
@@ -265,7 +265,7 @@ public class RecordingSJDBUtil extends DatabaseAccess {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE "+ DBHelperItem.COLUMN_NAME_RECORDING_SERVICE_ID + "=" + servicejob_id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        // String recordItem = cursor.getString(1);
+        // String item = cursor.getString(1);
         boolean result;
         if (cursor.moveToFirst()) {
             result = true;

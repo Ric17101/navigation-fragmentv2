@@ -178,37 +178,37 @@ public class ServiceJobDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobWrapper recordItem = new ServiceJobWrapper();
-                recordItem.setID(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceNumber(cursor.getString(1));
-                recordItem.setCustomerID(cursor.getString(2));
-                recordItem.setServiceID(cursor.getString(3));
-                recordItem.setEngineerID(cursor.getString(4));
-                recordItem.setPriceID(cursor.getString(5));
-                recordItem.setComplaintsOrSymptoms(cursor.getString(6));
-                recordItem.setActionsOrRemarks(cursor.getString(7));
-                recordItem.setEquipmentType(cursor.getString(8));
-                recordItem.setModelOrSerial(cursor.getString(9));
-                recordItem.setStartDate(cursor.getString(10));
-                recordItem.setEndDate(cursor.getString(11));
-                recordItem.setStatus(cursor.getString(12));
-                recordItem.setContractServicing(cursor.getString(13));
-                recordItem.setWarrantyServicing(cursor.getString(14));
-                recordItem.setCharges(cursor.getString(15));
-                recordItem.setContractRepair(cursor.getString(16));
-                recordItem.setWarrantyRepair(cursor.getString(17));
-                recordItem.setOthers(cursor.getString(18));
-                recordItem.setSignatureName(cursor.getString(19));
-                recordItem.setSignaturePath(cursor.getString(20));
-                recordItem.setTelephone(cursor.getString(21));
-                recordItem.setFax(cursor.getString(22));
-                recordItem.setTypeOfService(cursor.getString(23));
-                recordItem.setJobSite(cursor.getString(24));
-                recordItem.setCustomerName(cursor.getString(25));
-                recordItem.setBeforeRemarks(cursor.getString(26));
-                recordItem.setAfterRemarks(cursor.getString(27));
-                recordItem.setEngineerName(cursor.getString(28));
-                list.add(recordItem);
+                ServiceJobWrapper item = new ServiceJobWrapper();
+                item.setID(Integer.parseInt(cursor.getString(0)));
+                item.setServiceNumber(cursor.getString(1));
+                item.setCustomerID(cursor.getString(2));
+                item.setServiceID(cursor.getString(3));
+                item.setEngineerID(cursor.getString(4));
+                item.setPriceID(cursor.getString(5));
+                item.setComplaintsOrSymptoms(cursor.getString(6));
+                item.setActionsOrRemarks(cursor.getString(7));
+                item.setEquipmentType(cursor.getString(8));
+                item.setModelOrSerial(cursor.getString(9));
+                item.setStartDate(cursor.getString(10));
+                item.setEndDate(cursor.getString(11));
+                item.setStatus(cursor.getString(12));
+                item.setContractServicing(cursor.getString(13));
+                item.setWarrantyServicing(cursor.getString(14));
+                item.setCharges(cursor.getString(15));
+                item.setContractRepair(cursor.getString(16));
+                item.setWarrantyRepair(cursor.getString(17));
+                item.setOthers(cursor.getString(18));
+                item.setSignatureName(cursor.getString(19));
+                item.setSignaturePath(cursor.getString(20));
+                item.setTelephone(cursor.getString(21));
+                item.setFax(cursor.getString(22));
+                item.setTypeOfService(cursor.getString(23));
+                item.setJobSite(cursor.getString(24));
+                item.setCustomerName(cursor.getString(25));
+                item.setBeforeRemarks(cursor.getString(26));
+                item.setAfterRemarks(cursor.getString(27));
+                item.setEngineerName(cursor.getString(28));
+                list.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -246,52 +246,52 @@ public class ServiceJobDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobWrapper recordItem = new ServiceJobWrapper();
-                recordItem.setID(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceNumber(cursor.getString(1));
-                recordItem.setCustomerID(cursor.getString(2));
-                recordItem.setServiceID(cursor.getString(3));
-                recordItem.setEngineerID(cursor.getString(4));
-                recordItem.setPriceID(cursor.getString(5));
-                recordItem.setComplaintsOrSymptoms(cursor.getString(6));
-                recordItem.setActionsOrRemarks(cursor.getString(7));
-                recordItem.setEquipmentType(cursor.getString(8));
-                recordItem.setModelOrSerial(cursor.getString(9));
-                recordItem.setStartDate(cursor.getString(10));
-                recordItem.setEndDate(cursor.getString(11));
-                recordItem.setStatus(cursor.getString(12));
-                recordItem.setContractServicing(cursor.getString(13));
-                recordItem.setWarrantyServicing(cursor.getString(14));
-                recordItem.setCharges(cursor.getString(15));
-                recordItem.setContractRepair(cursor.getString(16));
-                recordItem.setWarrantyRepair(cursor.getString(17));
-                recordItem.setOthers(cursor.getString(18));
-                recordItem.setSignatureName(cursor.getString(19));
-                recordItem.setSignaturePath(cursor.getString(20));
-                recordItem.setTelephone(cursor.getString(21));
-                recordItem.setFax(cursor.getString(22));
-                recordItem.setTypeOfService(cursor.getString(23));
-                recordItem.setJobSite(cursor.getString(24));
-                recordItem.setCustomerName(cursor.getString(25));
-                recordItem.setBeforeRemarks(cursor.getString(26));
-                recordItem.setAfterRemarks(cursor.getString(27));
-                recordItem.setEngineerName(cursor.getString(28));
+                ServiceJobWrapper item = new ServiceJobWrapper();
+                item.setID(Integer.parseInt(cursor.getString(0)));
+                item.setServiceNumber(cursor.getString(1));
+                item.setCustomerID(cursor.getString(2));
+                item.setServiceID(cursor.getString(3));
+                item.setEngineerID(cursor.getString(4));
+                item.setPriceID(cursor.getString(5));
+                item.setComplaintsOrSymptoms(cursor.getString(6));
+                item.setActionsOrRemarks(cursor.getString(7));
+                item.setEquipmentType(cursor.getString(8));
+                item.setModelOrSerial(cursor.getString(9));
+                item.setStartDate(cursor.getString(10));
+                item.setEndDate(cursor.getString(11));
+                item.setStatus(cursor.getString(12));
+                item.setContractServicing(cursor.getString(13));
+                item.setWarrantyServicing(cursor.getString(14));
+                item.setCharges(cursor.getString(15));
+                item.setContractRepair(cursor.getString(16));
+                item.setWarrantyRepair(cursor.getString(17));
+                item.setOthers(cursor.getString(18));
+                item.setSignatureName(cursor.getString(19));
+                item.setSignaturePath(cursor.getString(20));
+                item.setTelephone(cursor.getString(21));
+                item.setFax(cursor.getString(22));
+                item.setTypeOfService(cursor.getString(23));
+                item.setJobSite(cursor.getString(24));
+                item.setCustomerName(cursor.getString(25));
+                item.setBeforeRemarks(cursor.getString(26));
+                item.setAfterRemarks(cursor.getString(27));
+                item.setEngineerName(cursor.getString(28));
 
-                /*recordItem.setID(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceNumber(cursor.getString(1));
-                recordItem.setCustomerID(getCustomerNameByID(cursor.getString(2)));
-                recordItem.setServiceID(cursor.getString(3));
+                /*item.setID(Integer.parseInt(cursor.getString(0)));
+                item.setServiceNumber(cursor.getString(1));
+                item.setCustomerID(getCustomerNameByID(cursor.getString(2)));
+                item.setServiceID(cursor.getString(3));
 
                 String engineerID = cursor.getString(4);
-                recordItem.setEngineerID(engineerID);
+                item.setEngineerID(engineerID);
 
                 SQLiteDatabase db = getDB();
                 UserLoginWrapper user = getUserDetails(engineerID, db);
-                recordItem.setTelephone(user.getPhoneNo());
-                recordItem.setFax(user.getFax());
-                recordItem.setRace(user.getRace());*/
+                item.setTelephone(user.getPhoneNo());
+                item.setFax(user.getFax());
+                item.setRace(user.getRace());*/
 
-                list.add(recordItem);
+                list.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -307,44 +307,44 @@ public class ServiceJobDBUtil extends DatabaseAccess {
                 + " WHERE " + DBHelperItem.COLUMN_NAME_SJ_ID + "=" +serviceJobID;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
-        ServiceJobWrapper recordItem = new ServiceJobWrapper();
+        ServiceJobWrapper item = new ServiceJobWrapper();
         if (cursor.moveToFirst()) {
-            recordItem.setID(Integer.parseInt(cursor.getString(0)));
-            recordItem.setServiceNumber(cursor.getString(1));
-            recordItem.setCustomerID(cursor.getString(2));
-            recordItem.setServiceID(cursor.getString(3));
-            recordItem.setEngineerID(cursor.getString(4));
-            recordItem.setPriceID(cursor.getString(5));
-            recordItem.setComplaintsOrSymptoms(cursor.getString(6));
-            recordItem.setActionsOrRemarks(cursor.getString(7));
-            recordItem.setEquipmentType(cursor.getString(8));
-            recordItem.setModelOrSerial(cursor.getString(9));
-            recordItem.setStartDate(cursor.getString(10));
-            recordItem.setEndDate(cursor.getString(11));
-            recordItem.setStatus(cursor.getString(12));
-            recordItem.setContractServicing(cursor.getString(13));
-            recordItem.setWarrantyServicing(cursor.getString(14));
-            recordItem.setCharges(cursor.getString(15));
-            recordItem.setContractRepair(cursor.getString(16));
-            recordItem.setWarrantyRepair(cursor.getString(17));
-            recordItem.setOthers(cursor.getString(18));
-            recordItem.setSignatureName(cursor.getString(19));
-            recordItem.setSignaturePath(cursor.getString(20));
-            recordItem.setTelephone(cursor.getString(21));
-            recordItem.setFax(cursor.getString(22));
-            recordItem.setTypeOfService(cursor.getString(23));
-            recordItem.setJobSite(cursor.getString(24));
-            recordItem.setCustomerName(cursor.getString(25));
-            recordItem.setBeforeRemarks(cursor.getString(26));
-            recordItem.setAfterRemarks(cursor.getString(27));
-            recordItem.setEngineerName(cursor.getString(28));
+            item.setID(Integer.parseInt(cursor.getString(0)));
+            item.setServiceNumber(cursor.getString(1));
+            item.setCustomerID(cursor.getString(2));
+            item.setServiceID(cursor.getString(3));
+            item.setEngineerID(cursor.getString(4));
+            item.setPriceID(cursor.getString(5));
+            item.setComplaintsOrSymptoms(cursor.getString(6));
+            item.setActionsOrRemarks(cursor.getString(7));
+            item.setEquipmentType(cursor.getString(8));
+            item.setModelOrSerial(cursor.getString(9));
+            item.setStartDate(cursor.getString(10));
+            item.setEndDate(cursor.getString(11));
+            item.setStatus(cursor.getString(12));
+            item.setContractServicing(cursor.getString(13));
+            item.setWarrantyServicing(cursor.getString(14));
+            item.setCharges(cursor.getString(15));
+            item.setContractRepair(cursor.getString(16));
+            item.setWarrantyRepair(cursor.getString(17));
+            item.setOthers(cursor.getString(18));
+            item.setSignatureName(cursor.getString(19));
+            item.setSignaturePath(cursor.getString(20));
+            item.setTelephone(cursor.getString(21));
+            item.setFax(cursor.getString(22));
+            item.setTypeOfService(cursor.getString(23));
+            item.setJobSite(cursor.getString(24));
+            item.setCustomerName(cursor.getString(25));
+            item.setBeforeRemarks(cursor.getString(26));
+            item.setAfterRemarks(cursor.getString(27));
+            item.setEngineerName(cursor.getString(28));
         }
-        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + recordItem.toString());
+        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        return recordItem;
+        return item;
     }
 
     /**
@@ -414,49 +414,49 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         Log.e(LOG_TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
 
         if (mOnDatabaseChangedListener != null) {
-            // mOnDatabaseChangedListener.onIPI_PWDEntryUpdated(item.getServiceNumber());
+            // mOnDatabaseChangedListener.onIPI_DEntryUpdated(item.getServiceNumber());
         }
     }
 
     public ServiceJobWrapper getItemAt(int position) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        ServiceJobWrapper recordItem = new ServiceJobWrapper();
+        ServiceJobWrapper item = new ServiceJobWrapper();
         if (cursor.moveToPosition(position)) {
-            recordItem.setID(Integer.parseInt(cursor.getString(0)));
-            recordItem.setServiceNumber(cursor.getString(1));
-            recordItem.setCustomerID(cursor.getString(2));
-            recordItem.setServiceID(cursor.getString(3));
-            recordItem.setEngineerID(cursor.getString(4));
-            recordItem.setPriceID(cursor.getString(5));
-            recordItem.setComplaintsOrSymptoms(cursor.getString(6));
-            recordItem.setActionsOrRemarks(cursor.getString(7));
-            recordItem.setEquipmentType(cursor.getString(8));
-            recordItem.setModelOrSerial(cursor.getString(9));
-            recordItem.setStartDate(cursor.getString(10));
-            recordItem.setEndDate(cursor.getString(11));
-            recordItem.setStatus(cursor.getString(12));
-            recordItem.setContractServicing(cursor.getString(13));
-            recordItem.setWarrantyServicing(cursor.getString(14));
-            recordItem.setCharges(cursor.getString(15));
-            recordItem.setContractRepair(cursor.getString(16));
-            recordItem.setWarrantyRepair(cursor.getString(17));
-            recordItem.setOthers(cursor.getString(18));
-            recordItem.setSignatureName(cursor.getString(19));
-            recordItem.setSignaturePath(cursor.getString(20));
-            recordItem.setTelephone(cursor.getString(21));
-            recordItem.setFax(cursor.getString(22));
-            recordItem.setTypeOfService(cursor.getString(23));
-            recordItem.setJobSite(cursor.getString(24));
-            recordItem.setCustomerName(cursor.getString(25));
+            item.setID(Integer.parseInt(cursor.getString(0)));
+            item.setServiceNumber(cursor.getString(1));
+            item.setCustomerID(cursor.getString(2));
+            item.setServiceID(cursor.getString(3));
+            item.setEngineerID(cursor.getString(4));
+            item.setPriceID(cursor.getString(5));
+            item.setComplaintsOrSymptoms(cursor.getString(6));
+            item.setActionsOrRemarks(cursor.getString(7));
+            item.setEquipmentType(cursor.getString(8));
+            item.setModelOrSerial(cursor.getString(9));
+            item.setStartDate(cursor.getString(10));
+            item.setEndDate(cursor.getString(11));
+            item.setStatus(cursor.getString(12));
+            item.setContractServicing(cursor.getString(13));
+            item.setWarrantyServicing(cursor.getString(14));
+            item.setCharges(cursor.getString(15));
+            item.setContractRepair(cursor.getString(16));
+            item.setWarrantyRepair(cursor.getString(17));
+            item.setOthers(cursor.getString(18));
+            item.setSignatureName(cursor.getString(19));
+            item.setSignaturePath(cursor.getString(20));
+            item.setTelephone(cursor.getString(21));
+            item.setFax(cursor.getString(22));
+            item.setTypeOfService(cursor.getString(23));
+            item.setJobSite(cursor.getString(24));
+            item.setCustomerName(cursor.getString(25));
         } /*else {
-            recordItem = null;
+            item = null;
         }*/
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        return recordItem;
+        return item;
     }
 
     public void removeItemWithId(int id) {
@@ -585,8 +585,8 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         Cursor cursor = getDB().rawQuery(selectQuery, null);
         boolean result;
         if (cursor.moveToFirst()) {
-            String recordItem = cursor.getString(0);
-            if ("".equals(recordItem) || recordItem == null) {
+            String item = cursor.getString(0);
+            if ("".equals(item) || item == null) {
                 result = false;
             } else {
                 result = true;

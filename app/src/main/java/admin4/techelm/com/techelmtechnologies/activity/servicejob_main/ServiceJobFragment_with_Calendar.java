@@ -44,7 +44,7 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -281,7 +281,7 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
         public void post(final int month, final int year) {
         /*web info*/
             WebServiceInfo webServiceInfo = new WebServiceInfo();
-            String url = SERVICE_JOB_UPLOAD_URL + "get_date_services_by_month";
+            String url = SERVICE_JOB_URL + "get_date_services_by_month";
             webServiceInfo.setUrl(url);
 
         /*add parameter*/
@@ -466,14 +466,14 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
         }
         private String getDetailsLink() {
             StringBuilder sb = new StringBuilder();
-            sb.append(SERVICE_JOB_UPLOAD_URL);
+            sb.append(SERVICE_JOB_URL);
             sb.append("get_date_services/" + mDate);
             return sb.toString();
         }
 
         public String getServiceJobLink() {
             StringBuilder sb = new StringBuilder();
-            sb.append(SERVICE_JOB_UPLOAD_URL);
+            sb.append(SERVICE_JOB_URL);
             sb.append("detail/" + mID);
             return sb.toString();
         }

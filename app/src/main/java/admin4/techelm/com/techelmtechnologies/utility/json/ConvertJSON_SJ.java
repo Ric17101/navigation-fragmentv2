@@ -17,10 +17,11 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
+
 public class ConvertJSON_SJ {
 
     private static final String TAG = ConvertJSON_SJ.class.getSimpleName();
-    private static final String SJ_LIST_DELIM = ":-:";
     private boolean mResult = false;
 
     public ConvertJSON_SJ() { }
@@ -103,7 +104,7 @@ public class ConvertJSON_SJ {
 
         for (String credential : parsedServiceJob) {
             ServiceJobWrapper sw = new ServiceJobWrapper();
-            String[] pieces = credential.split(SJ_LIST_DELIM);
+            String[] pieces = credential.split(LIST_DELIM);
 
             sw.setID(Integer.parseInt(pieces[0]));
             sw.setServiceNumber(pieces[1]);

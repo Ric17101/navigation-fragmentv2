@@ -39,7 +39,6 @@ import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_LIST_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 

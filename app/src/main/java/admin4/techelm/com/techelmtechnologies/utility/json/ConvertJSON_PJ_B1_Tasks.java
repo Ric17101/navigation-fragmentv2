@@ -64,7 +64,7 @@ public class ConvertJSON_PJ_B1_Tasks {
         do { // 24
             PISSTaskWrapper pw = new PISSTaskWrapper();
             pw.setID(Integer.parseInt(jsonArray.getJSONObject(i).getString("id")));
-            pw.setProjectPISSID(jsonArray.getJSONObject(i).getString("projectjob_piss_id"));
+            pw.setProjectID(jsonArray.getJSONObject(i).getInt("projectjob_id"));
             pw.setSerialNo(jsonArray.getJSONObject(i).getString("serial_no"));
             pw.setDescription(jsonArray.getJSONObject(i).getString("description"));
             pw.setConformance(jsonArray.getJSONObject(i).getString("conformance"));
@@ -102,7 +102,7 @@ public class ConvertJSON_PJ_B1_Tasks {
             String[] pieces = credential.split(LIST_DELIM);
 
             sw.setID(Integer.parseInt(pieces[0]));
-            sw.setProjectPISSID(pieces[1]);
+            sw.setProjectID(Integer.parseInt(pieces[1]));
             sw.setSerialNo(pieces[2]);
             sw.setDescription(pieces[3]);
             sw.setConformance(pieces[4]);

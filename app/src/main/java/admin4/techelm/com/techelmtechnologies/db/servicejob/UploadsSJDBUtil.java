@@ -76,14 +76,14 @@ public class UploadsSJDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobUploadsWrapper recordItem = new ServiceJobUploadsWrapper();
-                recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
-                recordItem.setUploadName(cursor.getString(2));
-                recordItem.setFilePath(cursor.getString(3));
-                recordItem.setTaken(cursor.getString(4));
-                if (FileUtility.isFileExist(recordItem.getFilePath() + "/" + recordItem.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
-                    list.add(recordItem);
+                ServiceJobUploadsWrapper item = new ServiceJobUploadsWrapper();
+                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setServiceId(Integer.parseInt(cursor.getString(1)));
+                item.setUploadName(cursor.getString(2));
+                item.setFilePath(cursor.getString(3));
+                item.setTaken(cursor.getString(4));
+                if (FileUtility.isFileExist(item.getFilePath() + "/" + item.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(item);
                 }
             } while (cursor.moveToNext());
         }
@@ -98,20 +98,20 @@ public class UploadsSJDBUtil extends DatabaseAccess {
     public List<ServiceJobUploadsWrapper> getAllUploadsBySJID_ByTaken(int id, String taken) {
         ArrayList<ServiceJobUploadsWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
-                + " WHERE servicejob_id=" + id
+                + " WHERE "+ DBHelperItem.COLUMN_NAME_UPLOADS_SERVICE_ID +"=" + id
                 + " AND taken='" + taken + "'";
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobUploadsWrapper recordItem = new ServiceJobUploadsWrapper();
-                recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
-                recordItem.setUploadName(cursor.getString(2));
-                recordItem.setFilePath(cursor.getString(3));
-                recordItem.setTaken(cursor.getString(4));
-                if (FileUtility.isFileExist(recordItem.getFilePath() + "/" + recordItem.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
-                    list.add(recordItem);
+                ServiceJobUploadsWrapper item = new ServiceJobUploadsWrapper();
+                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setServiceId(Integer.parseInt(cursor.getString(1)));
+                item.setUploadName(cursor.getString(2));
+                item.setFilePath(cursor.getString(3));
+                item.setTaken(cursor.getString(4));
+                if (FileUtility.isFileExist(item.getFilePath() + "/" + item.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(item);
                 }
             } while (cursor.moveToNext());
         }
@@ -126,19 +126,19 @@ public class UploadsSJDBUtil extends DatabaseAccess {
     public List<ServiceJobUploadsWrapper> getAllUploadsBySJID(int id) {
         ArrayList<ServiceJobUploadsWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
-                + " WHERE servicejob_id=" + id;
+                + " WHERE "+ DBHelperItem.COLUMN_NAME_UPLOADS_SERVICE_ID +"=" + id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobUploadsWrapper recordItem = new ServiceJobUploadsWrapper();
-                recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
-                recordItem.setUploadName(cursor.getString(2));
-                recordItem.setFilePath(cursor.getString(3));
-                recordItem.setTaken(cursor.getString(4));
-                if (FileUtility.isFileExist(recordItem.getFilePath() + "/" + recordItem.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
-                    list.add(recordItem);
+                ServiceJobUploadsWrapper item = new ServiceJobUploadsWrapper();
+                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setServiceId(Integer.parseInt(cursor.getString(1)));
+                item.setUploadName(cursor.getString(2));
+                item.setFilePath(cursor.getString(3));
+                item.setTaken(cursor.getString(4));
+                if (FileUtility.isFileExist(item.getFilePath() + "/" + item.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                    list.add(item);
                 }
             } while (cursor.moveToNext());
         }
@@ -153,21 +153,21 @@ public class UploadsSJDBUtil extends DatabaseAccess {
     public ServiceJobUploadsWrapper getItemAt(int position) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        ServiceJobUploadsWrapper recordItem = new ServiceJobUploadsWrapper();
+        ServiceJobUploadsWrapper item = new ServiceJobUploadsWrapper();
         if (cursor.moveToPosition(position)) {
-            recordItem.setId(Integer.parseInt(cursor.getString(0)));
-            recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
-            recordItem.setUploadName(cursor.getString(2));
-            recordItem.setFilePath(cursor.getString(3));
-            recordItem.setTaken(cursor.getString(4));
+            item.setId(Integer.parseInt(cursor.getString(0)));
+            item.setServiceId(Integer.parseInt(cursor.getString(1)));
+            item.setUploadName(cursor.getString(2));
+            item.setFilePath(cursor.getString(3));
+            item.setTaken(cursor.getString(4));
         } else {
-            recordItem = null;
+            item = null;
         }
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        return recordItem;
+        return item;
     }
 
     public void removeItemWithId(int id) {
@@ -241,7 +241,7 @@ public class UploadsSJDBUtil extends DatabaseAccess {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE "+ DBHelperItem.COLUMN_NAME_UPLOADS_SERVICE_ID + "=" + servicejob_id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        // String recordItem = cursor.getString(1);
+        // String item = cursor.getString(1);
         boolean result;
         if (cursor.moveToFirst()) {
             result = true;

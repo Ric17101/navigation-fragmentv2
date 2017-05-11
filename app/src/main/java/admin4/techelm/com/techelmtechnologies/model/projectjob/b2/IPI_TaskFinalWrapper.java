@@ -54,7 +54,7 @@ public class IPI_TaskFinalWrapper implements Parcelable {
          {...}
      */
     private int _id;
-    private String _projectjob_ipi_pw_id;
+    private int _projectjob_id;
     private String _serial_no;
     private String _car_no;
     private String _description;
@@ -69,7 +69,7 @@ public class IPI_TaskFinalWrapper implements Parcelable {
 
     protected IPI_TaskFinalWrapper(Parcel in) {
         _id = in.readInt();
-        _projectjob_ipi_pw_id = in.readString();
+        _projectjob_id = in.readInt();
         _serial_no = in.readString();
         _car_no = in.readString();
         _description = in.readString();
@@ -83,7 +83,7 @@ public class IPI_TaskFinalWrapper implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(_id);
-        dest.writeString(_projectjob_ipi_pw_id);
+        dest.writeInt(_projectjob_id);
         dest.writeString(_serial_no);
         dest.writeString(_car_no);
         dest.writeString(_description);
@@ -101,7 +101,7 @@ public class IPI_TaskFinalWrapper implements Parcelable {
 
     public String toString() {
         return "\nID : " + this._id +
-            "\n_projectjob_ipi_pw_id : " + this._projectjob_ipi_pw_id +
+            "\n_projectjob_id : " + this._projectjob_id +
             "\n_serial_no : " + this._serial_no +
             "\n_car_no : " + this._car_no +
             "\n_description : " + this._description +
@@ -124,12 +124,10 @@ public class IPI_TaskFinalWrapper implements Parcelable {
         this._id = id;
     }
 
-    public String getProjectJobIPI_PWID() {
-        return this._projectjob_ipi_pw_id;
+    public int getProjectJob_ID() {
+        return this._projectjob_id;
     }
-    public void setProjectJobIPI_PWID(String structure) {
-        this._projectjob_ipi_pw_id = structure;
-    }
+    public void setProjectJob_ID(int id) { this._projectjob_id = id; }
 
     public String getSerialNo() {
         return this._serial_no;

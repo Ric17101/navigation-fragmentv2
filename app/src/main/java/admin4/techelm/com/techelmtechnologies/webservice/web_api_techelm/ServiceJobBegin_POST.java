@@ -16,7 +16,6 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_J
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SAVE_CONTINUE_START_DATE_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SAVE_REVERT_STATUS_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SAVE_START_DATE_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 
 /**
  * Created by admin 4 on 17/03/2017.

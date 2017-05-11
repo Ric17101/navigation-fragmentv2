@@ -87,14 +87,14 @@ public class PartsSJDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobNewPartsWrapper recordItem = new ServiceJobNewPartsWrapper();
-                recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
-                recordItem.setReplacementPartName(cursor.getString(2));
-                recordItem.setQuantity(cursor.getString(3));
-                recordItem.setUnitPrice(cursor.getString(4));
-                recordItem.setTotalPrice(cursor.getString(5));
-                list.add(recordItem);
+                ServiceJobNewPartsWrapper item = new ServiceJobNewPartsWrapper();
+                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setServiceId(Integer.parseInt(cursor.getString(1)));
+                item.setReplacementPartName(cursor.getString(2));
+                item.setQuantity(cursor.getString(3));
+                item.setUnitPrice(cursor.getString(4));
+                item.setTotalPrice(cursor.getString(5));
+                list.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -112,14 +112,14 @@ public class PartsSJDBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                ServiceJobNewPartsWrapper recordItem = new ServiceJobNewPartsWrapper();
-                recordItem.setId(Integer.parseInt(cursor.getString(0)));
-                recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
-                recordItem.setReplacementPartName(cursor.getString(2));
-                recordItem.setQuantity(cursor.getString(3));
-                recordItem.setUnitPrice(cursor.getString(4));
-                recordItem.setTotalPrice(cursor.getString(5));
-                list.add(recordItem);
+                ServiceJobNewPartsWrapper item = new ServiceJobNewPartsWrapper();
+                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setServiceId(Integer.parseInt(cursor.getString(1)));
+                item.setReplacementPartName(cursor.getString(2));
+                item.setQuantity(cursor.getString(3));
+                item.setUnitPrice(cursor.getString(4));
+                item.setTotalPrice(cursor.getString(5));
+                list.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -150,22 +150,22 @@ public class PartsSJDBUtil extends DatabaseAccess {
     public ServiceJobNewPartsWrapper getItemAt(int position) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        ServiceJobNewPartsWrapper recordItem = new ServiceJobNewPartsWrapper();
+        ServiceJobNewPartsWrapper item = new ServiceJobNewPartsWrapper();
         if (cursor.moveToPosition(position)) {
-            recordItem.setId(Integer.parseInt(cursor.getString(0)));
-            recordItem.setServiceId(Integer.parseInt(cursor.getString(1)));
-            recordItem.setReplacementPartName(cursor.getString(2));
-            recordItem.setQuantity(cursor.getString(3));
-            recordItem.setUnitPrice(cursor.getString(4));
-            recordItem.setTotalPrice(cursor.getString(5));
+            item.setId(Integer.parseInt(cursor.getString(0)));
+            item.setServiceId(Integer.parseInt(cursor.getString(1)));
+            item.setReplacementPartName(cursor.getString(2));
+            item.setQuantity(cursor.getString(3));
+            item.setUnitPrice(cursor.getString(4));
+            item.setTotalPrice(cursor.getString(5));
         } else {
-            recordItem = null;
+            item = null;
         }
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        return recordItem;
+        return item;
     }
 
     public void removeItemWithId(int id) {

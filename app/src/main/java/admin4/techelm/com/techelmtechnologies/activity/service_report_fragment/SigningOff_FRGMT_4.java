@@ -50,10 +50,10 @@ import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobJSON_POST;
-import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobUploadFile_VolleyPOST;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 
 public class SigningOff_FRGMT_4 extends Fragment {
 
@@ -311,14 +311,14 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
     /*********** A. SERVICE DETAILS ***********/
     public void fromActivity_onNewSJEntryAdded(String serviceNum) {
-        System.out.print("onNewIPI_PWDEntryAdded: Called");
+        System.out.print("onNewIPI_DEntryAdded: Called");
         setTextViewTotalPrice();
     }
     public void fromActivity_onSJEntryRenamed(String fileName) {
-        System.out.print("onIPI_PWDEntryUpdated: Called");
+        System.out.print("onIPI_DEntryUpdated: Called");
     }
     public void fromActivity_onSJEntryDeleted() {
-        System.out.print("onIPI_PWDEntryDeleted: Called");
+        System.out.print("onIPI_DEntryDeleted: Called");
     }
 
     /*********** A. END SERVICE DETAILS ***********/
@@ -720,7 +720,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
         if (mUploadResults != null && hasUploads) {
             Log.e(TAG, mUploadResults.toString());
 
-            ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST();
+            UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
             int counter = 1;
             for (ServiceJobUploadsWrapper sjuw : mUploadResults) {
                 Log.e(TAG, "2" + sjuw.toString());
@@ -730,12 +730,12 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 if (signatureFile != null) { // TODO: Test this, if file is null
                     if (signatureFile.canRead()) { // File exists on the Directory
                         post.setContext(this.mContext)
-                                .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_capture")
+                                .setLink(SERVICE_JOB_URL + "servicejob_upload_capture")
                                 .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter + "")
                                 .addMultipleParam("taken", sjuw.getTaken(), counter + "")
                                 .addParam("count", mUploadResults.size() + "")
                                 .addParam("servicejob_id", sjuw.getServiceId() + "")
-                                .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+                                .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
                                     @Override
                                     public void onError(String msg, int success) {
                                         Log.e(TAG, "Message " + msg + " Error:" + success);
@@ -792,7 +792,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         if (mRecordResults != null && hasRecordings) { // Data has been read
             //Log.e(TAG, mRecordResults.toString());
-            ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST();
+            UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
             int counter = 1;
             for (ServiceJobRecordingWrapper sjrw : mRecordResults) {
                 Log.e(TAG, "2" + sjrw.toString());
@@ -800,12 +800,12 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 if (recordingFile != null) { // TODO: Test this, if file is null
                     if (recordingFile.canRead()) {
                         post.setContext(this.mContext)
-                                .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_recording")
+                                .setLink(SERVICE_JOB_URL + "servicejob_upload_recording")
                                 .addMultipleFile(recordingFile, sjrw.getRecordingName(), "audio/mpeg", counter + "")
                                 .addMultipleParam("taken", sjrw.getTaken(), counter + "")
                                 .addParam("count", mRecordResults.size() + "")
                                 .addParam("servicejob_id", sjrw.getServiceId() + "")
-                                .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+                                .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
                                     @Override
                                     public void onError(String msg, int success) {
                                         Log.e(TAG, "Message " + msg + " Error:" + success);
@@ -855,7 +855,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
      * @param name
      */
     private void uploadSignature(int serviceJobId, String path, String name) {
-        ServiceJobUploadFile_VolleyPOST post = new ServiceJobUploadFile_VolleyPOST();
+        UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
 
         // Prepare and get Data Parameter from SQLiteDB
         mSJDB = new ServiceJobDBUtil(getActivity());
@@ -891,13 +891,13 @@ public class SigningOff_FRGMT_4 extends Fragment {
         }
     }
     // CAlled by uploadRecordings() only
-    private ServiceJobUploadFile_VolleyPOST setDataSignatureVolley(ServiceJobUploadFile_VolleyPOST post, ServiceJobWrapper sjw, int serviceJobId) {
+    private UploadFile_VolleyPOST setDataSignatureVolley(UploadFile_VolleyPOST post, ServiceJobWrapper sjw, int serviceJobId) {
         post.setContext(this.mContext)
-            .setLink(SERVICE_JOB_UPLOAD_URL + "servicejob_upload_signature")
+            .setLink(SERVICE_JOB_URL + "servicejob_upload_signature")
             .addParam("servicejob_id", serviceJobId+"")
             .addParam("remarks_before", sjw.getBeforeRemarks())
             .addParam("remarks_after", sjw.getAfterRemarks())
-            .setOnEventListener(new ServiceJobUploadFile_VolleyPOST.OnEventListener() {
+            .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
                 @Override
                 public void onError(String msg, int success) {
                     Log.e(TAG, "Message " + msg + " Error:" + success);

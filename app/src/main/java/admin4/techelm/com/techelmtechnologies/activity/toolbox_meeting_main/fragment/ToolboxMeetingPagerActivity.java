@@ -18,6 +18,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -80,6 +82,9 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setFullScreenMode();
+
         setContentView(R.layout.activity_toolbox_meeting_list);
 
         fromBundle();
@@ -113,6 +118,12 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
         mFragmentTransaction.replace(R.id.containerView, mPagerAdapter).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
         this.mViewPager = mPagerAdapter.getViewPager();
+    }
+
+    public void setFullScreenMode() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     private void setViewPagerTitleBar() {

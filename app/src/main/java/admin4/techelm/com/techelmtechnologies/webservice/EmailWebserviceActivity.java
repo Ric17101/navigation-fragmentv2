@@ -13,7 +13,7 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 
 public class EmailWebserviceActivity extends AppCompatActivity {
     /*sample api credit to https://github.com/typicode/jsonplaceholder#how-to*/
@@ -39,7 +39,7 @@ public class EmailWebserviceActivity extends AppCompatActivity {
     public void post(View v) {
         /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        String url = SERVICE_JOB_UPLOAD_URL + "send_email";
+        String url = SERVICE_JOB_URL + "send_email";
         webServiceInfo.setUrl(url);
         /*add parameter*/
         webServiceInfo.addParam("title", "sample title");

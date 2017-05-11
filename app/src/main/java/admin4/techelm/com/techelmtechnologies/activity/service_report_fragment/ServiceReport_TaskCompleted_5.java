@@ -7,6 +7,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.thefinestartist.finestwebview.FinestWebView;
@@ -29,6 +31,9 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setFullScreenMode();
+
         setContentView(R.layout.activity_service_report__task_completed);
 
         // setBackGroundLayout();
@@ -63,6 +68,12 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
     private ServiceJobWrapper fromBundle() {
         Intent intent = getIntent();
         return this.mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(SERVICE_JOB_SERVICE_KEY);
+    }
+
+    public void setFullScreenMode() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     /**

@@ -66,7 +66,7 @@ public class ConvertJSON_PJ_B2_IPIFinalTasks {
         do { // 10
             IPI_TaskFinalWrapper pw = new IPI_TaskFinalWrapper();
             pw.setID(Integer.parseInt(jsonArray.getJSONObject(i).getString("id")));
-            pw.setProjectJobIPI_PWID(jsonArray.getJSONObject(i).getString("projectjob_ipi_pw_id"));
+            pw.setProjectJob_ID(jsonArray.getJSONObject(i).getInt("projectjob_id"));
             pw.setSerialNo(jsonArray.getJSONObject(i).getString("serial_no"));
             pw.setCarNo(jsonArray.getJSONObject(i).getString("car_no"));
             pw.setDescription(jsonArray.getJSONObject(i).getString("description"));
@@ -103,7 +103,7 @@ public class ConvertJSON_PJ_B2_IPIFinalTasks {
             String[] pieces = credential.split(LIST_DELIM);
 
             sw.setID(Integer.parseInt(pieces[0]));
-            sw.setProjectJobIPI_PWID(pieces[1]);
+            sw.setProjectJob_ID(Integer.parseInt(pieces[1]));
             sw.setSerialNo(pieces[2]);
             sw.setCarNo(pieces[3]);
             sw.setDescription(pieces[4]);

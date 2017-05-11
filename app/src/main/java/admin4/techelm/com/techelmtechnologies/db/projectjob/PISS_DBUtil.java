@@ -23,6 +23,7 @@ public class PISS_DBUtil extends DatabaseAccess {
 
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "projectjob_piss";
+
         public static final String COLUMN_NAME_PJ_ID = "id";
         public static final String COLUMN_NAME_PJ_SERVICE_NO = "projectjob_id";
         public static final String COLUMN_NAME_PJ_CUSTOMER_ID = "car_park_code";
@@ -137,21 +138,21 @@ public class PISS_DBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                PISSWrapper recordItem = new PISSWrapper();
-                recordItem.setID(Integer.parseInt(cursor.getString(0)));
-                recordItem.setProjectJobID(cursor.getString(1));
-                recordItem.setCarParkCode(cursor.getString(2));
-                recordItem.setPropertyOfficer(cursor.getString(3));
-                recordItem.setTCLew(cursor.getString(4));
-                recordItem.setPropertyOfficerTelNo(cursor.getString(5));
-                recordItem.setPropertyOfficerMobileNo(cursor.getString(6));
-                recordItem.setPropertyOfficerBranch(cursor.getString(7));
-                recordItem.setTCLewTelNo(cursor.getString(8));
-                recordItem.setTCLewMobileNo(cursor.getString(9));
-                recordItem.setTCLewEmail(cursor.getString(10));
-                recordItem.setRemarks(cursor.getString(11));
-                recordItem.setDateSiteWalk(cursor.getString(12));
-                list.add(recordItem);
+                PISSWrapper item = new PISSWrapper();
+                item.setID(Integer.parseInt(cursor.getString(0)));
+                item.setProjectJobID(cursor.getString(1));
+                item.setCarParkCode(cursor.getString(2));
+                item.setPropertyOfficer(cursor.getString(3));
+                item.setTCLew(cursor.getString(4));
+                item.setPropertyOfficerTelNo(cursor.getString(5));
+                item.setPropertyOfficerMobileNo(cursor.getString(6));
+                item.setPropertyOfficerBranch(cursor.getString(7));
+                item.setTCLewTelNo(cursor.getString(8));
+                item.setTCLewMobileNo(cursor.getString(9));
+                item.setTCLewEmail(cursor.getString(10));
+                item.setRemarks(cursor.getString(11));
+                item.setDateSiteWalk(cursor.getString(12));
+                list.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -184,21 +185,21 @@ public class PISS_DBUtil extends DatabaseAccess {
 
         if (cursor.moveToFirst()) {
             do {
-                PISSWrapper recordItem = new PISSWrapper();
-                recordItem.setID(Integer.parseInt(cursor.getString(0)));
-                recordItem.setProjectJobID(cursor.getString(1));
-                recordItem.setCarParkCode(cursor.getString(2));
-                recordItem.setPropertyOfficer(cursor.getString(3));
-                recordItem.setTCLew(cursor.getString(4));
-                recordItem.setPropertyOfficerTelNo(cursor.getString(5));
-                recordItem.setPropertyOfficerMobileNo(cursor.getString(6));
-                recordItem.setPropertyOfficerBranch(cursor.getString(7));
-                recordItem.setTCLewTelNo(cursor.getString(8));
-                recordItem.setTCLewMobileNo(cursor.getString(9));
-                recordItem.setTCLewEmail(cursor.getString(10));
-                recordItem.setRemarks(cursor.getString(11));
-                recordItem.setDateSiteWalk(cursor.getString(12));
-                list.add(recordItem);
+                PISSWrapper item = new PISSWrapper();
+                item.setID(Integer.parseInt(cursor.getString(0)));
+                item.setProjectJobID(cursor.getString(1));
+                item.setCarParkCode(cursor.getString(2));
+                item.setPropertyOfficer(cursor.getString(3));
+                item.setTCLew(cursor.getString(4));
+                item.setPropertyOfficerTelNo(cursor.getString(5));
+                item.setPropertyOfficerMobileNo(cursor.getString(6));
+                item.setPropertyOfficerBranch(cursor.getString(7));
+                item.setTCLewTelNo(cursor.getString(8));
+                item.setTCLewMobileNo(cursor.getString(9));
+                item.setTCLewEmail(cursor.getString(10));
+                item.setRemarks(cursor.getString(11));
+                item.setDateSiteWalk(cursor.getString(12));
+                list.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -214,28 +215,28 @@ public class PISS_DBUtil extends DatabaseAccess {
                 + " WHERE " + DBHelperItem.COLUMN_NAME_PJ_ID + "=" +serviceJobID;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
-        PISSWrapper recordItem = new PISSWrapper();
+        PISSWrapper item = new PISSWrapper();
         if (cursor.moveToFirst()) {
-            recordItem.setID(Integer.parseInt(cursor.getString(0)));
-            recordItem.setProjectJobID(cursor.getString(1));
-            recordItem.setCarParkCode(cursor.getString(2));
-            recordItem.setPropertyOfficer(cursor.getString(3));
-            recordItem.setTCLew(cursor.getString(4));
-            recordItem.setPropertyOfficerTelNo(cursor.getString(5));
-            recordItem.setPropertyOfficerMobileNo(cursor.getString(6));
-            recordItem.setPropertyOfficerBranch(cursor.getString(7));
-            recordItem.setTCLewTelNo(cursor.getString(8));
-            recordItem.setTCLewMobileNo(cursor.getString(9));
-            recordItem.setTCLewEmail(cursor.getString(10));
-            recordItem.setRemarks(cursor.getString(11));
-            recordItem.setDateSiteWalk(cursor.getString(12));
+            item.setID(Integer.parseInt(cursor.getString(0)));
+            item.setProjectJobID(cursor.getString(1));
+            item.setCarParkCode(cursor.getString(2));
+            item.setPropertyOfficer(cursor.getString(3));
+            item.setTCLew(cursor.getString(4));
+            item.setPropertyOfficerTelNo(cursor.getString(5));
+            item.setPropertyOfficerMobileNo(cursor.getString(6));
+            item.setPropertyOfficerBranch(cursor.getString(7));
+            item.setTCLewTelNo(cursor.getString(8));
+            item.setTCLewMobileNo(cursor.getString(9));
+            item.setTCLewEmail(cursor.getString(10));
+            item.setRemarks(cursor.getString(11));
+            item.setDateSiteWalk(cursor.getString(12));
         }
-        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + recordItem.toString());
+        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        return recordItem;
+        return item;
     }
 
     /**
@@ -282,34 +283,34 @@ public class PISS_DBUtil extends DatabaseAccess {
         Log.e(LOG_TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
 
         if (mOnDatabaseChangedListener != null) {
-            // mOnDatabaseChangedListener.onIPI_PWDEntryUpdated(item.getServiceNumber());
+            // mOnDatabaseChangedListener.onIPI_DEntryUpdated(item.getServiceNumber());
         }
     }
 
     public PISSWrapper getItemAt(int position) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        PISSWrapper recordItem = new PISSWrapper();
+        PISSWrapper item = new PISSWrapper();
         if (cursor.moveToPosition(position)) {
-            recordItem.setID(Integer.parseInt(cursor.getString(0)));
-            recordItem.setProjectJobID(cursor.getString(1));
-            recordItem.setCarParkCode(cursor.getString(2));
-            recordItem.setPropertyOfficer(cursor.getString(3));
-            recordItem.setTCLew(cursor.getString(4));
-            recordItem.setPropertyOfficerTelNo(cursor.getString(5));
-            recordItem.setPropertyOfficerMobileNo(cursor.getString(6));
-            recordItem.setPropertyOfficerBranch(cursor.getString(7));
-            recordItem.setTCLewTelNo(cursor.getString(8));
-            recordItem.setTCLewMobileNo(cursor.getString(9));
-            recordItem.setTCLewEmail(cursor.getString(10));
-            recordItem.setRemarks(cursor.getString(11));
-            recordItem.setDateSiteWalk(cursor.getString(12));
+            item.setID(Integer.parseInt(cursor.getString(0)));
+            item.setProjectJobID(cursor.getString(1));
+            item.setCarParkCode(cursor.getString(2));
+            item.setPropertyOfficer(cursor.getString(3));
+            item.setTCLew(cursor.getString(4));
+            item.setPropertyOfficerTelNo(cursor.getString(5));
+            item.setPropertyOfficerMobileNo(cursor.getString(6));
+            item.setPropertyOfficerBranch(cursor.getString(7));
+            item.setTCLewTelNo(cursor.getString(8));
+            item.setTCLewMobileNo(cursor.getString(9));
+            item.setTCLewEmail(cursor.getString(10));
+            item.setRemarks(cursor.getString(11));
+            item.setDateSiteWalk(cursor.getString(12));
         }
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        return recordItem;
+        return item;
     }
 
     public void removeItemWithId(int id) {
@@ -383,8 +384,8 @@ public class PISS_DBUtil extends DatabaseAccess {
         Cursor cursor = getDB().rawQuery(selectQuery, null);
         boolean result;
         if (cursor.moveToFirst()) {
-            String recordItem = cursor.getString(0);
-            if ("".equals(recordItem) || recordItem == null) {
+            String item = cursor.getString(0);
+            if ("".equals(item) || item == null) {
                 result = false;
             } else {
                 result = true;

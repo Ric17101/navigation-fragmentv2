@@ -37,20 +37,20 @@ public class CalendarSJDBUtil extends DatabaseAccess {
         ArrayList<WorkCalendarWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_WORK;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        WorkCalendarWrapper user = new WorkCalendarWrapper();
+        WorkCalendarWrapper item = new WorkCalendarWrapper();
 
         if (cursor.moveToFirst()) {
             do {
-                user.setID(Integer.parseInt(cursor.getString(0)));
-                user.settServiceNo(cursor.getString(1));
-                user.setCustomerID(cursor.getInt(2));
-                user.setServiceID(cursor.getInt(3));
-                user.setCarCode(cursor.getString(4));
-                user.setEngineerID(cursor.getInt(5));
-                user.setStartDate(cursor.getString(6));
-                user.setEndDate(cursor.getString(7));
-                user.setStatus(cursor.getInt(8));
-                list.add(user);
+                item.setID(Integer.parseInt(cursor.getString(0)));
+                item.settServiceNo(cursor.getString(1));
+                item.setCustomerID(cursor.getInt(2));
+                item.setServiceID(cursor.getInt(3));
+                item.setCarCode(cursor.getString(4));
+                item.setEngineerID(cursor.getInt(5));
+                item.setStartDate(cursor.getString(6));
+                item.setEndDate(cursor.getString(7));
+                item.setStatus(cursor.getInt(8));
+                list.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -70,21 +70,21 @@ public class CalendarSJDBUtil extends DatabaseAccess {
         ArrayList<ServiceWrapper> userList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_SERVICE;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
-        ServiceWrapper user = new ServiceWrapper();
+        ServiceWrapper item = new ServiceWrapper();
 
         if (cursor.moveToFirst()) {
             do {
-                user.setID(Integer.parseInt(cursor.getString(0)));
-                user.setCategoryID(cursor.getInt(1));
-                user.setServiceNanem(cursor.getString(2));
-                user.setDescription(cursor.getString(3));
-                user.setDefaultUnitPrice(cursor.getString(4));
-                user.setStatus(cursor.getInt(5));
-                user.setCreatedAt(cursor.getString(6));
-                user.setCreatedBy(cursor.getInt(7));
-                user.setUpdatedAt(cursor.getString(8));
-                user.setUpdatedBy(cursor.getInt(9));
-                userList.add(user);
+                item.setID(Integer.parseInt(cursor.getString(0)));
+                item.setCategoryID(cursor.getInt(1));
+                item.setServiceNanem(cursor.getString(2));
+                item.setDescription(cursor.getString(3));
+                item.setDefaultUnitPrice(cursor.getString(4));
+                item.setStatus(cursor.getInt(5));
+                item.setCreatedAt(cursor.getString(6));
+                item.setCreatedBy(cursor.getInt(7));
+                item.setUpdatedAt(cursor.getString(8));
+                item.setUpdatedBy(cursor.getInt(9));
+                userList.add(item);
             } while (cursor.moveToNext());
         }
 
@@ -105,15 +105,15 @@ public class CalendarSJDBUtil extends DatabaseAccess {
         ArrayList<ServiceJobWrapper> translationList = new ArrayList<>();
         int x = 0;
         do {
-            ServiceJobWrapper alpha = new ServiceJobWrapper();
-            alpha.setID(Integer.parseInt(x + ""));
-            alpha.setEndDate(x + "");
-            alpha.setStartDate("TestDate" + x);
-            alpha.setServiceNumber("00" + x);
-            alpha.setCustomerID("Customer" + x);
-            alpha.setEngineerID("Engineer" + x);
-            alpha.setStatus((x % 2 == 1) ? "Pending" : "Completed");
-            translationList.add(alpha);
+            ServiceJobWrapper item = new ServiceJobWrapper();
+            item.setID(Integer.parseInt(x + ""));
+            item.setEndDate(x + "");
+            item.setStartDate("TestDate" + x);
+            item.setServiceNumber("00" + x);
+            item.setCustomerID("Customer" + x);
+            item.setEngineerID("Engineer" + x);
+            item.setStatus((x % 2 == 1) ? "Pending" : "Completed");
+            translationList.add(item);
             x++;
         } while (x != 10);
         return translationList;

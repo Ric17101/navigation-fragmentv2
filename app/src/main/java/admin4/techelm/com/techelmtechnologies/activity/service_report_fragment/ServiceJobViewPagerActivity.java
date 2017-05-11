@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -72,6 +74,9 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setFullScreenMode();
+
         setContentView(R.layout.activity_pager_sliding_tab);
 
         setBackGroundLayout();
@@ -92,6 +97,12 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         PermissionUtil.verrifyWriteStoragePermissions(this);
         PermissionUtil.verrifyCameraPermissions(this);
         PermissionUtil.verrifyRecordAudioPermissions(this);
+    }
+
+    public void setFullScreenMode() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override

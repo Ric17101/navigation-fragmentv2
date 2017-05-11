@@ -17,6 +17,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -85,6 +87,9 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setFullScreenMode();
+
         setContentView(R.layout.activity_main);
 
         setBackGroundLayout();
@@ -101,6 +106,12 @@ public class MainActivity extends FragmentActivity implements
         });
 
         this.mProjectJobFormSelectorDialog = initNewPartDialog();
+    }
+
+    public void setFullScreenMode() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     /**

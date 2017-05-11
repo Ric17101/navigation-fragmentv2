@@ -44,6 +44,7 @@ public class ImageUtility {
 
     private String directoryName = "images";
     private String fileName = "image.png";
+    private File mImageFile;
     private Context mContext;
     private boolean external = false;
 
@@ -55,6 +56,8 @@ public class ImageUtility {
         this.fileName = fileName;
         return this;
     }
+
+    public String getFileName() { return this.fileName; }
 
     public ImageUtility setExternal(boolean external) {
         this.external = external;
@@ -80,6 +83,7 @@ public class ImageUtility {
         try {
             fileOutputStream = new FileOutputStream(createFile());
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            this.mImageFile = createFile();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,6 +99,12 @@ public class ImageUtility {
         return false;
     }
 
+    /**
+     * Test if Phone Has Mem Card
+     * @return
+     *  TRUE - has mem card
+     *  FALSE - none
+     */
     private boolean hasMemoryCard() {
         return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
     }
@@ -133,6 +143,15 @@ public class ImageUtility {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
+    }
+
+    /**
+     * Load the Filebeing captured
+     * TODO: This should be saved on the DB then load as File from DBQuery
+     * @return
+     */
+    public File loadImageFile() {
+        return ((this.mImageFile == null) ? null : this.mImageFile);
     }
 
     public Bitmap load() {

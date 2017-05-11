@@ -34,9 +34,9 @@ public class PISSTaskWrapper implements Parcelable {
         }
     };
 
-    //private variables 7
+    //private variables 9
     private int _id;
-    private String _projectjob_piss_id;
+    private int _projectjob_id;
     private String _serial_no;
     private String _description;
     private String _conformance;
@@ -50,7 +50,7 @@ public class PISSTaskWrapper implements Parcelable {
 
     protected PISSTaskWrapper(Parcel in) {
         _id = in.readInt();
-        _projectjob_piss_id = in.readString();
+        _projectjob_id = in.readInt();
         _serial_no = in.readString();
         _description = in.readString();
         _conformance = in.readString();
@@ -63,7 +63,7 @@ public class PISSTaskWrapper implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(_id);
-        dest.writeString(_projectjob_piss_id);
+        dest.writeInt(_projectjob_id);
         dest.writeString(_serial_no);
         dest.writeString(_description);
         dest.writeString(_conformance);
@@ -80,7 +80,7 @@ public class PISSTaskWrapper implements Parcelable {
 
     public String toString() {
         return "\nID : " + this._id +
-                "\n_projectjob_piss_id : " + this._projectjob_piss_id +
+                "\n_projectjob_id : " + this._projectjob_id +
                 "\n_serial_no : " + this._serial_no +
                 "\n_description : " + this._description +
                 "\n_conformance : " + this._conformance +
@@ -102,12 +102,8 @@ public class PISSTaskWrapper implements Parcelable {
         this._id = id;
     }
 
-    public String getProjectPISSID() {
-        return this._projectjob_piss_id;
-    }
-    public void setProjectPISSID(String structure) {
-        this._projectjob_piss_id = structure;
-    }
+    public int getProjectID() { return this._projectjob_id; }
+    public void setProjectID(int val) { this._projectjob_id = val; }
 
     public String getSerialNo() { return this._serial_no; }
     public void setSerialNo(String val) { this._serial_no = val; }
@@ -148,8 +144,6 @@ public class PISSTaskWrapper implements Parcelable {
     public String getDrawingAfter() {
         return this._drawing_after;
     }
-    public void setDrawingAfter(String val) {
-        this._drawing_after = val;
-    }
+    public void setDrawingAfter(String val) { this._drawing_after = val; }
 
 }

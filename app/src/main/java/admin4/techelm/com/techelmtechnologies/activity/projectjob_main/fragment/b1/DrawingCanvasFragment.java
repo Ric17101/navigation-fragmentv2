@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,14 +27,19 @@ import android.widget.LinearLayout;
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
+import java.io.File;
+
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.drawing.CanvasView;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 
 /**
  * Created by Ratan on 7/29/2015.
@@ -40,6 +47,8 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 public class DrawingCanvasFragment extends Fragment implements
         View.OnClickListener
     {
+
+    private static final String TAG = DrawingCanvasFragment.class.getSimpleName();
     // Sampler
     private static final String IMAGE_URL = "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/downloadables/drawing_test2.jpg";
 
@@ -120,10 +129,12 @@ public class DrawingCanvasFragment extends Fragment implements
     }
 
     private void downloadImage(View view) {
-        /*UILDownloader downloader = new UILDownloader(getActivity());
+        /*
+        UILDownloader downloader = new UILDownloader(getActivity());
         downloader.setImageFrom(IMAGE_URL);
         downloader.setImageView(mockImageView);
-        downloader.start();*/
+        downloader.start();
+        */
         mGestureView = (GestureView) view.findViewById(R.id.gestureView);
         mockImageView = (ImageView) view.findViewById(R.id.mockImageView);
         //((ProjectJobViewPagerActivity) getActivity()).downloadImageFromURL(DrawingCanvasFragment.this, IMAGE_URL, mockImageView);
@@ -275,14 +286,19 @@ public class DrawingCanvasFragment extends Fragment implements
         image = new ImageUtility(getActivity());
         image.setExternal(false);
         image.setDirectoryName("DRAWING");
+        image.setFileName(String.format("DRAWING_PISS_TASK_%d.jpg", System.currentTimeMillis()));
 
         // Notify message to user
         String message = "";
         if (image.save(bitmap2)) { // save image to storage
             message = "Image saved.";
+            // TODO: save to DB from here
+
         } else {
             message = "Can't save image.";
         }
+
+        // Finally, prompt user
         SnackBarNotificationUtil
                 .setSnackBar(getActivity().findViewById(android.R.id.content),
                         message)
@@ -290,7 +306,6 @@ public class DrawingCanvasFragment extends Fragment implements
                 .show();
     }
 
-    private void uploadCaptures() {
 
-    }
+
 }
