@@ -112,7 +112,7 @@ public class IPI_PWDBUtil extends DatabaseAccess {
     }
 
     public List<IPI_Wrapper> getAllRecordings() {
-        ArrayList<IPI_Wrapper> list = new ArrayList<IPI_Wrapper>();
+        ArrayList<IPI_Wrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
@@ -150,7 +150,7 @@ public class IPI_PWDBUtil extends DatabaseAccess {
 
 
     public List<IPI_Wrapper> getAllJSDetailsByID(int id) {
-        ArrayList<IPI_Wrapper> list = new ArrayList<IPI_Wrapper>();
+        ArrayList<IPI_Wrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE id="+id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 

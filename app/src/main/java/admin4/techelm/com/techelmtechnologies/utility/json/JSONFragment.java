@@ -84,7 +84,7 @@ public class JSONFragment extends Fragment {
         @Override
         protected String doInBackground(String... urls) {
 
-            return new JSONHelper().GET(urls[0]);
+            return JSONHelper.GET(urls[0]);
         }
 
         // onPostExecute displays the results of the AsyncTask.

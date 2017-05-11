@@ -34,7 +34,7 @@ public class CalendarSJDBUtil extends DatabaseAccess {
      **************************/
     // TODO: make clean up code
     public List<WorkCalendarWrapper> getAllWorks() {
-        ArrayList<WorkCalendarWrapper> list = new ArrayList<WorkCalendarWrapper>();
+        ArrayList<WorkCalendarWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_WORK;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
         WorkCalendarWrapper user = new WorkCalendarWrapper();
@@ -67,7 +67,7 @@ public class CalendarSJDBUtil extends DatabaseAccess {
      * SERVICE Details Query  *
      **************************/
     public List<ServiceWrapper> getAllServices() {
-        ArrayList<ServiceWrapper> userList = new ArrayList<ServiceWrapper>();
+        ArrayList<ServiceWrapper> userList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_SERVICE;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
         ServiceWrapper user = new ServiceWrapper();

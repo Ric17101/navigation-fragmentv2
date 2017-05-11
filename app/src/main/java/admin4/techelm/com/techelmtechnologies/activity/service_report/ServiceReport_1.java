@@ -648,7 +648,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
     }
 
     private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         for (String perm : wanted) {
             if (!hasPermission(perm)) {
                 result.add(perm);

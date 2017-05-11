@@ -40,6 +40,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.88"
                     android:text="Image_Name.jpg uploaded."
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
                     android:textSize="12sp" />
 
                 <ImageView

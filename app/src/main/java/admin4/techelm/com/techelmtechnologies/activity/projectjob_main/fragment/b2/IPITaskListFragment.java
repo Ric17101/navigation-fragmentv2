@@ -270,7 +270,7 @@ public class IPITaskListFragment extends Fragment
         private int resultStatus = 0;
 
         private GetCommand getCommand;
-        private ArrayList<String> projectList = new ArrayList<String>();
+        private ArrayList<String> projectList = new ArrayList<>();
 
         public PJ_IPITaskList_RenderList(String id, Context context) {
             projectjob_piss_id = id;

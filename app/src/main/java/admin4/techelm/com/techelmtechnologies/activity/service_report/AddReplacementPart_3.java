@@ -103,20 +103,20 @@ public class AddReplacementPart_3 extends AppCompatActivity {
      * mSpinner.setSelection(options.indexOf("option 2"));
      */
     private void initSpinner() {
-        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<String> options = new ArrayList<>();
         options.add("Select ");
         options.add("option 1");
         options.add("option 2");
         options.add("option 3");
 
         // Spinner 1
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
         spinnerReplacementParts = (Spinner) findViewById(R.id.spinnerReplacementParts);
         spinnerReplacementParts.setAdapter(adapter);
 
         // Spinner 2
         options.add("option 4");
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
         spinnerQuantity = (Spinner) findViewById(R.id.spinnerQuantity);
         spinnerQuantity.setAdapter(adapter2);
 
