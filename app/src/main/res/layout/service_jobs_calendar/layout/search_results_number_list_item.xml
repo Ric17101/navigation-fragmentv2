@@ -57,6 +57,9 @@
                             android:text="1"
                             android:textAlignment="center"
                             android:textSize="30sp"
+                            android:scrollHorizontally="true"
+                            android:ellipsize="marquee"
+                            android:maxLines="1"
                             android:textStyle="bold" />
 
                         <TextView
@@ -69,6 +72,9 @@
                             android:textAlignment="center"
                             android:textColor="@android:color/black"
                             android:textSize="8sp"
+                            android:scrollHorizontally="true"
+                            android:ellipsize="marquee"
+                            android:maxLines="1"
                             android:textStyle="normal|bold" />
 
                         <TextView
@@ -81,6 +87,9 @@
                             android:text="Day"
                             android:textAlignment="center"
                             android:textSize="8sp"
+                            android:scrollHorizontally="true"
+                            android:ellipsize="marquee"
+                            android:maxLines="1"
                             android:textStyle="italic" />
 
                     </RelativeLayout>
@@ -229,6 +238,9 @@
                                 android:gravity="center_vertical"
                                 android:text="SEV00001"
                                 android:textSize="8sp"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:maxLines="1"
                                 android:textStyle="normal|bold" />
 
                             <TextView
@@ -241,6 +253,9 @@
                                 android:gravity="center_vertical"
                                 android:text="John Doe"
                                 android:textSize="8sp"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:maxLines="1"
                                 android:textStyle="normal|bold" />
 
                             <TextView
@@ -253,6 +268,9 @@
                                 android:gravity="center_vertical"
                                 android:text="Leonard Lee"
                                 android:textSize="8sp"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:maxLines="1"
                                 android:textStyle="normal|bold" />
 
                             <TextView
@@ -265,6 +283,9 @@
                                 android:gravity="center_vertical"
                                 android:text="Pending/Completed"
                                 android:textSize="8sp"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:maxLines="1"
                                 android:textStyle="normal|bold" />
 
                         </LinearLayout>

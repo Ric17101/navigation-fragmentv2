@@ -39,6 +39,7 @@ public class RecordingService extends Service {
 
     private File mOutputFile;
     private String mFilePath = null;
+    private boolean external = true;
 
     private MediaRecorder mRecorder = null;
 
@@ -50,6 +51,8 @@ public class RecordingService extends Service {
 
     private Timer mTimer = null;
     private TimerTask mIncrementTimerTask = null;
+    private static final String TAG = RecordingService.class.getSimpleName();
+    private String directoryName = "recording";
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -137,9 +140,13 @@ public class RecordingService extends Service {
         mFilePath += "/TELCHEM/" + albumName;
         File file = new File(mFilePath);
         if (!file.mkdirs()) {
-            Log.e("ImageUtility", "Directory not created, or already existed");
+            Log.e(TAG, "Directory not created, or already existed");
         }
         return file;
+    }
+
+    private boolean hasMemoryCard() {
+        return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
     }
 
     public File setFileNameAndPath() {
@@ -151,12 +158,16 @@ public class RecordingService extends Service {
 
             mFileName = getString(R.string.default_file_name) + "_" + mTaken + "_"
                     + count + System.currentTimeMillis() + ".3gp";
-            mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mFilePath += "/TELCHEM/";
+            if (external && hasMemoryCard()) {
+                mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+                mFilePath += "/TELCHEM/";
+            } else {
+                mFilePath = getApplicationContext().getDir(directoryName,Context.MODE_PRIVATE).getAbsolutePath();
+            }
 
             File f = new File(mFilePath);
             if (!f.mkdirs()) {
-                Log.e("RecordingDIR", "Directory not created...count=" +count);
+                Log.e(TAG, "Directory not created...count=" + count);
             }
             file = new File(mFilePath, mFileName);
 
@@ -169,6 +180,7 @@ public class RecordingService extends Service {
         mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);
         mRecorder.release();
         Log.e(LOG_TAG, getString(R.string.toast_recording_finish) + " " + mFilePath);
+        Log.e(LOG_TAG, "FILE:  " + mOutputFile.getAbsolutePath() + " size=" + mOutputFile.getTotalSpace());
 
         //remove notification
         if (mIncrementTimerTask != null) {

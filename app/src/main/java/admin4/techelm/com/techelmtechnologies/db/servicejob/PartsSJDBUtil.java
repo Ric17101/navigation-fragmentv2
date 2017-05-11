@@ -81,7 +81,7 @@ public class PartsSJDBUtil extends DatabaseAccess {
     }
 
     public List<ServiceJobNewPartsWrapper> getAllParts() {
-        ArrayList<ServiceJobNewPartsWrapper> list = new ArrayList<ServiceJobNewPartsWrapper>();
+        ArrayList<ServiceJobNewPartsWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
@@ -106,7 +106,7 @@ public class PartsSJDBUtil extends DatabaseAccess {
     }
 
     public List<ServiceJobNewPartsWrapper> getAllPartsBySJID(int serviceJobID) {
-        ArrayList<ServiceJobNewPartsWrapper> list = new ArrayList<ServiceJobNewPartsWrapper>();
+        ArrayList<ServiceJobNewPartsWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE servicejob_id="+serviceJobID;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 

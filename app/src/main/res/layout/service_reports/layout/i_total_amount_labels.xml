@@ -41,6 +41,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.6"
             android:gravity="fill_vertical"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
+            android:maxLines="1"
             android:text="100..." />
     </TableRow>
 </TableLayout>

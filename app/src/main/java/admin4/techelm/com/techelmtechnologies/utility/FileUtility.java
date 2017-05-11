@@ -105,11 +105,14 @@ public class FileUtility {
         return result;
     }
 
+    private boolean hasMemoryCard() {
+        return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+    }
 
     @NonNull
     private File createFile() {
         File directory;
-        if (external) {
+        if (external && hasMemoryCard()) {
             directory = getAlbumStorageDir(directoryName);
         } else {
             directory = context.getDir(directoryName, Context.MODE_PRIVATE);

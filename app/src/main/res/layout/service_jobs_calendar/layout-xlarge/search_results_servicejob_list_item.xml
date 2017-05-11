@@ -218,6 +218,9 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="SEV00001"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:maxLines="1"
                                 android:textStyle="normal|bold" />
 
                             <TextView
@@ -229,6 +232,9 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="John Doe"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:maxLines="1"
                                 android:textStyle="normal|bold" />
 
                             <TextView
@@ -240,6 +246,9 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="Leonard Lee"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:maxLines="1"
                                 android:textStyle="normal|bold" />
 
                             <TextView
@@ -251,6 +260,9 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="Pending/Completed"
+                                android:scrollHorizontally="true"
+                                android:ellipsize="marquee"
+                                android:maxLines="1"
                                 android:textStyle="normal|bold" />
 
                         </LinearLayout>

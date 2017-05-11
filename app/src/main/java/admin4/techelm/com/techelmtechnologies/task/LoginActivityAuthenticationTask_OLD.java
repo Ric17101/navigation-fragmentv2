@@ -168,7 +168,7 @@ public class LoginActivityAuthenticationTask_OLD extends AsyncTask<Void, Void, B
         loginUser.append("?user=" + mEmail);
         loginUser.append("&password=" + mPassword);
 
-        new JSONHelper().GET(loginUser.toString());
+        JSONHelper.GET(loginUser.toString());
 
         try {
             if (USER_CREDENTIALS == null) { /**GET USER DETAILS */

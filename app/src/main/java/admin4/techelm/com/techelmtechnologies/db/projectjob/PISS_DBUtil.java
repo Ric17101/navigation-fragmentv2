@@ -131,7 +131,7 @@ public class PISS_DBUtil extends DatabaseAccess {
     }*/
 
     public List<PISSWrapper> getAllRecordings() {
-        ArrayList<PISSWrapper> list = new ArrayList<PISSWrapper>();
+        ArrayList<PISSWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
@@ -178,7 +178,7 @@ public class PISS_DBUtil extends DatabaseAccess {
 
 
     public List<PISSWrapper> getAllJSDetailsByID(int id) {
-        ArrayList<PISSWrapper> list = new ArrayList<PISSWrapper>();
+        ArrayList<PISSWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE id="+id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 

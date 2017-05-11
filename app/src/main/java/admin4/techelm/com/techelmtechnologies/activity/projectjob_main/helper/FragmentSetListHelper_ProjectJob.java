@@ -101,11 +101,11 @@ public class FragmentSetListHelper_ProjectJob {
     }
 
     public Spinner setSpinnerComment(Context context, View view) {
-        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<String> options = new ArrayList<>();
         options.add("YES");
         options.add("NO");
         options.add("NA");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, options);
         Spinner spinnerComment = (Spinner) view.findViewById(R.id.spinnerComment);
         spinnerComment.setAdapter(adapter);

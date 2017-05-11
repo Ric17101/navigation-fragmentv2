@@ -61,7 +61,7 @@ public class UserDBUtil extends DatabaseAccess {
     }
 
     public List<UserLoginWrapper> getAllUser() {
-        ArrayList<UserLoginWrapper> userList = new ArrayList<UserLoginWrapper>();
+        ArrayList<UserLoginWrapper> userList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_USER;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
         UserLoginWrapper user = new UserLoginWrapper();
@@ -139,7 +139,7 @@ public class UserDBUtil extends DatabaseAccess {
     }
 
     public List<UserGroupWrapper> getAllUserGroup() {
-        ArrayList<UserGroupWrapper> userList = new ArrayList<UserGroupWrapper>();
+        ArrayList<UserGroupWrapper> userList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_USER_GROUP;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
         UserGroupWrapper user = new UserGroupWrapper();

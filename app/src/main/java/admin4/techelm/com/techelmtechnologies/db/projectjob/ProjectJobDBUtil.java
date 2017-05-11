@@ -131,7 +131,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
     }*/
 
     public List<ProjectJobWrapper> getAllProjects() {
-        ArrayList<ProjectJobWrapper> list = new ArrayList<ProjectJobWrapper>();
+        ArrayList<ProjectJobWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
@@ -177,7 +177,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
 
 
     public List<ProjectJobWrapper> getAllJSDetailsByID(int id) {
-        ArrayList<ProjectJobWrapper> list = new ArrayList<ProjectJobWrapper>();
+        ArrayList<ProjectJobWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE id="+id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 

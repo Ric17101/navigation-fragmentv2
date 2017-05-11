@@ -81,7 +81,7 @@ public class SessionManager {
      * Get stored mSession data
      */
     public HashMap<String, String> getUserDetails() {
-        HashMap<String, String> user = new HashMap<String, String>();
+        HashMap<String, String> user = new HashMap<>();
         // user name
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 

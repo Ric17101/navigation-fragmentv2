@@ -21,6 +21,7 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_NEW_PARTS_UPLOAD_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 
 /**
@@ -32,7 +33,7 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_J
 
 public class ServiceJobJSON_POST {
 
-    public static final String TAG = "ServiceJobJSON_POST";
+    public static final String TAG = ServiceJobJSON_POST.class.getSimpleName();
     private JSONObject mJsonUpload;
 
     private OnEventListener mOnEventListener;
@@ -108,7 +109,7 @@ public class ServiceJobJSON_POST {
     }
 
     private URLConnection setHTTPConfig2(String message) throws IOException {
-        URL url = new URL(SERVICE_JOB_UPLOAD_URL + "servicejob_new_parts_json");
+        URL url = new URL(SERVICE_JOB_NEW_PARTS_UPLOAD_URL);
         URLConnection connection = url.openConnection();
         connection.setReadTimeout(10000 /*milliseconds*/);
         connection.setConnectTimeout(15000 /* milliseconds */);
@@ -122,7 +123,7 @@ public class ServiceJobJSON_POST {
     }
 
     private HttpURLConnection setHTTPConfig(String message) throws IOException {
-        URL url = new URL(SERVICE_JOB_UPLOAD_URL + "servicejob_new_parts_json");
+        URL url = new URL(SERVICE_JOB_NEW_PARTS_UPLOAD_URL);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(10000 /*milliseconds*/);
         conn.setConnectTimeout(15000 /* milliseconds */);

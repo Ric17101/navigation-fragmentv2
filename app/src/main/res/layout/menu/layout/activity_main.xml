@@ -47,6 +47,7 @@
             <!-- MAIN CONTENT-->
 
             <include layout="@layout/content_main" />
+
         </android.support.design.widget.CoordinatorLayout>
 
         <android.support.design.widget.NavigationView
@@ -61,7 +62,6 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
                 android:background="?attr/colorAccent"
-
                 app:headerLayout="@layout/nav_header"
                 app:itemIconTint="@color/textColorWhite"
                 app:itemTextColor="@color/textColorWhite"

@@ -248,7 +248,7 @@ public class UnsignedServicesFragment extends Fragment implements
 
         private int resultStatus = 0;
 
-        private ArrayList<String> serviceList = new ArrayList<String>();
+        private ArrayList<String> serviceList = new ArrayList<>();
 
         public UnsignedFormSJTask_RenderList(Context context) {
             mContext = context;
@@ -399,21 +399,24 @@ public class UnsignedServicesFragment extends Fragment implements
             String parsedServiceJob = "";
             try {
                 parsedServiceJob = parseServiceListJSON(JSONHelper.POST(SERVICE_JOB_UNSIGNED_LIST_URL));
-                if (parsedServiceJob.equals("ok")) {
-                    ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
-                    ArrayList<ServiceJobWrapper> resultList = cJSON.serviceJobList(serviceList);
-                    resultStatus = (cJSON.hasResult() ? 1 : 3);
-                    return resultList;
-                } else if (parsedServiceJob.equals("null")) {
-                    resultStatus = 2;
-                    return null;
-                } else if (parsedServiceJob.equals("")) {
-                    // NO CONNECTION
-                    resultStatus = 3;
-                    return null;
-                } else {
-                    Thread.sleep(2000); // Simulate network access.
-                    return null; // Data Return is null or either no internet
+                switch (parsedServiceJob) {
+                    case "ok":
+                        ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
+                        ArrayList<ServiceJobWrapper> resultList = cJSON.serviceJobList(serviceList);
+                        resultStatus = (cJSON.hasResult() ? 1 : 3);
+                        return resultList;
+                    case "null":
+                        resultStatus = 2;
+                        return null;
+                    case "":
+                        // NO CONNECTION
+                        resultStatus = 3;
+                        return null;
+                    default:
+                        Thread.sleep(2000); // Simulate network access.
+
+                        return null; // Data Return is null or either no internet
+
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

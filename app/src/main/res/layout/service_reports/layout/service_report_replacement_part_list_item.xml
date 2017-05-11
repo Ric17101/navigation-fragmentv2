@@ -34,6 +34,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Text"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
                     android:textSize="12sp" />
 
                 <TextView
@@ -44,6 +47,9 @@
                     android:layout_weight="0.5"
                     android:text="Text"
                     android:textAlignment="textEnd"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
                     android:textSize="12sp" />
 
                 <TextView
@@ -54,6 +60,9 @@
                     android:layout_weight="0.5"
                     android:text="Text"
                     android:textAlignment="textEnd"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
                     android:textSize="12sp" />
             </TableRow>
 
@@ -87,6 +96,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.88"
                     android:text="Edit"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
                     android:textSize="12sp" />
 
                 <ImageButton

@@ -6,8 +6,6 @@ import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.icu.util.Calendar;
-import android.icu.util.TimeZone;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,7 +29,9 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
 
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
@@ -656,7 +656,6 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         InterfaceDialogHolder.get().showDialog(this.getDateDilaog());
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
     private DatePickerDialog getDateDilaog() {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 

@@ -95,7 +95,7 @@ public class JSONParser {
 
 
         //Post Data
-        List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+        List<NameValuePair> nameValuePair = new ArrayList<>(2);
         nameValuePair.add(new BasicNameValuePair("username", "test_user"));
         nameValuePair.add(new BasicNameValuePair("password", "123456789"));
 

@@ -120,7 +120,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         textViewLabelTotalAmount = (TextView) view.findViewById(R.id.textViewLabelTotalAmount);
 
-        if (this.mServiceJobFromBundle != null) { // if Null don't show anything
+        if (mServiceJobFromBundle != null) { // if Null don't show anything
             mServiceID = mServiceJobFromBundle.getID();
 
             // ServiceJob Details

@@ -109,7 +109,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
          */
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mPagerAdapter = new ToolboxMeetingFragmentTab().newInstance();
+        mPagerAdapter = ToolboxMeetingFragmentTab.newInstance();
         mFragmentTransaction.replace(R.id.containerView, mPagerAdapter).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
         this.mViewPager = mPagerAdapter.getViewPager();

@@ -27,7 +27,7 @@
             android:layout_marginTop="10sp"
             android:background="@color/white"
             android:fadeScrollbars="false"
-            android:gravity="top|left"
+            android:gravity="top|start"
             android:hint="Description"
             android:inputType="textMultiLine"
             android:lines="5"
@@ -36,6 +36,7 @@
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
     </android.support.design.widget.TextInputLayout>
 
     <TextView
@@ -59,7 +60,7 @@
             android:background="@color/white"
             android:fadeScrollbars="false"
             android:focusable="false"
-            android:gravity="top|left"
+            android:gravity="top|start"
             android:hint="Target Completion Date DD/MM/YYYY"
             android:overScrollMode="always"
             android:scrollHorizontally="false"
@@ -89,7 +90,7 @@
             android:background="@color/white"
             android:fadeScrollbars="false"
             android:focusable="false"
-            android:gravity="top|left"
+            android:gravity="top|start"
             android:hint="Completion Date DD/MM/YYYY"
             android:overScrollMode="always"
             android:scrollHorizontally="false"
@@ -117,7 +118,7 @@
             android:layout_marginTop="10sp"
             android:background="@color/white"
             android:fadeScrollbars="false"
-            android:gravity="top|left"
+            android:gravity="top|start"
             android:hint="Remarks"
             android:inputType="textMultiLine"
             android:lines="5"
@@ -148,7 +149,7 @@
             android:layout_marginTop="18sp"
             android:background="@color/white"
             android:fadeScrollbars="false"
-            android:gravity="top|left"
+            android:gravity="top|start"
             android:hint="Disposition"
             android:overScrollMode="always"
             android:scrollHorizontally="false"

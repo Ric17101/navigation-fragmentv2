@@ -232,7 +232,7 @@ public class ProjectJobChooseFormFragment extends Fragment
         private int resultStatus = 0;
 
         private GetCommand getCommand;
-        private ArrayList<String> projectList = new ArrayList<String>();
+        private ArrayList<String> projectList = new ArrayList<>();
 
         public PJTask_RenderList(String date, String id, Context context) {
             mDate = date;
@@ -330,21 +330,24 @@ public class ProjectJobChooseFormFragment extends Fragment
             String parsedServiceJob = "";
             try {
                 parsedServiceJob = parseServiceListJSON(JSONHelper.GET(PROJECT_JOB_LIST_URL));
-                if (parsedServiceJob.equals("ok")) {
-                    ConvertJSON_PJ cJSON = new ConvertJSON_PJ();
-                    ArrayList<ProjectJobWrapper> resultList =  cJSON.projectJobList(projectList);
-                    resultStatus = (cJSON.hasResult() ? 1 : 3);
-                    return (resultStatus == 1 ? resultList : null);
-                } else if (parsedServiceJob.equals("null")) {
-                    resultStatus = 2;
-                    return null;
-                } else if (parsedServiceJob.equals("")) {
-                    // NO CONNECTION
-                    resultStatus = 3;
-                    return null;
-                } else {
-                    Thread.sleep(2000); // Simulate network access.
-                    return null; // Data Return is null or either no internet
+                switch (parsedServiceJob) {
+                    case "ok":
+                        ConvertJSON_PJ cJSON = new ConvertJSON_PJ();
+                        ArrayList<ProjectJobWrapper> resultList = cJSON.projectJobList(projectList);
+                        resultStatus = (cJSON.hasResult() ? 1 : 3);
+                        return (resultStatus == 1 ? resultList : null);
+                    case "null":
+                        resultStatus = 2;
+                        return null;
+                    case "":
+                        // NO CONNECTION
+                        resultStatus = 3;
+                        return null;
+                    default:
+                        Thread.sleep(2000); // Simulate network access.
+
+                        return null; // Data Return is null or either no internet
+
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

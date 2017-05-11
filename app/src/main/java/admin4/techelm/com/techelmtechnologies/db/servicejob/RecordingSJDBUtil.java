@@ -72,7 +72,7 @@ public class RecordingSJDBUtil extends DatabaseAccess {
     }
 
     public List<ServiceJobRecordingWrapper> getAllRecordings() {
-        ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<ServiceJobRecordingWrapper>();
+        ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
@@ -102,7 +102,7 @@ public class RecordingSJDBUtil extends DatabaseAccess {
 
 
     public List<ServiceJobRecordingWrapper> getAllRecordingsBySJID_ByTaken(int id, String taken) {
-        ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<ServiceJobRecordingWrapper>();
+        ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE servicejob_id=" + id
                 + " AND taken='" + taken + "'";
@@ -132,7 +132,7 @@ public class RecordingSJDBUtil extends DatabaseAccess {
     }
 
     public List<ServiceJobRecordingWrapper> getAllRecordingsBySJID(int id) {
-        ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<ServiceJobRecordingWrapper>();
+        ArrayList<ServiceJobRecordingWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE servicejob_id=" + id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);

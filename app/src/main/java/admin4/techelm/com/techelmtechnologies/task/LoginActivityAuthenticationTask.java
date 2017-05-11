@@ -183,7 +183,7 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
         String parsedUser = "";
 
         try {
-            parsedUser = parseJSON(new JSONHelper().GET(getLink()));
+            parsedUser = parseJSON(JSONHelper.GET(getLink()));
             if (!parsedUser.equals("")) { /**GET USER DETAILS */
                 USER_CREDENTIALS[0] = parsedUser;
             } else {

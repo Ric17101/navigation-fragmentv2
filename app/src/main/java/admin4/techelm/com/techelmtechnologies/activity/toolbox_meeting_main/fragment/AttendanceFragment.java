@@ -50,7 +50,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         btnScanCode = (Button) view.findViewById(R.id.btnScanCode);
         btnScanCode.setOnClickListener(this);
 
-        list = new ArrayList<String>();
+        list = new ArrayList<>();
 
         if (ContextCompat.checkSelfPermission(this.mContext, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {

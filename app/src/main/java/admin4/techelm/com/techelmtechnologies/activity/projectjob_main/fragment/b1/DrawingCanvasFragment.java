@@ -131,6 +131,7 @@ public class DrawingCanvasFragment extends Fragment implements
                 .downloadImageFromURL(DrawingCanvasFragment.this, this.mTask.getDrawingBefore(), mockImageView);
     }
 
+    /***** GESTURE SETTINGS *****/
     private void initGestureView(View view) {
         mGestureView.getController().getSettings()
             .setMaxZoom(2f)
@@ -222,13 +223,15 @@ public class DrawingCanvasFragment extends Fragment implements
     public void GetBitmapWidthHeight() {
         bitmap1.setHeight(linearLayoutCanvas.getHeight());
         bitmap1.setWidth(linearLayoutCanvas.getWidth());
-        /*width = bitmap1.getWidth() + BitmapSize * 2;
-        height = bitmap1.getHeight() + BitmapSize * 2;*/
+        /*
+        width = bitmap1.getWidth() + BitmapSize * 2;
+        height = bitmap1.getHeight() + BitmapSize * 2;
+        */
     }
 
     @Override
     public void onClick(View v) {
-        disableGestureView();
+        // disableGestureView();
         switch(v.getId()) {
             case R.id.btnAddText:
                 text = txtAddText.getText().toString();
@@ -261,7 +264,7 @@ public class DrawingCanvasFragment extends Fragment implements
                 canvas.setPaintStrokeColor(Color.BLUE);
                 break;
             case R.id.btnZoom :
-                enableGestureView();
+                // enableGestureView();
                 break;
         }
     }
@@ -285,5 +288,9 @@ public class DrawingCanvasFragment extends Fragment implements
                         message)
                 .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
+    }
+
+    private void uploadCaptures() {
+
     }
 }

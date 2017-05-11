@@ -12,6 +12,10 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_GET_PARTS_RATES_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SAVE_CONTINUE_START_DATE_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SAVE_REVERT_STATUS_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SAVE_START_DATE_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_URL;
 
 /**
@@ -44,8 +48,7 @@ public class ServiceJobBegin_POST {
     public void postStartDate(int id) {
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        String url = SERVICE_JOB_UPLOAD_URL + "save_start_date";
-        webServiceInfo.setUrl(url);
+        webServiceInfo.setUrl(SERVICE_JOB_SAVE_START_DATE_URL);
 
     /*add parameter*/
         webServiceInfo.addParam("id", id + "");
@@ -61,8 +64,7 @@ public class ServiceJobBegin_POST {
     public void postContinueDate(int id) {
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        String url = SERVICE_JOB_UPLOAD_URL + "save_continue_start_date";
-        webServiceInfo.setUrl(url);
+        webServiceInfo.setUrl(SERVICE_JOB_SAVE_CONTINUE_START_DATE_URL);
 
     /*add parameter*/
         webServiceInfo.addParam("id", id + "");
@@ -78,8 +80,7 @@ public class ServiceJobBegin_POST {
     public void postGetListOfReplacementPartsDate() {
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        String url = SERVICE_JOB_UPLOAD_URL + "get_part_replacement_rates";
-        webServiceInfo.setUrl(url);
+        webServiceInfo.setUrl(SERVICE_JOB_GET_PARTS_RATES_URL);
 
     /*add parameter*/
         webServiceInfo.addParam("id", "test");
@@ -103,8 +104,7 @@ public class ServiceJobBegin_POST {
     public void postRevertStatus(int id, String status) {
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        String url = SERVICE_JOB_UPLOAD_URL + "save_revert_status";
-        webServiceInfo.setUrl(url);
+        webServiceInfo.setUrl(SERVICE_JOB_SAVE_REVERT_STATUS_URL);
 
     /*add parameter*/
         webServiceInfo.addParam("id", id + "");

@@ -70,7 +70,7 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
     }
 
     public List<PISSTaskWrapper> getAllRecordings() {
-        ArrayList<PISSTaskWrapper> list = new ArrayList<PISSTaskWrapper>();
+        ArrayList<PISSTaskWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
@@ -100,7 +100,7 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
 
 
     public List<PISSTaskWrapper> getAllRecordingsBySJID_ByTaken(int id, String taken) {
-        ArrayList<PISSTaskWrapper> list = new ArrayList<PISSTaskWrapper>();
+        ArrayList<PISSTaskWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE servicejob_id=" + id
                 + " AND taken='" + taken + "'";
@@ -130,7 +130,7 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
     }
 
     public List<PISSTaskWrapper> getAllRecordingsBySJID(int id) {
-        ArrayList<PISSTaskWrapper> list = new ArrayList<PISSTaskWrapper>();
+        ArrayList<PISSTaskWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE servicejob_id=" + id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);

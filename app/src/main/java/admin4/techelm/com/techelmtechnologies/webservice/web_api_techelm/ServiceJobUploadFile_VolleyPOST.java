@@ -31,6 +31,7 @@ import static org.apache.commons.io.FileUtils.readFileToByteArray;
  * Used to Send JSON to server/web api then save the POST data
  * TODO: Should Implement at UploadFileCommand??
  * POST commmand
+ * Credit to: 2011 The Android Open Source Project
  */
 
 public class ServiceJobUploadFile_VolleyPOST {
@@ -69,13 +70,14 @@ public class ServiceJobUploadFile_VolleyPOST {
     }
 
     /**
+     * Audio, Video and Image File is compatible
      * @param file - image file
      * @param fileName - e.g. "file_cover.jpg"
      * @param mimeType - e.g.
      *                 image/jpeg
      *                 audio/mpeg
      *                 video/3gpp
-     * @return
+     * @return this
      */
     public ServiceJobUploadFile_VolleyPOST addImageFile(File file, String fileName, String mimeType) {
         if (mFileParams == null) {
@@ -117,12 +119,14 @@ public class ServiceJobUploadFile_VolleyPOST {
             new UploadFileVolleyAsync().execute((Void) null);
         }*/
     }
+
     private boolean listIsNull() {
         return this.mContext == null && this.mFileParams == null;
     }
 
     /**
      * Public Class for the Response from the web API or Link specified
+     * TODO: use this to manipulate what is the response from the server for more important test
      */
     public class NetworkResponseData {
         public String message;
@@ -134,6 +138,7 @@ public class ServiceJobUploadFile_VolleyPOST {
                     "\nUploaded Info: " + uploaded_file;
         }
     }
+
     /**
      * AsyncTask
      */
@@ -204,7 +209,7 @@ public class ServiceJobUploadFile_VolleyPOST {
                                     String resultResponse = new String(response.data);
                                     Log.e(TAG, resultResponse);
                                     // TODO: get the responses from the web
-//                                    aResponseData = convertNetworkJSONResponse(resultResponse);
+                                    // aResponseData = convertNetworkJSONResponse(resultResponse);
                                     aResponse = resultResponse;
                                     aResponseData = convertNetworkJSONResponse(resultResponse);
                                 }

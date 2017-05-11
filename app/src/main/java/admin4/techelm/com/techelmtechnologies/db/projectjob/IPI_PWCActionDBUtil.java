@@ -72,7 +72,7 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
     }
 
     public List<IPI_CActionWrapper_NOT_USED> getAllRecordings() {
-        ArrayList<IPI_CActionWrapper_NOT_USED> list = new ArrayList<IPI_CActionWrapper_NOT_USED>();
+        ArrayList<IPI_CActionWrapper_NOT_USED> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
@@ -105,7 +105,7 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
 
 
     public List<IPI_CActionWrapper_NOT_USED> getAllRecordingsBySJID_ByTaken(int id, String taken) {
-        ArrayList<IPI_CActionWrapper_NOT_USED> list = new ArrayList<IPI_CActionWrapper_NOT_USED>();
+        ArrayList<IPI_CActionWrapper_NOT_USED> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE servicejob_id=" + id
                 + " AND taken='" + taken + "'";
@@ -135,7 +135,7 @@ public class IPI_PWCActionDBUtil extends DatabaseAccess {
     }
 
     public List<IPI_CActionWrapper_NOT_USED> getAllRecordingsBySJID(int id) {
-        ArrayList<IPI_CActionWrapper_NOT_USED> list = new ArrayList<IPI_CActionWrapper_NOT_USED>();
+        ArrayList<IPI_CActionWrapper_NOT_USED> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE servicejob_id=" + id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);

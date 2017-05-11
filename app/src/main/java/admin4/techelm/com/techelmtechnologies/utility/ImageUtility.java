@@ -25,12 +25,12 @@ import java.io.IOException;
  *  between applications and persist after your app has been uninstalled.
  * USAGE:
      * To save:
-         new ImageSaver(context).
+         new ImageSaver(mContext).
          setFileName("myImage.png").
          setDirectoryName("images").
          save(bitmap);
      * To load:
-         Bitmap bitmap = new ImageSaver(context).
+         Bitmap bitmap = new ImageSaver(mContext).
          setFileName("myImage.png").
          setDirectoryName("images").
          load();
@@ -41,13 +41,14 @@ import java.io.IOException;
 public class ImageUtility {
 
     private static final String TAG = ImageUtility.class.getSimpleName();
+
     private String directoryName = "images";
     private String fileName = "image.png";
-    private Context context;
+    private Context mContext;
     private boolean external = false;
 
     public ImageUtility(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     public ImageUtility setFileName(String fileName) {
@@ -94,13 +95,17 @@ public class ImageUtility {
         return false;
     }
 
+    private boolean hasMemoryCard() {
+        return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+    }
+
     @NonNull
     private File createFile() {
         File directory;
-        if (external) {
+        if (external && hasMemoryCard()) {
             directory = getAlbumStorageDir(directoryName);
         } else {
-            directory = context.getDir(directoryName, Context.MODE_PRIVATE);
+            directory = this.mContext.getDir(directoryName, Context.MODE_PRIVATE);
         }
 
         return new File(directory, fileName);
@@ -157,10 +162,10 @@ public class ImageUtility {
      */
     public Drawable ResizeImage(int imageID) {
         // Get device dimensions
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Display display = ((Activity) this.mContext).getWindowManager().getDefaultDisplay();
         double deviceWidth = display.getWidth();
 
-        BitmapDrawable bd = (BitmapDrawable) ((Activity)context).getResources().getDrawable(
+        BitmapDrawable bd = (BitmapDrawable) ((Activity) this.mContext).getResources().getDrawable(
                 imageID);
         double imageHeight = bd.getBitmap().getHeight();
         double imageWidth = bd.getBitmap().getWidth();
@@ -168,8 +173,8 @@ public class ImageUtility {
         double ratio = deviceWidth / imageWidth;
         int newImageHeight = (int) (imageHeight * ratio);
 
-        Bitmap bMap = BitmapFactory.decodeResource(((Activity)context).getResources(), imageID);
-        Drawable drawable = new BitmapDrawable(((Activity)context).getResources(),
+        Bitmap bMap = BitmapFactory.decodeResource(((Activity) this.mContext).getResources(), imageID);
+        Drawable drawable = new BitmapDrawable(((Activity) this.mContext).getResources(),
                 getResizedBitmap(bMap, newImageHeight, (int) deviceWidth));
 
         return drawable;

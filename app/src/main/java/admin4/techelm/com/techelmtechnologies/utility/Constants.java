@@ -39,6 +39,11 @@ public final class Constants {
             "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/";
     public static final String LOGIN_URL = DOMAIN_URL + "auth/user";
     public static final String SERVICE_JOB_UPLOAD_URL = DOMAIN_URL + "servicejob/";
+    public static final String SERVICE_JOB_NEW_PARTS_UPLOAD_URL = SERVICE_JOB_UPLOAD_URL + "servicejob_new_parts_json";
+    public static final String SERVICE_JOB_SAVE_START_DATE_URL = SERVICE_JOB_UPLOAD_URL + "save_start_date";
+    public static final String SERVICE_JOB_SAVE_CONTINUE_START_DATE_URL = SERVICE_JOB_UPLOAD_URL + "save_continue_start_date";
+    public static final String SERVICE_JOB_GET_PARTS_RATES_URL = SERVICE_JOB_UPLOAD_URL + "get_part_replacement_rates";
+    public static final String SERVICE_JOB_SAVE_REVERT_STATUS_URL = SERVICE_JOB_UPLOAD_URL + "save_revert_status";
     public static final String SERVICE_JOB_LIST_URL = SERVICE_JOB_UPLOAD_URL + "get_all_services/";
     public static final String SERVICE_JOB_UNSIGNED_LIST_URL = SERVICE_JOB_UPLOAD_URL + "get_date_services_unsigend_services/";
     public static final String SERVICE_JOB_VIEW_DETAIL_URL = SERVICE_JOB_UPLOAD_URL + "view_details?servicejob_id=";

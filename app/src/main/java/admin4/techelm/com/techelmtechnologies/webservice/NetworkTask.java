@@ -16,8 +16,9 @@ public abstract class NetworkTask<Params,Progress,Result> extends AsyncTask<Para
         long time = System.currentTimeMillis();
         Log.e(TAG,"onPreExecute:"+time);
     }
+    @SafeVarargs
     @Override
-    protected Result doInBackground(Params... paramses) {
+    protected final Result doInBackground(Params... paramses) {
         return doNetworkTask();
     }
     @Override

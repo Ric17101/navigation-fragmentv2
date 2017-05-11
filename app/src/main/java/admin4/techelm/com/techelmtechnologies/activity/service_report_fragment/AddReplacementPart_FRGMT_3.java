@@ -112,20 +112,20 @@ public class AddReplacementPart_FRGMT_3 extends Fragment {
      * @param view
      */
     private void initSpinner(View view) {
-        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<String> options = new ArrayList<>();
         options.add("Select ");
         options.add("option 1");
         options.add("option 2");
         options.add("option 3");
 
         // Spinner 1
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, options);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, options);
         spinnerReplacementParts = (Spinner) view.findViewById(R.id.spinnerReplacementParts);
         spinnerReplacementParts.setAdapter(adapter);
 
         // Spinner 2
         options.add("option 4");
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, options);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, options);
         spinnerQuantity = (Spinner) view.findViewById(R.id.spinnerQuantity);
         spinnerQuantity.setAdapter(adapter2);
 

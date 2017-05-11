@@ -114,6 +114,7 @@
         android:layout_alignBottom="@+id/btnRedo"
         android:layout_toEndOf="@+id/btnSave"
         android:layout_toRightOf="@+id/btnSave"
+        android:visibility="gone"
         android:text="Zoom mode" />
 
 </RelativeLayout>

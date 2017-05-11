@@ -172,7 +172,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
     }
 
     public List<ServiceJobWrapper> getAllRecordings() {
-        ArrayList<ServiceJobWrapper> list = new ArrayList<ServiceJobWrapper>();
+        ArrayList<ServiceJobWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
@@ -240,7 +240,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
     }
 
     public List<ServiceJobWrapper> getAllJSDetailsByID(int id) {
-        ArrayList<ServiceJobWrapper> list = new ArrayList<ServiceJobWrapper>();
+        ArrayList<ServiceJobWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE id="+id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 

@@ -53,7 +53,7 @@ public class CanvasView extends View {
     }
 
     // Custom admin4
-    private boolean editMode = false;
+    private boolean editMode = true;
     public void setEditMode(Mode mode) {
         if (mode == Mode.DISABLE) {
             editMode = false;

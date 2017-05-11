@@ -8,6 +8,7 @@ import admin4.techelm.com.techelmtechnologies.R;
 
 /**
  * Created by TheFinestArtist on 3/11/16.
+ * SAMPLE Activity
  */
 public class WebViewActivity extends AppCompatActivity {
     @Override

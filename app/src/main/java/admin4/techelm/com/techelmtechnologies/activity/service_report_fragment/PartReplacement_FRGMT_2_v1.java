@@ -631,7 +631,7 @@ public class PartReplacement_FRGMT_2_v1 extends Fragment {
     }*/
 
     private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         for (String perm : wanted) {
             /*if (!hasPermission(perm)) {
                 aResponse.add(perm);

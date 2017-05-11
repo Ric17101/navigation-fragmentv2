@@ -256,19 +256,22 @@ public class CalendarServiceJobTask extends AsyncTask<Void, Void, List<ServiceJo
         String parsedServiceJob = "";
         try {
             parsedServiceJob = parseJSON(JSONHelper.GET(getServiceJobLink()));
-            if (parsedServiceJob.equals("ok")) {
-                resultStatus = 1;
-                return serviceJobList(parsedServiceJob);
-            } else if (parsedServiceJob.equals("null")) {
-                resultStatus = 2;
-                return null;
-            } else if (parsedServiceJob.equals("")) {
-                // NO CONNECTION
-                resultStatus = 3;
-                return null;
-            } else {
-                Thread.sleep(2000); // Simulate network access.
-                return null; // Data Return is null or either no internet
+            switch (parsedServiceJob) {
+                case "ok":
+                    resultStatus = 1;
+                    return serviceJobList(parsedServiceJob);
+                case "null":
+                    resultStatus = 2;
+                    return null;
+                case "":
+                    // NO CONNECTION
+                    resultStatus = 3;
+                    return null;
+                default:
+                    Thread.sleep(2000); // Simulate network access.
+
+                    return null; // Data Return is null or either no internet
+
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

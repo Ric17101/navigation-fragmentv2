@@ -12,19 +12,26 @@
         android:text="Remarks"
         android:textStyle="normal|bold" />
 
-    <EditText
-        android:id="@+id/editTextB1Remarks"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
-        android:background="@color/white"
-        android:fadeScrollbars="false"
-        android:gravity="top|left"
-        android:inputType="textMultiLine"
-        android:lines="4"
-        android:overScrollMode="always"
-        android:scrollHorizontally="false"
-        android:scrollbarStyle="insideInset"
-        android:scrollbars="vertical"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextB1Remarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:background="@color/white"
+            android:fadeScrollbars="false"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:hint="Remarks"
+            android:lines="4"
+            android:overScrollMode="always"
+            android:scrollHorizontally="false"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical" />
+
+    </android.support.design.widget.TextInputLayout>
+
 </LinearLayout>
