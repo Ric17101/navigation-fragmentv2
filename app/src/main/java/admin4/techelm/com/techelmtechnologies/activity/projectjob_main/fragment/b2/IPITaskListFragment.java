@@ -323,7 +323,7 @@ public class IPITaskListFragment extends Fragment
                     StringBuilder jsonRes = new StringBuilder();
                     jsonRes.append(jsonArray.getJSONObject(i).getString("id"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("projectjob_ipi_pw_id"))
+                            .append(jsonArray.getJSONObject(i).getString("projectjob_id"))
                             .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("serial_no"))
                             .append(LIST_DELIM)

@@ -176,7 +176,7 @@ public class DrawingFormFragment extends Fragment {
 
 
     /********** UPLOAD TASK *************/
-    private boolean hasDrawing = false;
+    private boolean hasDrawing = true;
     private class UploadDrawingTASK extends AsyncTask<PISSTaskWrapper, Void, String> {
 
         private PISSTaskWrapper task;
@@ -226,34 +226,29 @@ public class DrawingFormFragment extends Fragment {
         Log.e(TAG, "uploadDrawing " + pissTaskWrapper.toString());
 
         // Retrieve File
-        File drawingFile = null;
-        File drawingImage = null;
+        File drawingFile = new File("");
+        File drawingImage = new File("");
 
         if (task.getDrawingAfter() != null /*|| task.getDrawingAfter().equals("")*/)
             drawingFile = new File(task.getDrawingAfter());
 
-        if (drawingFile == null) {
+        if (!drawingFile.canRead()) {
             canUploadFile = false;
             Log.e(TAG, "hasDrawing=false 1st IF");
         } else {
             //setHasDrawing(true); // TODO: Fix this as this will be useful when retrieving from SQLDB
-            if (drawingFile.canRead()) {
-                drawingImage = new ImageUtility(getActivity()).rescaleImageFile(drawingFile); // Reseize file before send to server
-                if (drawingImage.canRead()) { // File exist
-                    if (this.hasDrawing) { // If user signed and clicked save on the Sign PAD
-                        canUploadFile = true;
-                        Log.e(TAG, "hasDrawing=true 3rd IF");
-                    } else {
-                        canUploadFile = false;
-                        Log.e(TAG, "hasDrawing=false 3rd IF");
-                    }
+            drawingImage = new ImageUtility(getActivity()).rescaleImageFile(drawingFile); // Reseize file before send to server
+            if (drawingImage.canRead()) { // File exist
+                if (this.hasDrawing) { // If user signed and clicked save on the Sign PAD
+                    canUploadFile = true;
+                    Log.e(TAG, "hasDrawing=true 3rd IF");
                 } else {
                     canUploadFile = false;
-                    Log.e(TAG, "hasDrawing=ERROR 2nd ELSE");
+                    Log.e(TAG, "hasDrawing=false 3rd IF");
                 }
             } else {
                 canUploadFile = false;
-                Log.e(TAG, "hasDrawing=ERROR 4th ELSE");
+                Log.e(TAG, "hasDrawing=ERROR 2nd ELSE");
             }
         }
 

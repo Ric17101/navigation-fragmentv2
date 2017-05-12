@@ -3,6 +3,8 @@ package admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.NetworkResponse;
@@ -17,13 +19,16 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import admin4.techelm.com.techelmtechnologies.utility.volley_multipart.VolleyDataPart;
 import admin4.techelm.com.techelmtechnologies.utility.volley_multipart.VolleyMultipartRequest;
 import admin4.techelm.com.techelmtechnologies.utility.volley_multipart.VolleySingleton;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.HTTP_AUTHENTICATION_ACCESS;
 import static org.apache.commons.io.FileUtils.readFileToByteArray;
 
 /**
@@ -200,9 +205,14 @@ public class UploadFile_VolleyPOST {
             // loading or check internet connection or something...
             // ... then
             // String url = "http://www.angga-ari.com/api/something/awesome";
+            String encoded = new String(Base64.encode(HTTP_AUTHENTICATION_ACCESS.getBytes(), Base64.NO_WRAP));
+            Map<String, String> mHeaders = new HashMap<>();
+            mHeaders.put("Authorization", "Basic " + encoded);
+
             VolleyMultipartRequest multipartRequest =
-                    new VolleyMultipartRequest(Request.Method.POST,
-                            mServiceJobLink,
+                    new VolleyMultipartRequest(
+                            mServiceJobLink, mHeaders, // SETTINGS with Authorixation, comment this if no HttpAunthentication
+                            //Request.Method.POST, mServiceJobLink,
                             new Response.Listener<NetworkResponse>() {
                                 @Override
                                 public void onResponse(NetworkResponse response) {

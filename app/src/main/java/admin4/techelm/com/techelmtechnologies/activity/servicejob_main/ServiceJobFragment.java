@@ -430,7 +430,7 @@ public class ServiceJobFragment extends Fragment implements
         protected List<ServiceJobWrapper> doInBackground(Void... params) {
             String parsedServiceJob = "";
             try {
-                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(SERVICE_JOB_LIST_URL));
+                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(SERVICE_JOB_LIST_URL + mDate));
                 switch (parsedServiceJob) {
                     case "ok":
                         ConvertJSON_SJ cJSON = new ConvertJSON_SJ();

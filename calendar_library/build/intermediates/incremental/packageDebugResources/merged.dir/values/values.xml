@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="roboto_calendar_background">#FFFFFF</color>
+    <color name="roboto_calendar_circle_1">#13507D</color>
+    <color name="roboto_calendar_circle_2">#55c6da</color>
+    <color name="roboto_calendar_current_day_ring">#005A99</color>
+    <color name="roboto_calendar_current_day_ring_old">#e6e7e8</color>
+    <color name="roboto_calendar_day_of_the_month_font">#161d20</color>
+    <color name="roboto_calendar_day_of_the_month_font_old">#849ba9</color>
+    <color name="roboto_calendar_day_of_the_week_font">#333436</color>
+    <color name="roboto_calendar_month_arrow">#55c6da</color>
+    <color name="roboto_calendar_month_font">#161d20</color>
+    <color name="roboto_calendar_month_font_old">#2A99BC</color>
+    <color name="roboto_calendar_selected_day_background">#1A3E62</color>
+    <color name="roboto_calendar_selected_day_background_old">#173E74</color>
+    <color name="roboto_calendar_selected_day_font">#FFFFFF</color>
+    <dimen name="roboto_calendar_circle_size">4dp</dimen>
+    <dimen name="roboto_calendar_day_of_the_month_background_size">40dp</dimen>
+    <dimen name="roboto_calendar_day_of_the_month_font">16sp</dimen>
+    <dimen name="roboto_calendar_day_of_week_font">16sp</dimen>
+    <dimen name="roboto_calendar_month_font">16sp</dimen>
+    <dimen name="roboto_calendar_month_margin_bottom">8dp</dimen>
+    <dimen name="roboto_calendar_padding">8dp</dimen>
+    <dimen name="roboto_calendar_ring_size">18dp</dimen>
+    <dimen name="roboto_calendar_week_margin_bottom">5dp</dimen>
+    <style name="AppBaseTheme" parent="android:Theme.Light"/>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:actionMenuTextColor">@color/roboto_calendar_background</item>
+    </style>
+    <style name="RobotoCalendarDayOfTheMonthText">
+        <item name="android:textSize">@dimen/roboto_calendar_day_of_the_month_font</item>
+        <item name="android:textColor">@color/roboto_calendar_day_of_the_month_font</item>
+    </style>
+    <style name="RobotoCalendarDayOfTheWeekText">
+        <item name="android:textSize">@dimen/roboto_calendar_day_of_week_font</item>
+        <item name="android:textColor">@color/roboto_calendar_day_of_the_month_font</item>
+    </style>
+    <style name="RobotoCalendarMonthArrow">
+        <item name="android:tint">@color/roboto_calendar_day_of_the_week_font</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+    <style name="RobotoCalendarMonthText">
+        <item name="android:textSize">@dimen/roboto_calendar_month_font</item>
+        <item name="android:textColor">@color/roboto_calendar_day_of_the_week_font</item>
+    </style>
+</resources>

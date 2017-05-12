@@ -47,6 +47,8 @@ import java.util.List;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_BY_MONTH_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_LIST_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -54,8 +56,6 @@ public class CalendarFragment extends Fragment implements
         RobotoCalendarView.RobotoCalendarListener,
         SJ_CalendarListAdapter.OnItemClickListener // not used onClick Interface
 {
-    private static final String SERVICE_JOB_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/servicejob/";
     private static final String TAG = CalendarFragment.class.getSimpleName();
     private static final int REQUEST_CODE = 1234;
 
@@ -560,15 +560,15 @@ public class CalendarFragment extends Fragment implements
             // System.gc();
         }
         private String getDetailsLink() {
-            StringBuilder sb = new StringBuilder();
+            /*StringBuilder sb = new StringBuilder();
             sb.append(SERVICE_JOB_URL);
-            sb.append("get_date_services/" + mDate);
-            return sb.toString();
+            sb.append("get_date_services/" + mDate);*/
+            return SERVICE_JOB_LIST_URL + mDate;
         }
 
         public String getServiceJobLink() {
             StringBuilder sb = new StringBuilder();
-            sb.append(SERVICE_JOB_URL);
+            //sb.append(SERVICE_JOB_URL);
             sb.append("detail/" + mID);
             return sb.toString();
         }

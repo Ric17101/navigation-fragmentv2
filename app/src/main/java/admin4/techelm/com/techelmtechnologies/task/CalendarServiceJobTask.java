@@ -20,6 +20,7 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_DETAILS_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 
 /**
@@ -61,14 +62,14 @@ public class CalendarServiceJobTask extends AsyncTask<Void, Void, List<ServiceJo
 
     private String getDetailsLink() {
         StringBuilder sb = new StringBuilder();
-        sb.append(SERVICE_JOB_URL);
+        //sb.append(SERVICE_JOB_URL);
         sb.append("get_date_services/" + mDate);
         return sb.toString();
     }
 
     public String getServiceJobLink() {
         StringBuilder sb = new StringBuilder();
-        sb.append(SERVICE_JOB_URL);
+        //sb.append(SERVICE_JOB_URL);
         sb.append("detail/" + mID);
         return sb.toString();
     }
@@ -255,7 +256,7 @@ public class CalendarServiceJobTask extends AsyncTask<Void, Void, List<ServiceJo
     protected List<ServiceJobWrapper> doInBackground(Void... params) {
         String parsedServiceJob = "";
         try {
-            parsedServiceJob = parseJSON(JSONHelper.GET(getServiceJobLink()));
+            parsedServiceJob = parseJSON(JSONHelper.GET(SERVICE_JOB_DETAILS_URL + mID));
             switch (parsedServiceJob) {
                 case "ok":
                     resultStatus = 1;

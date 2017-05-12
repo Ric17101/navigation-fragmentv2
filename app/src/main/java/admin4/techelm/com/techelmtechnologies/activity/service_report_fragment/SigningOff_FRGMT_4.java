@@ -53,6 +53,9 @@ import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.Service
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_CAPTURE_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_RECORDING_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_SIGNATURE_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 
 public class SigningOff_FRGMT_4 extends Fragment {
@@ -730,7 +733,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 if (signatureFile != null) { // TODO: Test this, if file is null
                     if (signatureFile.canRead()) { // File exists on the Directory
                         post.setContext(this.mContext)
-                                .setLink(SERVICE_JOB_URL + "servicejob_upload_capture")
+                                .setLink(SERVICE_JOB_UPLOAD_CAPTURE_URL)
                                 .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter + "")
                                 .addMultipleParam("taken", sjuw.getTaken(), counter + "")
                                 .addParam("count", mUploadResults.size() + "")
@@ -800,7 +803,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 if (recordingFile != null) { // TODO: Test this, if file is null
                     if (recordingFile.canRead()) {
                         post.setContext(this.mContext)
-                                .setLink(SERVICE_JOB_URL + "servicejob_upload_recording")
+                                .setLink(SERVICE_JOB_UPLOAD_RECORDING_URL)
                                 .addMultipleFile(recordingFile, sjrw.getRecordingName(), "audio/mpeg", counter + "")
                                 .addMultipleParam("taken", sjrw.getTaken(), counter + "")
                                 .addParam("count", mRecordResults.size() + "")
@@ -893,7 +896,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
     // CAlled by uploadRecordings() only
     private UploadFile_VolleyPOST setDataSignatureVolley(UploadFile_VolleyPOST post, ServiceJobWrapper sjw, int serviceJobId) {
         post.setContext(this.mContext)
-            .setLink(SERVICE_JOB_URL + "servicejob_upload_signature")
+            .setLink(SERVICE_JOB_UPLOAD_SIGNATURE_URL)
             .addParam("servicejob_id", serviceJobId+"")
             .addParam("remarks_before", sjw.getBeforeRemarks())
             .addParam("remarks_after", sjw.getAfterRemarks())

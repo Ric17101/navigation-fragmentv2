@@ -153,7 +153,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
         mProgressIndicator.showProgress(false);
 
-        HttpBasicAuth.testAuthetication();
+        new HttpBasicAuth().testAuth();
     }
 
     private void initProgresBarIndicator() {

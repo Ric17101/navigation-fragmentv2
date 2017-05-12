@@ -1,6 +1,7 @@
 package admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm;
 
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -21,6 +22,7 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.HTTP_AUTHENTICATION_ACCESS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_NEW_PARTS_UPLOAD_URL;
 
 /**
@@ -127,6 +129,8 @@ public class ServiceJobJSON_POST {
         conn.setReadTimeout(10000 /*milliseconds*/);
         conn.setConnectTimeout(15000 /* milliseconds */);
         conn.setRequestMethod("POST");
+        String encoding = Base64.encodeToString(HTTP_AUTHENTICATION_ACCESS.getBytes(), Base64.DEFAULT);
+        conn.addRequestProperty("Authorization", "Basic " + encoding);
         conn.setDoInput(true);
         conn.setDoOutput(true);
         conn.setFixedLengthStreamingMode(message.getBytes().length);

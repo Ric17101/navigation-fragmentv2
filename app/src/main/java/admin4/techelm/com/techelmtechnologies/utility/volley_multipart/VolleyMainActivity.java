@@ -73,8 +73,8 @@ public class VolleyMainActivity extends AppCompatActivity {
         // ... then
         // String url = "http://www.angga-ari.com/api/something/awesome";
         VolleyMultipartRequest multipartRequest =
-                new VolleyMultipartRequest(Method.POST,
-                        URL,
+                new VolleyMultipartRequest(
+                        Method.POST, URL,
                         new Response.Listener<NetworkResponse>() {
                             @Override
                             public void onResponse(NetworkResponse response) {

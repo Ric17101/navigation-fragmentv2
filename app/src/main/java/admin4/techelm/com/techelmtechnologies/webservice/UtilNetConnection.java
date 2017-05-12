@@ -1,5 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.webservice;
 
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -15,6 +16,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.HTTP_AUTHENTICATION_ACCESS;
+
 /**
  * Created by jcf on 7/27/2016.
  */
@@ -28,6 +31,8 @@ public class UtilNetConnection {
        /*set request*/
         con.setRequestMethod(requestMethod);
         con.setRequestProperty("Accept-Language", "UTF-8");
+        String encoding = Base64.encodeToString(HTTP_AUTHENTICATION_ACCESS.getBytes(), Base64.DEFAULT);
+        con.addRequestProperty("Authorization", "Basic " + encoding);
         con.setDoOutput(true);
         return con;
     }
@@ -35,6 +40,8 @@ public class UtilNetConnection {
     public static HttpURLConnection buildConnection(String url) throws IOException {
         HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
         /*set request*/
+        String encoding = Base64.encodeToString(HTTP_AUTHENTICATION_ACCESS.getBytes(), Base64.DEFAULT);
+        con.addRequestProperty("Authorization", "Basic " + encoding);
         con.setRequestProperty("Accept-Language", "UTF-8");
         return con;
     }

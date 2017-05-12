@@ -65,11 +65,13 @@ public class LoginActivityAuthenticationTask extends AsyncTask<Void, Void, Boole
 
     public String getLink() {
         // Set up Login Credentials
+        /*
         StringBuilder loginUser = new StringBuilder();
         loginUser.append(LOGIN_URL);
         loginUser.append("?user=" + mEmail);
         loginUser.append("&password=" + mPassword);
-        return loginUser.toString();
+        */
+        return String.format(LOGIN_URL, mEmail, mPassword);
     }
 
     /**

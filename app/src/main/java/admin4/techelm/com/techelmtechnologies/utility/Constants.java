@@ -35,30 +35,40 @@ public final class Constants {
     public Constants() {} // Prevents instantiation of myself and my subclasses
 
     public static final String VERSION = BuildConfig.VERSION_NAME;
-    public static String DOMAIN_URL =
-            "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/";
-    public static final String LOGIN_URL = DOMAIN_URL + "auth/user";
+    public static final String HTTP_AUTHENTICATION_ACCESS = "firstcom:opendemolink88"; // REMOVE THIS if web server has no Authentication
+    public static final String NEW_DOMAIN_URL = "http://techelm2012.firstcomdemolinks.com/api/ci-rest-api-techelm/";
+    public static final String DOMAIN_URL = "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/";
+
+    public static final String LOGIN_URL = NEW_DOMAIN_URL + "auth/user?user=%s&password=%s";
+
     public static final String SERVICE_JOB_URL = DOMAIN_URL + "servicejob/";
-    public static final String SERVICE_JOB_NEW_PARTS_UPLOAD_URL = SERVICE_JOB_URL + "servicejob_new_parts_json";
-    public static final String SERVICE_JOB_SAVE_START_DATE_URL = SERVICE_JOB_URL + "save_start_date";
-    public static final String SERVICE_JOB_SAVE_CONTINUE_START_DATE_URL = SERVICE_JOB_URL + "save_continue_start_date";
-    public static final String SERVICE_JOB_GET_PARTS_RATES_URL = SERVICE_JOB_URL + "get_part_replacement_rates";
-    public static final String SERVICE_JOB_SAVE_REVERT_STATUS_URL = SERVICE_JOB_URL + "save_revert_status";
-    public static final String SERVICE_JOB_LIST_URL = SERVICE_JOB_URL + "get_all_services/";
-    public static final String SERVICE_JOB_UNSIGNED_LIST_URL = SERVICE_JOB_URL + "get_date_services_unsigend_services/";
-    public static final String SERVICE_JOB_VIEW_DETAIL_URL = SERVICE_JOB_URL + "view_details?servicejob_id=";
-    public static final String SERVICE_JOB_BY_MONTH_URL = SERVICE_JOB_URL + "get_date_services_by_month";
+    public static final String NEW_SERVICE_JOB_URL = NEW_DOMAIN_URL + "servicejob/";
+    public static final String SERVICE_JOB_DETAILS_URL = NEW_SERVICE_JOB_URL + "detail/";
+    public static final String SERVICE_JOB_LIST_URL = NEW_SERVICE_JOB_URL + "get_date_services/";
+    public static final String SERVICE_JOB_NEW_PARTS_UPLOAD_URL = NEW_SERVICE_JOB_URL + "servicejob_new_parts_json";
+    public static final String SERVICE_JOB_UPLOAD_CAPTURE_URL = NEW_SERVICE_JOB_URL + "servicejob_upload_capture";
+    public static final String SERVICE_JOB_UPLOAD_RECORDING_URL = NEW_SERVICE_JOB_URL + "servicejob_upload_recording";
+    public static final String SERVICE_JOB_UPLOAD_SIGNATURE_URL = NEW_SERVICE_JOB_URL + "servicejob_upload_signature";
+    public static final String SERVICE_JOB_SAVE_START_DATE_URL = NEW_SERVICE_JOB_URL + "save_start_date";
+    public static final String SERVICE_JOB_SAVE_CONTINUE_START_DATE_URL = NEW_SERVICE_JOB_URL + "save_continue_start_date";
+    public static final String SERVICE_JOB_GET_PARTS_RATES_URL = NEW_SERVICE_JOB_URL + "get_part_replacement_rates";
+    public static final String SERVICE_JOB_SAVE_REVERT_STATUS_URL = NEW_SERVICE_JOB_URL + "save_revert_status";
+    public static final String SERVICE_JOB_UNSIGNED_LIST_URL = NEW_SERVICE_JOB_URL + "get_date_services_unsigend_services/";
+    public static final String SERVICE_JOB_VIEW_DETAIL_URL = NEW_SERVICE_JOB_URL + "view_details?servicejob_id=";
+    public static final String SERVICE_JOB_BY_MONTH_URL = NEW_SERVICE_JOB_URL + "get_date_services_by_month";
+    public static final String SERVICE_JOB_SEND_EMAIL_URL = NEW_SERVICE_JOB_URL + "send_email";
 
     public static final String PROJECT_JOB_URL = DOMAIN_URL + "projectjob/";
-    public static final String PROJECT_JOB_LIST_URL = PROJECT_JOB_URL + "get_all_services/";
+    public static final String NEW_PROJECT_JOB_URL = NEW_DOMAIN_URL + "projectjob/";
+    public static final String PROJECT_JOB_LIST_URL = NEW_PROJECT_JOB_URL + "get_all_services/";
     public static final String PROJECT_JOB_PISS_DETAILS_URL = PROJECT_JOB_URL + "get_piss_details?id=";
-    public static final String PROJECT_JOB_PISS_TASK_LIST_URL = PROJECT_JOB_URL + "get_piss_tasks?projectjob_piss_id=";
+    public static final String PROJECT_JOB_PISS_TASK_LIST_URL = NEW_PROJECT_JOB_URL + "get_piss_tasks?projectjob_id=";
     public static final String PROJECT_JOB_PISS_TASK_DETAILS_URL = PROJECT_JOB_URL + "get_piss_tasks_detail?id=";
     public static final String PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL = PROJECT_JOB_URL + "projectjob_piss_tasks_drawing";
     public static final String PROJECT_JOB_FORM_TASK_APPEND = "&form_type=";
     // public static final String PROJECT_JOB_IPI_TASK_LIST_URL = PROJECT_JOB_URL + "get_ipi_tasks?projectjob_ipi_pw_id=";
-    public static final String PROJECT_JOB_IPI_TASK_LIST_URL = PROJECT_JOB_URL + "get_ipi_tasks?projectjob_ipi_pw_id=%d&form_type=%s";
-    public static final String PROJECT_JOB_IPI_TASK_FINAL_LIST_URL = PROJECT_JOB_URL + "get_ipi_correctiveAction?projectjob_ipi_pw_id=%d&form_type=%s";
+    public static final String PROJECT_JOB_IPI_TASK_LIST_URL = NEW_PROJECT_JOB_URL + "get_ipi_tasks?projectjob_id=%d&form_type=%s";
+    public static final String PROJECT_JOB_IPI_TASK_FINAL_LIST_URL = NEW_PROJECT_JOB_URL + "get_ipi_correctiveAction?projectjob_id=%d&form_type=%s";
 
     public static final String LIST_DELIM = ":-:";
 
