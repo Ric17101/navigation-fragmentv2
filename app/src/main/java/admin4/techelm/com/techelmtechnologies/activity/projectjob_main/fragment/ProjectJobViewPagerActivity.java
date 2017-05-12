@@ -63,6 +63,7 @@ import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.ProgressbarUtil;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.InterfaceDialogHolder;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.OpenDialog;
+import admin4.techelm.com.techelmtechnologies.utility.http_auth.HttpBasicAuth;
 import admin4.techelm.com.techelmtechnologies.utility.image_download.UILDownloader;
 import admin4.techelm.com.techelmtechnologies.utility.image_download.UILListener;
 
@@ -151,6 +152,8 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         initPermissions();
 
         mProgressIndicator.showProgress(false);
+
+        HttpBasicAuth.testAuthetication();
     }
 
     private void initProgresBarIndicator() {
