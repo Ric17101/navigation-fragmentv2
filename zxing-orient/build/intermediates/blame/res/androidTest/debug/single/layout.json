@@ -12,12 +12,12 @@
         "source": "C:\\Users\\admin 4\\.android\\build-cache\\512093e1cd6abea2d8c08d90a9d7d4d342e51a72\\output\\res\\layout\\abc_action_bar_view_list_nav_layout.xml"
     },
     {
-        "merged": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\zxing-orient\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_action_menu_layout.xml",
-        "source": "C:\\Users\\admin 4\\.android\\build-cache\\512093e1cd6abea2d8c08d90a9d7d4d342e51a72\\output\\res\\layout\\abc_action_menu_layout.xml"
-    },
-    {
         "merged": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\zxing-orient\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\notification_action_tombstone.xml",
         "source": "C:\\Users\\admin 4\\.android\\build-cache\\512093e1cd6abea2d8c08d90a9d7d4d342e51a72\\output\\res\\layout\\notification_action_tombstone.xml"
+    },
+    {
+        "merged": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\zxing-orient\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_action_menu_layout.xml",
+        "source": "C:\\Users\\admin 4\\.android\\build-cache\\512093e1cd6abea2d8c08d90a9d7d4d342e51a72\\output\\res\\layout\\abc_action_menu_layout.xml"
     },
     {
         "merged": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\zxing-orient\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\notification_template_media_custom.xml",
@@ -136,12 +136,12 @@
         "source": "C:\\Users\\admin 4\\.android\\build-cache\\512093e1cd6abea2d8c08d90a9d7d4d342e51a72\\output\\res\\layout\\abc_list_menu_item_checkbox.xml"
     },
     {
-        "merged": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\zxing-orient\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_toolbar.xml",
-        "source": "C:\\Users\\admin 4\\.android\\build-cache\\512093e1cd6abea2d8c08d90a9d7d4d342e51a72\\output\\res\\layout\\abc_screen_toolbar.xml"
-    },
-    {
         "merged": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\zxing-orient\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_action_bar_title_item.xml",
         "source": "C:\\Users\\admin 4\\.android\\build-cache\\512093e1cd6abea2d8c08d90a9d7d4d342e51a72\\output\\res\\layout\\abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\zxing-orient\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_toolbar.xml",
+        "source": "C:\\Users\\admin 4\\.android\\build-cache\\512093e1cd6abea2d8c08d90a9d7d4d342e51a72\\output\\res\\layout\\abc_screen_toolbar.xml"
     },
     {
         "merged": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\zxing-orient\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\notification_action.xml",
