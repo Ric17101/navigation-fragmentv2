@@ -135,7 +135,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         frag.setArguments(args);
 
         mServiceJobFromBundle = serviceJob;
-        return (frag);
+        return frag;
     }
 
     @Override

@@ -53,12 +53,14 @@ import admin4.techelm.com.techelmtechnologies.adapter.listener.IPITaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.IPIFinalTaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.PISSTaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
+import admin4.techelm.com.techelmtechnologies.db.projectjob.PISS_TaskDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
+import admin4.techelm.com.techelmtechnologies.utility.ProgressbarUtil;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.InterfaceDialogHolder;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.OpenDialog;
 import admin4.techelm.com.techelmtechnologies.utility.image_download.UILDownloader;
@@ -86,6 +88,7 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 public class ProjectJobViewPagerActivity extends FragmentActivity implements
         ProjectJobListener,
         PISSTaskListener,
+        PISS_TaskDBUtil.OnDatabaseChangedListener,
         IPITaskListener,
         IPIFinalTaskListener,
         DatePickerDialog.OnDateSetListener,
@@ -122,7 +125,10 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     private EditText editTextB2RectificationDate;
     private int rectificationDateClicked = 0;
 
-    private int mFragmentPosition;
+    // Loading Indicator Setup
+    private View mProgressView;
+    private View mMainView;
+    private ProgressbarUtil mProgressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +137,8 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         setFullScreenMode();
 
         setContentView(R.layout.activity_projectjob_list);
+
+        initProgresBarIndicator();
 
         fromBundle();
 
@@ -141,6 +149,14 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         init_ViewPager();
 
         initPermissions();
+
+        mProgressIndicator.showProgress(false);
+    }
+
+    private void initProgresBarIndicator() {
+        mMainView = findViewById(R.id.containerView);
+        mProgressView = findViewById(R.id.page_progress);
+        this.mProgressIndicator = new ProgressbarUtil().newInstance(mProgressView, mMainView, getResources());
     }
 
     private void initPermissions() {
@@ -149,6 +165,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         PermissionUtil.verrifyCameraPermissions(this);
     }
 
+    // TODO:  separte this as util class
     public void setFullScreenMode() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -160,6 +177,8 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
      * By using the MODE CONSTANT of modeOfForm
      */
     private void fromBundle() {
+        mProgressIndicator.showProgress(true);
+
         Intent intent = getIntent();
         this.modeOfForm = intent.getIntExtra(PROJECT_JOB_FORM_TYPE_KEY, 0);
         this.mProjectJob = intent.getParcelableExtra(PROJECT_JOB_KEY);
@@ -751,9 +770,10 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
      * This only to set what Fragment Calls the Calendar Event from the Fragment
      *  then set the EditText/Display only
      * @param fragment
+     * TODO: fragment Position is needed?
      */
     private void initCallingFragment(Fragment fragment, int fragmentPosition) {
-        this.mFragmentPosition = fragmentPosition;
+        // this.mFragmentPosition = fragmentPosition;
         switch (fragmentPosition) {
             case PROJECT_JOB_FRAGMENT_POSITION_2 : ncadft = (NonConformanceAndDateFragmentTest)fragment; break;
             case PROJECT_JOB_FRAGMENT_POSITION_3 : cdft = (CompletionDateFragmentTest) fragment; break;
@@ -829,6 +849,21 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 })
                 .build();
         md.show();
+    }
+
+    @Override
+    public void onNewPISS_TaskEntryAdded(String fileName) {
+
+    }
+
+    @Override
+    public void onPISS_TaskEntryRenamed(String fileName) {
+
+    }
+
+    @Override
+    public void onPISS_TaskEntryDeleted() {
+
     }
 
     /*************** END B2 - In-process inspection (PW) ***************/

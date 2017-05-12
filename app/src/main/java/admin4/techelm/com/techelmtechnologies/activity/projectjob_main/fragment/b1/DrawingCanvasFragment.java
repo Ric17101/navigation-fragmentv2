@@ -29,6 +29,7 @@ import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
 import java.io.File;
 
+import admin4.techelm.com.techelmtechnologies.db.projectjob.PISS_TaskDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.drawing.CanvasView;
@@ -293,7 +294,8 @@ public class DrawingCanvasFragment extends Fragment implements
         if (image.save(bitmap2)) { // save image to storage
             message = "Image saved.";
             // TODO: save to DB from here
-
+            mTask.setDrawingAfter(image.loadImageFile().getAbsolutePath());
+            new SaveTASKProjectTask().newInstance(mTask).execute((Void) null);
         } else {
             message = "Can't save image.";
         }
@@ -307,5 +309,31 @@ public class DrawingCanvasFragment extends Fragment implements
     }
 
 
+    /********** SAVE PROJECT TASK *************/
+    private class SaveTASKProjectTask extends AsyncTask<Void, Void, String> {
+        private PISSTaskWrapper task;
 
+        public SaveTASKProjectTask newInstance(PISSTaskWrapper pissTaskWrapper) {
+            Log.e(TAG, "Im on the newInstance00");
+            this.task = pissTaskWrapper;
+            return this;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Log.e(TAG, "Im on the doInBackground");
+            PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
+            taskDBUtil.open();
+            int insertedID = taskDBUtil.addPISSTask(task);
+            taskDBUtil.close();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.e(TAG, "Im on the onPostExecute");
+            super.onPostExecute(s);
+            // setButtonEnabled(true);
+        }
+    }
 }

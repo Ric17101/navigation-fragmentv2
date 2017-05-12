@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
@@ -28,6 +27,7 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.ProgressbarUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
@@ -51,8 +51,11 @@ public class LoginActivity2 extends AppCompatActivity implements
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+
+    // Loading Indicator Setup
     private View mProgressView;
     private View mLoginFormView;
+    private ProgressbarUtil mProgressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +95,13 @@ public class LoginActivity2 extends AppCompatActivity implements
             }
         });
 
+        initProgresBarIndicator();
+    }
+
+    private void initProgresBarIndicator() {
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        mProgressView = findViewById(R.id.page_progress);
+        this.mProgressIndicator = new ProgressbarUtil().newInstance(mProgressView, mLoginFormView, getResources());
     }
 
     public void setFullScreenMode() {
@@ -189,7 +197,7 @@ public class LoginActivity2 extends AppCompatActivity implements
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            mProgressIndicator.showProgress(true);
             mAuthTask = new LoginActivityAuthenticationTask(email, password, this);
             new TaskCanceller(mAuthTask).setWait(LoginActivity2.this);
             mAuthTask.execute((Void) null);
@@ -206,43 +214,6 @@ public class LoginActivity2 extends AppCompatActivity implements
         return password.length() > 3;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     * TODO: implement this on seprate class ProgressbarUtil.jva
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -256,9 +227,7 @@ public class LoginActivity2 extends AppCompatActivity implements
     public void onHandleSelection(int position, UserLoginWrapper user, int mode) {
     }
     @Override
-    public void onHandleShowProgessLogin(boolean task) {
-        showProgress(task);
-    }
+    public void onHandleShowProgessLogin(boolean task) { mProgressIndicator.showProgress(task); }
     @Override
     public void onHandleAuthTask(LoginActivityAuthenticationTask loginAuthTask) {
         mAuthTask = loginAuthTask;

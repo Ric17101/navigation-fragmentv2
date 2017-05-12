@@ -81,9 +81,10 @@ public class ImageUtility {
         Log.e(TAG, "Directory is isExternalStorageWritable: " + isExternalStorageWritable());
         
         try {
-            fileOutputStream = new FileOutputStream(createFile());
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
             this.mImageFile = createFile();
+            fileOutputStream = new FileOutputStream(this.mImageFile);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();

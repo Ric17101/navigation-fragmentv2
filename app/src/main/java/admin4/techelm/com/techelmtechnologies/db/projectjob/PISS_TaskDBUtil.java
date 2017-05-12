@@ -265,13 +265,13 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
         // cv.put(DBHelperItem.COLUMN_NAME_UPLOADS_ID, length);
 
         if (db.insert(DBHelperItem.TABLE_NAME, null, cv) < 0) { // Update if Already existed on the SQLite DB
-            int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
+            int rowAffected = db.update(DBHelperItem.TABLE_NAME, cv,
                     DBHelperItem.COLUMN_NAME_PISS_TASK_ID + "=" + item.getID(), null);
-            Log.e(TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
+            Log.e(TAG, "addPISSTask ROWS AFFECTED " + rowAffected);
         }
 
-        Log.e(TAG, "addServiceJob INSERTED ID " + item.getID());
-        Log.e(TAG, "addServiceJob INSERTED " +item.getID());
+        Log.e(TAG, "addPISSTask INSERTED ID " + item.getID());
+        Log.e(TAG, "addPISSTask INSERTED " +item.getID());
         return item.getID();
     }
 

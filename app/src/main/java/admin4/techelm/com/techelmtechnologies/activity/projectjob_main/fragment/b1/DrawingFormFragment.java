@@ -58,6 +58,7 @@ public class DrawingFormFragment extends Fragment {
 
     private void fromBundle() {
         this.mPissTask = getArguments().getParcelable(PROJECT_JOB_PISS_TASK_KEY);
+        new SaveTASKProjectTask().newInstance(this.mPissTask).execute((Void)null);
     }
 
     @Nullable
@@ -145,6 +146,35 @@ public class DrawingFormFragment extends Fragment {
         ((ProjectJobViewPagerActivity)getActivity()).showDrawingCanvasFragment(taskWrapper);
     }
 
+    /********** SAVE PROJECT TASK *************/
+    private class SaveTASKProjectTask extends AsyncTask<Void, Void, String> {
+        private PISSTaskWrapper task;
+
+        public SaveTASKProjectTask newInstance(PISSTaskWrapper pissTaskWrapper) {
+            Log.e(TAG, "Im on the newInstance00");
+            this.task = pissTaskWrapper;
+            return this;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Log.e(TAG, "Im on the doInBackground");
+            PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
+            taskDBUtil.open();
+            int insertedID = taskDBUtil.addPISSTask(task);
+            taskDBUtil.close();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.e(TAG, "Im on the onPostExecute");
+            super.onPostExecute(s);
+            setButtonEnabled(true);
+        }
+    }
+
+
     /********** UPLOAD TASK *************/
     private boolean hasDrawing = false;
     private class UploadDrawingTASK extends AsyncTask<PISSTaskWrapper, Void, String> {
@@ -184,46 +214,58 @@ public class DrawingFormFragment extends Fragment {
      * @param pissTaskWrapper
      */
     private void uploadDrawing(PISSTaskWrapper pissTaskWrapper) {
+        boolean canUploadFile = false;
         UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
 
         // Prepare and get Data Parameter from SQLiteDB
         PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
         taskDBUtil.open();
-        PISSTaskWrapper taskDBUtilDetailsByProjectJobID = taskDBUtil.getDetailsByProjectJobID(pissTaskWrapper.getProjectID());
+        PISSTaskWrapper task = taskDBUtil.getDetailsByProjectJobID(pissTaskWrapper.getProjectID());
         taskDBUtil.close();
 
         Log.e(TAG, "uploadDrawing " + pissTaskWrapper.toString());
 
         // Retrieve File
-        File drawingFile = new File(taskDBUtilDetailsByProjectJobID.getDrawingAfter());
+        File drawingFile = null;
+        File drawingImage = null;
 
-        if (drawingFile.canRead()) {
-            setHasDrawing(false);
-            post = setDataDrawingVolley(post, pissTaskWrapper);
-            post.addParam("hasDrawing", "false");
+        if (task.getDrawingAfter() != null /*|| task.getDrawingAfter().equals("")*/)
+            drawingFile = new File(task.getDrawingAfter());
+
+        if (drawingFile == null) {
+            canUploadFile = false;
             Log.e(TAG, "hasDrawing=false 1st IF");
         } else {
-            setHasDrawing(true); // TODO: Fix this as this will be useful when retrieving from SQLDB
-
-            File drawingImage = new ImageUtility(getActivity()).rescaleImageFile(drawingFile); // Reseize file before send to server
-
-            if (drawingImage.canRead()) { // File exist
-
-                post = setDataDrawingVolley(post, pissTaskWrapper);
-
-                if (this.hasDrawing) { // If user signed and clicked save on the Sign PAD
-                    post.addImageFile(drawingImage, drawingFile.getName(), "image/jpeg");
-                    post.addParam("hasDrawing", "true");
-                    Log.e(TAG, "hasDrawing=true 3rd IF");
+            //setHasDrawing(true); // TODO: Fix this as this will be useful when retrieving from SQLDB
+            if (drawingFile.canRead()) {
+                drawingImage = new ImageUtility(getActivity()).rescaleImageFile(drawingFile); // Reseize file before send to server
+                if (drawingImage.canRead()) { // File exist
+                    if (this.hasDrawing) { // If user signed and clicked save on the Sign PAD
+                        canUploadFile = true;
+                        Log.e(TAG, "hasDrawing=true 3rd IF");
+                    } else {
+                        canUploadFile = false;
+                        Log.e(TAG, "hasDrawing=false 3rd IF");
+                    }
                 } else {
-                    post.addParam("hasDrawing", "false");
-                    Log.e(TAG, "hasDrawing=false 3rd IF");
+                    canUploadFile = false;
+                    Log.e(TAG, "hasDrawing=ERROR 2nd ELSE");
                 }
             } else {
-                post.addParam("hasDrawing", "true");
-                Log.e(TAG, "hasDrawing=ERROR 2nd ELSE" );
+                canUploadFile = false;
+                Log.e(TAG, "hasDrawing=ERROR 4th ELSE");
             }
         }
+
+        // Finally Decide whether to save/upload file
+        if (canUploadFile) {
+            post.addImageFile(drawingImage, drawingFile.getName(), "image/jpeg");
+            post.addParam("hasDrawing", "true");
+        } else {
+            post.addParam("hasDrawing", "false");
+        }
+
+        post = setDataDrawingVolley(post, pissTaskWrapper);
         post.startUpload();
     }
 

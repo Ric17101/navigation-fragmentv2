@@ -51,6 +51,9 @@
         android:orientation="vertical">
         <!-- MAIN CONTENT-->
 
+        <include layout="@layout/progress_bar" />
+
         <include layout="@layout/content_main" />
+
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
