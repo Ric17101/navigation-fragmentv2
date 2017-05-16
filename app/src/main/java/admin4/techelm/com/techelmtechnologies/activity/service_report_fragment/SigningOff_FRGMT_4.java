@@ -733,7 +733,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 if (signatureFile != null) { // TODO: Test this, if file is null
                     if (signatureFile.canRead()) { // File exists on the Directory
                         post.setContext(this.mContext)
-                                .setLink(SERVICE_JOB_UPLOAD_CAPTURE_URL)
+                            .setLink(SERVICE_JOB_UPLOAD_CAPTURE_URL)
                                 .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter + "")
                                 .addMultipleParam("taken", sjuw.getTaken(), counter + "")
                                 .addParam("count", mUploadResults.size() + "")

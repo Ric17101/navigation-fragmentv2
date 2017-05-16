@@ -2,15 +2,17 @@ package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
@@ -36,14 +38,12 @@ import admin4.techelm.com.techelmtechnologies.utility.drawing.CanvasView;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
-import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 
 /**
- * Created by Ratan on 7/29/2015.
+ * Created 16/05/2017.
+ * Drawing Canvas with pencil/eraser and text
  */
 public class DrawingCanvasFragment extends Fragment implements
         View.OnClickListener
@@ -68,7 +68,8 @@ public class DrawingCanvasFragment extends Fragment implements
     ImageView mockImageView;
     GestureView mGestureView;
 
-    private PISSTaskWrapper mTask;
+    private PISSTaskWrapper mPissTask;
+    private boolean hasEdited = false;
 
     public static DrawingCanvasFragment newInstamce(PISSTaskWrapper pissTaskWrapper) {
         DrawingCanvasFragment fragment = new DrawingCanvasFragment();
@@ -87,7 +88,7 @@ public class DrawingCanvasFragment extends Fragment implements
     }
 
     private void fromBundle() {
-        this.mTask = getArguments().getParcelable(PROJECT_JOB_PISS_TASK_KEY);
+        this.mPissTask = getArguments().getParcelable(PROJECT_JOB_PISS_TASK_KEY);
     }
 
     @Nullable
@@ -100,7 +101,7 @@ public class DrawingCanvasFragment extends Fragment implements
 
         this.resources = getResources();
 
-        downloadImage(view); // CreateBitmap();
+        new LoadTASKProjectIFExistsTask().newInstance(this.mPissTask, view).execute((Void) null);
 
         return view;
     }
@@ -129,7 +130,7 @@ public class DrawingCanvasFragment extends Fragment implements
         initButton(getView());
     }
 
-    private void downloadImage(View view) {
+    private void downloadImage(View view, boolean edited) {
         /*
         UILDownloader downloader = new UILDownloader(getActivity());
         downloader.setImageFrom(IMAGE_URL);
@@ -138,9 +139,36 @@ public class DrawingCanvasFragment extends Fragment implements
         */
         mGestureView = (GestureView) view.findViewById(R.id.gestureView);
         mockImageView = (ImageView) view.findViewById(R.id.mockImageView);
-        //((ProjectJobViewPagerActivity) getActivity()).downloadImageFromURL(DrawingCanvasFragment.this, IMAGE_URL, mockImageView);
+
+        String URI = this.mPissTask.getDrawingBefore();
         ((ProjectJobViewPagerActivity) getActivity())
-                .downloadImageFromURL(DrawingCanvasFragment.this, this.mTask.getDrawingBefore(), mockImageView);
+                .downloadImageFromURL(
+                        DrawingCanvasFragment.this,
+                        URI,
+                        mockImageView,
+                        ProjectJobViewPagerActivity.fragmentType.CANVAS);
+        this.hasEdited = edited;
+    }
+
+    /**
+     * Returns the Uri which can be used to delete/work with images in the photo gallery.
+     * @param filePath Path to IMAGE on SD card
+     * @return Uri in the format of... content://media/external/images/media/[NUMBER]
+     */
+    private Uri getImageContentUri(String filePath) {
+        long photoId;
+        Uri photoUri = MediaStore.Images.Media.getContentUri("external");
+
+        String[] projection = {MediaStore.Images.ImageColumns._ID};
+        // TODO This will break if we have no matching item in the MediaStore.
+        Cursor cursor = getActivity().getContentResolver().query(photoUri, projection, MediaStore.Images.ImageColumns.DATA + " LIKE ?", new String[] { filePath }, null);
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(projection[0]);
+        photoId = cursor.getLong(columnIndex);
+
+        cursor.close();
+        return Uri.parse(photoUri.toString() + "/" + photoId);
     }
 
     /***** GESTURE SETTINGS *****/
@@ -177,19 +205,24 @@ public class DrawingCanvasFragment extends Fragment implements
 
     public void initCanvasView(Bitmap imageLoaded) {
         this.bitmap1 = imageLoaded;
+        if (hasEdited && this.mPissTask.getDrawingAfter() != null) { // Load after Drawing
+            File editedDrawing = new File(this.mPissTask.getDrawingAfter());
+            this.bitmap1 = ImageUtility.loadBitmapFromile(editedDrawing);
+            Log.e(TAG, "has Edited " + editedDrawing.getName());
+        }
         initCanvasView();
         // TODO: save the originalImage then compare or whatever
     }
 
     private void initButton(View view) {
-        btnAddText = (Button)view.findViewById(R.id.btnAddText);
-        btnUndo = (Button)view.findViewById(R.id.btnUndo);
-        btnRedo = (Button)view.findViewById(R.id.btnRedo);
-        btnDraw = (Button)view.findViewById(R.id.btnDraw);
-        btnZoom = (Button)view.findViewById(R.id.btnZoom);
-        btnBlue = (Button)view.findViewById(R.id.btnBlue);
-        btnSave = (Button)view.findViewById(R.id.btnSave);
-        txtAddText = (EditText)view.findViewById(R.id.txtAddText);
+        btnAddText = (Button) view.findViewById(R.id.btnAddText);
+        btnUndo = (Button) view.findViewById(R.id.btnUndo);
+        btnRedo = (Button) view.findViewById(R.id.btnRedo);
+        btnDraw = (Button) view.findViewById(R.id.btnDraw);
+        btnZoom = (Button) view.findViewById(R.id.btnZoom);
+        btnBlue = (Button) view.findViewById(R.id.btnBlue);
+        btnSave = (Button) view.findViewById(R.id.btnSave);
+        txtAddText = (EditText) view.findViewById(R.id.txtAddText);
 
         btnAddText.setOnClickListener(this);
         btnUndo.setOnClickListener(this);
@@ -214,8 +247,10 @@ public class DrawingCanvasFragment extends Fragment implements
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*saveImage();
+                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(1);*/
+                setButtonEnabled(false);
                 saveImage();
-                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(1);
             }
         });
     }
@@ -263,9 +298,10 @@ public class DrawingCanvasFragment extends Fragment implements
                 canvas.redo();   // Redo
                 break;
             case R.id.btnSave:
+                setButtonEnabled(false);
                 saveImage();
 
-                Log.i("MyActivity", "try erase");
+                Log.i(TAG, "try erase");
                 canvas.setMode(CanvasView.Mode.ERASER);  // for using Eraser
                 break;
             case R.id.btnDraw:
@@ -281,6 +317,10 @@ public class DrawingCanvasFragment extends Fragment implements
         }
     }
 
+    private void setButtonEnabled(boolean mode) {
+        btnSave.setEnabled(mode);
+    }
+
     private void saveImage() {
         bitmap2 = canvas.getBitmap();
 
@@ -294,16 +334,16 @@ public class DrawingCanvasFragment extends Fragment implements
         if (image.save(bitmap2)) { // save image to storage
             message = "Image saved.";
             // TODO: save to DB from here
-            mTask.setDrawingAfter(image.loadImageFile().getAbsolutePath());
-            new SaveTASKProjectTask().newInstance(mTask).execute((Void) null);
+            mPissTask.setDrawingAfter(image.loadImageFile().getAbsolutePath());
+            Log.e(TAG, "setDrawing After " + image.loadImageFile().getAbsolutePath());
+            new SaveTASKProjectTask().newInstance(mPissTask).execute((Void) null);
         } else {
             message = "Can't save image.";
         }
 
         // Finally, prompt user
         SnackBarNotificationUtil
-                .setSnackBar(getActivity().findViewById(android.R.id.content),
-                        message)
+                .setSnackBar(getActivity().findViewById(android.R.id.content), message)
                 .setColor(getResources().getColor(R.color.colorPrimary1))
                 .show();
     }
@@ -324,16 +364,60 @@ public class DrawingCanvasFragment extends Fragment implements
             Log.e(TAG, "Im on the doInBackground");
             PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
             taskDBUtil.open();
-            int insertedID = taskDBUtil.addPISSTask(task);
+            int insertedID = 0;
+            /*if (!taskDBUtil.hasInsertedDrawings(task.getID())) { // Check if already inserted then will not add anymore
+            }*/
+            insertedID = taskDBUtil.addPISSTask(task);
             taskDBUtil.close();
-            return null;
+            return insertedID + "";
         }
 
         @Override
         protected void onPostExecute(String s) {
             Log.e(TAG, "Im on the onPostExecute");
+            Log.e(TAG, "Inserted id " + s);
             super.onPostExecute(s);
+            setButtonEnabled(true);
+            ((ProjectJobViewPagerActivity) getActivity()).onBackPress();
             // setButtonEnabled(true);
         }
     }
+
+    /** THIS Class loads the Task Project Job whether it is existed already on the DB, else will load from the web(The image) **/
+    private class LoadTASKProjectIFExistsTask extends AsyncTask<Void, Void, String> {
+        private PISSTaskWrapper task;
+        private View cView;
+        private boolean hasEdited = false;
+
+        public LoadTASKProjectIFExistsTask newInstance(PISSTaskWrapper pissTaskWrapper, View view) {
+            Log.e(TAG, "Im on the newInstance00");
+            this.task = pissTaskWrapper;
+            this.cView = view;
+            return this;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Log.e(TAG, "Im on the doInBackground");
+            PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
+            taskDBUtil.open();
+            if (taskDBUtil.hasInsertedDrawings(task.getID())) { // Check if already inserted then load task from DB
+                task = taskDBUtil.getDetailsByPISSTaskID(task.getID());
+                mPissTask = task; // CHANGE THE PissTask from DB
+                hasEdited = true;
+            }
+            taskDBUtil.close();
+            return hasEdited + "";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.e(TAG, "Im on the onPostExecute " + s);
+            Log.e(TAG, "Im on the onPostExecute " + task.toString());
+            super.onPostExecute(s);
+            downloadImage(cView, hasEdited); // CreateBitmap();
+        }
+    }
+
+
 }

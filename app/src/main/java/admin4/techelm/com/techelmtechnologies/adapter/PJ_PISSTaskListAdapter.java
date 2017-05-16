@@ -89,11 +89,11 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
         holder.textViewDay.setText(dataSet.getSerialNo()); // GREYED Below BIG Number
         holder.textViewDateNumber.setText(dataSet.getID() + ""); // BIG Number
         holder.textViewDate.setText(dataSet.getStatus()); // BLACK Date Below
-        holder.textViewServiceNum.setText(dataSet.getComments() + "");
+        holder.textViewServiceNum.setText(dataSet.getComments());
         holder.textViewCustomer.setText(dataSet.getDescription());
         holder.textViewEngineer.setText(dataSet.getConformance());
         // holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()+""));
-        holder.textViewStatus.setText(dataSet.getStatus()+ "");
+        holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatus()+""));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatus()+""));
@@ -104,6 +104,13 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
         }
+
+        // Change the Label Text View Details Title for B1...
+        // since this card_view list is being used from service job need to change the titles
+        holder.textViewLabelDetail1.setText("Comments");
+        holder.textViewLabelDetail2.setText("Descriptions");
+        holder.textViewLabelDetail3.setText("Conformance");
+        holder.textViewLabelDetail4.setText("Status");
     }
 
     @Override
@@ -143,6 +150,11 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
 
         private final FrameLayout frameLayoutButtonSJ;
 
+        public final TextView textViewLabelDetail1;
+        public final TextView textViewLabelDetail2;
+        public final TextView textViewLabelDetail3;
+        public final TextView textViewLabelDetail4;
+
         public ViewHolder(View view) {
             super(view);
 
@@ -166,6 +178,12 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
 
             frameLayoutButtonSJ = (FrameLayout) view.findViewById(R.id.frameLayoutButtonSJ);
             frameLayoutButtonSJ.setOnClickListener(this);
+
+            // TEXT View Label Details
+            textViewLabelDetail1 = (TextView) view.findViewById(R.id.textViewLabelDetail1);
+            textViewLabelDetail2 = (TextView) view.findViewById(R.id.textViewLabelDetail2);
+            textViewLabelDetail3 = (TextView) view.findViewById(R.id.textViewLabelDetail3);
+            textViewLabelDetail4 = (TextView) view.findViewById(R.id.textViewLabelDetail4);
         }
 
         @Override
@@ -182,4 +200,5 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
 
         }
     }
+
 }

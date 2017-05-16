@@ -109,7 +109,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
 
     private void init_ViewPager() {
         /*
-         * Lets inflate the very first fragment
+         * Lets inflate the very first fragmentType
          * Here , we are inflating the TabFragment as the first Fragment
          */
         mFragmentManager = getSupportFragmentManager();
@@ -332,7 +332,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
                 .build();
 
         // Set Spinner Comment
-        Spinner spinnerComment = new FragmentSetListHelper_ProjectJob().setSpinnerComment(ToolboxMeetingPagerActivity.this, md2.getCustomView());
+        //Spinner spinnerComment = new FragmentSetListHelper_ProjectJob().setSpinnerComment(ToolboxMeetingPagerActivity.this, md2.getCustomView(), );
 
 
         // Set up EditText for Date Picker Dialog date
@@ -472,8 +472,8 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
     private void initCallingFragment(Fragment fragment, int fragmentPosition) {
         this.mFragmentPosition = fragmentPosition;
         switch (fragmentPosition) {
-//            case PROJECT_JOB_FRAGMENT_POSITION_2 : ncadft = (NonConformanceAndDateFragmentTest)fragment; break;
-//            case PROJECT_JOB_FRAGMENT_POSITION_3 : cdft = (CompletionDateFragmentTest) fragment; break;
+//            case PROJECT_JOB_FRAGMENT_POSITION_2 : ncadft = (NonConformanceAndDateFragmentTest)fragmentType; break;
+//            case PROJECT_JOB_FRAGMENT_POSITION_3 : cdft = (CompletionDateFragmentTest) fragmentType; break;
             default: break;
         }
     }

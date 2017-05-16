@@ -405,13 +405,11 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
 
 
     /*********** A. SERVICE DETAILS ***********/
-    public void fromActivity_onNewSJEntryAdded(String serviceNum) {
-    }
+    public void fromActivity_onNewSJEntryAdded(String serviceNum) { }
     public void fromActivity_onSJEntryRenamed(String remarks) {
         mEditTextRemarks.setText(remarks);
     }
-    public void fromActivity_onSJEntryDeleted() {
-    }
+    public void fromActivity_onSJEntryDeleted() { }
 
     /**
      * Load SJ from Database
@@ -769,7 +767,6 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         return true;
     }
 
-    // TODO: Study on how to implement separate listerner
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this.mContext)
                 .setMessage(message)

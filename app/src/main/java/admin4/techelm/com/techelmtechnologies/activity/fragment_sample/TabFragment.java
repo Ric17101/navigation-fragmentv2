@@ -56,7 +56,7 @@ public class TabFragment extends Fragment {
         }
 
         /**
-         * Return fragment with respect to Position .
+         * Return fragmentType with respect to Position .
          */
         @Override
         public Fragment getItem(int position) {

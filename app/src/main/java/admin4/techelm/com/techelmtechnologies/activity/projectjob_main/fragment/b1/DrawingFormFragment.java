@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
@@ -23,6 +25,7 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.
 import admin4.techelm.com.techelmtechnologies.db.projectjob.PISS_TaskDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
@@ -32,14 +35,17 @@ public class DrawingFormFragment extends Fragment {
 
     private static final String TAG = DrawingFormFragment.class.getSimpleName();
 
-    private View rootView;
     private ImageButton imageButtonViewDrawing;
     private Context mContext;
 
     private Button button_next;
 
     // Instance variable
+    private final static String SPINNER_TAG = "mSpinnerComment";
     private PISSTaskWrapper mPissTask;
+    private Spinner mSpinnerComment;
+    private String mCurrentSpinner = "";
+    private EditText editTextB1Remarks;
 
     public static DrawingFormFragment newInstance(PISSTaskWrapper pissTaskWrapper) {
         DrawingFormFragment fragment = new DrawingFormFragment();
@@ -53,18 +59,26 @@ public class DrawingFormFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
+
+        Log.e(TAG, "Im on the onCreate");
+        if (saveInstanceState != null) {
+            Log.e(TAG, "Im on the onCreate spinner="+saveInstanceState.getInt(SPINNER_TAG, 0));
+            //mSpinnerComment.setSelection(saveInstanceState.getInt(SPINNER_TAG, 0));
+        }
+
         fromBundle();
     }
 
     private void fromBundle() {
         this.mPissTask = getArguments().getParcelable(PROJECT_JOB_PISS_TASK_KEY);
+        Log.e(TAG, "Im on the fromBundle");
         new SaveTASKProjectTask().newInstance(this.mPissTask).execute((Void)null);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.rootView = container.getRootView();
+        super.onCreateView(inflater, container, savedInstanceState);
 
         View view = inflater.inflate(R.layout.content_b1_drawing_and_remarks_form, null);
 
@@ -72,7 +86,18 @@ public class DrawingFormFragment extends Fragment {
 
         initButton(view);
 
+        downloadImage(view);
+
         return view;
+    }
+
+    private void initTaskInputs(PISSTaskWrapper task) {
+        Log.e(TAG, "initTaskInputs " + task.toString());
+        this.mSpinnerComment = new FragmentSetListHelper_ProjectJob().setSpinnerComment(
+                getActivity(), getView(), task.getConformance());
+
+        this.editTextB1Remarks = (EditText) getView().findViewById(R.id.editTextB1Remarks);
+        this.editTextB1Remarks.setText(task.getComments());
     }
 
     /**
@@ -82,13 +107,33 @@ public class DrawingFormFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        System.out.println("remarks, currently under construction");
+        // outState.putInt(SPINNER_TAG, mSpinnerComment.getSelectedItemPosition());
+        Log.wtf(TAG, "onSaveInstanceState");
     }
 
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        System.out.println("remarks, currently under construction");
+        Log.wtf(TAG, "onActivityCreated: currently under construction");
+    }
+
+    @Override
+    public void onViewStateRestored(@NonNull Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        Log.wtf(TAG, "onViewStateRestored");
+//        this.mSpinnerComment = new FragmentSetListHelper_ProjectJob().setSpinnerComment(
+//                getActivity(), getView(), this.mPissTask.getConformance());
+
+        if (!this.mCurrentSpinner.equals(""))
+            this.mSpinnerComment = new FragmentSetListHelper_ProjectJob().setSpinnerComment(
+                getActivity(), getView(), this.mCurrentSpinner);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.wtf(TAG, "onStop");
+        this.mCurrentSpinner = this.mSpinnerComment.getSelectedItem().toString();
     }
 
     private void initButton(final View view) {
@@ -110,6 +155,8 @@ public class DrawingFormFragment extends Fragment {
             public void onClick(View view) {
                 // ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigateToTaskList();
                 // ((ProjectJobViewPagerActivity) getActivity()).onBackPress();
+                // new UpdateTASKProjectTask().newInstance(mPissTask).execute((Void)null);
+
                 new UploadDrawingTASK().newInstance(mPissTask).execute();
                 setButtonEnabled(false);
             }
@@ -122,8 +169,6 @@ public class DrawingFormFragment extends Fragment {
                  showDrawingCanvasFragment(mPissTask);
             }
         });
-
-        Spinner spinner = new FragmentSetListHelper_ProjectJob().setSpinnerComment(getActivity(), view);
     }
 
     private void setButtonEnabled(boolean mode) {
@@ -141,9 +186,62 @@ public class DrawingFormFragment extends Fragment {
         imageButtonViewDrawing.setLayoutParams(params);
     }
 
+    private void downloadImage(View view) {
+        //((ProjectJobViewPagerActivity) getActivity()).downloadImageFromURL(DrawingCanvasFragment.this, IMAGE_URL, mockImageView);
+        ((ProjectJobViewPagerActivity) getActivity())
+            .downloadImageFromURL(
+                DrawingFormFragment.this,
+                this.mPissTask.getDrawingBefore(),
+                imageButtonViewDrawing,
+                ProjectJobViewPagerActivity.fragmentType.FORM);
+    }
+
     public void showDrawingCanvasFragment(PISSTaskWrapper taskWrapper) {
         System.out.println("showDrawingCanvasFragment");
-        ((ProjectJobViewPagerActivity)getActivity()).showDrawingCanvasFragment(taskWrapper);
+        ((ProjectJobViewPagerActivity) getActivity()).showDrawingCanvasFragment(taskWrapper);
+    }
+
+    /********** UPDATE PROJECT TASK *************/
+    private class UpdateTASKProjectTask extends AsyncTask<Void, Void, String> {
+        private PISSTaskWrapper task;
+        private String conformance;
+        private String comments;
+
+        public UpdateTASKProjectTask newInstance(PISSTaskWrapper pissTaskWrapper) {
+            Log.e(TAG, "Im on the newInstance00");
+            this.task = pissTaskWrapper;
+            return this;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            this.conformance = mSpinnerComment.getSelectedItem().toString();
+            this.comments = editTextB1Remarks.getText().toString();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Log.e(TAG, "Im on the doInBackground");
+            PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
+            taskDBUtil.open();
+
+            int insertedID = taskDBUtil.addPISSTask(task);
+            mPissTask = taskDBUtil.getDetailsByPISSTaskID(task.getID());
+//            mPissTask.setComments(this.comments);
+//            mPissTask.setConformance(this.conformance);
+            task = mPissTask;
+            Log.e(TAG, "Im on the doInBackground " + taskDBUtil.getAllTask().toString());
+
+            taskDBUtil.close();
+            return insertedID + "";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.e(TAG, "Im on the onPostExecute");
+            super.onPostExecute(s);
+            // initTaskInputs(task);
+        }
     }
 
     /********** SAVE PROJECT TASK *************/
@@ -161,9 +259,17 @@ public class DrawingFormFragment extends Fragment {
             Log.e(TAG, "Im on the doInBackground");
             PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
             taskDBUtil.open();
-            int insertedID = taskDBUtil.addPISSTask(task);
+
+            int insertedID = 0;
+            if (!taskDBUtil.hasInsertedDrawings(task.getID())) { // Check if already inserted then will not add anymore
+                insertedID = taskDBUtil.addPISSTask(task);
+            }
+            mPissTask = taskDBUtil.getDetailsByPISSTaskID(task.getID());
+            task = mPissTask;
+            Log.e(TAG, "Im on the doInBackground" + taskDBUtil.getAllTask().toString());
+
             taskDBUtil.close();
-            return null;
+            return insertedID + "";
         }
 
         @Override
@@ -171,6 +277,7 @@ public class DrawingFormFragment extends Fragment {
             Log.e(TAG, "Im on the onPostExecute");
             super.onPostExecute(s);
             setButtonEnabled(true);
+            initTaskInputs(task);
         }
     }
 
@@ -188,8 +295,17 @@ public class DrawingFormFragment extends Fragment {
         }
 
         @Override
+        protected void onPreExecute() {
+            this.task.setConformance(mSpinnerComment.getSelectedItem().toString());
+            this.task.setComments(editTextB1Remarks.getText().toString());
+        }
+
+        @Override
         protected String doInBackground(PISSTaskWrapper... params) {
             Log.e(TAG, "Im on the doInBackground");
+
+            updateSQLDB();
+
             uploadDrawing(task);
             return null;
         }
@@ -201,7 +317,14 @@ public class DrawingFormFragment extends Fragment {
             setButtonEnabled(true);
         }
 
-        private void doUpload() { }
+        private void updateSQLDB() {
+            PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
+            taskDBUtil.open();
+            int insertedID = taskDBUtil.addPISSTask(this.task);
+            mPissTask = taskDBUtil.getDetailsByPISSTaskID(this.task.getID());
+            Log.e(TAG, "Im on the doInBackground " + taskDBUtil.getAllTask().toString());
+            taskDBUtil.close();
+        }
     }
 
     private void setHasDrawing(boolean hasUpload) {
@@ -211,7 +334,7 @@ public class DrawingFormFragment extends Fragment {
     /**
      * UPLOAD DRAWING
      *      SINGLE FILE
-     * @param pissTaskWrapper
+     * @param pissTaskWrapper -
      */
     private void uploadDrawing(PISSTaskWrapper pissTaskWrapper) {
         boolean canUploadFile = false;
@@ -220,10 +343,11 @@ public class DrawingFormFragment extends Fragment {
         // Prepare and get Data Parameter from SQLiteDB
         PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
         taskDBUtil.open();
-        PISSTaskWrapper task = taskDBUtil.getDetailsByProjectJobID(pissTaskWrapper.getProjectID());
+        PISSTaskWrapper task = taskDBUtil.getDetailsByPISSTaskID(pissTaskWrapper.getID());
         taskDBUtil.close();
 
-        Log.e(TAG, "uploadDrawing " + pissTaskWrapper.toString());
+        Log.e(TAG, "task:uploadDrawing " + task.toString());
+        Log.e(TAG, "task:Drawing File " + task.getDrawingAfter());
 
         // Retrieve File
         File drawingFile = new File("");
@@ -267,18 +391,32 @@ public class DrawingFormFragment extends Fragment {
     private UploadFile_VolleyPOST setDataDrawingVolley(UploadFile_VolleyPOST post, PISSTaskWrapper pissTaskWrapper) {
         post.setContext(this.mContext)
             .setLink(PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL)
-            .addParam("projectjob_task_id", pissTaskWrapper.getProjectID() + "")
+            .addParam("projectjob_task_id", pissTaskWrapper.getID() + "")
             .addParam("description", pissTaskWrapper.getDescription())
             .addParam("comments", pissTaskWrapper.getComments())
             .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
                 @Override
                 public void onError(String msg, int success) {
-                    Log.e(TAG, "Message " + msg + " Error:" + success);
+                    Log.e(TAG, "Message " + msg + " Error:" + success);SnackBarNotificationUtil
+                            .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                    "An Error occurred, try again later.")
+                            .setColor(getResources().getColor(R.color.colorPrimary1))
+                            .show();
                 }
                 @Override
                 public void onSuccess(String msg, int success) {
                     Log.e(TAG, "Message " + msg + " Success:" + success);
+                    // TODO: Should prompt user when file has been upload via Volley or via Asyncrhonous Class?
                     //uploadTask.sleep();
+                    // Finally, prompt user
+                    SnackBarNotificationUtil
+                            .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                    "Uploaded to server.")
+                            .setColor(getResources().getColor(R.color.colorPrimary1))
+                            .show();
+
+                    // Return to Home on success
+                    ((ProjectJobViewPagerActivity) getActivity()).onBackPress();
                 }
             });
         return post;

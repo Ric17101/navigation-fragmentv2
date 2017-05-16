@@ -63,8 +63,9 @@ public final class Constants {
     public static final String PROJECT_JOB_LIST_URL = NEW_PROJECT_JOB_URL + "get_all_services/";
     public static final String PROJECT_JOB_PISS_DETAILS_URL = PROJECT_JOB_URL + "get_piss_details?id=";
     public static final String PROJECT_JOB_PISS_TASK_LIST_URL = NEW_PROJECT_JOB_URL + "get_piss_tasks?projectjob_id=";
+    public static final String PROJECT_JOB_SAVE_PISS_TASK_FORM_URL = NEW_PROJECT_JOB_URL + "projectjob_piss_tasks_save";
     public static final String PROJECT_JOB_PISS_TASK_DETAILS_URL = PROJECT_JOB_URL + "get_piss_tasks_detail?id=";
-    public static final String PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL = PROJECT_JOB_URL + "projectjob_piss_tasks_drawing";
+    public static final String PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL = NEW_PROJECT_JOB_URL + "projectjob_piss_tasks_drawing";
     public static final String PROJECT_JOB_FORM_TASK_APPEND = "&form_type=";
     // public static final String PROJECT_JOB_IPI_TASK_LIST_URL = PROJECT_JOB_URL + "get_ipi_tasks?projectjob_ipi_pw_id=";
     public static final String PROJECT_JOB_IPI_TASK_LIST_URL = NEW_PROJECT_JOB_URL + "get_ipi_tasks?projectjob_id=%d&form_type=%s";
@@ -119,10 +120,10 @@ public final class Constants {
     /**** SECTION B ****/
     // STATUS of Project Jobs, the Task Button
     public static final String PROJECT_JOB_NEW = "0";
-    public static final String PROJECT_JOB_UNSIGNED = "1";
-    public static final String PROJECT_JOB_PENDING = "2";
-    public static final String PROJECT_JOB_COMPLETED = "3";
-    public static final String PROJECT_JOB_ON_PROCESS = "4";
+   // public static final String PROJECT_JOB_UNSIGNED = "1";
+    public static final String PROJECT_JOB_PENDING = "1";
+    public static final String PROJECT_JOB_COMPLETED = "2";
+    public static final String PROJECT_JOB_ON_PROCESS = "3";
 
     // ACTION PROJECT JOB
     public static final int ACTION_CHOOSE_FORM = 10; // PROJECT JOB, Choosing the form

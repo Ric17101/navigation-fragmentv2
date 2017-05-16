@@ -50,6 +50,9 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * B2 and B3 Task List
+ */
 public class IPITaskListFinalFragment extends Fragment
 {
     private static final String TAG = IPITaskListFinalFragment.class.getSimpleName();
@@ -154,7 +157,7 @@ public class IPITaskListFinalFragment extends Fragment
             @Override
             public void onClick(View view) {
                 // Delete the Service Job from SQLite DB on Back
-                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(-1);
+                ((ProjectJobViewPagerActivity) getActivity()).onBackPress();
             }
         });
 

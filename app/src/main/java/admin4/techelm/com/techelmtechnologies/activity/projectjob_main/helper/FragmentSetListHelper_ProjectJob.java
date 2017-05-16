@@ -37,7 +37,6 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_TASK_START_DRAWING;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_UNSIGNED;
 
 /**
  * Created by admin 4 on 03/04/2017.
@@ -54,8 +53,6 @@ public class FragmentSetListHelper_ProjectJob {
     public String setStatus(String status) {
         switch (status) {
             case PROJECT_JOB_NEW: status = "New";
-                break;
-            case PROJECT_JOB_UNSIGNED: status = "Unsigned";
                 break;
             case PROJECT_JOB_COMPLETED: status = "Completed";
                 break;
@@ -100,15 +97,21 @@ public class FragmentSetListHelper_ProjectJob {
         return taskText;
     }
 
-    public Spinner setSpinnerComment(Context context, View view) {
+    public Spinner setSpinnerComment(Context context, View view, String compareValue) {
         ArrayList<String> options = new ArrayList<>();
         options.add("YES");
         options.add("NO");
-        options.add("NA");
+        options.add("N/A");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, options);
+
         Spinner spinnerComment = (Spinner) view.findViewById(R.id.spinnerComment);
         spinnerComment.setAdapter(adapter);
+
+        if (!compareValue.equals(null)) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            spinnerComment.setSelection(spinnerPosition);
+        }
         return spinnerComment;
     }
 

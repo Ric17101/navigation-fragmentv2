@@ -1,7 +1,9 @@
 package admin4.techelm.com.techelmtechnologies.utility;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -10,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Display;
@@ -43,6 +46,7 @@ public class ImageUtility {
     private static final String TAG = ImageUtility.class.getSimpleName();
 
     private String directoryName = "images";
+    private String directoryPath = "";
     private String fileName = "image.png";
     private File mImageFile;
     private Context mContext;
@@ -58,6 +62,7 @@ public class ImageUtility {
     }
 
     public String getFileName() { return this.fileName; }
+    public String getDirectoryPath() {return this.getDirectoryPath(); }
 
     public ImageUtility setExternal(boolean external) {
         this.external = external;
@@ -85,6 +90,11 @@ public class ImageUtility {
             fileOutputStream = new FileOutputStream(this.mImageFile);
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
 
+            boolean isReadable = false;
+            if (this.mImageFile.canRead()) isReadable = true;
+
+            Log.e(TAG, "Directory has been created created " + mImageFile.getName());
+            Log.e(TAG, "is Readable: " + isReadable);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +128,7 @@ public class ImageUtility {
         } else {
             directory = this.mContext.getDir(directoryName, Context.MODE_PRIVATE);
         }
-
+        this.directoryPath = directory.getAbsolutePath();
         return new File(directory, fileName);
     }
 
@@ -130,7 +140,9 @@ public class ImageUtility {
         File file = new File(mFilePath);
 
         if (!file.mkdirs()) {
-            Log.e("ImageUtility", "Directory not created");
+            Log.e(TAG, "Directory not created");
+        } else {
+            Log.e(TAG, "Directory has been created created " + mFilePath);
         }
         return file;
     }
@@ -158,6 +170,7 @@ public class ImageUtility {
     public Bitmap load() {
         FileInputStream inputStream = null;
         try {
+            Log.e(TAG, "TRYDirectory has been created");
             inputStream = new FileInputStream(createFile());
             return BitmapFactory.decodeStream(inputStream);
         } catch (Exception e) {
@@ -171,6 +184,7 @@ public class ImageUtility {
                 e.printStackTrace();
             }
         }
+        Log.e(TAG, "TRYDirectory has been created");
         return null;
     }
 
@@ -305,4 +319,50 @@ public class ImageUtility {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
+    public static Uri getImageContentUri(Context context, File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Images.Media._ID },
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            cursor.close();
+            return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return context.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public static Bitmap convertFileToBitmap(File fileImage) {
+        Bitmap bitmap = BitmapFactory.decodeFile(fileImage.getAbsolutePath());
+        return bitmap;
+    }
+
+    public static Bitmap loadBitmapFromile(File file) {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+            return BitmapFactory.decodeStream(inputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 }

@@ -6,28 +6,27 @@ import android.view.View;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceListener;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_GET_PARTS_RATES_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SAVE_CONTINUE_START_DATE_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_SAVE_PISS_TASK_FORM_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SAVE_REVERT_STATUS_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SAVE_START_DATE_URL;
 
 /**
- * Created by admin 4 on 17/03/2017.
- * This call run on Working Thread Alraedy
- * POST commmand
- *
+ * Created by admin 4 on 16/05/2017.
+ * STRING DATA Only, use ServiceJobJSON_POST Class for JSON DATA POST
+ * THis callback can be impelemented without implements on the class header,
+ * POST command
  */
 
-public class ServiceJobBegin_POST {
+public class ProjectJobPISS_POST {
 
     private PostCommand postCommand;
-    public static final String TAG = ServiceJobBegin_POST.class.getSimpleName();
+    private static final String TAG = ProjectJobPISS_POST.class.getSimpleName();
 
     private OnEventListener mOnEventListener;
 
@@ -44,46 +43,23 @@ public class ServiceJobBegin_POST {
     // WEB API Setup
     public void cancel(View v) { postCommand.cancel(); }
 
-    public void postStartDate(int id) {
+    public void postPISSTaskForm(PISSWrapper pissWrapper) {
+        this.mOnEventListener.onEvent();
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();
-        webServiceInfo.setUrl(SERVICE_JOB_SAVE_START_DATE_URL);
+        webServiceInfo.setUrl(PROJECT_JOB_SAVE_PISS_TASK_FORM_URL);
 
     /*add parameter*/
-        webServiceInfo.addParam("id", id + "");
-        webServiceInfo.addParam("start_date_task", getCurrentDateTime()); // Can be nothing... this is not used in server side
-
-    /*postStartDate command*/
-        postCommand = new PostCommand(webServiceInfo);
-
-    /*request*/
-        executeWebServiceRequest();
-    }
-
-    public void postContinueDate(int id) {
-    /*web info*/
-        WebServiceInfo webServiceInfo = new WebServiceInfo();
-        webServiceInfo.setUrl(SERVICE_JOB_SAVE_CONTINUE_START_DATE_URL);
-
-    /*add parameter*/
-        webServiceInfo.addParam("id", id + "");
-        //webServiceInfo.addParam("start_task_time", getCurrentDateTime());
-
-    /*postStartDate command*/
-        postCommand = new PostCommand(webServiceInfo);
-
-    /*request*/
-        executeWebServiceRequest();
-    }
-
-    public void postGetListOfReplacementPartsDate() {
-    /*web info*/
-        WebServiceInfo webServiceInfo = new WebServiceInfo();
-        webServiceInfo.setUrl(SERVICE_JOB_GET_PARTS_RATES_URL);
-
-    /*add parameter*/
-        webServiceInfo.addParam("id", "test");
-        //webServiceInfo.addParam("start_task_time", getCurrentDateTime());
+        webServiceInfo.addParam("projectjob_id", pissWrapper.getProjectJobID() + "");
+        webServiceInfo.addParam("property_officer", pissWrapper.getPropertyOfficer());
+        webServiceInfo.addParam("tc_lew", pissWrapper.getTCLew());
+        webServiceInfo.addParam("property_officer_telNo", pissWrapper.getPropertyOfficerTelNo());
+        webServiceInfo.addParam("tc_lew_telNo", pissWrapper.getTCLewTelNo());
+        webServiceInfo.addParam("property_officer_mobileNo", pissWrapper.getPropertyOfficerMobileNo());
+        webServiceInfo.addParam("tc_lew_mobileNo", pissWrapper.getTCLewMobileNo());
+        webServiceInfo.addParam("property_officer_branch", pissWrapper.getPropertyOfficerBranch());
+        webServiceInfo.addParam("tc_lew_email", pissWrapper.getTCLewEmail());
+        webServiceInfo.addParam("remarks", pissWrapper.getRemarks()); // Can be nothing... this is not used in server side
 
     /*postStartDate command*/
         postCommand = new PostCommand(webServiceInfo);
@@ -124,7 +100,6 @@ public class ServiceJobBegin_POST {
             @Override
             public void onServiceCallback(WebResponse response) {
                 if (mOnEventListener != null) {
-                    // mOnEventListener.onEvent();
                     Log.e(TAG,  response.getStringResponse());
                     mOnEventListener.onEventResult(response);
                 } else {

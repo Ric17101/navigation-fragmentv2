@@ -230,7 +230,7 @@ public class MainActivity extends FragmentActivity implements
         mNavigationUserView = (NavigationView) findViewById(R.id.nav_view_user);
 
         /**
-         * Lets inflate the very first fragment
+         * Lets inflate the very first fragmentType
          * Here , we are inflating the TabFragment as the first Fragment
          */
         mFragmentManager = getSupportFragmentManager();

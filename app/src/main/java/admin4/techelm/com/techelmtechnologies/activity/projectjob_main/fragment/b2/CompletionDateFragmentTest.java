@@ -17,9 +17,9 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_3;
 
 /**
- * Created by Ratan on 7/29/2015.
+ * B2 and B3 Date Completion Fragment Form
  */
-public class CompletionDateFragmentTest extends Fragment  {
+public class CompletionDateFragmentTest extends Fragment {
 
     EditText editTextCompletionDate;
     private Context _context;
@@ -35,11 +35,12 @@ public class CompletionDateFragmentTest extends Fragment  {
         editTextCompletionDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ProjectJobViewPagerActivity)getActivity()).showDateDialog(CompletionDateFragmentTest.this, PROJECT_JOB_FRAGMENT_POSITION_3);
+                ((ProjectJobViewPagerActivity) getActivity()).showDateDialog(CompletionDateFragmentTest.this, PROJECT_JOB_FRAGMENT_POSITION_3);
             }
         });
         return view;
     }
+
     /**
      * These Two Lines should be included on every Fragment to maintain the state and donnot load again
      * @param outState
@@ -77,12 +78,14 @@ public class CompletionDateFragmentTest extends Fragment  {
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*startActivity(new Intent(AddReplacementPart_FRGMT_3.this, SigningOff_FRGMT_4.class)
+                /*
+                startActivity(new Intent(AddReplacementPart_FRGMT_3.this, SigningOff_FRGMT_4.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
-                overridePendingTransition(R.anim.enter, R.anim.exit);*/
+                overridePendingTransition(R.anim.enter, R.anim.exit);
+                */
                 // ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
-                ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigateToTaskList();
+                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigateToTaskList();
             }
         });
     }

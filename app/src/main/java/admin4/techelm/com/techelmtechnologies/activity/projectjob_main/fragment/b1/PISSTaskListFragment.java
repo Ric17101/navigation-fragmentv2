@@ -29,7 +29,6 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
-import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
 import admin4.techelm.com.techelmtechnologies.adapter.PJ_PISSTaskListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
@@ -151,14 +150,14 @@ public class PISSTaskListFragment extends Fragment
             }
         });
 
-        /** BUTTON NEXT */
+        /** BUTTON SAVE */
         Button button_next = (Button) view.findViewById(R.id.button_next);
         button_next.setText("SAVE");
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
-                ((ProjectJobViewPagerActivity)getActivity()).onClickNextButton();
+                ((ProjectJobViewPagerActivity) getActivity()).onClickNextButton();
             }
         });
     }
@@ -253,7 +252,7 @@ public class PISSTaskListFragment extends Fragment
      */
     private class PJTaskList_RenderList extends AsyncTask<Void, Void, List<PISSTaskWrapper>> {
 
-        public final String TAG = CalendarFragment.class.getSimpleName();
+        public final String TAG = PJTaskList_RenderList.class.getSimpleName();
 
         private String projectjob_piss_id;
         private int resultStatus = 0;

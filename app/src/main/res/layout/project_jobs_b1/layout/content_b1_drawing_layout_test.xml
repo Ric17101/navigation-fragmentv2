@@ -6,9 +6,7 @@
 
     <include layout="@layout/i_drawing_layout" />
 
-    <include
-        android:id="@+id/include3"
-        layout="@layout/button_previous_next" />
+    <include layout="@layout/button_previous_next" />
 
 </RelativeLayout>
 

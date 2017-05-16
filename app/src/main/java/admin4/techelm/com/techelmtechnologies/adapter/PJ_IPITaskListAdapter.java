@@ -90,11 +90,11 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
         holder.textViewDay.setText(dataSet.getSerialNo()); // GREYED Below BIG Number
         holder.textViewDateNumber.setText(dataSet.getID() + ""); // BIG Number
         holder.textViewDate.setText(dataSet.getStatus()); // BLACK Date Below
-        holder.textViewServiceNum.setText(dataSet.getStatus() + "");
+        holder.textViewServiceNum.setText(dataSet.getNonConformance());
         holder.textViewCustomer.setText(dataSet.getDescription());
         holder.textViewEngineer.setText(dataSet.getTargetCompletionDate());
         // holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()+""));
-        holder.textViewStatus.setText(dataSet.getStatus()+ "");
+        holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatusFlag()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatus()+""));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatus()+""));
@@ -105,6 +105,11 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
         }
+
+        holder.textViewLabelDetail1.setText("Non-Conformance");
+        holder.textViewLabelDetail2.setText("Descriptions");
+        holder.textViewLabelDetail3.setText("Target Remedy Date");
+        holder.textViewLabelDetail4.setText("Status");
     }
 
     @Override
@@ -144,6 +149,11 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
 
         private final FrameLayout frameLayoutButtonSJ;
 
+        public final TextView textViewLabelDetail1;
+        public final TextView textViewLabelDetail2;
+        public final TextView textViewLabelDetail3;
+        public final TextView textViewLabelDetail4;
+
         public ViewHolder(View view) {
             super(view);
 
@@ -167,6 +177,12 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
 
             frameLayoutButtonSJ = (FrameLayout) view.findViewById(R.id.frameLayoutButtonSJ);
             frameLayoutButtonSJ.setOnClickListener(this);
+
+            // TEXT View Label Details
+            textViewLabelDetail1 = (TextView) view.findViewById(R.id.textViewLabelDetail1);
+            textViewLabelDetail2 = (TextView) view.findViewById(R.id.textViewLabelDetail2);
+            textViewLabelDetail3 = (TextView) view.findViewById(R.id.textViewLabelDetail3);
+            textViewLabelDetail4 = (TextView) view.findViewById(R.id.textViewLabelDetail4);
         }
 
         @Override

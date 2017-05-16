@@ -20,6 +20,7 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.HTTP_AUTH
 
 /**
  * Created by jcf on 7/27/2016.
+ *
  */
 public class UtilNetConnection {
     public static final String TAG = UtilNetConnection.class.getSimpleName();

@@ -17,7 +17,7 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_2;
 
 /**
- * Created by Ratan on 7/29/2015.
+ * B2 and B3 non-conformance and date form
  */
 public class NonConformanceAndDateFragmentTest extends Fragment  {
 

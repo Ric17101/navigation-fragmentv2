@@ -56,10 +56,10 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 {
 
     private static final String TAG = ServiceJobViewPagerActivity.class.getSimpleName();
-    private static final int FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE = 0;
-    private static final int FRAGMENT_POSISTION_SERVICE_REPORT_AFTER = 1;
-    private static final int FRAGMENT_POSISTION_PART_REPLACEMENT = 2;
-    private static final int FRAGMENT_POSISTION_SIGNING_OFF = 3;
+    private static final int FRAGMENT_POSITION_SERVICE_REPORT_BEFORE = 0;
+    private static final int FRAGMENT_POSITION_SERVICE_REPORT_AFTER = 1;
+    private static final int FRAGMENT_POSITION_PART_REPLACEMENT = 2;
+    private static final int FRAGMENT_POSITION_SIGNING_OFF = 3;
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
     private String mPreviousStatusFromBundle; // From Calling Activity
     private List<ServiceJobNewReplacementPartsRatesWrapper> rateList;
@@ -131,7 +131,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     private void init_ViewPager() {
         /**
-         * Lets inflate the very first fragment
+         * Lets inflate the very first fragmentType
          * Here , we are inflating the TabFragment as the first Fragment
          */
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -272,108 +272,106 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         mViewPager.setCurrentItem(getItem(nextOrPrevious), true);
     }
     private int getCurrentPosition() { return mViewPager.getCurrentItem(); }
-    private int getItem(int i) {
-        return getCurrentPosition() + i;
-    }
+    private int getItem(int i) { return getCurrentPosition() + i; }
 
     /******* A. CALLBACKS from ServiceReport_FRGMT_BEFORE & ServiceReport_FRGMT_AFTER ********/
     private ServiceReport_FRGMT_BEFORE getFragmentServiceReport_BEFORE() {
-        return (ServiceReport_FRGMT_BEFORE) mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE);
+        return (ServiceReport_FRGMT_BEFORE) mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSITION_SERVICE_REPORT_BEFORE);
     }
 
     private ServiceReport_FRGMT_AFTER getFragmentServiceReport_AFTER() {
-        return (ServiceReport_FRGMT_AFTER) mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSISTION_SERVICE_REPORT_AFTER);
+        return (ServiceReport_FRGMT_AFTER) mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSITION_SERVICE_REPORT_AFTER);
     }
 
     @Override
     public void onHandleRecordingsSelection(
             int position, ServiceJobRecordingWrapper serviceJobRecordingWrapper, int mode) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onHandleRecordingsSelection(position, serviceJobRecordingWrapper, mode);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onHandleRecordingsSelection(position, serviceJobRecordingWrapper, mode);
     }
     @Override
     public void onHandleDeleteRecordingsFromListSelection(final int id) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onHandleDeleteRecordingsFromListSelection(id);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onHandleDeleteRecordingsFromListSelection(id);
     }
     @Override
     public void onHandlePlayFromListSelection(ServiceJobRecordingWrapper serviceJobRecordingWrapper) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onHandlePlayFromListSelection(serviceJobRecordingWrapper);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onHandlePlayFromListSelection(serviceJobRecordingWrapper);
     }
 
     @Override
     public void onHandleUploadsSelection(
             int position, ServiceJobUploadsWrapper serviceJobRecordingWrapper, int mode) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onHandleUploadsSelection(position, serviceJobRecordingWrapper, mode);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onHandleUploadsSelection(position, serviceJobRecordingWrapper, mode);
     }
     @Override
     public void onHandleDeleteUploadsFromListSelection(final int id) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onHandleDeleteUploadsFromListSelection(id);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onHandleDeleteUploadsFromListSelection(id);
     }
     @Override
     public void onHandleViewUploadFromListSelection(ServiceJobUploadsWrapper serviceJobRecordingWrapper) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onHandleViewUploadFromListSelection(serviceJobRecordingWrapper);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onHandleViewUploadFromListSelection(serviceJobRecordingWrapper);
     }
 
     @Override
     public void onNewRecordingsEntryAdded(String fileName) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onNewRecordingsEntryAdded(fileName);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onNewRecordingsEntryAdded(fileName);
     }
     @Override
     public void onRecordingsEntryRenamed(String fileName) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onRecordingsEntryRenamed(fileName);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onRecordingsEntryRenamed(fileName);
     }
     @Override
     public void onRecordingsEntryDeleted() {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onRecordingsEntryDeleted();
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onRecordingsEntryDeleted();
     }
 
     @Override
     public void onNewSJEntryAdded(String serviceNum) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onNewSJEntryAdded(serviceNum);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onNewSJEntryAdded(serviceNum);
         getFragmentSigningOff().fromActivity_onNewSJEntryAdded(serviceNum);
     }
     @Override
     public void onSJEntryUpdated(String remarks) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onSJEntryRenamed(remarks);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onSJEntryRenamed(remarks);
         getFragmentSigningOff().fromActivity_onSJEntryRenamed(remarks);
     }
     @Override
     public void onSJEntryDeleted() {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onSJEntryDeleted();
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onSJEntryDeleted();
         getFragmentSigningOff().fromActivity_onSJEntryDeleted();
     }
@@ -397,7 +395,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     }
 
     private PartReplacement_FRGMT_2 getFragmentPartReplacement() {
-        return (PartReplacement_FRGMT_2) mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSISTION_PART_REPLACEMENT);
+        return (PartReplacement_FRGMT_2) mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSITION_PART_REPLACEMENT);
     }
 
     @Override
@@ -417,24 +415,24 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     @Override
     public void onNewUploadsDBEntryAdded(String fileName) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onNewUploadsDBEntryAdded(fileName);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onNewUploadsDBEntryAdded(fileName);
     }
 
     @Override
     public void onUploadsDBEntryRenamed(String fileName) {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onUploadsDBEntryRenamed(fileName);
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onUploadsDBEntryRenamed(fileName);
     }
     @Override
     public void onUploadsDBEntryDeleted() {
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_BEFORE)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
             getFragmentServiceReport_BEFORE().fromActivity_onUploadsDBEntryDeleted();
-        if (getCurrentPosition() == FRAGMENT_POSISTION_SERVICE_REPORT_AFTER)
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onUploadsDBEntryDeleted();
     }
     /*********** B. CALLBACKS END from PartReplacement_FRGMT_2 ***********/
@@ -442,7 +440,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     /*********** D. CALLBACKS from SigningOff_FRGMT_4 ***********/
     private SigningOff_FRGMT_4 getFragmentSigningOff() {
-        return (SigningOff_FRGMT_4) mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSISTION_SIGNING_OFF);
+        return (SigningOff_FRGMT_4) mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSITION_SIGNING_OFF);
     }
 
     /*********** D. CALLBACKS END from SigningOff_FRGMT_4 ***********/

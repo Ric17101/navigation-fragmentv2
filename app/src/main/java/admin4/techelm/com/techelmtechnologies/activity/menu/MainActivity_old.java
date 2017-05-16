@@ -254,8 +254,8 @@ public class MainActivity_old extends AppCompatActivity implements SJ_ListAdapte
             super(fm);
         }
 
-        public void addFragment(Fragment fragment, String title) {
-            mFragments.add(fragment);
+        public void addFragment(Fragment fragmentType, String title) {
+            mFragments.add(fragmentType);
             mFragmentTitles.add(title);
         }
 

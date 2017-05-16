@@ -73,9 +73,10 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
         Log.e(TAG, message);
     }
 
-    public PISSTaskWrapper getDetailsByProjectJobID(int projectJobID) {
+    public PISSTaskWrapper getDetailsByPISSTaskID(int projectTaskID) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
-                + " WHERE " + DBHelperItem.COLUMN_NAME_PISS_TASK_PROJECT_JOB_ID + "=" +projectJobID;
+                //+ " WHERE " + DBHelperItem.COLUMN_NAME_PISS_TASK_PROJECT_JOB_ID + "=" +projectJobID;
+                + " WHERE " + DBHelperItem.COLUMN_NAME_PISS_TASK_ID + "=" +projectTaskID;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         PISSTaskWrapper item = new PISSTaskWrapper();
@@ -267,7 +268,8 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
         if (db.insert(DBHelperItem.TABLE_NAME, null, cv) < 0) { // Update if Already existed on the SQLite DB
             int rowAffected = db.update(DBHelperItem.TABLE_NAME, cv,
                     DBHelperItem.COLUMN_NAME_PISS_TASK_ID + "=" + item.getID(), null);
-            Log.e(TAG, "addPISSTask ROWS AFFECTED " + rowAffected);
+            Log.e(TAG, "addPISSTask ROWS UPDATED " + rowAffected);
+            return item.getID();
         }
 
         Log.e(TAG, "addPISSTask INSERTED ID " + item.getID());
@@ -291,12 +293,12 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
     /**
      * Has inserted at least one drawing by projectjob_id in the DB
      * This is called before submitting the Files to the web
-     * @param projectjob_id
+     * @param projectjob_task_id
      * @return
      */
-    public boolean hasInsertedDrawings(int projectjob_id) {
+    public boolean hasInsertedDrawings(int projectjob_task_id) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
-                + " WHERE "+ DBHelperItem.COLUMN_NAME_PISS_TASK_PROJECT_JOB_ID + "=" + projectjob_id;
+                + " WHERE "+ DBHelperItem.COLUMN_NAME_PISS_TASK_ID + "=" + projectjob_task_id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 
         // String item = cursor.getString(1);
