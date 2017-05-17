@@ -57,7 +57,7 @@ public class MeetingDetailsFragment extends Fragment {
         return view;
     }
     /**
-     * These Two Lines should be included on every Fragment to maintain the state and donnot load again
+     * These Two Lines should be included on every Fragment to maintain the state and do not load again
      * @param outState
      */
     @Override

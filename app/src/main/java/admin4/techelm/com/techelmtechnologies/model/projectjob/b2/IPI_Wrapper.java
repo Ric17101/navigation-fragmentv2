@@ -37,6 +37,7 @@ public class IPI_Wrapper implements Parcelable {
     // private variables 4
     private int _id;
     private int _projectjob_id;
+    private String _dispositioned_by;
     private String _sub_contractor;
     private String _date_inspected;
 
@@ -46,6 +47,7 @@ public class IPI_Wrapper implements Parcelable {
     protected IPI_Wrapper(Parcel in) {
         _id = in.readInt();
         _projectjob_id = in.readInt();
+        _dispositioned_by = in.readString();
         _sub_contractor = in.readString();
         _date_inspected = in.readString();
     }
@@ -54,6 +56,7 @@ public class IPI_Wrapper implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(_id);
         dest.writeInt(_projectjob_id);
+        dest.writeString(_dispositioned_by);
         dest.writeString(_sub_contractor);
         dest.writeString(_date_inspected);
     }
@@ -66,6 +69,7 @@ public class IPI_Wrapper implements Parcelable {
     public String toString() {
         return "\nID : " + this._id +
                 "\n_projectjob_id : " + this._projectjob_id +
+                "\n_dispositioned_by : " + this._dispositioned_by +
                 "\n_sub_contractor : " + this._sub_contractor +
                 "\n_date_inspected : " + this._date_inspected
                 ;
@@ -85,6 +89,13 @@ public class IPI_Wrapper implements Parcelable {
         return this._projectjob_id;
     }
     public void setProjectJobID(int structure) { this._projectjob_id = structure; }
+
+    public String getDispositionedBy() {
+        return this._dispositioned_by;
+    }
+    public void setDispositionedBy(String val) {
+        this._dispositioned_by = val;
+    }
 
     public String getSubContractor() {
         return this._sub_contractor;

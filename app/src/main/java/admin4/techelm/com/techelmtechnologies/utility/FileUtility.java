@@ -117,8 +117,9 @@ public class FileUtility {
         } else {
             directory = context.getDir(directoryName, Context.MODE_PRIVATE);
         }
-        setFile(directory); // Just Set the file
-        return new File(directory, fileName);
+        File filePath = new File(directory, fileName);
+        setFile(filePath); // Just Set the file
+        return filePath;
     }
 
     private File getAlbumStorageDir(String albumName) {

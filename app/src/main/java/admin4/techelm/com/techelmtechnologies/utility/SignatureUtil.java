@@ -38,7 +38,7 @@ public class SignatureUtil {
         activity = act;
     }
 
-    public File getAlbumStorageDir(String albumName) {
+    private File getAlbumStorageDir(String albumName) {
         // Get the directory for the user's public pictures directory.
         String mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFilePath += "/TELCHEM/" + albumName;
@@ -56,6 +56,10 @@ public class SignatureUtil {
     public String getFilePath() {
         // return this.mFileUtil.getFile().getPath();
         return this.mFileUtil.getFilePath();
+    }
+
+    public File getFile() {
+        return this.mFileUtil.getFile();
     }
 
     public String getFileName() {

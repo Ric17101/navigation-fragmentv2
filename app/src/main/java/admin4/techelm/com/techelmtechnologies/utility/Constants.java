@@ -66,6 +66,7 @@ public final class Constants {
     public static final String PROJECT_JOB_SAVE_PISS_TASK_FORM_URL = NEW_PROJECT_JOB_URL + "projectjob_piss_tasks_save";
     public static final String PROJECT_JOB_SAVE_IPI_TASK_FORM_A_URL = NEW_PROJECT_JOB_URL + "projectjob_ipi_tasks_save";
     public static final String PROJECT_JOB_SAVE_IPI_TASK_FORM_B_URL = NEW_PROJECT_JOB_URL + "projectjob_ipi_correctiveActions_save";
+    public static final String PROJECT_JOB_SAVE_IPI_TASK_FORM_C_URL = NEW_PROJECT_JOB_URL + "projectjob_upload_signature";
     public static final String PROJECT_JOB_PISS_TASK_DETAILS_URL = PROJECT_JOB_URL + "get_piss_tasks_detail?id=";
     public static final String PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL = NEW_PROJECT_JOB_URL + "projectjob_piss_tasks_drawing";
     public static final String PROJECT_JOB_FORM_TASK_APPEND = "&form_type=";
