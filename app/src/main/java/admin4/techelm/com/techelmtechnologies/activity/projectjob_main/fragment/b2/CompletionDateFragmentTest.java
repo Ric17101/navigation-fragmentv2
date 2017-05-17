@@ -35,7 +35,8 @@ public class CompletionDateFragmentTest extends Fragment {
         editTextCompletionDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ProjectJobViewPagerActivity) getActivity()).showDateDialog(CompletionDateFragmentTest.this, PROJECT_JOB_FRAGMENT_POSITION_3);
+                ((ProjectJobViewPagerActivity) getActivity())
+                        .showDateDialog(CompletionDateFragmentTest.this, PROJECT_JOB_FRAGMENT_POSITION_3);
             }
         });
         return view;

@@ -19,6 +19,7 @@ public class PopulateProjectJobTaskViewDetails {
     private TextView textViewStatus;
 
     private void setViewElements(View view, PISSTaskWrapper serviceJob) {
+        FragmentSetListHelper_ProjectJob mSetHelper = new FragmentSetListHelper_ProjectJob();
         // PROJECT JOB Controls
         textViewSerialNo = (TextView) view.findViewById(R.id.textViewSerialNo);
         textViewDescription = (TextView) view.findViewById(R.id.textViewRemarks);
@@ -31,7 +32,7 @@ public class PopulateProjectJobTaskViewDetails {
         textViewSerialNo.setText(serviceJob.getSerialNo());
         textViewDescription.setText(serviceJob.getDescription());
         textViewComments.setText(serviceJob.getComments());
-        textViewStatus.setText(serviceJob.getStatus());
+        textViewStatus.setText(mSetHelper.setStatus(serviceJob.getStatus()));
 
     }
 

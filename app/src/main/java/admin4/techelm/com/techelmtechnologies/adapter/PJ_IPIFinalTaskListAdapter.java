@@ -90,7 +90,7 @@ public class PJ_IPIFinalTaskListAdapter extends RecyclerView.Adapter<PJ_IPIFinal
         holder.textViewDay.setText(dataSet.getSerialNo()); // GREYED Below BIG Number
         holder.textViewDateNumber.setText(dataSet.getID() + ""); // BIG Number
         holder.textViewDate.setText(dataSet.getCarNo()); // BLACK Date Below
-        holder.textViewServiceNum.setText(dataSet.getRemarks() + "");
+        holder.textViewServiceNum.setText(dataSet.getRemarks());
         holder.textViewCustomer.setText(dataSet.getDescription());
         holder.textViewEngineer.setText(dataSet.getTargetRemedyDate());
         // holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()+""));

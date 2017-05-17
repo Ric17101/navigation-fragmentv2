@@ -54,11 +54,11 @@ public class FragmentSetListHelper_ProjectJob {
         switch (status) {
             case PROJECT_JOB_NEW: status = "New";
                 break;
+            case PROJECT_JOB_PENDING: status = "Pending";
+                break;
             case PROJECT_JOB_COMPLETED: status = "Completed";
                 break;
             case PROJECT_JOB_ON_PROCESS: status = "On Process";
-                break;
-            case PROJECT_JOB_PENDING: status = "Pending";
                 break;
             default : status = "";
                 break;
