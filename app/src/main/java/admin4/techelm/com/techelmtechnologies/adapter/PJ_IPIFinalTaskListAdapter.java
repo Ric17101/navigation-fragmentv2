@@ -93,7 +93,7 @@ public class PJ_IPIFinalTaskListAdapter extends RecyclerView.Adapter<PJ_IPIFinal
         holder.textViewServiceNum.setText(dataSet.getRemarks());
         holder.textViewCustomer.setText(dataSet.getDescription());
         holder.textViewEngineer.setText(dataSet.getTargetRemedyDate());
-        // holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()+""));
+        // holder.textViewStatus.setText(this.mSetHelper.setStatusComment(dataSet.getStatusComment()+""));
         holder.textViewStatus.setText(dataSet.getCarNo());
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getRemarks() + ""));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));

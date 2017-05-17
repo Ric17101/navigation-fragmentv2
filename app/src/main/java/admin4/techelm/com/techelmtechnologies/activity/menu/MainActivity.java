@@ -691,5 +691,4 @@ public class MainActivity extends FragmentActivity implements
         startActivity(i);
         overridePendingTransition(R.anim.enter, R.anim.exit);
     }
-
-    }
+}

@@ -60,6 +60,9 @@ public class IPI_TaskWrapper implements Parcelable {
     private String _status_flag;
     private String _form_type;
 
+    // Mobile Inputs
+    // private String _target_date;
+
     // Empty constructor
     public IPI_TaskWrapper() { }
 
@@ -74,6 +77,7 @@ public class IPI_TaskWrapper implements Parcelable {
         _target_completion_date = in.readString();
         _status_flag = in.readString();
         _form_type = in.readString();
+        //_target_date = in.readString();
     }
 
     @Override
@@ -88,6 +92,7 @@ public class IPI_TaskWrapper implements Parcelable {
         dest.writeString(_target_completion_date);
         dest.writeString(_status_flag);
         dest.writeString(_form_type);
+        //dest.writeString(_target_date);
     }
 
     @Override
@@ -106,6 +111,7 @@ public class IPI_TaskWrapper implements Parcelable {
                 "\n_target_completion_date : " + this._target_completion_date +
                 "\n_status_flag : " + this._status_flag +
                 "\n_form_type : " + this._form_type
+                //"\n_target_date : " + this._target_date
                 ;
     }
 
@@ -139,10 +145,10 @@ public class IPI_TaskWrapper implements Parcelable {
         this._description = data;
     }
 
-    public String getStatus() {
+    public String getStatusComment() {
         return this._status;
     }
-    public void setStatus(String num) { this._status = num; }
+    public void setStatusComment(String num) { this._status = num; }
 
     public String getNonConformance() {
         return this._non_conformance;
@@ -175,4 +181,8 @@ public class IPI_TaskWrapper implements Parcelable {
     }
     public void setFormType(String val) { this._form_type = val; }
 
+//    public String getCompletionDate() {
+//        return this._target_date;
+//    }
+//    public void setCompletionDate(String data) { this._target_date = data; }
 }

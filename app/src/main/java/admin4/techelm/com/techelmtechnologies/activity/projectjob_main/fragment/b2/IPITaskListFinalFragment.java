@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.marcohc.robotocalendar.RobotoCalendarView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -38,6 +39,8 @@ import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ_B2_IPIFinalTasks;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
+import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ProjectJobIPI_POST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
@@ -441,6 +444,52 @@ public class IPITaskListFinalFragment extends Fragment
 
         @Override
         protected void onCancelled() { }
+    }
+
+    /**
+     * B.) B2 - IPI Corrective Action Form Submission
+     *
+     * @param ipiTaskFinalWrapper - data to submit on the server
+     * @param dialog - dialog shown on the view
+     */
+    public void startPostB2ProjectJobFormB(IPI_TaskFinalWrapper ipiTaskFinalWrapper, final MaterialDialog dialog) {
+        ProjectJobIPI_POST projectJob = new ProjectJobIPI_POST();
+        projectJob.setOnEventListener(new ProjectJobIPI_POST.OnEventListener() {
+            @Override
+            public void onEvent() {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e(TAG, message);
+
+                SnackBarNotificationUtil
+                        .setSnackBar(getView(), "Error occurred, try again later.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
+            }
+
+            @Override
+            public void onEventResult(WebResponse response) {
+                Log.e(TAG, response.getStringResponse());
+                dialog.dismiss();
+
+                // prompt user
+                SnackBarNotificationUtil
+                        .setSnackBar(getView(),
+                                "Save to server successfully.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
+
+                // Goto Main Page
+                ((ProjectJobViewPagerActivity)getActivity()).backToLandingPage(1);
+            }
+        });
+
+        projectJob.postIPITaskFormB(ipiTaskFinalWrapper);
     }
 
 }

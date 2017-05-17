@@ -92,7 +92,7 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
         holder.textViewServiceNum.setText(dataSet.getComments());
         holder.textViewCustomer.setText(dataSet.getDescription());
         holder.textViewEngineer.setText(dataSet.getConformance());
-        // holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()+""));
+        // holder.textViewStatus.setText(this.mSetHelper.setStatusComment(dataSet.getStatusComment()+""));
         holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatus()+""));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));

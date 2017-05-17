@@ -94,7 +94,8 @@ public class ProjectJobFragmentTab extends Fragment {
         /**
          *Set an Apater for the View Pager
          */
-        viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
+        this.mPagerAdapter = new MyAdapter((getChildFragmentManager()));
+        viewPager.setAdapter(this.mPagerAdapter);
         viewPager.setOffscreenPageLimit(2); // Three tabs all
         // viewPager.setHorizontalScrollBarEnabled(false);
         /**
@@ -184,7 +185,9 @@ public class ProjectJobFragmentTab extends Fragment {
     }
 
     public Fragment getActiveFragment(ViewPager container, int position) {
-        return this.mPagerAdapter.getActiveFragment(container, position);
+         return this.mPagerAdapter.getActiveFragment(container, position);
+        // return this.mPagerAdapter.getActivtyFragment2(position);
+        // return this.mPagerAdapter.getActiveFragment(this.viewPager, viewPager.getVerticalScrollbarPosition());
     }
 
     public void setCurrentTab(int nextOrPrevious) {
@@ -285,6 +288,11 @@ public class ProjectJobFragmentTab extends Fragment {
         private Fragment getActiveFragment(ViewPager container, int position) {
             String name = makeFragmentName(container.getId(), position);
             return getChildFragmentManager().findFragmentByTag(name);
+        }
+
+        private Fragment getActivtyFragment2(int position) {
+            Fragment page = getActivity().getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + position);
+            return page;
         }
 
         /**

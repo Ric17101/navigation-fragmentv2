@@ -64,6 +64,8 @@ public final class Constants {
     public static final String PROJECT_JOB_PISS_DETAILS_URL = PROJECT_JOB_URL + "get_piss_details?id=";
     public static final String PROJECT_JOB_PISS_TASK_LIST_URL = NEW_PROJECT_JOB_URL + "get_piss_tasks?projectjob_id=";
     public static final String PROJECT_JOB_SAVE_PISS_TASK_FORM_URL = NEW_PROJECT_JOB_URL + "projectjob_piss_tasks_save";
+    public static final String PROJECT_JOB_SAVE_IPI_TASK_FORM_A_URL = NEW_PROJECT_JOB_URL + "projectjob_ipi_tasks_save";
+    public static final String PROJECT_JOB_SAVE_IPI_TASK_FORM_B_URL = NEW_PROJECT_JOB_URL + "projectjob_ipi_correctiveActions_save";
     public static final String PROJECT_JOB_PISS_TASK_DETAILS_URL = PROJECT_JOB_URL + "get_piss_tasks_detail?id=";
     public static final String PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL = NEW_PROJECT_JOB_URL + "projectjob_piss_tasks_drawing";
     public static final String PROJECT_JOB_FORM_TASK_APPEND = "&form_type=";
@@ -131,8 +133,8 @@ public final class Constants {
     public static final int ACTION_START_TASK = 12;
     public static final int ACTION_CONTINUE_TASK = 13;
     public static final int ACTION_VIEW_TASK = 14;
-    public static final int ACTION_START_CORRECTIVE_ACTION_FORM = 15;
-    public static final int ACTION_START_IPI_TASK_FORM = 16;
+    public static final int ACTION_START_IPI_CORRECTIVE_ACTION_FORM = 15;
+    public static final int ACTION_START_IPI_CONFIRMATION_DATE_FORM = 16;
     public static final int ACTION_START_IPI_CORRECTIVE_ACTION_TASK_FORM = 17;
     public static final int ACTION_TOOLBOX_MEETING = 18;
     public static final int ACTION_TASK_START_DRAWING = 19;
@@ -142,7 +144,7 @@ public final class Constants {
     public static final String PROJECT_JOB_START_TASK = "12";
     public static final String PROJECT_JOB_CONTINUE_TASK = "13";
     public static final String PROJECT_JOB_CORRECTIVE_ACTION_FORM = "15";
-    public static final String PROJECT_JOB_IPI_TASK_FORM = "16";
+    public static final String PROJECT_JOB_CONFIRMATION_DATE_FORM = "16";
     public static final String PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM = "17";
     public static final String PROJECT_JOB_TASK_START_DRAWING = "18";
 

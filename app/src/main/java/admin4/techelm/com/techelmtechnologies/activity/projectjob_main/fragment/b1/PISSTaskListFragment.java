@@ -1,9 +1,11 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,8 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.marcohc.robotocalendar.RobotoCalendarView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -28,16 +33,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.PJ_PISSTaskListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ_B1_Tasks;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
+import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ProjectJobPISS_POST;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.LANDING_PAGE_ACTIVE_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.NAVIGATION_DRAWER_SELECTED_PROJECTJOB;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_LIST_URL;
 import static android.app.Activity.RESULT_CANCELED;
@@ -394,4 +405,94 @@ public class PISSTaskListFragment extends Fragment
         protected void onCancelled() { }
     }
 
+
+    public void showB1FormDialog() {
+        MaterialDialog md = new MaterialDialog.Builder(getActivity())
+                .title("Project Job Form")
+                .limitIconToDefaultSize()
+                .positiveText("SAVE")
+                .negativeText("CLOSE")
+                .iconRes(R.mipmap.edit_icon)
+                .autoDismiss(false)
+                .customView(R.layout.m_b1_project_task_form, true)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        View view = dialog.getCustomView();
+
+                        PISSWrapper pissWrapper = new PISSWrapper();
+                        // pissWrapper.setID(Integer.parseInt(((EditText) view.findViewById(R.id.editTextPO)).getText().toString()));
+                        pissWrapper.setProjectJobID(mProjectJob.getID() + "");
+                        pissWrapper.setPropertyOfficer(((EditText) view.findViewById(R.id.editTextPO)).getText().toString());
+                        pissWrapper.setPropertyOfficerTelNo(((EditText) view.findViewById(R.id.editTextPOTel)).getText().toString());
+                        pissWrapper.setPropertyOfficerBranch(((EditText) view.findViewById(R.id.editTextPOBranch)).getText().toString());
+                        pissWrapper.setPropertyOfficerMobileNo(((EditText) view.findViewById(R.id.editTextPOMobile)).getText().toString());
+                        pissWrapper.setTCLew(((EditText) view.findViewById(R.id.editTextTC)).getText().toString());
+                        pissWrapper.setTCLewTelNo(((EditText) view.findViewById(R.id.editTextTCTel)).getText().toString());
+                        pissWrapper.setTCLewEmail(((EditText) view.findViewById(R.id.editTextTCEmail)).getText().toString());
+                        pissWrapper.setTCLewMobileNo(((EditText) view.findViewById(R.id.editTextTCMobile)).getText().toString());
+
+                        startPostB1ProjectJobForm(pissWrapper, dialog);
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+        md.show();
+    }
+
+    /**
+     * B1 - PISS Form Submission
+     * This will update/revert the status from the server
+     */
+    public void startPostB1ProjectJobForm(PISSWrapper pissWrapper, final MaterialDialog dialog) {
+        ProjectJobPISS_POST projectJob = new ProjectJobPISS_POST();
+        projectJob.setOnEventListener(new ProjectJobPISS_POST.OnEventListener() {
+            @Override
+            public void onEvent() {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e(TAG, message);
+
+                SnackBarNotificationUtil
+                        .setSnackBar(getView(),
+                                "Error occurred, try again later.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
+            }
+
+            @Override
+            public void onEventResult(WebResponse response) {
+                Log.e(TAG, response.getStringResponse());
+                Log.e(TAG, response.getStringResponse());
+                dialog.dismiss();
+
+                // prompt user
+                SnackBarNotificationUtil
+                        .setSnackBar(getView(),
+                                "Save to server successfully.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
+
+                // Goto Main Page
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(LANDING_PAGE_ACTIVE_KEY, NAVIGATION_DRAWER_SELECTED_PROJECTJOB);
+                Bundle bundle = ActivityOptions.makeCustomAnimation(getActivity(),
+                        R.anim.left_to_right, R.anim.right_to_left).toBundle();
+                startActivity(intent, bundle);
+                getActivity().finish();
+            }
+        });
+        projectJob.postPISSTaskForm(pissWrapper);
+    }
 }

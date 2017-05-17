@@ -80,6 +80,7 @@
                     android:layout_weight=".2"
                     android:gravity="fill_vertical"
                     android:text="Date of Site Walk"
+                    android:visibility="gone"
                     android:textColor="@android:color/white"
                     android:textStyle="normal|bold" />
 
@@ -92,6 +93,7 @@
                     android:layout_weight=".1"
                     android:gravity="fill_vertical"
                     android:text=":"
+                    android:visibility="gone"
                     android:textColor="@android:color/white" />
 
                 <TextView
@@ -102,6 +104,7 @@
                     android:layout_weight="2"
                     android:gravity="fill_vertical"
                     android:text="Text"
+                    android:visibility="gone"
                     android:textColor="@android:color/white" />
             </LinearLayout>
         </TableRow>

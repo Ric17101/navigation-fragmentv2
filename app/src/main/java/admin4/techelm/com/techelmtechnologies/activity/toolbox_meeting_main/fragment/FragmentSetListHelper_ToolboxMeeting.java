@@ -10,7 +10,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_CORRECTIVE_ACTION_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_CORRECTIVE_ACTION_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CONTINUE_TASK;
@@ -102,7 +102,7 @@ public class FragmentSetListHelper_ToolboxMeeting {
 
     // Called at PJ_IPITaskListAdapter Only
     public void setActionOnClick(ProjectJobListener mCallback, int adapterPosition, ProjectJobWrapper serviceJobWrapper, String status) {
-        mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_CORRECTIVE_ACTION_FORM);
+        mCallback.onHandleSelection(adapterPosition, serviceJobWrapper, ACTION_START_IPI_CORRECTIVE_ACTION_FORM);
     }
 
 

@@ -1,5 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.marcohc.robotocalendar.RobotoCalendarView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -28,16 +30,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.PJ_IPITaskListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ_B2_IPITasks;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
+import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ProjectJobIPI_POST;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.LANDING_PAGE_ACTIVE_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.NAVIGATION_DRAWER_SELECTED_PROJECTJOB;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_EPS;
@@ -422,4 +430,50 @@ public class IPITaskListFragment extends Fragment
         protected void onCancelled() { }
     }
 
+    /**
+     * A.) B2 - IPI Confirmation Date Form Submission
+     *
+     * @param pissWrapper - data to submit on the server
+     * @param dialog - dialog shown on the view
+     */
+    public void startPostB2ProjectJobFormA(IPI_TaskWrapper pissWrapper, final MaterialDialog dialog) {
+        ProjectJobIPI_POST projectJob = new ProjectJobIPI_POST();
+        projectJob.setOnEventListener(new ProjectJobIPI_POST.OnEventListener() {
+            @Override
+            public void onEvent() {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e(TAG, message);
+
+                SnackBarNotificationUtil
+                        .setSnackBar(getView(),
+                                "Error occurred, try again later.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
+            }
+
+            @Override
+            public void onEventResult(WebResponse response) {
+                Log.e(TAG, response.getStringResponse());
+                Log.e(TAG, response.getStringResponse());
+                dialog.dismiss();
+
+                // prompt user
+                SnackBarNotificationUtil
+                        .setSnackBar(getView(),
+                                "Save to server successfully.")
+                        .setColor(getResources().getColor(R.color.colorPrimary1))
+                        .show();
+
+                // Goto Main Page
+                ((ProjectJobViewPagerActivity)getActivity()).backToLandingPage(1);
+            }
+        });
+        projectJob.postIPITaskFormA(pissWrapper);
+    }
 }

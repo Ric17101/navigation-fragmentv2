@@ -68,7 +68,7 @@ public class ConvertJSON_PJ_B2_IPITasks {
             pw.setProjectJob_ID(jsonArray.getJSONObject(i).getInt("projectjob_id"));
             pw.setSerialNo(jsonArray.getJSONObject(i).getString("serial_no"));
             pw.setDescription(jsonArray.getJSONObject(i).getString("description"));
-            pw.setStatus(jsonArray.getJSONObject(i).getString("status"));
+            pw.setStatusComment(jsonArray.getJSONObject(i).getString("status"));
             pw.setNonConformance(jsonArray.getJSONObject(i).getString("non_conformance"));
             pw.setCorrectiveActions(jsonArray.getJSONObject(i).getString("corrective_actions"));
             pw.setTargetCompletionDate(jsonArray.getJSONObject(i).getString("target_completion_date"));
@@ -105,7 +105,7 @@ public class ConvertJSON_PJ_B2_IPITasks {
             sw.setProjectJob_ID(Integer.parseInt(pieces[1]));
             sw.setSerialNo(pieces[2]);
             sw.setDescription(pieces[3]);
-            sw.setStatus(pieces[4]);
+            sw.setStatusComment(pieces[4]);
             sw.setNonConformance(pieces[5]);
             sw.setCorrectiveActions(pieces[6]);
             sw.setTargetCompletionDate(pieces[7]);

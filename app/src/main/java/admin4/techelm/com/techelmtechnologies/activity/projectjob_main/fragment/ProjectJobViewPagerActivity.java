@@ -37,6 +37,8 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.ProjectJobLastFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.PopulateProjectJobTaskViewDetails;
@@ -54,25 +56,20 @@ import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListene
 import admin4.techelm.com.techelmtechnologies.db.projectjob.PISS_TaskDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.ProgressbarUtil;
-import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.InterfaceDialogHolder;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.OpenDialog;
 import admin4.techelm.com.techelmtechnologies.utility.http_auth.HttpBasicAuth;
 import admin4.techelm.com.techelmtechnologies.utility.image_download.UILDownloader;
 import admin4.techelm.com.techelmtechnologies.utility.image_download.UILListener;
-import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
-import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ProjectJobPISS_POST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_CORRECTIVE_ACTION_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_CORRECTIVE_ACTION_TASK_FORM;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_TASK_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_CONFIRMATION_DATE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_TASK_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
@@ -113,7 +110,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     private static final int FRAGMENT_POSITION_IPI_TASK_LIST = 0;
     private static final int FRAGMENT_POSITION_IPI_FINAL = 1;
     private PagerSlidingTabStrip mTabPager;
-    private ViewPager mViewPager;
+    private ViewPager mViewPager; // This is not called but will initialize the current Fragment
     private ProjectJobFragmentTab mPagerAdapter;
 
     // instance Variable
@@ -207,7 +204,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         mPagerAdapter = ProjectJobFragmentTab.newInstance(this.modeOfForm, this.mProjectJob);
         mFragmentTransaction.replace(R.id.containerView, mPagerAdapter).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
-        this.mViewPager = mPagerAdapter.getViewPager();
+         this.mViewPager = mPagerAdapter.getViewPager();
     }
 
     /*
@@ -307,7 +304,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                     ;
                     //showDrawingFormFragment(task);//fromFragmentNavigate(1);
                 else // This is for B2 and B3
-                    showB2B3FormDialog(ipiTaskWrapper);
+                    showB2B3ConfirmationDateFormDialog(ipiTaskWrapper);
                 break;*/
             case ACTION_START_TASK :
                 fromFragmentNavigate(1);
@@ -322,9 +319,9 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 showMDialogPJDetails(serviceJob);
                 Log.e(TAG, "This is ACTION_VIEW_TASK");
                 break;
-            case ACTION_START_CORRECTIVE_ACTION_FORM: // TODO: REMOVE??
+            /*case ACTION_START_IPI_CORRECTIVE_ACTION_FORM:
                 showB2B3CorrectiveActionFormDialog();
-                break;
+                break;*/
             default :
                 Log.e(TAG, "This is ACTION_VIEW_TASK");
                 break;
@@ -351,13 +348,9 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
             case ACTION_VIEW_TASK :
                 showMDialogPJ_IPITaskDetails(ipiTaskWrapper);
                 break;
-            case ACTION_START_CORRECTIVE_ACTION_FORM : // TODO: change this to proper action
-                Log.e(TAG, "This is ACTION_START_CORRECTIVE_ACTION_FORM");
-                showB2B3CorrectiveActionFormDialog();
-                break;
-            case ACTION_START_IPI_TASK_FORM :
-                Log.e(TAG, "This is ACTION_START_IPI_TASK_FORM");
-                showB2B3FormDialog(ipiTaskWrapper);
+            case ACTION_START_IPI_CONFIRMATION_DATE_FORM:
+                Log.e(TAG, "This is ACTION_START_IPI_CONFIRMATION_DATE_FORM");
+                showB2B3ConfirmationDateFormDialog(ipiTaskWrapper);
                 break;
         }
     }
@@ -369,7 +362,8 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 showMDialogPJ_IPIFinalTaskDetails(ipiTaskFinalWrapper);
                 break;
             case ACTION_START_IPI_CORRECTIVE_ACTION_TASK_FORM :
-                showB2B3CorrectiveActionFormDialog();
+                showB2B3CorrectiveActionFormDialog(ipiTaskFinalWrapper);
+                Log.e(TAG, "This is ACTION_START_IPI_CORRECTIVE_ACTION_FORM");
                 break;
         }
     }
@@ -407,7 +401,20 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     /******* A. CALLBACKS from ServiceReport_FRGMT_BEFORE & ServiceReport_FRGMT_AFTER ********/
     private PISSTaskListFragment getFragmentPISSTaskList() {
-        return (PISSTaskListFragment) this.mPagerAdapter.getActiveFragment(mViewPager, FRAGMENT_POSITION_PISS_TASK_LIST);
+        return (PISSTaskListFragment) this.mPagerAdapter
+                .getActiveFragment(mPagerAdapter.getViewPager(), FRAGMENT_POSITION_PISS_TASK_LIST);
+
+    }
+
+    /******* B. CALLBACKS from ServiceReport_FRGMT_BEFORE & ServiceReport_FRGMT_AFTER ********/
+    private IPITaskListFragment getFragmentIPITaskList() {
+        return (IPITaskListFragment) this.mPagerAdapter
+                .getActiveFragment(this.mPagerAdapter.getViewPager(), FRAGMENT_POSITION_IPI_TASK_LIST);
+
+    }
+    private IPITaskListFinalFragment getFragmentIPITaskListFinal() {
+        return (IPITaskListFinalFragment) this.mPagerAdapter
+                .getActiveFragment(this.mPagerAdapter.getViewPager(), FRAGMENT_POSITION_IPI_FINAL);
     }
 
     public void hideKeyboard() {
@@ -501,7 +508,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     public void onClickNextButton() {
         switch (this.modeOfForm) {
             case PROJECT_JOB_FORM_B1 :
-                showB1FormDialog();
+                getFragmentPISSTaskList().showB1FormDialog();
                 break;
             case PROJECT_JOB_FORM_B2 :
             case PROJECT_JOB_FORM_B3 :
@@ -509,98 +516,6 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 break;
             default: break;
         }
-    }
-
-    private void showB1FormDialog() {
-        MaterialDialog md = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
-            .title("Project Job Form")
-            .limitIconToDefaultSize()
-            .positiveText("SAVE")
-            .negativeText("CLOSE")
-            .iconRes(R.mipmap.edit_icon)
-            .autoDismiss(false)
-            .customView(R.layout.m_b1_project_task_form, true)
-            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    View view = dialog.getCustomView();
-
-                    PISSWrapper pissWrapper = new PISSWrapper();
-                    // pissWrapper.setID(Integer.parseInt(((EditText) view.findViewById(R.id.editTextPO)).getText().toString()));
-                    pissWrapper.setProjectJobID(mProjectJob.getID() + "");
-                    pissWrapper.setPropertyOfficer(((EditText) view.findViewById(R.id.editTextPO)).getText().toString());
-                    pissWrapper.setPropertyOfficerTelNo(((EditText) view.findViewById(R.id.editTextPOTel)).getText().toString());
-                    pissWrapper.setPropertyOfficerBranch(((EditText) view.findViewById(R.id.editTextPOBranch)).getText().toString());
-                    pissWrapper.setPropertyOfficerMobileNo(((EditText) view.findViewById(R.id.editTextPOMobile)).getText().toString());
-                    pissWrapper.setTCLew(((EditText) view.findViewById(R.id.editTextTC)).getText().toString());
-                    pissWrapper.setTCLewTelNo(((EditText) view.findViewById(R.id.editTextTCTel)).getText().toString());
-                    pissWrapper.setTCLewEmail(((EditText) view.findViewById(R.id.editTextTCEmail)).getText().toString());
-                    pissWrapper.setTCLewMobileNo(((EditText) view.findViewById(R.id.editTextTCMobile)).getText().toString());
-
-                    startPostB1ProjectJobForm(pissWrapper, dialog);
-                }
-            })
-            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    dialog.dismiss();
-                }
-            })
-            .build();
-        md.show();
-    }
-
-    /**
-     * B1 - PISS Form Submission
-     * This will update/revert the status from the server
-     * Mode 1 - Back to Main Page
-     * Mode 0 - onDestroy
-     */
-    public void startPostB1ProjectJobForm(PISSWrapper pissWrapper, final MaterialDialog dialog) {
-        ProjectJobPISS_POST projectJob = new ProjectJobPISS_POST();
-        projectJob.setOnEventListener(new ProjectJobPISS_POST.OnEventListener() {
-            @Override
-            public void onEvent() {
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onError(String message) {
-                Log.e(TAG, message);
-
-                SnackBarNotificationUtil
-                    .setSnackBar(findViewById(android.R.id.content),
-                            "Error occurred, try again later.")
-                    .setColor(getResources().getColor(R.color.colorPrimary1))
-                    .show();
-            }
-
-            @Override
-            public void onEventResult(WebResponse response) {
-                Log.e(TAG, response.getStringResponse());
-                Log.e(TAG, response.getStringResponse());
-                dialog.dismiss();
-
-                // prompt user
-                SnackBarNotificationUtil
-                    .setSnackBar(findViewById(android.R.id.content),
-                            "Save to server successfully.")
-                    .setColor(getResources().getColor(R.color.colorPrimary1))
-                    .show();
-
-                // Goto Main Page
-                Intent intent = new Intent(ProjectJobViewPagerActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra(LANDING_PAGE_ACTIVE_KEY, NAVIGATION_DRAWER_SELECTED_PROJECTJOB);
-                Bundle bundle = ActivityOptions.makeCustomAnimation(ProjectJobViewPagerActivity.this,
-                        R.anim.left_to_right, R.anim.right_to_left).toBundle();
-                startActivity(intent, bundle);
-                finish();
-            }
-        });
-        projectJob.postPISSTaskForm(pissWrapper);
     }
 
     public void showDrawingCanvasFragment(PISSTaskWrapper taskWrapper) {
@@ -676,10 +591,11 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         trans.commit();
     }
 
-    /*
-        IPI PW/EPS Task List Form
+    /**
+     * A.) IPI PW/EPS Task List Form
+     * Confirmation Date Form Dialog
      */
-    private void showB2B3FormDialog(IPI_TaskWrapper ipiTaskWrapper) {
+    private void showB2B3ConfirmationDateFormDialog(final IPI_TaskWrapper ipiTaskWrapper) {
         MaterialDialog md2 = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
                 .title("Confirmation Date")
                 .limitIconToDefaultSize()
@@ -691,7 +607,19 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
+                        View view = dialog.getCustomView();
+
+                        IPI_TaskWrapper task = ipiTaskWrapper;
+                        // pissWrapper.setID(Integer.parseInt(((EditText) view.findViewById(R.id.editTextPO)).getText().toString()));
+                        task.setProjectJob_ID(mProjectJob.getID());
+                        task.setID(ipiTaskWrapper.getID());
+                        task.setStatusComment(((Spinner) view.findViewById(R.id.spinnerComment)).getSelectedItem().toString());
+                        task.setNonConformance(((EditText) view.findViewById(R.id.editTextB1Remarks)).getText().toString());
+                        task.setCorrectiveActions(((EditText) view.findViewById(R.id.editTextCorrectiveAction)).getText().toString());
+                        task.setTargetCompletionDate(((EditText) view.findViewById(R.id.editTextB2RectificationDate)).getText().toString());
+                        task.setFormType(ipiTaskWrapper.getFormType());
+
+                        getFragmentIPITaskList().startPostB2ProjectJobFormA(task, dialog);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -720,10 +648,11 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     }
 
     /**
-     * TODO: This is implemented both on B2 and B3, should be only per class
-     * Final Tab or IPI PW/EPS 2nd TAB
+     * B.) Corrective Actin Form
+     *  Final Tab or IPI PW/EPS 2nd TAB
+     * @param ipiTaskFinalWrapper
      */
-    private void showB2B3CorrectiveActionFormDialog() {
+    private void showB2B3CorrectiveActionFormDialog(final IPI_TaskFinalWrapper ipiTaskFinalWrapper) {
         MaterialDialog md2 = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
                 .title("Corrective Actions")
                 .limitIconToDefaultSize()
@@ -735,7 +664,20 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
+                        View view = dialog.getCustomView();
+
+                        IPI_TaskFinalWrapper task = ipiTaskFinalWrapper;
+                        // pissWrapper.setID(Integer.parseInt(((EditText) view.findViewById(R.id.editTextPO)).getText().toString()));
+                        task.setProjectJob_ID(mProjectJob.getID());
+                        task.setID(ipiTaskFinalWrapper.getID());
+                        task.setDescription(((EditText) view.findViewById(R.id.editTextB1Description)).getText().toString());
+                        task.setTargetRemedyDate(((EditText) view.findViewById(R.id.editTextB2B3TargetCompletionDate)).getText().toString());
+                        task.setCompletionDate(((EditText) view.findViewById(R.id.editTextB2B3CompletionDate)).getText().toString());
+                        task.setRemarks(((EditText) view.findViewById(R.id.editTextB2B3Remarks)).getText().toString());
+                        task.setDisposition(((EditText) view.findViewById(R.id.editTextDispostion)).getText().toString());
+                        task.setFormType(ipiTaskFinalWrapper.getFormType());
+
+                        getFragmentIPITaskListFinal().startPostB2ProjectJobFormB(task, dialog);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {

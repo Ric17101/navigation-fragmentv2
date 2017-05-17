@@ -124,7 +124,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
             alpha.setServiceNumber("00" + x);
             alpha.setCustomerID("Customer" + x);
             alpha.setEngineerID("Engineer" + x);
-            alpha.setStatus((x % 2 == 1) ? "Pending" : "Completed");
+            alpha.setStatusComment((x % 2 == 1) ? "Pending" : "Completed");
             translationList.add(alpha);
             x++;
         } while (x != 10);

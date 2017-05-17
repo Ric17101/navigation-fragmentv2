@@ -211,7 +211,7 @@ public class ToolboxMeetingListFragment extends Fragment
      */
     private class PJTask_RenderList extends AsyncTask<Void, Void, List<ProjectJobWrapper>> {
 
-        public final String TAG = ToolboxMeetingListFragment.class.getSimpleName();
+        public final String TAG = PJTask_RenderList.class.getSimpleName();
         private String mDate;
         private String mID;
         private int resultStatus = 0;

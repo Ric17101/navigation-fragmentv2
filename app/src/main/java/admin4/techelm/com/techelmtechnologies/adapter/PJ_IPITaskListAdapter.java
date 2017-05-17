@@ -28,7 +28,7 @@ import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_TASK_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CONFIRMATION_DATE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
 
 public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAdapter.ViewHolder> {
@@ -89,15 +89,15 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
         dataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(dataSet.getSerialNo()); // GREYED Below BIG Number
         holder.textViewDateNumber.setText(dataSet.getID() + ""); // BIG Number
-        holder.textViewDate.setText(dataSet.getStatus()); // BLACK Date Below
+        holder.textViewDate.setText(dataSet.getStatusComment()); // BLACK Date Below
         holder.textViewServiceNum.setText(dataSet.getNonConformance());
         holder.textViewCustomer.setText(dataSet.getDescription());
         holder.textViewEngineer.setText(dataSet.getTargetCompletionDate());
-        // holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()+""));
+        // holder.textViewStatus.setText(this.mSetHelper.setStatusComment(dataSet.getStatusComment()+""));
         holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatusFlag()));
-        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatus()+""));
+        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatusComment()+""));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
-        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatus()+""));
+        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatusComment()+""));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getSerialNo());
 
@@ -193,7 +193,7 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
                 }
             } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
                 if (mCallback != null) {
-                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), PROJECT_JOB_IPI_TASK_FORM);
+                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), PROJECT_JOB_CONFIRMATION_DATE_FORM);
                 }
             }
 

@@ -20,17 +20,17 @@ import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrappe
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CONTINUE_TASK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_CORRECTIVE_ACTION_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_CORRECTIVE_ACTION_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_CORRECTIVE_ACTION_TASK_FORM;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_TASK_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_START_IPI_CONFIRMATION_DATE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_TASK_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CHOOSE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_COMPLETED;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CONTINUE_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CORRECTIVE_ACTION_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_TASK_FORM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_CONFIRMATION_DATE_FORM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_NEW;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_ON_PROCESS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PENDING;
@@ -122,7 +122,7 @@ public class FragmentSetListHelper_ProjectJob {
                 mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_CHOOSE_FORM);
                 break;
             case PROJECT_JOB_CORRECTIVE_ACTION_FORM :
-                mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_START_CORRECTIVE_ACTION_FORM);
+                mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_START_IPI_CORRECTIVE_ACTION_FORM);
                 break;
             case PROJECT_JOB_START_DRAWING :
                 mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_START_DRAWING);
@@ -141,15 +141,15 @@ public class FragmentSetListHelper_ProjectJob {
                 mCallback.onHandleSelection(adapterPosition, pissTaskWrapper,  ACTION_TASK_START_DRAWING);
                 break;
             case PROJECT_JOB_CORRECTIVE_ACTION_FORM :
-                mCallback.onHandleSelection(adapterPosition, pissTaskWrapper, ACTION_START_CORRECTIVE_ACTION_FORM);
+                mCallback.onHandleSelection(adapterPosition, pissTaskWrapper, ACTION_START_IPI_CORRECTIVE_ACTION_FORM);
                 break;
         }
     }
 
     public void setActionOnClick(IPITaskListener mCallback, int adapterPosition, IPI_TaskWrapper ipiTaskWrapper, String mode) {
         switch (mode) {
-            case PROJECT_JOB_IPI_TASK_FORM :
-                mCallback.onHandleSelection(adapterPosition, ipiTaskWrapper, ACTION_START_IPI_TASK_FORM);
+            case PROJECT_JOB_CONFIRMATION_DATE_FORM:
+                mCallback.onHandleSelection(adapterPosition, ipiTaskWrapper, ACTION_START_IPI_CONFIRMATION_DATE_FORM);
                 break;
         }
     }

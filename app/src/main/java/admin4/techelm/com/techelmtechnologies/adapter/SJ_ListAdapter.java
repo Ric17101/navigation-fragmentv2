@@ -96,7 +96,7 @@ public class SJ_ListAdapter extends RecyclerView.Adapter<SJ_ListAdapter.ViewHold
         holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
-//        if (serviceJobDataSet.getStatus() == "3")
+//        if (serviceJobDataSet.getStatusComment() == "3")
 //            holder.buttonTask.setVisibility(View.GONE);
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
 
