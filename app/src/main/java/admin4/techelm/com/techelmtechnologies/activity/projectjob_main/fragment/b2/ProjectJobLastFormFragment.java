@@ -116,7 +116,7 @@ public class ProjectJobLastFormFragment extends Fragment {
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);*/
-                ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(-1);
+                ((ProjectJobViewPagerActivity) getActivity()).onBackPress();
 
             }
         });

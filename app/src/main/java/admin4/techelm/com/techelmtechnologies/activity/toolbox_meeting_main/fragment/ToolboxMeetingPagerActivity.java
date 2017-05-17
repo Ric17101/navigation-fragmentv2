@@ -38,6 +38,7 @@ import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.InterfaceDialogHolder;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.OpenDialog;
 
@@ -87,26 +88,28 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
 
         setContentView(R.layout.activity_toolbox_meeting_list);
 
-        fromBundle();
+        //fromBundle();
 
         setBackGroundLayout();
 
         loginSessionTest();
 
         init_ViewPager();
+
+        initPermissions();
     }
 
     /**
      * Can be used to title the TAB on the ViewPagerActivity
      * By using the MODE CONSTANT of modeOfForm
      */
-    private void fromBundle() {
+    /*private void fromBundle() {
         Intent intent = getIntent();
         this.modeOfForm = intent.getIntExtra(PROJECT_JOB_FORM_TYPE_KEY, 0); // This is not used yet
 
-        setViewPagerTitleBar();
+        //setViewPagerTitleBar();
     }
-
+*/
     private void init_ViewPager() {
         /*
          * Lets inflate the very first fragmentType
@@ -126,7 +129,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    private void setViewPagerTitleBar() {
+    /*private void setViewPagerTitleBar() {
         TextView textViewProjectJobTitleTab = (TextView) findViewById(R.id.textViewToolboxTitleTab);
         switch (this.modeOfForm) {
             case PROJECT_JOB_FORM_B1: textViewProjectJobTitleTab.setText(R.string.piss); break;
@@ -134,6 +137,11 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
             case PROJECT_JOB_FORM_B3: textViewProjectJobTitleTab.setText(R.string.ipieps); break;
             default: break;
         }
+    }*/
+
+    private void initPermissions() {
+        PermissionUtil.verrifyReadStoragePermissions(this);
+        PermissionUtil.verrifyWriteStoragePermissions(this);
     }
 
     /**
@@ -179,7 +187,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        backToLandingPage(1);
+        backToToolboxLandingPage(1);
     }
 
     /*@Override
@@ -204,7 +212,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
                 showMDialogSJDetails(serviceJob);
                 Log.e(TAG, "This is ACTION_VIEW_TASK");
                 break;
-            case ACTION_START_IPI_CORRECTIVE_ACTION_FORM:
+            case ACTION_START_CORRECTIVE_ACTION_FORM:
                 showB2B3CorrectiveActionFormDialog();
                 break;
             default :
@@ -218,7 +226,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
      *  Like on the ServiceJob
      * @param mode
      */
-    public void backToLandingPage(final int mode) {
+    public void backToToolboxLandingPage(final int mode) {
         Intent intent = new Intent(ToolboxMeetingPagerActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(LANDING_PAGE_ACTIVE_KEY, NAVIGATION_DRAWER_SELECTED_TOOLBOX);
@@ -263,7 +271,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
     /**
      * Button Click on Next/Preview or Save
      */
-    public void showProjectTaskForm() {
+    public void showToolboxForm() {
         switch (this.modeOfForm) {
             case PROJECT_JOB_FORM_B1 :
                 showB1FormDialog();

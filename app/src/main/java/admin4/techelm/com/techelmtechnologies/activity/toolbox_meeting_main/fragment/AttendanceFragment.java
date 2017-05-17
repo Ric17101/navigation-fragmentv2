@@ -23,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -103,7 +104,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         btnScanCode.setOnClickListener(this);
 
         list = new ArrayList<>();
-        listAttendees = (ListView) view.findViewById(R.id.listAttendees);
 
         return view;
     }
@@ -135,7 +135,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);*/
-                ((ToolboxMeetingPagerActivity) getActivity()).fromFragmentNavigate(-1);
+                ((ToolboxMeetingPagerActivity) getActivity()).backToToolboxLandingPage(5);
             }
         });
 
@@ -148,7 +148,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
-                ((ToolboxMeetingPagerActivity) getActivity()).backToLandingPage(1);
+                ((ToolboxMeetingPagerActivity) getActivity()).fromFragmentNavigate(1);
             }
         });
 
@@ -158,6 +158,29 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             @Override
             public void onClick(View view) {
                 mCameraDialog = showCameraDialog();
+            }
+        });
+
+        listAttendees = (ListView) view.findViewById(R.id.listAttendees);
+        listAttendees.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
             }
         });
     }
