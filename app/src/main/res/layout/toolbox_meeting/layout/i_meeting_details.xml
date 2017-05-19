@@ -43,26 +43,6 @@
             android:layout_below="@+id/textView13"
             android:layout_alignParentStart="true" />
 
-        <TextView
-            android:id="@+id/textViewMonth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Month"
-            android:textSize="18sp"
-            android:layout_marginTop="30dp"
-            android:textStyle="normal|bold" />
-
-        <Spinner
-            android:id="@+id/spinnerMonth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
-            android:textSize="18sp"
-            android:textStyle="normal|bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"/>
-
         <include layout="@layout/i_signature_pad_layout" />
 
     </LinearLayout>

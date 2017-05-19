@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,8 +62,12 @@ public class ProjectJobLastFormFragment extends Fragment {
     private ImageButton imageButtonViewSignatureSubContractor;
     private ImageButton imageButtonViewSignatureDisposition;
 
+
     // Instance Variables;
     ProjectJobWrapper mProjectJob;
+
+    IPI_Wrapper ipiWrapper = new IPI_Wrapper();
+
     // IPI_TaskFinalWrapper mTask;
 
     public static ProjectJobLastFormFragment newInstance(ProjectJobWrapper project) {
@@ -95,6 +100,7 @@ public class ProjectJobLastFormFragment extends Fragment {
 
         this.mContext = container.getContext();
 
+
         initButton(view);
 
         initFormView(view);
@@ -118,6 +124,7 @@ public class ProjectJobLastFormFragment extends Fragment {
     }
 
     private void initButton(View view) {
+
         /** BUTTON BACK */
         Button button_back = (Button) view.findViewById(R.id.button_back);
         button_back.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +149,11 @@ public class ProjectJobLastFormFragment extends Fragment {
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
+                ipiWrapper.setProjectJobID(mProjectJob.getID());
+                ipiWrapper.setSubContractor(((EditText) getActivity().findViewById(R.id.editTextSubContractor)).getText().toString());
+                ipiWrapper.setDispositionedBy(((EditText) getActivity().findViewById(R.id.editTextDispositioned)).getText().toString());
+                uploadSignatures();
+
                 ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
             }
         });
@@ -172,6 +184,8 @@ public class ProjectJobLastFormFragment extends Fragment {
         TextView textViewTitleCommentRemarksDisposition = (TextView) linearLayoutDispositionedBy.findViewById(R.id.textViewTitleCommentRemarks);
         textViewTitleCommentRemarksDisposition.setText("Disposition Signature");
     }
+
+
 
     /************ A. SIGNATURE **************/
     private MaterialDialog showSigningDialog(View view, final Signature mode) {
@@ -330,7 +344,8 @@ public class ProjectJobLastFormFragment extends Fragment {
         }
     }
 
-    private void uploadSignatures(IPI_Wrapper ipiWrapper, Signature mode) {
+    private void uploadSignatures() {
+
         Log.e(TAG, ipiWrapper.toString());
 
         UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
@@ -339,6 +354,7 @@ public class ProjectJobLastFormFragment extends Fragment {
                 .addParam("projectjob_id", ipiWrapper.getProjectJobID()+"")
                 .addParam("disposition_by", ipiWrapper.getDispositionedBy())
                 .addParam("sub_contractor", ipiWrapper.getSubContractor())
+                .addParam("form_type", "EPS")
                 .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
                     @Override
                     public void onError(String msg, int success) {
@@ -364,7 +380,7 @@ public class ProjectJobLastFormFragment extends Fragment {
 
         if (hasSignatureSubContractor) {
             post.addMultipleFile(this.mSignatureUtil.getFile(), this.mSignatureUtil.getFile().getName(), "image/jpeg", "2")
-                    .addParam("hasSignatureSubContractor", hasSignatureDispositionendBy + "");
+                    .addParam("hasSignatureSubContractor", hasSignatureSubContractor + "");
         }
         post.startUpload();
     }

@@ -39,8 +39,6 @@ public class MeetingDetailsFragment extends Fragment {
     private SignaturePad mSignaturePad;
     private SignatureUtil mSignatureUtil;
 
-    private Spinner dropdown;
-
     private ImageButton imageButtonViewSignatureMeeting;
 
     @Nullable
@@ -111,10 +109,7 @@ public class MeetingDetailsFragment extends Fragment {
             }
         });
 
-        dropdown = (Spinner)view.findViewById(R.id.spinnerMonth);
-        String[] items = new String[]{"January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.mContext, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
+
     }
 
     private void initPermissions() {
