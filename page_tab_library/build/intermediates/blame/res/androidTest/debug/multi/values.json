@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "D:\\PR files\\Projects\\APP\\Techelm\\navigation-fragmentv2\\page_tab_library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 106
                 },
                 "from": {
-                    "file": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\PR files\\Projects\\APP\\Techelm\\navigation-fragmentv2\\page_tab_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 165
                 },
                 "from": {
-                    "file": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\PR files\\Projects\\APP\\Techelm\\navigation-fragmentv2\\page_tab_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 223
                 },
                 "from": {
-                    "file": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\PR files\\Projects\\APP\\Techelm\\navigation-fragmentv2\\page_tab_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 271
                 },
                 "from": {
-                    "file": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\PR files\\Projects\\APP\\Techelm\\navigation-fragmentv2\\page_tab_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,

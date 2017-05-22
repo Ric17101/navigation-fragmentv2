@@ -35,6 +35,7 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.ProjectJo
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.ToolboxMeetingListFragment;
 import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.fragment.ToolboxMeetingPagerActivity;
+import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.helper.PopulateToolboxMeetingViewDetails;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.TM_ListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UnsignedListAdapter;
@@ -49,6 +50,7 @@ import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobListene
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
@@ -221,6 +223,23 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
+        private Fragment initActiveFragment() {
+            Fragment activeFragment;
+            switch (fromBundleToActiveNavigation()) {
+                default:
+                case NAVIGATION_DRAWER_SELECTED_SERVICEJOB :
+                    activeFragment = new ServiceJobFragmentTab();
+                    break;
+                case NAVIGATION_DRAWER_SELECTED_PROJECTJOB :
+                    activeFragment = new ProjectJobChooseFormFragment();
+                    break;
+                case NAVIGATION_DRAWER_SELECTED_TOOLBOX :
+                    activeFragment = new ToolboxMeetingListFragment();
+                    break;
+            }
+            return activeFragment;
+        }
+
     private void init_DrawerNav() {
         /**
          *Setup the DrawerLayout and NavigationView
@@ -235,8 +254,7 @@ public class MainActivity extends FragmentActivity implements
          */
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        Fragment activeFragment = (fromBundleToActiveNavigation() == 0 ? new ServiceJobFragmentTab() : new ProjectJobChooseFormFragment());
-        mFragmentTransaction.replace(R.id.containerView, activeFragment).commit(); // tO RENDER THE  1st TAB on MAIN MENU
+        mFragmentTransaction.replace(R.id.containerView, initActiveFragment()).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
         /**
          * Setup click events on the Navigation View Items.
@@ -387,6 +405,25 @@ public class MainActivity extends FragmentActivity implements
                 break;
         }
     }
+    @Override
+    public void onHandleSelection(int position, ToolboxMeetingWrapper projectWrapper, int action) {
+            switch (action) {
+                case ACTION_VIEW_DETAILS : // Show Details of SJ on MDialog
+                    showMDialogTMDetails(projectWrapper);
+                    break;
+                /*************************** PROJECT JOB *****************************/
+                /*case ACTION_CHOOSE_FORM :
+                    this.mProjectJobFormSelectorDialog.show();
+                    //initFormSelectorButton(this.mProjectJobFormSelectorDialog.getCustomView(), projectWrapper);
+                    break;*/
+                /*************************** END PROJECT JOB *****************************/
+
+                case ACTION_TOOLBOX_MEETING :
+                    Log.wtf("Select:","xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                    startToolBoxMeetingViewPager();
+                    break;
+            }
+        }
 
     /*************************** A. SERVICE JOB *****************************/
 
@@ -624,6 +661,26 @@ public class MainActivity extends FragmentActivity implements
         md.show();
     }
 
+        /*************************** B. PROJECT JOB *****************************/
+        private void showMDialogTMDetails(ToolboxMeetingWrapper projectJob) {
+            MaterialDialog md = new MaterialDialog.Builder(this)
+                    .title("COMPLETED PROJECT JOB " + projectJob.getProjectRef())
+                    .customView(R.layout.i_labels_project_job_details, true)
+                    .limitIconToDefaultSize()
+                    .positiveText("OK")
+                    .iconRes(R.mipmap.view_icon)
+                    .autoDismiss(false)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            dialog.dismiss();
+                        }
+                    }).build();
+
+            new PopulateToolboxMeetingViewDetails()
+                    .populateServiceJobDetails(md.getCustomView(), projectJob, View.GONE, TAG);
+            md.show();
+        }
     private MaterialDialog initNewPartDialog() {
         boolean wrapInScrollView = false;
         MaterialDialog md = new MaterialDialog.Builder(MainActivity.this)

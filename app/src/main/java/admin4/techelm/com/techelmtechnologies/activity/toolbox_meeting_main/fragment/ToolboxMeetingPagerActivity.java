@@ -186,7 +186,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         backToToolboxLandingPage(1);
     }
 

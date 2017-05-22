@@ -24,6 +24,7 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.fragment.FragmentSetListHelper_ToolboxMeeting;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_TOOLBOX_MEETING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_DETAILS;
@@ -36,8 +37,8 @@ public class TM_ListAdapter extends RecyclerView.Adapter<TM_ListAdapter.ViewHold
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
 
-    private List<ProjectJobWrapper> mDataSet = new ArrayList<>();
-    private ProjectJobWrapper serviceJobDataSet;
+    private List<ToolboxMeetingWrapper> mDataSet = new ArrayList<>();
+    private ToolboxMeetingWrapper serviceJobDataSet;
     private CallbackInterface mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
@@ -61,12 +62,12 @@ public class TM_ListAdapter extends RecyclerView.Adapter<TM_ListAdapter.ViewHold
         System.gc();
     }
 
-    public TM_ListAdapter(List<ProjectJobWrapper> serviceJobList) {
+    public TM_ListAdapter(List<ToolboxMeetingWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }
 
-    public void swapData(List<ProjectJobWrapper> mNewDataSet) {
+    public void swapData(List<ToolboxMeetingWrapper> mNewDataSet) {
         mDataSet = mNewDataSet;
         notifyDataSetChanged();
     }
@@ -136,7 +137,7 @@ public class TM_ListAdapter extends RecyclerView.Adapter<TM_ListAdapter.ViewHold
          * @param position - the position
          * @param serviceJob - the text to pass back
          */
-        void onHandleSelection(int position, ProjectJobWrapper serviceJob, int mode);
+        void onHandleSelection(int position, ToolboxMeetingWrapper serviceJob, int mode);
     }
 
     public interface OnItemClickListener {

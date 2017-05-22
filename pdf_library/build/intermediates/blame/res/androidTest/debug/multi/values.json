@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\pdf_library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "D:\\PR files\\Projects\\APP\\Techelm\\navigation-fragmentv2\\pdf_library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\pdf_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\PR files\\Projects\\APP\\Techelm\\navigation-fragmentv2\\pdf_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
