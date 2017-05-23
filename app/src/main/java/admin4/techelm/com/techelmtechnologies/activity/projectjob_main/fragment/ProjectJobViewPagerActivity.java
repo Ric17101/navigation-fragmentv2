@@ -114,7 +114,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     private ProjectJobFragmentTab mPagerAdapter;
 
     // instance Variable
-    private int modeOfForm = 0;  // PAGER TAB Type of Form
+    private int mTypeOfForm = 0;  // PAGER TAB Type of Form
     private ProjectJobWrapper mProjectJob;
 
     // B. Project Job Setup - B2,B3
@@ -182,13 +182,13 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     /**
      * Can be used to title the TAB on the ViewPagerActivity
-     * By using the MODE CONSTANT of modeOfForm
+     * By using the MODE CONSTANT of mTypeOfForm
      */
     private void fromBundle() {
         mProgressIndicator.showProgress(true);
 
         Intent intent = getIntent();
-        this.modeOfForm = intent.getIntExtra(PROJECT_JOB_FORM_TYPE_KEY, 0);
+        this.mTypeOfForm = intent.getIntExtra(PROJECT_JOB_FORM_TYPE_KEY, 0);
         this.mProjectJob = intent.getParcelableExtra(PROJECT_JOB_KEY);
 
         setViewPagerTitleBar();
@@ -201,7 +201,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
          */
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mPagerAdapter = ProjectJobFragmentTab.newInstance(this.modeOfForm, this.mProjectJob);
+        mPagerAdapter = ProjectJobFragmentTab.newInstance(this.mTypeOfForm, this.mProjectJob);
         mFragmentTransaction.replace(R.id.containerView, mPagerAdapter).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
          this.mViewPager = mPagerAdapter.getViewPager();
@@ -231,7 +231,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     private void setViewPagerTitleBar() {
         TextView textViewProjectJobTitleTab = (TextView) findViewById(R.id.textViewProjectJobTitleTab);
-        switch (this.modeOfForm) {
+        switch (this.mTypeOfForm) {
             case PROJECT_JOB_FORM_B1: textViewProjectJobTitleTab.setText(R.string.piss); break;
             case PROJECT_JOB_FORM_B2: textViewProjectJobTitleTab.setText(R.string.ipipw); break;
             case PROJECT_JOB_FORM_B3: textViewProjectJobTitleTab.setText(R.string.ipieps); break;
@@ -300,7 +300,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     public void onHandleSelection(int position, ProjectJobWrapper serviceJob, int mode) {
         switch (mode) {
             /*case ACTION_START_DRAWING : // TODO: Change this to reasonable Variable Name, OK?
-                if (this.modeOfForm == PROJECT_JOB_FORM_B1)
+                if (this.mTypeOfForm == PROJECT_JOB_FORM_B1)
                     ;
                     //showDrawingFormFragment(task);//fromFragmentNavigate(1);
                 else // This is for B2 and B3
@@ -506,7 +506,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
      * Button Click on Next/Preview or Save
      */
     public void onClickNextButton() {
-        switch (this.modeOfForm) {
+        switch (this.mTypeOfForm) {
             case PROJECT_JOB_FORM_B1 :
                 getFragmentPISSTaskList().showB1FormDialog();
                 break;
@@ -585,7 +585,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     /*************** B3 - In-process inspection (EPS) ***************/
     public void showProjectJobLastFormFragment(/*IPI_TaskFinalWrapper task*/) {
         System.out.println("showDrawingFormFragment");
-        ProjectJobLastFormFragment form = ProjectJobLastFormFragment.newInstance(this.mProjectJob);
+        ProjectJobLastFormFragment form = ProjectJobLastFormFragment.newInstance(this.mProjectJob, this.mTypeOfForm);
         FragmentTransaction trans = mFragmentManager.beginTransaction();
         trans.replace(R.id.containerView, form).addToBackStack(FRAGMENT_BACK_STACK);
         trans.commit();

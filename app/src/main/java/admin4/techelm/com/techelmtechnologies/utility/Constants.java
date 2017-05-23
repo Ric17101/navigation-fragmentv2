@@ -60,8 +60,8 @@ public final class Constants {
 
     public static final String PROJECT_JOB_URL = DOMAIN_URL + "projectjob/";
     public static final String NEW_PROJECT_JOB_URL = NEW_DOMAIN_URL + "projectjob/";
-    public static final String PROJECT_JOB_LIST_URL = NEW_PROJECT_JOB_URL + "get_all_services/";
     public static final String PROJECT_JOB_PISS_DETAILS_URL = PROJECT_JOB_URL + "get_piss_details?id=";
+    public static final String PROJECT_JOB_LIST_URL = NEW_PROJECT_JOB_URL + "get_all_services/";
     public static final String PROJECT_JOB_PISS_TASK_LIST_URL = NEW_PROJECT_JOB_URL + "get_piss_tasks?projectjob_id=";
     public static final String PROJECT_JOB_SAVE_PISS_TASK_FORM_URL = NEW_PROJECT_JOB_URL + "projectjob_piss_tasks_save";
     public static final String PROJECT_JOB_SAVE_IPI_TASK_FORM_A_URL = NEW_PROJECT_JOB_URL + "projectjob_ipi_tasks_save";
@@ -149,7 +149,7 @@ public final class Constants {
     public static final String PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM = "17";
     public static final String PROJECT_JOB_TASK_START_DRAWING = "18";
 
-    // TYPE OF FORM
+    // TYPE OF FORM for SECTION B
     public static final int PROJECT_JOB_FORM_B1 = 1;
     public static final int PROJECT_JOB_FORM_B2 = 2;
     public static final int PROJECT_JOB_FORM_B3 = 3;

@@ -31,9 +31,11 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
 import admin4.techelm.com.techelmtechnologies.adapter.TM_ListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_TM;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 
@@ -56,7 +58,7 @@ public class ToolboxMeetingListFragment extends Fragment
     private RecyclerView mSearchResultsList;
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
-    private List<ProjectJobWrapper> results = null;
+    private List<ToolboxMeetingWrapper> results = null;
     private PJTask_RenderList mAuthTask = null;
 
     @Nullable
@@ -209,7 +211,7 @@ public class ToolboxMeetingListFragment extends Fragment
      * Called on click of Date CAlendar the render a list of Services at CardView
      * Show a list of SJ retrieved from API
      */
-    private class PJTask_RenderList extends AsyncTask<Void, Void, List<ProjectJobWrapper>> {
+    private class PJTask_RenderList extends AsyncTask<Void, Void, List<ToolboxMeetingWrapper>> {
 
         public final String TAG = PJTask_RenderList.class.getSimpleName();
         private String mDate;
@@ -337,14 +339,14 @@ public class ToolboxMeetingListFragment extends Fragment
          * 3 - no internet??? or blank reponse
          */
         @Override
-        protected List<ProjectJobWrapper> doInBackground(Void... params) {
+        protected List<ToolboxMeetingWrapper> doInBackground(Void... params) {
             String parsedProjectJob = "";
             try {
                 parsedProjectJob = parseServiceListJSON(JSONHelper.GET(PROJECT_JOB_LIST_URL));
                 switch (parsedProjectJob) {
                     case "ok":
-                        ConvertJSON_PJ cJSON = new ConvertJSON_PJ();
-                        ArrayList<ProjectJobWrapper> resultList = cJSON.projectJobList(projectList);
+                        ConvertJSON_TM cJSON = new ConvertJSON_TM();
+                        ArrayList<ToolboxMeetingWrapper> resultList = cJSON.projectJobList(projectList);
                         resultStatus = (cJSON.hasResult() ? 1 : 3);
                         return (resultStatus == 1 ? resultList : null);
                     case "null":
@@ -367,7 +369,7 @@ public class ToolboxMeetingListFragment extends Fragment
         }
 
         @Override
-        protected void onPostExecute(List<ProjectJobWrapper> list) {
+        protected void onPostExecute(List<ToolboxMeetingWrapper> list) {
             switch (resultStatus) {
                 case 1 :
                     results = list;

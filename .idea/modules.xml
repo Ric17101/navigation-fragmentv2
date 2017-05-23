@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/calendar_library/calendar_library.iml" filepath="$PROJECT_DIR$/calendar_library/calendar_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/finestwebview_library/finestwebview_library.iml" filepath="$PROJECT_DIR$/finestwebview_library/finestwebview_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/navigation-fragmentv2.iml" filepath="$PROJECT_DIR$/navigation-fragmentv2.iml" />
       <module fileurl="file://$PROJECT_DIR$/navigation-fragmentv2-master.iml" filepath="$PROJECT_DIR$/navigation-fragmentv2-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/page_tab_library/page_tab_library.iml" filepath="$PROJECT_DIR$/page_tab_library/page_tab_library.iml" />

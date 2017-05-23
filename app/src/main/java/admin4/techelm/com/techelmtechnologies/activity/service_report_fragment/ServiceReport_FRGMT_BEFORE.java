@@ -207,6 +207,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         mProgressBarUploading.setVisibility(View.GONE);
     }
 
+    // TODO : This should be from PermissionUtil
     private void initPermission() {
         permissions.add(CAMERA);
         permissionsToRequest = findUnAskedPermissions(permissions);
@@ -227,8 +228,8 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             public void onClick(View view) {
                 // Delete the Service Job from SQLite DB on Back
                 hideKeyboard();
-                ((ServiceJobViewPagerActivity)getActivity()).deleteServiceJob();
-                ((ServiceJobViewPagerActivity)getActivity()).backToLandingPage(1);
+                ((ServiceJobViewPagerActivity) getActivity()).deleteServiceJob();
+                ((ServiceJobViewPagerActivity) getActivity()).backToLandingPage(1);
             }
         });
 
@@ -239,7 +240,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             public void onClick(View view) {
                 hideKeyboard();
                 saveRemarksOnThread(mEditTextRemarks.getText().toString());
-                ((ServiceJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
+                ((ServiceJobViewPagerActivity) getActivity()).fromFragmentNavigate(1);
             }
         });
 
@@ -412,6 +413,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     public void fromActivity_onSJEntryDeleted() { }
 
     /**
+     * This is implemented aleady in the Helper Fragment List for this class
      * Load SJ from Database
      * @param serviceID
      */
@@ -469,6 +471,8 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         mUploadResults = mUploadsDB.getAllUploadsBySJID_ByTaken(mServiceID, UPLOAD_TAKEN);
         mUploadsDB.close();
 
+        Log.e(TAG, mUploadResults.toString());
+
         if (mUploadResults != null) {
             for (int i = 0; i < mUploadResults.size(); i++) {
                 Log.e(TAG, "DATA: " + mUploadResults.get(i).toString());
@@ -503,8 +507,8 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         ImageView image = (ImageView) dialogLayout.findViewById(R.id.imageViewUpload);
-        Drawable draw = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
-                serviceJobRecordingWrapper.getUploadName());
+        Drawable draw = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() /*+ "/" +
+                serviceJobRecordingWrapper.getUploadName()*/);
 
         image.setImageDrawable(draw);
 
@@ -578,6 +582,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 sjUp.setFilePath(camU.getFilePath());
                 sjUp.setTaken(UPLOAD_TAKEN);
                 sjUp.setServiceId(mServiceID);
+                Log.e(TAG, "ServiceJobUploadsWrapper doInBackground=" + sjUp.toString());
                 return sjUp;
             } else {
                 return null;
@@ -694,7 +699,9 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
                 mPicUri = getPickImageResultUri(data);
                 try {
                     mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mPicUri);
-                    mBitmap = ImageUtility.rotateImageIfRequired(mBitmap, mPicUri);
+                    ImageUtility util = new ImageUtility(this.mContext);
+                    util.setExternal(true);
+                    mBitmap = util.rotateImageIfRequired(mBitmap, mPicUri);
                     // mBitmap = getResizedBitmap(mBitmap, 500);
 
                     /*CircleImageView croppedImageView = (CircleImageView) mCameraDialog.getCustomView().findViewById(R.id.img_profile);

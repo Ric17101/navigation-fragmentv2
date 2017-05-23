@@ -100,17 +100,17 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
 
         Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getSerialNo());
 
-        if (mLastAnimatedItemPosition < position) {
-            animateItem(holder.itemView);
-            mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
-        }
-
         // Change the Label Text View Details Title for B1...
         // since this card_view list is being used from service job need to change the titles
         holder.textViewLabelDetail1.setText("Comments");
         holder.textViewLabelDetail2.setText("Descriptions");
         holder.textViewLabelDetail3.setText("Conformance");
         holder.textViewLabelDetail4.setText("Status");
+
+        if (mLastAnimatedItemPosition < position) {
+            animateItem(holder.itemView);
+            mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
+        }
     }
 
     @Override

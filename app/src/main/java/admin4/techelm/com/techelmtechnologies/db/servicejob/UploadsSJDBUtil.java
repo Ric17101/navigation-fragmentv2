@@ -82,7 +82,7 @@ public class UploadsSJDBUtil extends DatabaseAccess {
                 item.setUploadName(cursor.getString(2));
                 item.setFilePath(cursor.getString(3));
                 item.setTaken(cursor.getString(4));
-                if (FileUtility.isFileExist(item.getFilePath() + "/" + item.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                if (FileUtility.isFileExist(item.getFilePath()/* + "/" + item.getUploadName()*/)) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
                     list.add(item);
                 }
             } while (cursor.moveToNext());
@@ -110,7 +110,7 @@ public class UploadsSJDBUtil extends DatabaseAccess {
                 item.setUploadName(cursor.getString(2));
                 item.setFilePath(cursor.getString(3));
                 item.setTaken(cursor.getString(4));
-                if (FileUtility.isFileExist(item.getFilePath() + "/" + item.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                if (FileUtility.isFileExist(item.getFilePath()/* + "/" + item.getUploadName()*/)) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
                     list.add(item);
                 }
             } while (cursor.moveToNext());
@@ -137,7 +137,7 @@ public class UploadsSJDBUtil extends DatabaseAccess {
                 item.setUploadName(cursor.getString(2));
                 item.setFilePath(cursor.getString(3));
                 item.setTaken(cursor.getString(4));
-                if (FileUtility.isFileExist(item.getFilePath() + "/" + item.getUploadName())) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
+                if (FileUtility.isFileExist(item.getFilePath()/* + "/" + item.getUploadName()*/)) { // Skip adding this record if File Doesn't Exist or being Deleted on the Memory Device
                     list.add(item);
                 }
             } while (cursor.moveToNext());

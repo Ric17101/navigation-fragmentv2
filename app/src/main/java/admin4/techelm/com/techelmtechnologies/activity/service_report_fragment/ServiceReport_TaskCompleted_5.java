@@ -19,12 +19,13 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.HTTP_AUTHENTICATION_ACCESS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_VIEW_DETAIL_URL;
 
 public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
 
-    private static final String TAG = "TaskCompleted_5";
+    private static final String TAG = ServiceReport_TaskCompleted_5.class.getSimpleName();
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
 
@@ -39,7 +40,7 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
         // setBackGroundLayout();
 
         if (fromBundle() != null) { // if Null don't show anything
-            Log.e(TAG, "ServiceReport_TaskCompleted_5 : \n"+ this.mServiceJobFromBundle.toString());
+            Log.e(TAG, "fromBundle() : \n"+ this.mServiceJobFromBundle.toString());
         } else {
             SnackBarNotificationUtil
                     .setSnackBar(findViewById(android.R.id.content),
@@ -126,6 +127,8 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
                 .titleDefault(getString(R.string.app_name))
                 .swipeRefreshColorRes(R.color.colorPrimary1)
                 .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
+                .webViewHttpAuth(true)
+                .setHttpAuthKey(HTTP_AUTHENTICATION_ACCESS)
                 .show(SERVICE_JOB_VIEW_DETAIL_URL + this.mServiceJobFromBundle.getID());
     }
 

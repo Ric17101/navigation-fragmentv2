@@ -35,6 +35,7 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.ProjectJo
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.ToolboxMeetingListFragment;
 import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.fragment.ToolboxMeetingPagerActivity;
+import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.helper.PopulateToolboxMeetingViewDetails;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.TM_ListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UnsignedListAdapter;
@@ -49,6 +50,7 @@ import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobListene
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
@@ -66,7 +68,7 @@ public class MainActivity extends FragmentActivity implements
         ProjectJobListener,
         TM_ListAdapter.CallbackInterface
         // OnTaskKill.onStopCallbackInterface
-    {
+{
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -146,13 +148,13 @@ public class MainActivity extends FragmentActivity implements
 
     /**
      * These Two Lines should be included on every Fragment to maintain the state and donnot load again
-     * @param outState
+     * @param
      */
-    @Override
+    /*@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         System.out.println("MainActivity: I'm on the onSaveInstanceState");
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -171,7 +173,7 @@ public class MainActivity extends FragmentActivity implements
         dismissDialog();
     }
 
-        /**
+    /**
      * Can be used to title the TAB on the ViewPagerActivity
      * By using the MODE CONSTANT of modeOfForm
      */
@@ -198,20 +200,20 @@ public class MainActivity extends FragmentActivity implements
 
     private void logout() {
         if (new JSONHelper().isConnected(this)) {
-        new AlertDialog.Builder(this)
-                .setMessage("Are you sure you want to signout?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        mSession.clearPrefs();
-                        Intent i = new Intent(MainActivity.this, LoginActivity2.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(i);
-                        overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
+            new AlertDialog.Builder(this)
+                    .setMessage("Are you sure you want to signout?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            mSession.clearPrefs();
+                            Intent i = new Intent(MainActivity.this, LoginActivity2.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(i);
+                            overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
         } else {
             SnackBarNotificationUtil
                     .setSnackBar(findViewById(android.R.id.content),
@@ -219,6 +221,23 @@ public class MainActivity extends FragmentActivity implements
                     .setColor(getResources().getColor(R.color.colorPrimary1))
                     .show();
         }
+    }
+
+    private Fragment initActiveFragment() {
+        Fragment activeFragment;
+        switch (fromBundleToActiveNavigation()) {
+            default:
+            case NAVIGATION_DRAWER_SELECTED_SERVICEJOB :
+                activeFragment = new ServiceJobFragmentTab();
+                break;
+            case NAVIGATION_DRAWER_SELECTED_PROJECTJOB :
+                activeFragment = new ProjectJobChooseFormFragment();
+                break;
+            case NAVIGATION_DRAWER_SELECTED_TOOLBOX :
+                activeFragment = new ToolboxMeetingListFragment();
+                break;
+        }
+        return activeFragment;
     }
 
     private void init_DrawerNav() {
@@ -235,8 +254,7 @@ public class MainActivity extends FragmentActivity implements
          */
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        Fragment activeFragment = (fromBundleToActiveNavigation() == 0 ? new ServiceJobFragmentTab() : new ProjectJobChooseFormFragment());
-        mFragmentTransaction.replace(R.id.containerView, activeFragment).commit(); // tO RENDER THE  1st TAB on MAIN MENU
+        mFragmentTransaction.replace(R.id.containerView, initActiveFragment()).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
         /**
          * Setup click events on the Navigation View Items.
@@ -383,6 +401,26 @@ public class MainActivity extends FragmentActivity implements
             /*************************** END PROJECT JOB *****************************/
 
             case ACTION_TOOLBOX_MEETING :
+                startToolBoxMeetingViewPager();
+                break;
+        }
+    }
+
+    @Override
+    public void onHandleSelection(int position, ToolboxMeetingWrapper projectWrapper, int action) {
+        switch (action) {
+            case ACTION_VIEW_DETAILS : // Show Details of SJ on MDialog
+                showMDialogTMDetails(projectWrapper);
+                break;
+            /*************************** PROJECT JOB *****************************/
+                /*case ACTION_CHOOSE_FORM :
+                    this.mProjectJobFormSelectorDialog.show();
+                    //initFormSelectorButton(this.mProjectJobFormSelectorDialog.getCustomView(), projectWrapper);
+                    break;*/
+            /*************************** END PROJECT JOB *****************************/
+
+            case ACTION_TOOLBOX_MEETING :
+                Log.wtf("Select:","xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                 startToolBoxMeetingViewPager();
                 break;
         }
@@ -572,7 +610,7 @@ public class MainActivity extends FragmentActivity implements
     /**
      * Represents an asynchronous Task
      * UITask mAuthTask = new UITask();
-        mAuthTask.execute((Void) null);
+     mAuthTask.execute((Void) null);
      */
     /*public class UITask extends AsyncTask<Void, Void, Boolean> {
         UITask() {
@@ -624,6 +662,26 @@ public class MainActivity extends FragmentActivity implements
         md.show();
     }
 
+    /*************************** B. PROJECT JOB *****************************/
+    private void showMDialogTMDetails(ToolboxMeetingWrapper projectJob) {
+        MaterialDialog md = new MaterialDialog.Builder(this)
+                .title("COMPLETED PROJECT JOB " + projectJob.getProjectRef())
+                .customView(R.layout.i_labels_project_job_details, true)
+                .limitIconToDefaultSize()
+                .positiveText("OK")
+                .iconRes(R.mipmap.view_icon)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).build();
+
+        new PopulateToolboxMeetingViewDetails()
+                .populateServiceJobDetails(md.getCustomView(), projectJob, View.GONE, TAG);
+        md.show();
+    }
     private MaterialDialog initNewPartDialog() {
         boolean wrapInScrollView = false;
         MaterialDialog md = new MaterialDialog.Builder(MainActivity.this)

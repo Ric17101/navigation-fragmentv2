@@ -28,6 +28,7 @@ import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.NEW_DOMAIN_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL;
 
@@ -157,7 +158,7 @@ public class DrawingFormFragment extends Fragment {
                 // ((ProjectJobViewPagerActivity) getActivity()).onBackPress();
                 // new UpdateTASKProjectTask().newInstance(mPissTask).execute((Void)null);
 
-                new UploadDrawingTASK().newInstance(mPissTask).execute();
+                new UploadDrawingTASK().newInstance(mPissTask).execute("");
                 setButtonEnabled(false);
             }
         });
@@ -188,10 +189,12 @@ public class DrawingFormFragment extends Fragment {
 
     private void downloadImage(View view) {
         //((ProjectJobViewPagerActivity) getActivity()).downloadImageFromURL(DrawingCanvasFragment.this, IMAGE_URL, mockImageView);
+
+        String URI = NEW_DOMAIN_URL + this.mPissTask.getDrawingBefore();
         ((ProjectJobViewPagerActivity) getActivity())
             .downloadImageFromURL(
                 DrawingFormFragment.this,
-                this.mPissTask.getDrawingBefore(),
+                URI,
                 imageButtonViewDrawing,
                 ProjectJobViewPagerActivity.fragmentType.FORM);
     }
@@ -284,7 +287,7 @@ public class DrawingFormFragment extends Fragment {
 
     /********** UPLOAD TASK *************/
     private boolean hasDrawing = true;
-    private class UploadDrawingTASK extends AsyncTask<PISSTaskWrapper, Void, String> {
+    private class UploadDrawingTASK extends AsyncTask<String, Void, String> {
 
         private PISSTaskWrapper task;
 
@@ -301,7 +304,7 @@ public class DrawingFormFragment extends Fragment {
         }
 
         @Override
-        protected String doInBackground(PISSTaskWrapper... params) {
+        protected String doInBackground(String... params) {
             Log.e(TAG, "Im on the doInBackground");
 
             updateSQLDB();
@@ -320,8 +323,8 @@ public class DrawingFormFragment extends Fragment {
         private void updateSQLDB() {
             PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
             taskDBUtil.open();
-            int insertedID = taskDBUtil.addPISSTask(this.task);
             mPissTask = taskDBUtil.getDetailsByPISSTaskID(this.task.getID());
+            int insertedID = taskDBUtil.addPISSTask(mPissTask);
             Log.e(TAG, "Im on the doInBackground " + taskDBUtil.getAllTask().toString());
             taskDBUtil.close();
         }

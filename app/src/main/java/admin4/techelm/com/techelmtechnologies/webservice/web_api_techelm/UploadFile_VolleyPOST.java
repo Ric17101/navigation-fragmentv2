@@ -3,13 +3,11 @@ package admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -19,10 +17,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import admin4.techelm.com.techelmtechnologies.utility.volley_multipart.VolleyDataPart;
 import admin4.techelm.com.techelmtechnologies.utility.volley_multipart.VolleyMultipartRequest;

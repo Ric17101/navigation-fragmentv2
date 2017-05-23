@@ -607,7 +607,7 @@ int id multiply 0x7f0a0015
 int id never 0x7f0a0021
 int id none 0x7f0a000f
 int id normal 0x7f0a000b
-int id notification_background 0x7f0a0066
+int id notification_background 0x7f0a0065
 int id notification_main_column 0x7f0a0060
 int id notification_main_column_container 0x7f0a005f
 int id parentPanel 0x7f0a0031
@@ -615,7 +615,7 @@ int id progress_circular 0x7f0a0006
 int id progress_horizontal 0x7f0a0007
 int id radio 0x7f0a0041
 int id rightButton 0x7f0a0070
-int id right_icon 0x7f0a0065
+int id right_icon 0x7f0a0066
 int id right_side 0x7f0a0061
 int id robotoCalendarDateTitleContainer 0x7f0a006f
 int id screen 0x7f0a0016

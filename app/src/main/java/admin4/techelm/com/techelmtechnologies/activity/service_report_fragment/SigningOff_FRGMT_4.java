@@ -116,7 +116,8 @@ public class SigningOff_FRGMT_4 extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.activity_signing_off_end_task, container, false);
 
-        this.mContext = container.getContext();
+        //this.mContext = container.getContext();
+        this.mContext = getActivity();
 
         initSignaturePadPopUp(view);
         initButton(view);
@@ -475,7 +476,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            //super.onPostExecute(s);
             Log.e(TAG, "Im on onPostExecute @ UploadDataWithNotificationTASK");
             //if (mIncrProgress == PROGRESS_MAX) // This line is not called due to asynchronous call
             //   goHome();
@@ -727,7 +728,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
             int counter = 1;
             for (ServiceJobUploadsWrapper sjuw : mUploadResults) {
                 Log.e(TAG, "2" + sjuw.toString());
-                File signatureFile = new File(sjuw.getFilePath() + "/" + sjuw.getUploadName());
+                File signatureFile = new File(sjuw.getFilePath()/* + "/" + sjuw.getUploadName()*/);
                 // Reseize file before send to server
                 signatureFile = new ImageUtility(getActivity()).rescaleImageFile(signatureFile);
                 if (signatureFile != null) { // TODO: Test this, if file is null

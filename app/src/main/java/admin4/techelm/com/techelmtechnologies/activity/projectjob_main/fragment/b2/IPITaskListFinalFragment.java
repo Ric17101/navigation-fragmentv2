@@ -104,7 +104,7 @@ public class IPITaskListFinalFragment extends Fragment
     }
 
     private void fromBundle() {
-        this.mTypeOfForm = getArguments().getInt(PROJECT_JOB_FORM_TYPE_KEY);
+        this.mTypeOfForm = getArguments().getInt(PROJECT_JOB_FORM_TYPE_KEY, PROJECT_JOB_FORM_B2);
         this.mProjectJob = getArguments().getParcelable(PROJECT_JOB_KEY);
     }
 
