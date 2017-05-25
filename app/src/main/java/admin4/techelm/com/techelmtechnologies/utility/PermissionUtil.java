@@ -151,16 +151,17 @@ public class PermissionUtil {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.CAMERA};
-
-        showMessageOKCancel(activity, "These permissions are mandatory for the application. Please allow access.",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(!hasPermissions(activity, PERMISSIONS)){
-                            ActivityCompat.requestPermissions(activity, PERMISSIONS, REQUEST_EXTERNAL_STORAGE);
+        if(!hasPermissions(activity, PERMISSIONS)) {
+            showMessageOKCancel(activity, "These permissions are mandatory for the application. Please allow access.",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!hasPermissions(activity, PERMISSIONS)) {
+                                ActivityCompat.requestPermissions(activity, PERMISSIONS, REQUEST_EXTERNAL_STORAGE);
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     public static boolean hasPermissions(final Context context, final String... permissions) {

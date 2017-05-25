@@ -64,7 +64,7 @@
         <ImageButton
             android:id="@+id/buttonViewUploadImage1"
             android:layout_width="match_parent"
-            android:layout_height="250sp"
+            android:layout_height="450sp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="?selectableItemBackgroundBorderless"
@@ -86,6 +86,14 @@
             android:textAlignment="center"
             android:textSize="14sp"
             android:textStyle="normal|bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/upload_results_toolbox_meeting_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="70sp"
+            android:paddingTop="4sp" />
 
 
     </LinearLayout>

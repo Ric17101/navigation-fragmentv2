@@ -78,11 +78,6 @@ public final class Constants {
     public static final String PROJECT_JOB_IPI_TASK_LIST_URL = NEW_PROJECT_JOB_URL + "get_ipi_tasks?projectjob_id=%d&form_type=%s";
     public static final String PROJECT_JOB_IPI_TASK_FINAL_LIST_URL = NEW_PROJECT_JOB_URL + "get_ipi_correctiveAction?projectjob_id=%d&form_type=%s";
 
-	public static final String NEW_TOOLBOX_MEETING_URL = NEW_DOMAIN_URL + "toolboxmeeting/";
-    public static final String TOOLBOXMEETING_ATTENDEES_UPLOAD_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_save_attendees/";
-    public static final String TOOLBOXMEETING_IMAGE_UPLOAD_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_save_image";
-    public static final String TOOLBOXMEETING_MEETING_DETAILS_UPLOAD_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_save";
-
     public static final String LIST_DELIM = ":-:";
 
     /**** NAVIGATION DRAWER TO SHOW ON MAIN ACTIVITY ****/
@@ -130,13 +125,11 @@ public final class Constants {
     public static final String PROJECT_JOB_IPI_FINAL_TASK_KEY = "PROJECT_JOB_IPI_FINAL_TASK";
     /** Type is View Object. */
     public static final String PROJECT_JOB_FORM_DATE_FORM_KEY = "SHOW_ANOTHER_DIALOG";
-    /** Type is IPIFinalTaskWrapper Object. */
-    public static final String TOOLBOX_MEETING_KEY = "TOOLBOX_MEETING";
 
     /**** SECTION B ****/
     // STATUS of Project Jobs, the Task Button
     public static final String PROJECT_JOB_NEW = "0";
-    // public static final String PROJECT_JOB_UNSIGNED = "1";
+   // public static final String PROJECT_JOB_UNSIGNED = "1";
     public static final String PROJECT_JOB_PENDING = "1";
     public static final String PROJECT_JOB_COMPLETED = "2";
     public static final String PROJECT_JOB_ON_PROCESS = "3";
