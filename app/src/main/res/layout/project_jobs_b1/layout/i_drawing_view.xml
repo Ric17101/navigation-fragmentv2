@@ -18,7 +18,7 @@
         android:id="@+id/textView22"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tap edit/pencil button to draw on your image."
+        android:text="Tap image to start draw."
         android:textSize="12sp"
         android:textStyle="normal|italic" />
 
@@ -37,7 +37,7 @@
             <ImageButton
                 android:id="@+id/imageButtonViewDrawing"
                 android:layout_width="wrap_content"
-                android:layout_height="170sp"
+                android:layout_height="340sp"
                 android:layout_gravity="center"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="Button Drawing"

@@ -1932,7 +1932,7 @@ containing a value of this type.
         public static int never=0x7f0a0021;
         public static int none=0x7f0a000f;
         public static int normal=0x7f0a000b;
-        public static int notification_background=0x7f0a0066;
+        public static int notification_background=0x7f0a0065;
         public static int notification_main_column=0x7f0a0060;
         public static int notification_main_column_container=0x7f0a005f;
         public static int parentPanel=0x7f0a0031;
@@ -1940,7 +1940,7 @@ containing a value of this type.
         public static int progress_horizontal=0x7f0a0007;
         public static int radio=0x7f0a0041;
         public static int rightButton=0x7f0a0070;
-        public static int right_icon=0x7f0a0065;
+        public static int right_icon=0x7f0a0066;
         public static int right_side=0x7f0a0061;
         public static int robotoCalendarDateTitleContainer=0x7f0a006f;
         public static int screen=0x7f0a0016;

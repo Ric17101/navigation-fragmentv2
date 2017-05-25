@@ -466,8 +466,8 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         ImageView image = (ImageView) dialogLayout.findViewById(R.id.imageViewUpload);
-        Drawable draw = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() + "/" +
-                serviceJobRecordingWrapper.getUploadName());
+        Drawable draw = Drawable.createFromPath(serviceJobRecordingWrapper.getFilePath() /*+ "/" +
+                serviceJobRecordingWrapper.getUploadName()*/);
 
         image.setImageDrawable(draw);
 

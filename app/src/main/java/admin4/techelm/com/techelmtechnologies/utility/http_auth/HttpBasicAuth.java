@@ -58,6 +58,15 @@ public class HttpBasicAuth {
 
             String encoding = Base64.encodeToString(HTTP_AUTHENTICATION_ACCESS.getBytes(), Base64.DEFAULT);
             httpUrlConnection.addRequestProperty("Authorization", "Basic " + encoding);
+            /*
+            WITH HAS MAP
+             if (!this.authAccess.equals("")) {
+                String encoding = Base64.encodeToString(this.authAccess.getBytes(), Base64.DEFAULT);
+                Map<String, String> auth = new HashMap<String, String>();
+                auth.put("Authorization", "Basic " + encoding);
+                webView.loadUrl(this.url, auth);
+              }
+             */
             //httpUrlConnection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
             httpUrlConnection.connect();

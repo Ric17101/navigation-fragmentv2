@@ -2,6 +2,8 @@ package admin4.techelm.com.techelmtechnologies.utility.image_download;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,8 +25,15 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import admin4.techelm.com.techelmtechnologies.R;
+
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.HTTP_AUTHENTICATION_ACCESS;
 
 /**
  * Created 27/04/2017 by admin4
@@ -55,21 +64,21 @@ public class UILDownloader {
 	private ImageLoader mImageLoader;
 	private UILListener mCallback;
 
-	private UILDownloader () {}
-
+    private UILDownloader() {}
 	/**
 	 * @param context - Calling Activity
 	 */
 	public UILDownloader(Context context) {
 		this.mContext = context;
+        this.mDownloader = new UILDownloader();
 
 		try {
 			this.mCallback = (UILListener) context;
-			this.initUIL();
+            this.initUIL();
 		} catch (ClassCastException ex) {
 			Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
 		}
-	}
+    }
     /**
      * @param imageURL - Can be from URL, Drawables or Local Storage
      */
@@ -85,6 +94,7 @@ public class UILDownloader {
 	}
 
 	private DisplayImageOptions setImageOptions() {
+
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showImageForEmptyUri(R.mipmap.ic_empty)
 				.showImageOnFail(R.mipmap.ic_error)
@@ -105,17 +115,24 @@ public class UILDownloader {
 		config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
 		config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
 		config.tasksProcessingOrder(QueueProcessingType.LIFO);
+        config.imageDownloader(new UILCustomDownloader(this.mContext));
 		config.writeDebugLogs(); // Remove for release app
 
 		return config.build();
 	}
 
 	private void initUIL() {
-		this.mDownloader = new UILDownloader();
+
 		this.mOptions = setImageOptions();
 
 		this.mImageLoader = ImageLoader.getInstance();
-		this.mImageLoader.init(setConfig());
+
+        ImageLoaderConfiguration config = setConfig();
+
+		this.mImageLoader.init(config);
+
+        // Initialize ImageLoader with configuration.
+        // ImageLoader.getInstance().init(config);
 	}
 
 	public void start() {
@@ -139,6 +156,7 @@ public class UILDownloader {
 						default: message = "null"; break;
 					}
 					Log.e(TAG, "onLoadingFailed " + message);
+					Log.e(TAG, "onLoadingFailed " + failReason.getType());
 					mCallback.OnHandleError("onLoadingFailed " + message);
 				}
 
@@ -168,6 +186,7 @@ public class UILDownloader {
 		config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
 		config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
 		config.tasksProcessingOrder(QueueProcessingType.LIFO);
+		// config.imageDownloader(new BaseImageDownloader(context)); // default
 		config.writeDebugLogs(); // Remove for release app
 
 		// Initialize ImageLoader with configuration.
@@ -197,7 +216,7 @@ public class UILDownloader {
 				.diskCacheSize(50 * 1024 * 1024)
 				.diskCacheFileCount(100)
 				.diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
-				.imageDownloader(new BaseImageDownloader(this.mContext)) // default
+				//.imageDownloader(new BaseImageDownloader(this.mContext)) // default
 				.imageDecoder(new BaseImageDecoder(true)) // default
 				.defaultDisplayImageOptions(DisplayImageOptions.createSimple()) // default
 				.writeDebugLogs()

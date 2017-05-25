@@ -17,6 +17,9 @@ buildscript {
 
         // Signature Pad
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.novoda:bintray-release:0.3.4'
     }
 
 
@@ -35,11 +38,29 @@ allprojects {
     ext {
         androidApplicationId = 'com.marcohc.robotocalendar'
         androidBuildToolsVersion = "25.0.2"
-        androidMinSdkVersion = 14
+        androidSupportLibVersion = "25.3.0"
+        androidMinSdkVersion = 17
         androidTargetSdkVersion = 25
         androidCompileSdkVersion = 25
         androidVersionCode = 1
         androidVersionName = "3.1.1"
+
+        androidSourceCompatibility = JavaVersion.VERSION_1_7
+        androidTargetCompatibility = JavaVersion.VERSION_1_7
+
+        versionCode = 9
+        versionName = '1.2.7'
+        playLibVersion = '8.4.0'
+
+        // Finest WebView
+//        minSdkVersion = 16
+//        targetSdkVersion = 25
+//        compileSdkVersion = 25
+//        buildToolsVersion = '25.0.2'
+//
+//        supportLibVersion = '25.3.0'
+//        sourceCompatibility = JavaVersion.VERSION_1_7
+//        targetCompatibility = JavaVersion.VERSION_1_7
     }
 
 

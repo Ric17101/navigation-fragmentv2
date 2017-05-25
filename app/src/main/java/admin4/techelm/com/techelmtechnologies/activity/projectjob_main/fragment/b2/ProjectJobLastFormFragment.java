@@ -37,6 +37,10 @@ import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_EPS;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_PW;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_SAVE_IPI_TASK_FORM_C_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_CAPTURE_URL;
@@ -65,16 +69,18 @@ public class ProjectJobLastFormFragment extends Fragment {
 
     // Instance Variables;
     ProjectJobWrapper mProjectJob;
+    int mTypeOfForm = 2;
 
     IPI_Wrapper ipiWrapper = new IPI_Wrapper();
 
     // IPI_TaskFinalWrapper mTask;
 
-    public static ProjectJobLastFormFragment newInstance(ProjectJobWrapper project) {
+    public static ProjectJobLastFormFragment newInstance(ProjectJobWrapper project, int formType) {
         ProjectJobLastFormFragment fragment = new ProjectJobLastFormFragment();
         Bundle args = new Bundle();
 
         args.putParcelable(PROJECT_JOB_KEY, project);
+        args.putInt(PROJECT_JOB_FORM_TYPE_KEY, formType);
         //args.putParcelable(PROJECT_JOB_IPI_FINAL_TASK_KEY, task);
 
         fragment.setArguments(args);
@@ -89,6 +95,7 @@ public class ProjectJobLastFormFragment extends Fragment {
 
     private void fromBundle() {
         this.mProjectJob = getArguments().getParcelable(PROJECT_JOB_KEY);
+        this.mTypeOfForm = getArguments().getInt(PROJECT_JOB_FORM_TYPE_KEY, PROJECT_JOB_FORM_B2);
         //this.mTask = getArguments().getParcelable(PROJECT_JOB_IPI_FINAL_TASK_KEY);
     }
 
@@ -354,7 +361,7 @@ public class ProjectJobLastFormFragment extends Fragment {
                 .addParam("projectjob_id", ipiWrapper.getProjectJobID()+"")
                 .addParam("disposition_by", ipiWrapper.getDispositionedBy())
                 .addParam("sub_contractor", ipiWrapper.getSubContractor())
-                .addParam("form_type", "EPS")
+                .addParam("form_type", (this.mTypeOfForm == PROJECT_JOB_FORM_B2 ? PROJECT_JOB_FORM_PW : PROJECT_JOB_FORM_EPS))
                 .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
                     @Override
                     public void onError(String msg, int success) {

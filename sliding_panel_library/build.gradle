@@ -6,14 +6,14 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:25.2.0'
-    compile 'com.android.support:support-annotations:25.2.0'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile "com.android.support:support-v4:${rootProject.ext.androidSupportLibVersion}"
+    compile "com.android.support:support-annotations:${rootProject.ext.androidSupportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${rootProject.ext.androidSupportLibVersion}"
 }
 
 android {
-    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
     lintOptions {
         abortOnError false
     }
