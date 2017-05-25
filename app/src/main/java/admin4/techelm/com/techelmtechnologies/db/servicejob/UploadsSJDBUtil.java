@@ -24,7 +24,7 @@ public class UploadsSJDBUtil extends DatabaseAccess {
     private static final String LOG_TAG = "UploadsSJDBUtil";
 
     public static abstract class DBHelperItem implements BaseColumns {
-        public static final String TABLE_NAME = "servicejob_uploads";
+        public static final String TABLE_NAME = "toolboxmeeting_uploads";
         public static final String COLUMN_NAME_UPLOADS_ID = "id";
         public static final String COLUMN_NAME_UPLOADS_SERVICE_ID = "servicejob_id";
         public static final String COLUMN_NAME_UPLOADS_NAME = "upload_name";

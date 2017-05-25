@@ -401,7 +401,7 @@ public class MainActivity extends FragmentActivity implements
             /*************************** END PROJECT JOB *****************************/
 
             case ACTION_TOOLBOX_MEETING :
-                startToolBoxMeetingViewPager();
+                //startToolBoxMeetingViewPager();
                 break;
         }
     }
@@ -420,7 +420,7 @@ public class MainActivity extends FragmentActivity implements
 
                 case ACTION_TOOLBOX_MEETING :
                     Log.wtf("Select:","xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                    startToolBoxMeetingViewPager();
+                    startToolBoxMeetingViewPager(projectWrapper);
                     break;
             }
         }
@@ -741,10 +741,10 @@ public class MainActivity extends FragmentActivity implements
 
     /*************************** B. END PROJECT JOB *****************************/
 
-    private void startToolBoxMeetingViewPager() {
+    private void startToolBoxMeetingViewPager(ToolboxMeetingWrapper toolboxmeeting) {
         Intent i = new Intent(MainActivity.this, ToolboxMeetingPagerActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                /*.putExtra(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm)*/;
+                .putExtra("TOOLBOX_MEETING", toolboxmeeting);
         startActivity(i);
         overridePendingTransition(R.anim.enter, R.anim.exit);
     }

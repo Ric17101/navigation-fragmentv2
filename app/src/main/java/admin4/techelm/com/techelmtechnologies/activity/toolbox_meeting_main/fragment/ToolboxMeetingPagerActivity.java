@@ -37,6 +37,8 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
+import admin4.techelm.com.techelmtechnologies.db.toolboxmeeting.UploadsTMDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.dialog.InterfaceDialogHolder;
@@ -48,10 +50,12 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
 
 public class ToolboxMeetingPagerActivity extends FragmentActivity implements
         // TM_ListAdapter.ProjectJobListener,
         DatePickerDialog.OnDateSetListener,
+        UploadsTMDBUtil.OnDatabaseChangedListener,
         OpenDialog {
 
     private static final String TAG = ToolboxMeetingPagerActivity.class.getSimpleName();
@@ -68,6 +72,9 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
 
     // PAGER TAB Type of Form
     private int modeOfForm = 0;
+
+    //TOOLBOX MEETING WRAPPER
+    private ToolboxMeetingWrapper toolboxMeetingWrapper;
 
     DatePickerDialog mDialog;
     private EditText editTextB2B3CompletionDate; // This is used for multiple pop up views
@@ -88,7 +95,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
 
         setContentView(R.layout.activity_toolbox_meeting_list);
 
-        //fromBundle();
+        fromBundle();
 
         setBackGroundLayout();
 
@@ -117,7 +124,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
          */
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mPagerAdapter = ToolboxMeetingFragmentTab.newInstance();
+        mPagerAdapter = ToolboxMeetingFragmentTab.newInstance(this.toolboxMeetingWrapper);
         mFragmentTransaction.replace(R.id.containerView, mPagerAdapter).commit(); // tO RENDER THE  1st TAB on MAIN MENU
 
         this.mViewPager = mPagerAdapter.getViewPager();
@@ -158,6 +165,13 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
     private void setBackGroundLayout() {
         LinearLayout backgroundLayout = (LinearLayout) findViewById(R.id.activity_toolbox);
         backgroundLayout.setBackground(new ImageUtility(this).ResizeImage(R.drawable.background));
+    }
+
+    private void fromBundle() {
+
+        Intent intent = getIntent();
+        this.toolboxMeetingWrapper = intent.getParcelableExtra("TOOLBOX_MEETING");
+
     }
 
     private void loginSessionTest() {
@@ -519,6 +533,7 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
 
         md.show();
     }
+    private int getCurrentPosition() { return mViewPager.getCurrentItem(); }
 
     /**
      * Called After Clicking Next at NonConformanceAndDateFragmentTest
@@ -549,6 +564,27 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
                 })
                 .build();
         md.show();
+    }
+
+    private AttendanceFragment getFragmentAttendanceFragment() {
+        return (AttendanceFragment) mPagerAdapter.getActiveFragment(mViewPager,0);
+    }
+
+    @Override
+    public void onNewUploadsDBEntryAdded(String fileName) {
+
+        Log.wtf("Try:","YEAH!!!!");
+        getFragmentAttendanceFragment().fromActivity_onNewUploadsDBEntryAdded(fileName);
+    }
+
+    @Override
+    public void onUploadsDBEntryRenamed(String fileName) {
+
+    }
+
+    @Override
+    public void onUploadsDBEntryDeleted() {
+
     }
 
     /*************** END B2 - In-process inspection (PW) ***************/

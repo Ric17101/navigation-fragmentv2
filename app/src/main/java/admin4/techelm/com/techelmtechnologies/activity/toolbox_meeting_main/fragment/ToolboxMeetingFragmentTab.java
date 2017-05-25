@@ -14,6 +14,11 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
+
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
 
 public class ToolboxMeetingFragmentTab extends Fragment {
 
@@ -22,14 +27,17 @@ public class ToolboxMeetingFragmentTab extends Fragment {
     private HorizontalScrollView hScrollViewTab;
     private ViewPager viewPager;
     public static final int TAB_COUNT = 2;
+
+    private ToolboxMeetingWrapper toolboxMeetingWrapper;
+    private ToolboxMeetingUploadsWrapper toolboxMeetingUploadsWrapper;
     private MyAdapter mPagerAdapter;
 
-    public static ToolboxMeetingFragmentTab newInstance() {
+    public static ToolboxMeetingFragmentTab newInstance(ToolboxMeetingWrapper toolboxMeetingWrapper) {
         ToolboxMeetingFragmentTab fragment = new ToolboxMeetingFragmentTab();
-        /*Bundle args = new Bundle();
+        Bundle args = new Bundle();
 
-        args.putInt(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm);
-        fragmentType.setArguments(args);*/
+        args.putParcelable("TOOLBOX_MEETING", toolboxMeetingWrapper);
+        fragment.setArguments(args);
 
         return fragment;
     }
@@ -37,6 +45,7 @@ public class ToolboxMeetingFragmentTab extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fromBundle();
     }
 
     @Nullable
@@ -82,6 +91,12 @@ public class ToolboxMeetingFragmentTab extends Fragment {
         return view;
     }
 
+    private void fromBundle() {
+
+        this.toolboxMeetingWrapper = getArguments().getParcelable("TOOLBOX_MEETING");
+        //toolboxMeetingUploadsWrapper.setProjectjobID(toolboxMeetingWrapper.getID());
+    }
+
     // Just to Initialize the Button Next, Prev in ProjectJobViewPagerActivty
     public ViewPager getViewPager() {
         return this.viewPager;
@@ -113,9 +128,9 @@ public class ToolboxMeetingFragmentTab extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new AttendanceFragment();
+                    return AttendanceFragment.newInstance(toolboxMeetingWrapper);
                 case 1:
-                    return new MeetingDetailsFragment();
+                    return MeetingDetailsFragment.newInstance(toolboxMeetingWrapper);
             }
             return null;
         }

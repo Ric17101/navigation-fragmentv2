@@ -74,6 +74,12 @@ public final class Constants {
     public static final String PROJECT_JOB_IPI_TASK_LIST_URL = NEW_PROJECT_JOB_URL + "get_ipi_tasks?projectjob_id=%d&form_type=%s";
     public static final String PROJECT_JOB_IPI_TASK_FINAL_LIST_URL = NEW_PROJECT_JOB_URL + "get_ipi_correctiveAction?projectjob_id=%d&form_type=%s";
 
+
+    public static final String NEW_TOOLBOX_MEETING_URL = NEW_DOMAIN_URL + "toolboxmeeting/";
+    public static final String TOOLBOXMEETING_ATTENDEES_UPLOAD_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_save_attendees/";
+    public static final String TOOLBOXMEETING_IMAGE_UPLOAD_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_save_image";
+    public static final String TOOLBOXMEETING_MEETING_DETAILS_UPLOAD_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_save";
+
     public static final String LIST_DELIM = ":-:";
 
     /**** NAVIGATION DRAWER TO SHOW ON MAIN ACTIVITY ****/

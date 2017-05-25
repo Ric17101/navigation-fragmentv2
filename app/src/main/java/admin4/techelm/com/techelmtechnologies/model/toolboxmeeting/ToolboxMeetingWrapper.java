@@ -36,7 +36,7 @@ public class ToolboxMeetingWrapper implements Parcelable {
 
     //private variables 12 + 2
     // TODO: Add CPCode Here....
-    private int _id; // ProjectJob ID from the WEB API, should exist only once on local DB
+    private int _projectjob_id; // ProjectJob ID from the WEB API, should exist only once on local DB
     private String _proj_ref;
     private String _project_site;
     private String _taget_completion_date;
@@ -57,7 +57,7 @@ public class ToolboxMeetingWrapper implements Parcelable {
     public ToolboxMeetingWrapper() { }
 
     protected ToolboxMeetingWrapper(Parcel in) {
-        _id = in.readInt();
+        _projectjob_id = in.readInt();
         _proj_ref = in.readString();
         _project_site = in.readString();
         _taget_completion_date = in.readString();
@@ -75,7 +75,7 @@ public class ToolboxMeetingWrapper implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(_id);
+        dest.writeInt(_projectjob_id);
         dest.writeString(_proj_ref);
         dest.writeString(_project_site);
         dest.writeString(_taget_completion_date);
@@ -97,7 +97,7 @@ public class ToolboxMeetingWrapper implements Parcelable {
     }
 
     public String toString() {
-        return "\nID : " + this._id +
+        return "\nID : " + this._projectjob_id +
                 "\nProject Reference : " + this._proj_ref +
                 "\nCustomer ID : " + this._customer_id +
                 "\nCustomer Name : " + this._customer_name +
@@ -118,9 +118,9 @@ public class ToolboxMeetingWrapper implements Parcelable {
      * GET AND SET METHOD
      */
 
-    public int getID() { return this._id; }
+    public int getID() { return this._projectjob_id; }
     public void setID(int id) {
-        this._id = id;
+        this._projectjob_id = id;
     }
 
     public String getProjectRef() { return this._proj_ref; }

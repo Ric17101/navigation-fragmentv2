@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,10 +25,15 @@ import com.github.gcacace.signaturepad.views.SignaturePad;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.ProjectJobLastFormFragment;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SignatureImageButtonUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SignatureUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
+
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_MEETING_DETAILS_UPLOAD_URL;
 
 /**
  *
@@ -40,6 +47,31 @@ public class MeetingDetailsFragment extends Fragment {
     private SignatureUtil mSignatureUtil;
 
     private ImageButton imageButtonViewSignatureMeeting;
+
+    private EditText meeting_details;
+    private String md_Content;
+    private ToolboxMeetingWrapper toolboxMeetingWrapper;
+
+    public static MeetingDetailsFragment newInstance(ToolboxMeetingWrapper projectJobWrapper) {
+        MeetingDetailsFragment fragment = new MeetingDetailsFragment();
+        Bundle args = new Bundle();
+
+        args.putParcelable("TOOLBOX_MEETING", projectJobWrapper);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+
+        fromBundle();
+    }
+
+    private void fromBundle() {
+        this.toolboxMeetingWrapper = getArguments().getParcelable("TOOLBOX_MEETING");
+    }
 
     @Nullable
     @Override
@@ -94,13 +126,16 @@ public class MeetingDetailsFragment extends Fragment {
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
-                ((ToolboxMeetingPagerActivity) getActivity()).fromFragmentNavigate(1);
+                uploadSignature();
+                ((ToolboxMeetingPagerActivity) getActivity()).backToToolboxLandingPage(5);
             }
         });
     }
 
     private void initFormView(final View view) {
         // Sub Contractor Signature setup
+        meeting_details = (EditText) view.findViewById(R.id.editTextMeetingDetails);
+
         imageButtonViewSignatureMeeting = (ImageButton) view.findViewById(R.id.imageButtonViewSignature);
         imageButtonViewSignatureMeeting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,5 +235,30 @@ public class MeetingDetailsFragment extends Fragment {
     }
 
     /************ A. END SIGNATURE **************/
+
+    private void uploadSignature() {
+        UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
+        md_Content = meeting_details.getText().toString();
+        post.setContext(this.mContext)
+                .setLink(TOOLBOXMEETING_MEETING_DETAILS_UPLOAD_URL)
+                .addParam("projectjob_id", toolboxMeetingWrapper.getID()+"")
+                .addParam("meeting_details", md_Content)
+                .addParam("signature", "true")
+                .addImageFile(this.mSignatureUtil.getFile(), this.mSignatureUtil.getFile().getName(), "image/jpeg")
+                .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
+                    @Override
+                    public void onError(String msg, int success) {
+                        Log.e("MEETING DETAILS", "Message " + msg + " Error:" + success);
+                    }
+
+                    @Override
+                    public void onSuccess(String msg, int success) {
+                        Log.e("MEETING DETAILS", "Message " + msg + " Success:" + success);
+                        //uploadTask.sleep();
+                    }
+                });
+
+        post.startUpload();
+    }
 
 }

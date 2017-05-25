@@ -20,6 +20,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,15 +46,23 @@ import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.TM_UploadListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.db.toolboxmeeting.UploadsTMDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingUploadsWrapper;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
+import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 import me.sudar.zxingorient.Barcode;
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_ATTENDEES_UPLOAD_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_IMAGE_UPLOAD_URL;
 import static android.Manifest.permission.CAMERA;
 
 /**
@@ -68,7 +78,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     ListView listAttendees;
 
     private static final String UPLOAD_TAKEN = "MEETING_IMAGE";
-    private int mServiceID; // For DB Purpose to save the file on the ServiceID
+    private int mPojectjobID; // For DB Purpose to save the file on the ServiceID
     private static final String IMAGE_DIRECTORY = "meeting_image";
     private MaterialDialog mCameraDialog;
     private Bitmap mBitmap;
@@ -80,14 +90,38 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
     private final static int ALL_PERMISSIONS_RESULT = 107;
 
-    private SJ_UploadsListAdapter mUploadListAdapter; // ListView Setup
+    private TM_UploadListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
-    private List<ServiceJobUploadsWrapper> mUploadResults = null;
-    private UploadsSJDBUtil mUploadsDB;
+    private List<ToolboxMeetingUploadsWrapper> mUploadResults;
+    private UploadsTMDBUtil mUploadsDB;
 
     private ImageButton mButtonViewUploadImage;
     private ProgressBar mProgressBarUploading;
 
+    private String attendees = "", fileName , filePath;
+
+    private ToolboxMeetingWrapper toolboxMeetingWrapper;
+
+    public static AttendanceFragment newInstance(ToolboxMeetingWrapper projectJobWrapper) {
+        AttendanceFragment fragment = new AttendanceFragment();
+        Bundle args = new Bundle();
+
+        args.putParcelable("TOOLBOX_MEETING", projectJobWrapper);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+
+        fromBundle();
+    }
+
+    private void fromBundle() {
+        this.toolboxMeetingWrapper = getArguments().getParcelable("TOOLBOX_MEETING");
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,7 +130,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         initButton(view);
         initPermission();
         initSpinnerProgessBar(view);
-        //setUpViews(view);
+        setUpViews(view);
 
         this.mContext = container.getContext();
 
@@ -104,6 +138,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         btnScanCode.setOnClickListener(this);
 
         list = new ArrayList<>();
+
 
         return view;
     }
@@ -148,6 +183,9 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
+
+                uploadImage();
+                uploadAttendees();
                 ((ToolboxMeetingPagerActivity) getActivity()).fromFragmentNavigate(1);
             }
         });
@@ -207,8 +245,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.btnScanCode:
 
-                Log.i("MyActivity", "heyxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-
                 new ZxingOrient(AttendanceFragment.this)
                         .setInfo("QR code Scanner")
                         //.setToolbarColor("#c099cc00")
@@ -226,7 +262,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         // Upload List
         setUpUploadsRecyclerView(view);
         setupUploadsResultsList();
-        populateUploadsCardList();
+        //populateUploadsCardList();
     }
 
     @Override
@@ -236,6 +272,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
             list.add(scanResult.getContents());
 
+
             ArrayAdapter<String> arrayAdapter =
                     new ArrayAdapter<String>(this.mContext,android.R.layout.simple_list_item_1, list);
             // Set The Adapter
@@ -243,9 +280,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
             Toast.makeText(getActivity(),
                     scanResult.getContents() + " has been scanned.", Toast.LENGTH_LONG).show();
-            for (String scanned : list){
-                Log.i("Scanned Items: ", scanned);
-            }
         }
         Bitmap bitmap;
         if (resultCode == Activity.RESULT_OK && scanResult == null) {
@@ -278,37 +312,36 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
     /*********** B. CAMERA SETUP ***********/
     public void setUpUploadsRecyclerView(View view) {
-        mUploadResultsList = (RecyclerView) view.findViewById(R.id.upload_results_service_job_list);
+        mUploadResultsList = (RecyclerView) view.findViewById(R.id.upload_results_toolbox_meeting_list);
     }
 
     public void setupUploadsResultsList() {
-        /*mUploadListAdapter = new SJ_UploadsListAdapter(getActivity());
+        mUploadListAdapter = new TM_UploadListAdapter(getActivity());
         mUploadResultsList.setAdapter(mUploadListAdapter);
-        mUploadResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));*/
+        mUploadResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
     }
 
     private void populateUploadsCardList() {
-        /*mUploadsDB = new UploadsSJDBUtil(this.mContext);
+        //**mUploadsDB = new UploadsTMDBUtil(this.mContext);
         mUploadsDB.open();
-        mUploadResults = mUploadsDB.getAllUploadsBySJID_ByTaken(mServiceID, UPLOAD_TAKEN);
+        mUploadResults = mUploadsDB.getAllUploadsByTMID_ByTaken(mPojectjobID);
         mUploadsDB.close();
-
         if (mUploadResults != null) {
             for (int i = 0; i < mUploadResults.size(); i++) {
-                Log.e(TAG, "DATA: " + mUploadResults.get(i).toString());
+                Log.e(TAG, "DATA: " + mUploadResults.get(0).toString());
             }
 
             mUploadResultsList.setHasFixedSize(true);
             mUploadResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
             mUploadResultsList.setItemAnimator(new DefaultItemAnimator());
             mUploadListAdapter.swapData(mUploadResults);
-            *//*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
+            new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
                 }
-            });*//*
-        }*/
+            });
+        }
     }
 
     private void showUploadDialog(final ServiceJobUploadsWrapper serviceJobRecordingWrapper) {
@@ -383,7 +416,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         return md;
     }
 
-    private class ImageSaveOperation extends AsyncTask<CameraUtil, Void, ServiceJobUploadsWrapper> {
+    private class ImageSaveOperation extends AsyncTask<CameraUtil, Void, ToolboxMeetingUploadsWrapper> {
         private CameraUtil camU;
 
         @Override
@@ -393,53 +426,55 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         }
 
         @Override
-        protected ServiceJobUploadsWrapper doInBackground(CameraUtil... params) {
+        protected ToolboxMeetingUploadsWrapper doInBackground(CameraUtil... params) {
             camU = params[0];
 
             if (camU.addJpgUploadToGallery(mBitmap, IMAGE_DIRECTORY)) {
                 // Prepare Data for DB
-                /*ServiceJobUploadsWrapper sjUp = new ServiceJobUploadsWrapper();
-                sjUp.setUploadName(camU.getFileName());
-                sjUp.setFilePath(camU.getFilePath());
-                sjUp.setTaken(UPLOAD_TAKEN);
-                sjUp.setServiceId(mServiceID);
-                return sjUp;*/
-                Log.i("IMAGE SAVE", "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-                SnackBarNotificationUtil
-                        .setSnackBar(getActivity().findViewById(android.R.id.content),
-                                "Image saved into the Gallery.")
-                        .setColor(getResources().getColor(R.color.colorPrimary1))
-                        .show();
-
-                return null;
+                ToolboxMeetingUploadsWrapper sjUp = new ToolboxMeetingUploadsWrapper();
+                fileName = camU.getFileName();
+                filePath = camU.getFilePath();
+                sjUp.setUploadName(fileName);
+                sjUp.setFilePath(filePath);
+                mPojectjobID = toolboxMeetingWrapper.getID();
+                sjUp.setProjectjobID(mPojectjobID);
+                Log.i("IMAGE SAVE", "ProjectID: " + mPojectjobID);
+                return sjUp;
             } else {
 
                 Log.i("IMAGE SAVE", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                 return null;
             }
-
         }
 
         @Override
-        protected void onPostExecute(ServiceJobUploadsWrapper sjUP) {
-            /*if (sjUP != null) {
+        protected void onPostExecute(ToolboxMeetingUploadsWrapper sjUP) {
+            if (sjUP != null) {
 
+                int row;
+
+                mUploadsDB = new UploadsTMDBUtil(mContext);
                 mUploadsDB.open(); // Save Upload to DB as record and runon UIThread
-                mUploadsDB.addUpload(sjUP);
+                row = mUploadsDB.addUpload(sjUP);
                 mUploadsDB.close();
 
-                SnackBarNotificationUtil
-                        .setSnackBar(getActivity().findViewById(android.R.id.content),
-                                "Image saved into the Gallery." + camU.getFilePath())
-                        .setColor(getResources().getColor(R.color.colorPrimary1))
-                        .show();
+                Log.e("ROW ID: ", row +"");
+
+                if( row!= 0){
+                    SnackBarNotificationUtil
+                            .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                    "Image saved into the Gallery." + camU.getFilePath())
+                            .setColor(getResources().getColor(R.color.colorPrimary1))
+                            .show();
+                    populateUploadsCardList();
+                }
             } else {
                 SnackBarNotificationUtil
                         .setSnackBar(getActivity().findViewById(android.R.id.content),
-                                "Unable to save the signature")
+                                "Unable to save the iamge")
                         .setColor(getResources().getColor(R.color.colorPrimary1))
                         .show();
-            }*/
+            }
 
             if (mProgressBarUploading.isShown()) {
                 mButtonViewUploadImage.setVisibility(View.VISIBLE);
@@ -655,7 +690,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mUploadsDB = new UploadsSJDBUtil(getActivity());
+                        mUploadsDB = new UploadsTMDBUtil(getActivity());
                         mUploadsDB.open();
                         mUploadsDB.removeItemWithId(id);
                         mUploadsDB.close();
@@ -666,4 +701,67 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     }
 
     /*********** B. END CAMERA SETUP ***********/
+
+    private void uploadAttendees() {
+
+        for (String scanned : list){
+
+            Log.wtf("Attendees: ",scanned);
+            attendees += scanned + "-";
+        }
+        Log.wtf("Attendees: ",attendees);
+
+        UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
+        post.setContext(this.mContext)
+                .setLink(TOOLBOXMEETING_ATTENDEES_UPLOAD_URL)
+                .addParam("projectjob_id", mPojectjobID+"")
+                .addParam("meeting_attendees", attendees)
+                .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
+                    @Override
+                    public void onError(String msg, int success) {
+                        Log.e(TAG, "Message " + msg + " Error:" + success);
+                    }
+
+                    @Override
+                    public void onSuccess(String msg, int success) {
+                        Log.e(TAG, "Message " + msg + " Success:" + success);
+                        //uploadTask.sleep();
+                    }
+                });
+
+        // TODO: Form Type based on th mode of Signature...
+        // post.addParam("form_type", ipiWrapper.)
+
+        post.startUpload();
+    }
+
+    private void uploadImage() {
+
+        UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
+
+        File file = new File(filePath);
+        Log.e(TAG, "Readable:"+ file.canRead());
+        Log.e("FILEPATH: ",filePath);
+
+        post.setContext(getActivity())
+                .setLink(TOOLBOXMEETING_IMAGE_UPLOAD_URL)
+                .addParam("projectjob_id", mPojectjobID+"")
+                .addParam("meeting_image","true")
+                .addImageFile(file, fileName,"image/jpeg")
+                .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
+                    @Override
+                    public void onError(String msg, int success) {
+                        Log.e(TAG, "Message " + msg + " Error:" + success);
+                    }
+
+                    @Override
+                    public void onSuccess(String msg, int success) {
+                        Log.e(TAG, "Message " + msg + " Success:" + success);
+                        //uploadTask.sleep();
+                    }
+                }).build();
+
+        post.startUpload();
+    }
+
 }
