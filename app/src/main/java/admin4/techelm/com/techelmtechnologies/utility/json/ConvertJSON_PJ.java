@@ -76,6 +76,7 @@ public class ConvertJSON_PJ {
             pw.setStatus(Integer.parseInt(jsonArray.getJSONObject(i).getString("status_flag")));
             pw.setCustomerName(jsonArray.getJSONObject(i).getString("fullname"));
             pw.setProjectSite(jsonArray.getJSONObject(i).getString("job_site"));
+            pw.setEngineerName(jsonArray.getJSONObject(i).getString("engineer_name"));
 
             // Log.d(TAG, sw.toString());
             translationList.add(pw);
@@ -119,6 +120,7 @@ public class ConvertJSON_PJ {
             sw.setProjectSite(pieces[11]);
             sw.setFax(pieces[12]);
             sw.setTelephone(pieces[13]);
+            sw.setEngineerName(pieces[14]);
             translationList.add(sw);
         }
         return translationList;

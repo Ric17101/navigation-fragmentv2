@@ -37,6 +37,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         public static final String COLUMN_NAME_PJ_START_DATE = "start_date";
         public static final String COLUMN_NAME_PJ_END_DATE = "end_date";
         public static final String COLUMN_NAME_PJ_STATUS = "status_flag";
+        public static final String COLUMN_NAME_PJ_ENGINEER_NAME = "engineer_name";
     }
 
     private static OnDatabaseChangedListener mOnDatabaseChangedListener;
@@ -92,6 +93,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_PJ_SERVICE_NO, item.getStartDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_CUSTOMER_NAME, item.getEndDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_STATUS, item.getStatus());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_ENGINEER_NAME, item.getEngineerName());
 
         if (db.insert(DBHelperItem.TABLE_NAME, null, cv) < 0) { // Update if Already existed on the SQLite DB
             int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
@@ -347,6 +349,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_PJ_SERVICE_NO, item.getStartDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_CUSTOMER_NAME, item.getEndDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_STATUS, item.getStatus());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_ENGINEER_NAME, item.getEngineerName());
         long idInserted = db.insert(DBHelperItem.TABLE_NAME, null, cv);
         int rowId = (int)idInserted;
         if (mOnDatabaseChangedListener != null) {

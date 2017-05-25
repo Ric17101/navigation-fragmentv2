@@ -340,12 +340,14 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
             return null;
         }
 
+        @Override
         protected List<ServiceJobWrapper> doInBackground(String... response) {
             if (response[0] == "")
                 return null;
             return getListSJ(response[0]);
         }
 
+        @Override
         protected void onPostExecute(List<ServiceJobWrapper> list) {
             if (list != null) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd");

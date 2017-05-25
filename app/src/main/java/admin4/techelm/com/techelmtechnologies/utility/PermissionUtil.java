@@ -2,8 +2,12 @@ package admin4.techelm.com.techelmtechnologies.utility;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 /**
@@ -25,8 +29,8 @@ public class PermissionUtil {
 
     private static final String TAG = PermissionUtil.class.getSimpleName();
 
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    public static final int WRITE_EXTERNAL_PERMISSION_REQUEST_CODE = 1;
+    public static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final int WRITE_EXTERNAL_PERMISSION_REQUEST_CODE = 1;
     public static final int READ_EXTERNAL_PERMISSION_REQUEST_CODE = 2;
     public static final int RECORD_AUDIO_PERMISSION_REQUEST_CODE = 3;
     public static final int CAMERA_PERMISSION_REQUEST_CODE = 4;
@@ -131,5 +135,51 @@ public class PermissionUtil {
             // app-defined int constant. The callback method gets the
             // result of the request.
         }
+    }
+
+    /**
+     * ABOVE CODES is not used
+     * @param activity
+     */
+
+    public static void initPermissions(final Activity activity) {
+        // The request code used in ActivityCompat.requestPermissions()
+        // and returned in the Activity's onRequestPermissionsResult()
+        // int PERMISSION_ALL = 1;
+        final String[] PERMISSIONS = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.CAMERA};
+
+        showMessageOKCancel(activity, "These permissions are mandatory for the application. Please allow access.",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(!hasPermissions(activity, PERMISSIONS)){
+                            ActivityCompat.requestPermissions(activity, PERMISSIONS, REQUEST_EXTERNAL_STORAGE);
+                        }
+                    }
+                });
+    }
+
+    public static boolean hasPermissions(final Context context, final String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                     return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static void showMessageOKCancel(Context context, String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 }

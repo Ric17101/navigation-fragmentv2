@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
 import admin4.techelm.com.techelmtechnologies.adapter.TM_ListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
@@ -228,6 +229,12 @@ public class ToolboxMeetingListFragment extends Fragment
             // System.gc();
         }
 
+        private String getLink() {
+            SessionManager mSession = new SessionManager(getActivity());
+            int employee_id = Integer.parseInt(mSession.getUserDetails().get(SessionManager.KEY_USER_ID));
+            return String.format(PROJECT_JOB_LIST_URL, employee_id);
+        }
+
         /**
          *
          * @param JSONResult
@@ -315,6 +322,8 @@ public class ToolboxMeetingListFragment extends Fragment
                             .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("phone_no"))
                             .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("engineer_name"))
+                            .append(LIST_DELIM)
                     ;
                     projectList.add(jsonRes.toString());
                     i++;
@@ -342,7 +351,7 @@ public class ToolboxMeetingListFragment extends Fragment
         protected List<ToolboxMeetingWrapper> doInBackground(Void... params) {
             String parsedProjectJob = "";
             try {
-                parsedProjectJob = parseServiceListJSON(JSONHelper.GET(PROJECT_JOB_LIST_URL));
+                parsedProjectJob = parseServiceListJSON(JSONHelper.GET(getLink()));
                 switch (parsedProjectJob) {
                     case "ok":
                         ConvertJSON_TM cJSON = new ConvertJSON_TM();

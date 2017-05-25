@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
@@ -62,7 +63,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     private static final int FRAGMENT_POSITION_SIGNING_OFF = 3;
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
     private String mPreviousStatusFromBundle; // From Calling Activity
-    private List<ServiceJobNewReplacementPartsRatesWrapper> rateList;
+    private ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList;
 
     private ServiceJobDBUtil mSJDB; // For saving and delete of the Service Job
 
@@ -93,40 +94,13 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     }
 
     private void initPermissions() {
-        PermissionUtil.verrifyReadStoragePermissions(this);
-        PermissionUtil.verrifyWriteStoragePermissions(this);
-        PermissionUtil.verrifyCameraPermissions(this);
-        PermissionUtil.verrifyRecordAudioPermissions(this);
+        PermissionUtil.initPermissions(this);
     }
 
     public void setFullScreenMode() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-           @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PermissionUtil.WRITE_EXTERNAL_PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-
-                }
-                Log.e(TAG, "onRequestPermissionsResult WRITE_EXTERNAL_PERMISSION_REQUEST_CODE");
-                break;
-            case PermissionUtil.READ_EXTERNAL_PERMISSION_REQUEST_CODE:
-                Log.e(TAG, "onRequestPermissionsResult READ_EXTERNAL_PERMISSION_REQUEST_CODE");
-                break;
-            case PermissionUtil.RECORD_AUDIO_PERMISSION_REQUEST_CODE:
-                Log.e(TAG, "onRequestPermissionsResult RECORD_AUDIO_PERMISSION_REQUEST_CODE");
-                break;
-            case PermissionUtil.CAMERA_PERMISSION_REQUEST_CODE:
-                Log.e(TAG, "onRequestPermissionsResult CAMERA_PERMISSION_REQUEST_CODE");
-                break;
-        }
     }
 
     private void init_ViewPager() {

@@ -93,7 +93,7 @@ public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.View
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getStatus() + "");
         holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
-        holder.textViewEngineer.setText(serviceJobDataSet.getFirstInspector());
+        holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
         holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()+""));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()+""));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));

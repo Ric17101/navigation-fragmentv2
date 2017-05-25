@@ -44,7 +44,8 @@ public final class Constants {
     public static final String SERVICE_JOB_URL = DOMAIN_URL + "servicejob/";
     public static final String NEW_SERVICE_JOB_URL = NEW_DOMAIN_URL + "servicejob/";
     public static final String SERVICE_JOB_DETAILS_URL = NEW_SERVICE_JOB_URL + "detail/";
-    public static final String SERVICE_JOB_LIST_URL = NEW_SERVICE_JOB_URL + "get_date_services/";
+    // public static final String SERVICE_JOB_LIST_URL = NEW_SERVICE_JOB_URL + "get_date_services/";
+    public static final String SERVICE_JOB_LIST_URL = NEW_SERVICE_JOB_URL + "get_date_Services_by_employee_id?employee_id=%d&date=%s";
     public static final String SERVICE_JOB_NEW_PARTS_UPLOAD_URL = NEW_SERVICE_JOB_URL + "servicejob_new_parts_json";
     public static final String SERVICE_JOB_UPLOAD_CAPTURE_URL = NEW_SERVICE_JOB_URL + "servicejob_upload_capture";
     public static final String SERVICE_JOB_UPLOAD_RECORDING_URL = NEW_SERVICE_JOB_URL + "servicejob_upload_recording";
@@ -53,15 +54,18 @@ public final class Constants {
     public static final String SERVICE_JOB_SAVE_CONTINUE_START_DATE_URL = NEW_SERVICE_JOB_URL + "save_continue_start_date";
     public static final String SERVICE_JOB_GET_PARTS_RATES_URL = NEW_SERVICE_JOB_URL + "get_part_replacement_rates";
     public static final String SERVICE_JOB_SAVE_REVERT_STATUS_URL = NEW_SERVICE_JOB_URL + "save_revert_status";
-    public static final String SERVICE_JOB_UNSIGNED_LIST_URL = NEW_SERVICE_JOB_URL + "get_date_services_unsigend_services/";
+    //public static final String SERVICE_JOB_UNSIGNED_LIST_URL = NEW_SERVICE_JOB_URL + "get_date_services_unsigend_services/";
+    public static final String SERVICE_JOB_UNSIGNED_LIST_URL = NEW_SERVICE_JOB_URL + "get_date_services_unsigend_services_by_employee_id?employee_id=%d";
     public static final String SERVICE_JOB_VIEW_DETAIL_URL = NEW_SERVICE_JOB_URL + "view_details?servicejob_id=";
-    public static final String SERVICE_JOB_BY_MONTH_URL = NEW_SERVICE_JOB_URL + "get_date_services_by_month";
+    // public static final String SERVICE_JOB_BY_MONTH_URL = NEW_SERVICE_JOB_URL + "get_date_services_by_month";
+    public static final String SERVICE_JOB_BY_MONTH_URL = NEW_SERVICE_JOB_URL + "get_date_services_by_month_and_by_employee_id";
     public static final String SERVICE_JOB_SEND_EMAIL_URL = NEW_SERVICE_JOB_URL + "send_email";
 
     public static final String PROJECT_JOB_URL = DOMAIN_URL + "projectjob/";
     public static final String NEW_PROJECT_JOB_URL = NEW_DOMAIN_URL + "projectjob/";
     public static final String PROJECT_JOB_PISS_DETAILS_URL = PROJECT_JOB_URL + "get_piss_details?id=";
-    public static final String PROJECT_JOB_LIST_URL = NEW_PROJECT_JOB_URL + "get_all_services/";
+    // public static final String PROJECT_JOB_LIST_URL = NEW_PROJECT_JOB_URL + "get_all_services/";
+    public static final String PROJECT_JOB_LIST_URL = NEW_PROJECT_JOB_URL + "get_all_services_by_employee_id?employee_id=%d";
     public static final String PROJECT_JOB_PISS_TASK_LIST_URL = NEW_PROJECT_JOB_URL + "get_piss_tasks?projectjob_id=";
     public static final String PROJECT_JOB_SAVE_PISS_TASK_FORM_URL = NEW_PROJECT_JOB_URL + "projectjob_piss_tasks_save";
     public static final String PROJECT_JOB_SAVE_IPI_TASK_FORM_A_URL = NEW_PROJECT_JOB_URL + "projectjob_ipi_tasks_save";
@@ -103,6 +107,8 @@ public final class Constants {
     public static final String SERVICE_JOB_ID_KEY = "SERVICE_ID";
     /** Type is Object ServiceJobWrapper. */
     public static final String SERVICE_JOB_SERVICE_KEY = "SERVICE_JOB";
+    /** Type is Object ServiceJobWrapper. */
+    public static final String SERVICE_JOB_EQUIP_RATES_KEY = "SERVICE_JOB_EQUIP_REATES";
     /** Type is String. */
     public static final String SERVICE_JOB_PREVIOUS_STATUS_KEY = "SERVICE_JOB_PREVIOUS_STATUS";
     /** Type is String. */

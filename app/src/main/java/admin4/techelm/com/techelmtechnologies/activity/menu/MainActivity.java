@@ -52,6 +52,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewRepl
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
+import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
@@ -100,14 +101,18 @@ public class MainActivity extends FragmentActivity implements
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
 
-        new UIThreadHandler(this).runOnUiThread(new Runnable() {
+        /*new UIThreadHandler(this).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                init_DrawerNav();
+
             }
-        });
+        });*/
+
+        init_DrawerNav();
 
         this.mProjectJobFormSelectorDialog = initNewPartDialog();
+
+        PermissionUtil.initPermissions(this);
     }
 
     public void setFullScreenMode() {

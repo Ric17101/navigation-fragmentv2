@@ -233,6 +233,7 @@ public class UploadFile_VolleyPOST {
                                 }
                             } else {
                                 String result = new String(networkResponse.data);
+                                Log.e(TAG, "networkResponse="+result);
                                 try {
                                     JSONObject response = new JSONObject(result);
                                     String status = response.getString("status");

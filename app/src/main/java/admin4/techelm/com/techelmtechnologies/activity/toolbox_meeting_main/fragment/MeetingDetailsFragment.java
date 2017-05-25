@@ -113,8 +113,7 @@ public class MeetingDetailsFragment extends Fragment {
     }
 
     private void initPermissions() {
-        PermissionUtil.verrifyReadStoragePermissions(getActivity());
-        PermissionUtil.verrifyWriteStoragePermissions(getActivity());
+        PermissionUtil.initPermissions(getActivity());
     }
 
     /************ A. SIGNATURE **************/

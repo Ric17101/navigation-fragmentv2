@@ -75,7 +75,6 @@ public class SigningOff_FRGMT_4 extends Fragment {
     private Button button_next;
 
     // A. SERVICE ID INFO
-    private static ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
     private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
     private TextView textViewLabelTotalAmount;
@@ -89,8 +88,9 @@ public class SigningOff_FRGMT_4 extends Fragment {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private boolean hasSignature = false;
 
-    // C. SlidingPager Tab Set Up
+    // C. SlidingPager Tab Set Up, Instance Variable
     private static final String ARG_POSITION = "position";
+    private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
     private int position;
 
     public static SigningOff_FRGMT_4 newInstance(int position, ServiceJobWrapper serviceJob) {
@@ -98,9 +98,9 @@ public class SigningOff_FRGMT_4 extends Fragment {
         Bundle args = new Bundle();
 
         args.putInt(ARG_POSITION, position);
+        args.putParcelable(SERVICE_JOB_SERVICE_KEY, serviceJob);
         frag.setArguments(args);
 
-        mServiceJobFromBundle = serviceJob;
         return (frag);
     }
 
@@ -109,6 +109,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         position = getArguments().getInt(ARG_POSITION);
+        mServiceJobFromBundle = getArguments().getParcelable(SERVICE_JOB_SERVICE_KEY);
     }
 
     @Override
@@ -284,25 +285,6 @@ public class SigningOff_FRGMT_4 extends Fragment {
                 MaterialDialog mDialog = showSigningDialog(view);
             }
         });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_EXTERNAL_STORAGE: {
-                // If request is cancelled, the aResponse arrays are empty.
-                if (grantResults.length <= 0
-                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    SnackBarNotificationUtil
-                            .setSnackBar(getActivity().findViewById(android.R.id.content),
-                                    "Unable to save the images to external storage")
-                            .setColor(getResources().getColor(R.color.colorPrimary1))
-                            .show();
-                    // Toast.makeText(SigningOff_FRGMT_4.this, "Cannot write images to external storage", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
     }
 
     // This is used and Call at CalendarFragment also

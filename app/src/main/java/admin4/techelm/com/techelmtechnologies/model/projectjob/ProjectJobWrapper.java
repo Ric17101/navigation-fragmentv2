@@ -48,6 +48,7 @@ public class ProjectJobWrapper implements Parcelable {
     private String _start_date;
     private String _end_date;
     private int _status_flag;
+    private String _engineer_name;
 
     // My Custom Attributes from the WEB
     private String _fax;
@@ -71,6 +72,7 @@ public class ProjectJobWrapper implements Parcelable {
         _status_flag = in.readInt();
         _fax = in.readString();
         _telephone = in.readString();
+        _engineer_name = in.readString();
     }
 
     @Override
@@ -89,6 +91,7 @@ public class ProjectJobWrapper implements Parcelable {
         dest.writeInt(_status_flag);
         dest.writeString(_fax);
         dest.writeString(_telephone);
+        dest.writeString(_engineer_name);
     }
 
     @Override
@@ -110,7 +113,8 @@ public class ProjectJobWrapper implements Parcelable {
                 "\n3rd Inspector : " + this._third_inspector +
                 "\nProject Site : " + this._project_site +
                 "\nFax : " + this._fax +
-                "\nTelephone : " + this._telephone
+                "\nTelephone : " + this._telephone +
+                "\n_engineer_name : " + this._engineer_name
                 ;
     }
 
@@ -208,5 +212,12 @@ public class ProjectJobWrapper implements Parcelable {
     }
     public void setTelephone(String val) {
         this._telephone = val;
+    }
+
+    public String getEngineerName() {
+        return this._engineer_name;
+    }
+    public void setEngineerName(String val) {
+        this._engineer_name = val;
     }
 }

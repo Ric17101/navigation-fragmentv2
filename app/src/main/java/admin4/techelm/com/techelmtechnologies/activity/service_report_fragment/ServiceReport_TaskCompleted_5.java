@@ -129,6 +129,7 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
                 .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
                 .webViewHttpAuth(true)
                 .setHttpAuthKey(HTTP_AUTHENTICATION_ACCESS)
+                // .webViewDisplayZoomControls(true)
                 .show(SERVICE_JOB_VIEW_DETAIL_URL + this.mServiceJobFromBundle.getID());
     }
 

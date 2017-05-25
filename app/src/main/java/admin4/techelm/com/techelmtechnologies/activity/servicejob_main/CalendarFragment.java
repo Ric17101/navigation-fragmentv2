@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
@@ -48,7 +49,6 @@ import java.util.List;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_BY_MONTH_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_LIST_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -344,6 +344,11 @@ public class CalendarFragment extends Fragment implements
         private PostCommand postCommand;
         public static final String TAG = "CALENDAR_POST";
 
+        private String getEmployeeID_ForLink() {
+            SessionManager mSession = new SessionManager(getActivity());
+            return mSession.getUserDetails().get(SessionManager.KEY_USER_ID);
+        }
+
         public void cancel(View v) {
             postCommand.cancel();
         }
@@ -357,6 +362,7 @@ public class CalendarFragment extends Fragment implements
         /*add parameter*/
             webServiceInfo.addParam("month", month+"");
             webServiceInfo.addParam("year", year+"");
+            webServiceInfo.addParam("employee_id", getEmployeeID_ForLink());
 
         /*postStartDate command*/
             postCommand = new PostCommand(webServiceInfo);
@@ -411,12 +417,14 @@ public class CalendarFragment extends Fragment implements
             return null;
         }
 
+        @Override
         protected List<ServiceJobWrapper> doInBackground(String... response) {
             if (response[0] == "")
                 return null;
             return getListSJ(response[0]);
         }
 
+        @Override
         protected void onPostExecute(List<ServiceJobWrapper> list) {
             if (list != null) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd");
@@ -559,11 +567,12 @@ public class CalendarFragment extends Fragment implements
             mContext = context;
             // System.gc();
         }
-        private String getDetailsLink() {
-            /*StringBuilder sb = new StringBuilder();
-            sb.append(SERVICE_JOB_URL);
-            sb.append("get_date_services/" + mDate);*/
-            return SERVICE_JOB_LIST_URL + mDate;
+
+        private String getLink() {
+            SessionManager mSession = new SessionManager(getActivity());
+            int employee_id = Integer.parseInt(mSession.getUserDetails().get(SessionManager.KEY_USER_ID));
+            return String.format(SERVICE_JOB_LIST_URL, employee_id, mDate);
+            // return SERVICE_JOB_LIST_URL + mDate;
         }
 
         public String getServiceJobLink() {
@@ -752,7 +761,7 @@ public class CalendarFragment extends Fragment implements
         protected List<ServiceJobWrapper> doInBackground(Void... params) {
             String parsedServiceJob = "";
             try {
-                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(getDetailsLink()));
+                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(getLink()));
                 switch (parsedServiceJob) {
                     case "ok":
                         ConvertJSON_SJ cJSON = new ConvertJSON_SJ();

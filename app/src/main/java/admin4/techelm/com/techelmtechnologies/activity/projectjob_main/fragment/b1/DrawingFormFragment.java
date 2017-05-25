@@ -92,6 +92,10 @@ public class DrawingFormFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Populate the Spinner and Remarks from wrapper
+     * @param task - PISS task details
+     */
     private void initTaskInputs(PISSTaskWrapper task) {
         Log.e(TAG, "initTaskInputs " + task.toString());
         this.mSpinnerComment = new FragmentSetListHelper_ProjectJob().setSpinnerComment(

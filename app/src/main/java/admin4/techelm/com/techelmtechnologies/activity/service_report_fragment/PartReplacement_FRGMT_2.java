@@ -54,6 +54,10 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_EQUIP_RATES_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_ID_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
+
 public class PartReplacement_FRGMT_2 extends Fragment {
 
     private static final String TAG = "PartReplacement_FRGMT_2";
@@ -66,8 +70,6 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     // A. SERVICE ID INFO
     private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
-    private static ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
-    private static List<ServiceJobNewReplacementPartsRatesWrapper> mSJRatesList;
 
     // B. CAMERA Controls
     private static final String IMAGE_DIRECTORY = "part_replacement";
@@ -85,9 +87,11 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private ImageButton mButtonViewUploadFileNew;
     private ProgressBar mProgressBarUploadingNew;
 
-    // SlidingPager Tab Set Up
+    // SlidingPager Tab Set Up, Instance Variable
     private static final String ARG_POSITION = "position";
     private int position;
+    private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
+    private List<ServiceJobNewReplacementPartsRatesWrapper> mSJRatesList;
 
     // B.1 Form New Replacement Part
     private MaterialDialog mNewPartDialog;
@@ -100,15 +104,15 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     private CardView mCardViewNewUpload;
     private ServiceJobNewPartsWrapper mSJPart; // Specifically, we use this global as per Update only of SJNew Parts
 
-    public static PartReplacement_FRGMT_2 newInstance(int position, ServiceJobWrapper serviceJob, List<ServiceJobNewReplacementPartsRatesWrapper> rateList) {
+    public static PartReplacement_FRGMT_2 newInstance(int position, ServiceJobWrapper serviceJob, ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList) {
         PartReplacement_FRGMT_2 frag = new PartReplacement_FRGMT_2();
         Bundle args = new Bundle();
 
         args.putInt(ARG_POSITION, position);
+        args.putParcelable(SERVICE_JOB_SERVICE_KEY, serviceJob);
+        args.putParcelableArrayList(SERVICE_JOB_EQUIP_RATES_KEY, rateList);
         frag.setArguments(args);
 
-        mServiceJobFromBundle = serviceJob;
-        mSJRatesList = rateList;
         return frag;
     }
 
@@ -116,6 +120,8 @@ public class PartReplacement_FRGMT_2 extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
+        mServiceJobFromBundle = getArguments().getParcelable(SERVICE_JOB_SERVICE_KEY);
+        mSJRatesList = getArguments().getParcelableArrayList(SERVICE_JOB_EQUIP_RATES_KEY);
     }
 
     @Override

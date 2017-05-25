@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
 import admin4.techelm.com.techelmtechnologies.adapter.PJ_ListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.projectjob.ProjectJobDBUtil;
@@ -40,6 +41,7 @@ import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_LIST_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_LIST_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -241,6 +243,12 @@ public class ProjectJobChooseFormFragment extends Fragment
             // System.gc();
         }
 
+        private String getLink() {
+            SessionManager mSession = new SessionManager(getActivity());
+            int employee_id = Integer.parseInt(mSession.getUserDetails().get(SessionManager.KEY_USER_ID));
+            return String.format(PROJECT_JOB_LIST_URL, employee_id);
+        }
+
         /**
          *
          * @param JSONResult
@@ -302,6 +310,8 @@ public class ProjectJobChooseFormFragment extends Fragment
                             .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("phone_no"))
                             .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("engineer_name"))
+                            .append(LIST_DELIM)
                     ;
                     projectList.add(jsonRes.toString());
                     i++;
@@ -329,7 +339,7 @@ public class ProjectJobChooseFormFragment extends Fragment
         protected List<ProjectJobWrapper> doInBackground(Void... params) {
             String parsedServiceJob = "";
             try {
-                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(PROJECT_JOB_LIST_URL));
+                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(getLink()));
                 switch (parsedServiceJob) {
                     case "ok":
                         ConvertJSON_PJ cJSON = new ConvertJSON_PJ();

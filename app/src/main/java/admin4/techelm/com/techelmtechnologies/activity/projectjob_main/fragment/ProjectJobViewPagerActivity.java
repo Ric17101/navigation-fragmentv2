@@ -168,9 +168,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     }
 
     private void initPermissions() {
-        PermissionUtil.verrifyReadStoragePermissions(this);
-        PermissionUtil.verrifyWriteStoragePermissions(this);
-        PermissionUtil.verrifyCameraPermissions(this);
+        PermissionUtil.initPermissions(this);
     }
 
     // TODO:  separte this as util class

@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
@@ -14,7 +15,7 @@ public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private ServiceJobWrapper mServiceJobFromBundle;
     private FragmentManager mFragmentManager;
-    private List<ServiceJobNewReplacementPartsRatesWrapper> mServiceJobPartsRatesFromBundle;
+    private ArrayList<ServiceJobNewReplacementPartsRatesWrapper> mServiceJobPartsRatesFromBundle;
 
     private String[] titles = {
             "1. BEFORE",
@@ -23,7 +24,7 @@ public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
             "4. SIGNING OFF"
     };
 
-    public ServiceJobFragmentPagerAdapter(FragmentManager fm, ServiceJobWrapper serviceJob, List<ServiceJobNewReplacementPartsRatesWrapper> rateList) {
+    public ServiceJobFragmentPagerAdapter(FragmentManager fm, ServiceJobWrapper serviceJob, ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList) {
         super(fm);
         this.mFragmentManager = fm;
         this.mServiceJobFromBundle = serviceJob;

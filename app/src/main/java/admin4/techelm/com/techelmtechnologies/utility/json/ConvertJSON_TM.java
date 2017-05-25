@@ -27,19 +27,19 @@ public class ConvertJSON_TM {
      * FALSE - BAD
      * TRUE - GOOD
      * "id":"1",
-     "project_ref":"PJT00001",
-     "customer_id":"2",
-     "start_date":"2017-03-03",
-     "end_date":"2017-03-09",
-     "target_completion_date":"0000-00-00",
-     "first_inspector":"1",
-     "second_inspector":"0",
-     "third_inspector":"0",
-     "status_flag":"1",
-     "fullname":"Customer2",
-     "job_site":"HG10",
-     "fax":"23389898",
-     "phone_no":"87878"
+         "project_ref":"PJT00001",
+         "customer_id":"2",
+         "start_date":"2017-03-03",
+         "end_date":"2017-03-09",
+         "target_completion_date":"0000-00-00",
+         "first_inspector":"1",
+         "second_inspector":"0",
+         "third_inspector":"0",
+         "status_flag":"1",
+         "fullname":"Customer2",
+         "job_site":"HG10",
+         "fax":"23389898",
+         "phone_no":"87878"
      * @return
      */
     public boolean hasResult() {
@@ -73,6 +73,7 @@ public class ConvertJSON_TM {
             pw.setStatus(Integer.parseInt(jsonArray.getJSONObject(i).getString("status_flag")));
             pw.setCustomerName(jsonArray.getJSONObject(i).getString("fullname"));
             pw.setProjectSite(jsonArray.getJSONObject(i).getString("job_site"));
+            pw.setEngineerName(jsonArray.getJSONObject(i).getString("job_site"));
 
             // Log.d(TAG, sw.toString());
             translationList.add(pw);
@@ -116,6 +117,7 @@ public class ConvertJSON_TM {
             sw.setProjectSite(pieces[11]);
             sw.setFax(pieces[12]);
             sw.setTelephone(pieces[13]);
+            sw.setEngineerName(pieces[14]);
             translationList.add(sw);
         }
         return translationList;

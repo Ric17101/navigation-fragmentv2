@@ -240,9 +240,8 @@ public class LoginActivity2 extends AppCompatActivity implements
     @Override
     public void onHandleSuccessLogin(UserLoginWrapper user) {
         mSession = new SessionManager(this); // Set Sesssion Mngr for user login
-        mSession.createLoginSession(mEmailView.getText().toString(), mPasswordView.getText().toString());
+        mSession.createLoginSession(mEmailView.getText().toString(), mPasswordView.getText().toString(), user.getID()+"");
         goToLandingPage();
-
     }
     @Override
     public void onHandleShowDetails(String details) {

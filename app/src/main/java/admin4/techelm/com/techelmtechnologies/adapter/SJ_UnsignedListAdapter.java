@@ -79,7 +79,7 @@ public class SJ_UnsignedListAdapter extends RecyclerView.Adapter<SJ_UnsignedList
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.search_results_servicejob_list_item, parent, false);
-//                .inflate(R.layout.search_results_number_list_item, parent, false);
+                //.inflate(R.layout.search_results_number_list_item, parent, false);
         mContext = view.getContext();
         return new ViewHolder(view);
     }
@@ -98,10 +98,8 @@ public class SJ_UnsignedListAdapter extends RecyclerView.Adapter<SJ_UnsignedList
         holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
 
         // Set GONE for Status only applied to Unsigned Services form
-        holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()));
-        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()));
         holder.textViewStatus.setVisibility(View.GONE);
-        // holder.textViewLabelStatus.setVisibility(View.GONE);
+        holder.textViewLabelDetail4.setVisibility(View.GONE);
         // holder.textViewColumnStatusLabel.setVisibility(View.GONE);
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
@@ -183,7 +181,7 @@ public class SJ_UnsignedListAdapter extends RecyclerView.Adapter<SJ_UnsignedList
         private final TextView textViewCustomer;
         private final TextView textViewEngineer;
         private final TextView textViewStatus;
-        // private final TextView textViewLabelStatus;
+        private final TextView textViewLabelDetail4;
         // private final TextView textViewColumnStatusLabel;
 
 //        private final ImageButton buttonEditDetails;
@@ -210,7 +208,7 @@ public class SJ_UnsignedListAdapter extends RecyclerView.Adapter<SJ_UnsignedList
             textViewEngineer = (TextView) view.findViewById(R.id.textViewEngineer);
 
             textViewStatus = (TextView) view.findViewById(R.id.textViewStatus);
-            // textViewLabelStatus = (TextView) view.findViewById(R.id.textViewLabelStatus);
+            textViewLabelDetail4 = (TextView) view.findViewById(R.id.textViewLabelDetail4);
             // textViewColumnStatusLabel = (TextView) view.findViewById(R.id.textViewColumnStatusLabel);
 
             textViewTask = (TextView) view.findViewById(R.id.textViewTask);

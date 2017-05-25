@@ -62,13 +62,13 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobRecordi
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.CameraUtil;
+import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_ID_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_TAKEN_KEY;
-import static android.Manifest.permission.CAMERA;
 
 public class ServiceReport_FRGMT_AFTER extends Fragment implements
         RecordingService.OnTimerChangedListener {
@@ -81,7 +81,6 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     // A. SERVICE ID INFO
     private ServiceJobDBUtil mSJDB;
     private List<ServiceJobWrapper> mSJResultList = null;
-    private static ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
     private EditText mEditTextRemarks;
     private String remarks;
 
@@ -90,12 +89,6 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private MaterialDialog mCameraDialog;
     private Bitmap mBitmap;
     private Uri mPicUri;
-
-    private ArrayList<String> permissionsToRequest;
-    private ArrayList<String> permissionsRejected = new ArrayList<>();
-    private ArrayList<String> permissions = new ArrayList<>();
-
-    private final static int ALL_PERMISSIONS_RESULT = 107;
 
     private SJ_UploadsListAdapter mUploadListAdapter; // ListView Setup
     private RecyclerView mUploadResultsList;
@@ -124,18 +117,19 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private List<ServiceJobRecordingWrapper> mResultsList = null;
     private RecordingSJDBUtil mRecodingDB;
 
-    // SlidingPager Tab Set Up
+    // SlidingPager Tab Set Up, Instance Varible
     private static final String ARG_POSITION = "position";
     private int mPosition;
+    private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
     public static ServiceReport_FRGMT_AFTER newInstance(int position, ServiceJobWrapper serviceJob) {
         ServiceReport_FRGMT_AFTER frag = new ServiceReport_FRGMT_AFTER();
         Bundle args = new Bundle();
 
         args.putInt(ARG_POSITION, position);
+        args.putParcelable(SERVICE_JOB_ID_KEY, serviceJob);
         frag.setArguments(args);
 
-        mServiceJobFromBundle = serviceJob;
         return (frag);
     }
 
@@ -143,6 +137,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPosition = getArguments().getInt(ARG_POSITION);
+        mServiceJobFromBundle = getArguments().getParcelable(SERVICE_JOB_ID_KEY);
     }
 
     @Override
@@ -210,15 +205,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     }
 
     private void initPermission() {
-        permissions.add(CAMERA);
-        permissionsToRequest = findUnAskedPermissions(permissions);
-        //get the permissions we have asked for before but are not granted..
-        //we will store this in a global list to access later.
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (permissionsToRequest.size() > 0)
-                requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
-        }
+        PermissionUtil.initPermissions(getActivity());
     }
 
     private void initButton(View view) {
@@ -751,25 +738,6 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         mPicUri = savedInstanceState.getParcelable("pic_uri");
     }*/
 
-    private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
-        ArrayList<String> result = new ArrayList<>();
-        for (String perm : wanted) {
-            if (!hasPermission(perm)) {
-                result.add(perm);
-            }
-        }
-        return result;
-    }
-
-    private boolean hasPermission(String permission) {
-        if (canMakeSmores()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return (getActivity().checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
-            }
-        }
-        return true;
-    }
-
     // TODO: Study on how to implement separate listerner
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this.mContext)
@@ -778,44 +746,6 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
-    }
-
-    private boolean canMakeSmores() {
-        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case ALL_PERMISSIONS_RESULT:
-                for (String perms : permissionsToRequest) {
-                    if (hasPermission(perms)) {
-                    } else {
-                        permissionsRejected.add(perms);
-                    }
-                }
-                if (permissionsRejected.size() > 0) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
-                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                                            //Log.d("API123", "permisionrejected " + permissionsRejected.size());
-
-                                            requestPermissions(permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
-                                        }
-                                    }
-                                });
-                            return;
-                        }
-                    }
-                }
-                break;
-        }
     }
 
     public void fromActivity_onNewUploadsDBEntryAdded(String fileName) {

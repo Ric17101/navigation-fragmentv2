@@ -140,8 +140,8 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
     }*/
 
     private void initPermissions() {
-        PermissionUtil.verrifyReadStoragePermissions(this);
-        PermissionUtil.verrifyWriteStoragePermissions(this);
+        PermissionUtil.initPermissions(this);
+        // PermissionUtil.verrifyWriteStoragePermissions(this);
     }
 
     /**
