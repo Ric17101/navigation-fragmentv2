@@ -66,18 +66,21 @@ public class ConvertJSON_PJ {
             ProjectJobWrapper pw = new ProjectJobWrapper();
             pw.setID(Integer.parseInt(jsonArray.getJSONObject(i).getString("id")));
             pw.setProjectRef(jsonArray.getJSONObject(i).getString("project_ref"));
-            pw.setCustomerID(Integer.parseInt(jsonArray.getJSONObject(i).getString("customer_id")));
-            pw.setStartDate(jsonArray.getJSONObject(i).getString("start_date")); // sw.setStartDate(jsonArray.getJSONObject(i).getString("fax").split(" ")[0]);
-            pw.setEndDate(jsonArray.getJSONObject(i).getString("end_date")); // sw.setEndDate(jsonArray.getJSONObject(i).getString("phone_no").split(" ")[0]);
+            pw.setProjectSite(jsonArray.getJSONObject(i).getString("job_site"));
             pw.setTargetCompletionDate(jsonArray.getJSONObject(i).getString("target_completion_date"));
             pw.setFirstInspector(jsonArray.getJSONObject(i).getString("first_inspector"));
             pw.setSecondInspector(jsonArray.getJSONObject(i).getString("second_inspector"));
             pw.setThirdInspector(jsonArray.getJSONObject(i).getString("third_inspector"));
-            pw.setStatus(Integer.parseInt(jsonArray.getJSONObject(i).getString("status_flag")));
+            pw.setCustomerID(Integer.parseInt(jsonArray.getJSONObject(i).getString("customer_id")));
             pw.setCustomerName(jsonArray.getJSONObject(i).getString("fullname"));
-            pw.setProjectSite(jsonArray.getJSONObject(i).getString("job_site"));
+            pw.setStartDate(jsonArray.getJSONObject(i).getString("start_date")); // sw.setStartDate(jsonArray.getJSONObject(i).getString("fax").split(" ")[0]);
+            pw.setEndDate(jsonArray.getJSONObject(i).getString("end_date")); // sw.setEndDate(jsonArray.getJSONObject(i).getString("phone_no").split(" ")[0]);
+            pw.setStatus(Integer.parseInt(jsonArray.getJSONObject(i).getString("status_flag")));
+            pw.setLockedToUser(Integer.parseInt(jsonArray.getJSONObject(i).getString("locked_to_user")));
+            pw.setLockedToUserName(jsonArray.getJSONObject(i).getString("locked_to_user_name"));
             pw.setEngineerName(jsonArray.getJSONObject(i).getString("engineer_name"));
-
+            pw.setFax(jsonArray.getJSONObject(i).getString("fax"));
+            pw.setTelephone(jsonArray.getJSONObject(i).getString("telephone"));
             // Log.d(TAG, sw.toString());
             translationList.add(pw);
             i++;
@@ -108,19 +111,22 @@ public class ConvertJSON_PJ {
 
             sw.setID(Integer.parseInt(pieces[0]));
             sw.setProjectRef(pieces[1]);
-            sw.setCustomerID(Integer.parseInt(pieces[2]));
-            sw.setStartDate(pieces[3]);
-            sw.setEndDate(pieces[4]);
-            sw.setTargetCompletionDate(pieces[5]);
-            sw.setFirstInspector(pieces[6]);
-            sw.setSecondInspector(pieces[7]);
-            sw.setThirdInspector(pieces[8]);
-            sw.setStatus(Integer.parseInt(pieces[9]));
-            sw.setCustomerName(pieces[10]);
-            sw.setProjectSite(pieces[11]);
-            sw.setFax(pieces[12]);
-            sw.setTelephone(pieces[13]);
+            sw.setProjectSite(pieces[2]);
+            sw.setTargetCompletionDate(pieces[3]);
+            sw.setFirstInspector(pieces[4]);
+            sw.setSecondInspector(pieces[5]);
+            sw.setThirdInspector(pieces[6]);
+            sw.setCustomerID(Integer.parseInt(pieces[7]));
+            sw.setCustomerName(pieces[8]);
+            sw.setStartDate(pieces[9]);
+            sw.setEndDate(pieces[10]);
+            sw.setStatus(Integer.parseInt(pieces[11]));
+            sw.setLockedToUser(Integer.parseInt(pieces[12]));
+            sw.setLockedToUserName(pieces[13]);
             sw.setEngineerName(pieces[14]);
+            sw.setFax(pieces[15]);
+            sw.setTelephone(pieces[16]);
+
             translationList.add(sw);
         }
         return translationList;

@@ -37,7 +37,7 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListCARFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.ProjectJobLastFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
@@ -56,7 +56,7 @@ import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListene
 import admin4.techelm.com.techelmtechnologies.db.projectjob.PISS_TaskDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskCarWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
@@ -354,7 +354,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     }
 
     @Override
-    public void onHandleSelection(int position, IPI_TaskFinalWrapper ipiTaskFinalWrapper, int mode) {
+    public void onHandleSelection(int position, IPI_TaskCarWrapper ipiTaskFinalWrapper, int mode) {
         switch (mode) {
             case ACTION_VIEW_TASK :
                 showMDialogPJ_IPIFinalTaskDetails(ipiTaskFinalWrapper);
@@ -410,8 +410,8 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 .getActiveFragment(this.mPagerAdapter.getViewPager(), FRAGMENT_POSITION_IPI_TASK_LIST);
 
     }
-    private IPITaskListFinalFragment getFragmentIPITaskListFinal() {
-        return (IPITaskListFinalFragment) this.mPagerAdapter
+    private IPITaskListCARFragment getFragmentIPITaskListFinal() {
+        return (IPITaskListCARFragment) this.mPagerAdapter
                 .getActiveFragment(this.mPagerAdapter.getViewPager(), FRAGMENT_POSITION_IPI_FINAL);
     }
 
@@ -481,7 +481,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         md.show();
     }
 
-    private void showMDialogPJ_IPIFinalTaskDetails(IPI_TaskFinalWrapper ipiTaskFinalWrapper) {
+    private void showMDialogPJ_IPIFinalTaskDetails(IPI_TaskCarWrapper ipiTaskFinalWrapper) {
         MaterialDialog md = new MaterialDialog.Builder(this)
                 .title(ipiTaskFinalWrapper.getSerialNo() + ".) IN-PROCESS FINAL DETAILS")
                 .customView(R.layout.m_content_project_job_ipi_final_tasks_details, true)
@@ -581,7 +581,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     /*************** B2 - In-process inspection (PW) ***************/
     /*************** B3 - In-process inspection (EPS) ***************/
-    public void showProjectJobLastFormFragment(/*IPI_TaskFinalWrapper task*/) {
+    public void showProjectJobLastFormFragment(/*IPI_TaskCarWrapper task*/) {
         System.out.println("showDrawingFormFragment");
         ProjectJobLastFormFragment form = ProjectJobLastFormFragment.newInstance(this.mProjectJob, this.mTypeOfForm);
         FragmentTransaction trans = mFragmentManager.beginTransaction();
@@ -650,7 +650,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
      *  Final Tab or IPI PW/EPS 2nd TAB
      * @param ipiTaskFinalWrapper
      */
-    private void showB2B3CorrectiveActionFormDialog(final IPI_TaskFinalWrapper ipiTaskFinalWrapper) {
+    private void showB2B3CorrectiveActionFormDialog(final IPI_TaskCarWrapper ipiTaskFinalWrapper) {
         MaterialDialog md2 = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
                 .title("Corrective Actions")
                 .limitIconToDefaultSize()
@@ -664,7 +664,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         View view = dialog.getCustomView();
 
-                        IPI_TaskFinalWrapper task = ipiTaskFinalWrapper;
+                        IPI_TaskCarWrapper task = ipiTaskFinalWrapper;
                         // pissWrapper.setID(Integer.parseInt(((EditText) view.findViewById(R.id.editTextPO)).getText().toString()));
                         task.setProjectJob_ID(mProjectJob.getID());
                         task.setID(ipiTaskFinalWrapper.getID());

@@ -1,6 +1,5 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -30,11 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.PJ_IPITaskListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ_B2_IPITasks;
@@ -43,9 +40,7 @@ import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ProjectJobIPI_POST;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.LANDING_PAGE_ACTIVE_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.NAVIGATION_DRAWER_SELECTED_PROJECTJOB;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_EPS;
@@ -166,7 +161,7 @@ public class IPITaskListFragment extends Fragment
             @Override
             public void onClick(View view) {
                 // Delete the Service Job from SQLite DB on Back
-                ((ProjectJobViewPagerActivity)getActivity()).backToLandingPage(-1);
+                ((ProjectJobViewPagerActivity) getActivity()).backToLandingPage(-1);
             }
         });
 
@@ -177,7 +172,7 @@ public class IPITaskListFragment extends Fragment
             @Override
             public void onClick(View view) {
                 // ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
-                ((ProjectJobViewPagerActivity)getActivity()).onClickNextButton();
+                ((ProjectJobViewPagerActivity) getActivity()).onClickNextButton();
             }
         });
     }
@@ -290,10 +285,10 @@ public class IPITaskListFragment extends Fragment
             String url = "";
             switch (mTypeOfForm) {
                 case PROJECT_JOB_FORM_B2:
-                    url = String.format(PROJECT_JOB_IPI_TASK_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_EPS);
+                    url = String.format(PROJECT_JOB_IPI_TASK_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_PW);
                     break;
                 case PROJECT_JOB_FORM_B3:
-                    url = String.format(PROJECT_JOB_IPI_TASK_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_PW);
+                    url = String.format(PROJECT_JOB_IPI_TASK_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_EPS);
                     break;
                 default: return "";
             }

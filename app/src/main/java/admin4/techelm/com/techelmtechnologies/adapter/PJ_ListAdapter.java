@@ -118,10 +118,10 @@ public class PJ_ListAdapter extends RecyclerView.Adapter<PJ_ListAdapter.ViewHold
     private void animateItem(View view) {
         view.setTranslationY(getScreenHeight());
         view.animate()
-                .translationY(0)
-                .setInterpolator(new DecelerateInterpolator(3.f))
-                .setDuration(700)
-                .start();
+            .translationY(0)
+            .setInterpolator(new DecelerateInterpolator(3.f))
+            .setDuration(700)
+            .start();
     }
 
     // Test whether it is completed, then do nothing

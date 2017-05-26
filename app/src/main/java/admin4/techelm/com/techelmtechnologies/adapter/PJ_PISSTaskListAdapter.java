@@ -94,9 +94,9 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
         holder.textViewEngineer.setText(dataSet.getConformance());
         // holder.textViewStatus.setText(this.mSetHelper.setStatusComment(dataSet.getStatusComment()+""));
         holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()));
-        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatus()+""));
-        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
-        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatus()+""));
+        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatus()));
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText_PISSTask(dataSet.getStatus())));
+        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatus()));
 
         Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getSerialNo());
 
@@ -194,7 +194,11 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
                 }
             } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
                 if (mCallback != null) {
-                    mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), PROJECT_JOB_TASK_START_DRAWING);
+                    mSetHelper.setActionOnClick(
+                            mCallback,
+                            getAdapterPosition(),
+                            mDataSet.get(getAdapterPosition()),
+                            mDataSet.get(getAdapterPosition()).getStatus());
                 }
             }
 

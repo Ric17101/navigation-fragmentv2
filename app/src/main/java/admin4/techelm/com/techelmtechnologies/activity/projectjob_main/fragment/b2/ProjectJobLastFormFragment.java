@@ -73,7 +73,7 @@ public class ProjectJobLastFormFragment extends Fragment {
 
     IPI_Wrapper ipiWrapper = new IPI_Wrapper();
 
-    // IPI_TaskFinalWrapper mTask;
+    // IPI_TaskCarWrapper mTask;
 
     public static ProjectJobLastFormFragment newInstance(ProjectJobWrapper project, int formType) {
         ProjectJobLastFormFragment fragment = new ProjectJobLastFormFragment();

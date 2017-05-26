@@ -1,6 +1,5 @@
 package admin4.techelm.com.techelmtechnologies.db.projectjob;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -21,7 +20,7 @@ import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper
 
 public class ProjectJobDBUtil extends DatabaseAccess {
 
-    private static final String LOG_TAG = "ProjectJobDBUtil";
+    private static final String TAG = "ProjectJobDBUtil";
 
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "projectjob";
@@ -37,7 +36,11 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         public static final String COLUMN_NAME_PJ_START_DATE = "start_date";
         public static final String COLUMN_NAME_PJ_END_DATE = "end_date";
         public static final String COLUMN_NAME_PJ_STATUS = "status_flag";
+        public static final String COLUMN_NAME_PJ_LOCKED_TO_USER = "locked_to_user";
+        public static final String COLUMN_NAME_PJ_LOCKED_TO_USER_NAME = "locked_to_user_name";
         public static final String COLUMN_NAME_PJ_ENGINEER_NAME = "engineer_name";
+        public static final String COLUMN_NAME_PJ_ENGINEER_FAX = "fax";
+        public static final String COLUMN_NAME_PJ_ENGINEER_TELEPHONE = "telephone";
     }
 
     private static OnDatabaseChangedListener mOnDatabaseChangedListener;
@@ -61,7 +64,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
@@ -74,7 +77,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
      */
     public ProjectJobDBUtil(Context context, String message) {
         super(context);
-        Log.e(LOG_TAG, message);
+        Log.e(TAG, message);
     }
 
     public int addServiceJob(ProjectJobWrapper item) {
@@ -93,16 +96,20 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_PJ_SERVICE_NO, item.getStartDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_CUSTOMER_NAME, item.getEndDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_STATUS, item.getStatus());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_LOCKED_TO_USER, item.getLockedToUser());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_LOCKED_TO_USER_NAME, item.getLockedToUserName());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_ENGINEER_NAME, item.getEngineerName());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_ENGINEER_FAX, item.getFax());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_ENGINEER_TELEPHONE, item.getTelephone());
 
         if (db.insert(DBHelperItem.TABLE_NAME, null, cv) < 0) { // Update if Already existed on the SQLite DB
             int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                     DBHelperItem.COLUMN_NAME_PJ_ID + "=" + item.getID(), null);
-            Log.e(LOG_TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
+            Log.e(TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
         }
 
-        Log.e(LOG_TAG, "addServiceJob INSERTED ID " + item.getID());
-        Log.e(LOG_TAG, "addServiceJob INSERTED " + getAllJSDetailsByServiceJobID(item.getID()) + "");
+        Log.e(TAG, "addServiceJob INSERTED ID " + item.getID());
+        Log.e(TAG, "addServiceJob INSERTED " + getAllJSDetailsByServiceJobID(item.getID()) + "");
         return item.getID();
     }
 
@@ -112,26 +119,8 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         db.delete(DBHelperItem.TABLE_NAME,
                 DBHelperItem.COLUMN_NAME_PJ_SERVICE_ID + "=?", whereArgs);
 
-        Log.e(LOG_TAG, "removeServiceJob " + serviceID);
+        Log.e(TAG, "removeServiceJob " + serviceID);
     }
-
-    /*public List<ProjectJobWrapper> getAllDetailsOfServiceJob() {
-        ArrayList<ProjectJobWrapper> translationList = new ArrayList<>();
-        int x = 0;
-        do {
-            ProjectJobWrapper alpha = new ProjectJobWrapper();
-            alpha.setID(Integer.parseInt(x + ""));
-            alpha.setOthers(x + "");
-            alpha.setStartDate("TestDate" + x);
-            alpha.setServiceNumber("00" + x);
-            alpha.setCustomerID("Customer" + x);
-            alpha.setEngineerID("Engineer" + x);
-            alpha.setStatusComment((x % 2 == 1) ? "Pending" : "Completed");
-            translationList.add(alpha);
-            x++;
-        } while (x != 10);
-        return translationList;
-    }*/
 
     public List<ProjectJobWrapper> getAllProjects() {
         ArrayList<ProjectJobWrapper> list = new ArrayList<>();
@@ -153,6 +142,12 @@ public class ProjectJobDBUtil extends DatabaseAccess {
                 item.setStartDate(cursor.getString(9));
                 item.setEndDate(cursor.getString(10));
                 item.setStatus(cursor.getInt(11));
+                item.setLockedToUser(cursor.getInt(12));
+                item.setLockedToUserName(cursor.getString(13));
+                item.setEngineerName(cursor.getString(14));
+                item.setFax(cursor.getString(15));
+                item.setTelephone(cursor.getString(16));
+
                 list.add(item);
             } while (cursor.moveToNext());
         }
@@ -199,6 +194,12 @@ public class ProjectJobDBUtil extends DatabaseAccess {
                 item.setStartDate(cursor.getString(9));
                 item.setEndDate(cursor.getString(10));
                 item.setStatus(cursor.getInt(11));
+                item.setLockedToUser(cursor.getInt(12));
+                item.setLockedToUserName(cursor.getString(13));
+                item.setEngineerName(cursor.getString(14));
+                item.setFax(cursor.getString(15));
+                item.setTelephone(cursor.getString(16));
+
                 list.add(item);
             } while (cursor.moveToNext());
         }
@@ -229,8 +230,13 @@ public class ProjectJobDBUtil extends DatabaseAccess {
             item.setStartDate(cursor.getString(9));
             item.setEndDate(cursor.getString(10));
             item.setStatus(cursor.getInt(11));
+            item.setLockedToUser(cursor.getInt(12));
+            item.setLockedToUserName(cursor.getString(13));
+            item.setEngineerName(cursor.getString(14));
+            item.setFax(cursor.getString(15));
+            item.setTelephone(cursor.getString(16));
         }
-        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
+        // Log.e(TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
 
         if (!cursor.isClosed()) {
             cursor.close();
@@ -249,7 +255,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_PJ_REMARKS, remarks);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_PJ_ID + "=" + id, null);
-        Log.e(LOG_TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onPJEntryUpdated(remarks);
         }
@@ -266,7 +272,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         // cv.put(DBHelperItem.COLUMN_NAME_PJ_REMARKS_AFTER, remarks);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_PJ_ID + "=" + id, null);
-        Log.e(LOG_TAG, "updateRequestIDRemarks_AFTER ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDRemarks_AFTER ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onPJEntryUpdated(remarks);
         }
@@ -279,7 +285,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
 //        cv.put(DBHelperItem.COLUMN_NAME_PJ_SIGNATURE_FILE_PATH, signatureFilePath);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_PJ_ID + "=" + requestID, null);
-        Log.e(LOG_TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
 
         if (mOnDatabaseChangedListener != null) {
             // mOnDatabaseChangedListener.onIPI_DEntryUpdated(item.getServiceNumber());
@@ -303,6 +309,11 @@ public class ProjectJobDBUtil extends DatabaseAccess {
             item.setStartDate(cursor.getString(9));
             item.setEndDate(cursor.getString(10));
             item.setStatus(cursor.getInt(11));
+            item.setLockedToUser(cursor.getInt(12));
+            item.setLockedToUserName(cursor.getString(13));
+            item.setEngineerName(cursor.getString(14));
+            item.setFax(cursor.getString(15));
+            item.setTelephone(cursor.getString(16));
         }
 
         if (!cursor.isClosed()) {
@@ -320,7 +331,7 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onPJEntryDeleted();
         }
-        Log.e(LOG_TAG, "addRecording " + id);
+        Log.e(TAG, "addRecording " + id);
     }
 
     public int getCount() {
@@ -338,18 +349,22 @@ public class ProjectJobDBUtil extends DatabaseAccess {
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_PJ_ID, item.getID());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_SERVICE_NO, item.getProjectRef());
-        cv.put(DBHelperItem.COLUMN_NAME_PJ_CUSTOMER_ID, item.getProjectSite());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_CUSTOMER_ID, item.getCustomerID());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_SERVICE_ID, item.getTargetCompletionDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_ENGINEER_ID, item.getFirstInspector());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_PRICE_ID, item.getSecondInspector());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_COMPLAINT, item.getSecondInspector());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_REMARKS, item.getThirdInspector());
-        cv.put(DBHelperItem.COLUMN_NAME_PJ_START_DATE, item.getCustomerID());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_START_DATE, item.getStartDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_END_DATE, item.getCustomerName());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_SERVICE_NO, item.getStartDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_CUSTOMER_NAME, item.getEndDate());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_STATUS, item.getStatus());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_LOCKED_TO_USER, item.getLockedToUser());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_LOCKED_TO_USER_NAME, item.getLockedToUserName());
         cv.put(DBHelperItem.COLUMN_NAME_PJ_ENGINEER_NAME, item.getEngineerName());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_ENGINEER_FAX, item.getFax());
+        cv.put(DBHelperItem.COLUMN_NAME_PJ_ENGINEER_TELEPHONE, item.getTelephone());
         long idInserted = db.insert(DBHelperItem.TABLE_NAME, null, cv);
         int rowId = (int)idInserted;
         if (mOnDatabaseChangedListener != null) {

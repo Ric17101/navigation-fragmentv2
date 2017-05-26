@@ -32,9 +32,9 @@ import java.util.List;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.CalendarFragment;
-import admin4.techelm.com.techelmtechnologies.adapter.PJ_IPIFinalTaskListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.PJ_IPICarTaskListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskCarWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_PJ_B2_IPIFinalTasks;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
@@ -56,9 +56,9 @@ import static android.app.Activity.RESULT_OK;
 /**
  * B2 and B3 Task List
  */
-public class IPITaskListFinalFragment extends Fragment
+public class IPITaskListCARFragment extends Fragment
 {
-    private static final String TAG = IPITaskListFinalFragment.class.getSimpleName();
+    private static final String TAG = IPITaskListCARFragment.class.getSimpleName();
 
     private TextView name;
     private RobotoCalendarView robotoCalendarView;
@@ -66,22 +66,22 @@ public class IPITaskListFinalFragment extends Fragment
     private SlidingUpPanelLayout mLayout;
 
     private Context mContext;
-    private PJ_IPIFinalTaskListAdapter mListAdapter;
+    private PJ_IPICarTaskListAdapter mListAdapter;
     private RecyclerView mSearchResultsList;
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
-    private List<IPI_TaskFinalWrapper> results = null;
+    private List<IPI_TaskCarWrapper> results = null;
     private PJFinalTask_RenderList mAuthTask = null;
 
     // Instance Variable
     private int mTypeOfForm;
     private ProjectJobWrapper mProjectJob;
 
-    public static IPITaskListFinalFragment newInstance(ProjectJobWrapper projectJobWrapper, int projectJobForm) {
-        IPITaskListFinalFragment fragment = new IPITaskListFinalFragment();
+    public static IPITaskListCARFragment newInstance(ProjectJobWrapper projectJobWrapper, int projectJobForm) {
+        IPITaskListCARFragment fragment = new IPITaskListCARFragment();
         Bundle args = new Bundle();
 
-        Log.e(TAG, "IPITaskListFinalFragment newInstance " + projectJobWrapper.toString());
+        Log.e(TAG, "IPITaskListCARFragment newInstance " + projectJobWrapper.toString());
 
         args.putInt(PROJECT_JOB_FORM_TYPE_KEY, projectJobForm);
         args.putParcelable(PROJECT_JOB_KEY, projectJobWrapper);
@@ -202,7 +202,7 @@ public class IPITaskListFinalFragment extends Fragment
         textViewSJResult.setVisibility(View.GONE);
     }
     public void setupResultsList(View view) {
-        mListAdapter = new PJ_IPIFinalTaskListAdapter(view.getContext());
+        mListAdapter = new PJ_IPICarTaskListAdapter(view.getContext());
         mSearchResultsList.setAdapter(mListAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
@@ -265,7 +265,7 @@ public class IPITaskListFinalFragment extends Fragment
      * Called on click of Date CAlendar the render a list of Services at CardView
      * Show a list of SJ retrieved from API
      */
-    private class PJFinalTask_RenderList extends AsyncTask<Void, Void, List<IPI_TaskFinalWrapper>> {
+    private class PJFinalTask_RenderList extends AsyncTask<Void, Void, List<IPI_TaskCarWrapper>> {
 
         public final String TAG = CalendarFragment.class.getSimpleName();
 
@@ -287,10 +287,10 @@ public class IPITaskListFinalFragment extends Fragment
             String url = "";
             switch (mTypeOfForm) {
                 case PROJECT_JOB_FORM_B2:
-                    url = String.format(PROJECT_JOB_IPI_TASK_FINAL_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_EPS);
+                    url = String.format(PROJECT_JOB_IPI_TASK_FINAL_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_PW);
                     break;
                 case PROJECT_JOB_FORM_B3:
-                    url = String.format(PROJECT_JOB_IPI_TASK_FINAL_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_PW);
+                    url = String.format(PROJECT_JOB_IPI_TASK_FINAL_LIST_URL, mProjectJob.getID(), PROJECT_JOB_FORM_EPS);
                     break;
                 default: return "";
             }
@@ -328,16 +328,18 @@ public class IPITaskListFinalFragment extends Fragment
                     {
                        "projectlist_ipi_correctiveactions":[
                         {
-                            "id":"7",
-                            "projectjob_ipi_pw_id":"3",
-                            "serial_no":"3",
-                            "car_no":"test3",
-                            "description":"test desc 3.3",
-                            "target_remedy_date":"2017-05-28",
-                            "completion_date":"0000-00-00",
-                            "remarks":"test",
-                            "dispostion":"test",
-                            "form_type":"PW"
+                            "id":"1",
+                             "projectjob_id":"1",
+                             "serial_no":"1",
+                             "car_no":"test",
+                             "description":"test desc1.1",
+                             "target_remedy_date":"2017-05-20",
+                             "completion_date":"0000-00-00",
+                             "remarks":"test",
+                             "disposition":"test",
+                             "status_flag":"0",
+                             "date_updated":"0000-00-00 00:00:00",
+                             "form_type":"PW"
                         },
                      {...}
                  */
@@ -362,6 +364,10 @@ public class IPITaskListFinalFragment extends Fragment
                             .append(jsonArray.getJSONObject(i).getString("remarks"))
                             .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("disposition"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("status_flag"))
+                            .append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("date_updated"))
                             .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("form_type"))
                             .append(LIST_DELIM)
@@ -389,14 +395,14 @@ public class IPITaskListFinalFragment extends Fragment
          * 3 - no internet??? or blank reponse
          */
         @Override
-        protected List<IPI_TaskFinalWrapper> doInBackground(Void... params) {
+        protected List<IPI_TaskCarWrapper> doInBackground(Void... params) {
             String parsedServiceJob = "";
             try {
                 parsedServiceJob = parseIPITaskFinalListJSON(JSONHelper.GET(getURL()));
                 switch (parsedServiceJob) {
                     case "ok":
                         ConvertJSON_PJ_B2_IPIFinalTasks cJSON = new ConvertJSON_PJ_B2_IPIFinalTasks();
-                        ArrayList<IPI_TaskFinalWrapper> resultList = cJSON.projectJobFinalTaskList(projectIPITaskList);
+                        ArrayList<IPI_TaskCarWrapper> resultList = cJSON.projectJobFinalTaskList(projectIPITaskList);
                         resultStatus = (cJSON.hasResult() ? 1 : 3);
                         return (resultStatus == 1 ? resultList : null);
                     case "null":
@@ -419,7 +425,7 @@ public class IPITaskListFinalFragment extends Fragment
         }
 
         @Override
-        protected void onPostExecute(List<IPI_TaskFinalWrapper> list) {
+        protected void onPostExecute(List<IPI_TaskCarWrapper> list) {
             switch (resultStatus) {
                 case 1 :
                     results = list;
@@ -452,7 +458,7 @@ public class IPITaskListFinalFragment extends Fragment
      * @param ipiTaskFinalWrapper - data to submit on the server
      * @param dialog - dialog shown on the view
      */
-    public void startPostB2ProjectJobFormB(IPI_TaskFinalWrapper ipiTaskFinalWrapper, final MaterialDialog dialog) {
+    public void startPostB2ProjectJobFormB(IPI_TaskCarWrapper ipiTaskFinalWrapper, final MaterialDialog dialog) {
         ProjectJobIPI_POST projectJob = new ProjectJobIPI_POST();
         projectJob.setOnEventListener(new ProjectJobIPI_POST.OnEventListener() {
             @Override

@@ -96,7 +96,7 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
         // holder.textViewStatus.setText(this.mSetHelper.setStatusComment(dataSet.getStatusComment()+""));
         holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatusFlag()));
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatusComment()+""));
-        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText_PISSTask(dataSet.getStatusFlag())));
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatusComment()+""));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getSerialNo());

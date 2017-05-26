@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskCarWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 
@@ -31,17 +31,19 @@ public class ConvertJSON_PJ_B2_IPIFinalTasks {
          {
              "projectlist_ipi_correctiveactions":[
              {
-                 "id":"7",
-                 "projectjob_ipi_pw_id":"3",
-                 "serial_no":"3",
-                 "car_no":"test3",
-                 "description":"test desc 3.3",
-                 "target_remedy_date":"2017-05-28",
+                 "id":"1",
+                 "projectjob_id":"1",
+                 "serial_no":"1",
+                 "car_no":"test",
+                 "description":"test desc1.1",
+                 "target_remedy_date":"2017-05-20",
                  "completion_date":"0000-00-00",
                  "remarks":"test",
-                 "dispostion":"test",
+                 "disposition":"test",
+                 "status_flag":"0",
+                 "date_updated":"0000-00-00 00:00:00",
                  "form_type":"PW"
-             },
+             }]
          {...}
         ]}
      * @return
@@ -50,8 +52,8 @@ public class ConvertJSON_PJ_B2_IPIFinalTasks {
         return mResult;
     }
 
-    public ArrayList<IPI_TaskFinalWrapper> parseListJSON(String JSONResult) throws JSONException {
-        ArrayList<IPI_TaskFinalWrapper> translationList = new ArrayList<>();
+    public ArrayList<IPI_TaskCarWrapper> parseListJSON(String JSONResult) throws JSONException {
+        ArrayList<IPI_TaskCarWrapper> translationList = new ArrayList<>();
         JSONObject json = new JSONObject(JSONResult);
         String str = "";
 
@@ -64,7 +66,7 @@ public class ConvertJSON_PJ_B2_IPIFinalTasks {
         }*/
         int i = 0;
         do { // 10
-            IPI_TaskFinalWrapper pw = new IPI_TaskFinalWrapper();
+            IPI_TaskCarWrapper pw = new IPI_TaskCarWrapper();
             pw.setID(Integer.parseInt(jsonArray.getJSONObject(i).getString("id")));
             pw.setProjectJob_ID(jsonArray.getJSONObject(i).getInt("projectjob_id"));
             pw.setSerialNo(jsonArray.getJSONObject(i).getString("serial_no"));
@@ -74,6 +76,8 @@ public class ConvertJSON_PJ_B2_IPIFinalTasks {
             pw.setCompletionDate(jsonArray.getJSONObject(i).getString("completion_date"));
             pw.setRemarks(jsonArray.getJSONObject(i).getString("remarks"));
             pw.setDisposition(jsonArray.getJSONObject(i).getString("disposition"));
+            pw.setStatusFlag(jsonArray.getJSONObject(i).getString("status_flag"));
+            pw.setDateUpdated(jsonArray.getJSONObject(i).getString("date_updated"));
             pw.setFormType(jsonArray.getJSONObject(i).getString("form_type"));
 
             // Log.d(TAG, sw.toString());
@@ -89,8 +93,8 @@ public class ConvertJSON_PJ_B2_IPIFinalTasks {
      * @param parsedIPITask
      * @return
      */
-    public ArrayList<IPI_TaskFinalWrapper> projectJobFinalTaskList(List<String> parsedIPITask) {
-        ArrayList<IPI_TaskFinalWrapper> translationList = new ArrayList<>();
+    public ArrayList<IPI_TaskCarWrapper> projectJobFinalTaskList(List<String> parsedIPITask) {
+        ArrayList<IPI_TaskCarWrapper> translationList = new ArrayList<>();
        /* if (parsedServiceJob.size() == 0 || parsedServiceJob.isEmpty()) {
             this.aResponse = true; // No result
             return null;
@@ -99,7 +103,7 @@ public class ConvertJSON_PJ_B2_IPIFinalTasks {
         this.mResult = parsedIPITask.size() >= 0;
 
         for (String credential : parsedIPITask) {
-            IPI_TaskFinalWrapper sw = new IPI_TaskFinalWrapper();
+            IPI_TaskCarWrapper sw = new IPI_TaskCarWrapper();
             String[] pieces = credential.split(LIST_DELIM);
 
             sw.setID(Integer.parseInt(pieces[0]));
@@ -111,7 +115,9 @@ public class ConvertJSON_PJ_B2_IPIFinalTasks {
             sw.setCompletionDate(pieces[6]);
             sw.setRemarks(pieces[7]);
             sw.setDisposition(pieces[8]);
-            sw.setFormType(pieces[9]);
+            sw.setStatusFlag(pieces[9]);
+            sw.setDateUpdated(pieces[10]);
+            sw.setFormType(pieces[11]);
             translationList.add(sw);
         }
         return translationList;

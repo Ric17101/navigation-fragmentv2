@@ -1,12 +1,11 @@
 package admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm;
 
-import android.util.Log;
 import android.view.View;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskCarWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
@@ -74,7 +73,7 @@ public class ProjectJobIPI_POST {
      * B2 and B3 Form B - Corrective Action (Modal)
      * @param ipiTaskFinalWrapper - DAta will be sending to the server
      */
-    public void postIPITaskFormB(IPI_TaskFinalWrapper ipiTaskFinalWrapper) {
+    public void postIPITaskFormB(IPI_TaskCarWrapper ipiTaskFinalWrapper) {
         this.mOnEventListener.onEvent();
     /*web info*/
         WebServiceInfo webServiceInfo = new WebServiceInfo();

@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskCarWrapper;
 
 /**
  * Reusable Content Populating
@@ -22,7 +22,7 @@ public class PopulateProjectJob_IPIFinalTaskViewDetails {
     private TextView textViewDisposition;
 
 
-    private void setViewElements(View view, IPI_TaskFinalWrapper ipiTaskFinalWrapper) {
+    private void setViewElements(View view, IPI_TaskCarWrapper ipiTaskFinalWrapper) {
         // PROJECT JOB Controls
         textViewSerialNo = (TextView) view.findViewById(R.id.textViewSerialNo);
         textViewCarNo = (TextView) view.findViewById(R.id.textViewCarNo);
@@ -50,7 +50,7 @@ public class PopulateProjectJob_IPIFinalTaskViewDetails {
      * @param vDialog - view of the Material View
      * @param projectTaskJob - IPI_TaskWrapper Wrapper
      */
-    public void populateServiceJobDetails(View vDialog, IPI_TaskFinalWrapper projectTaskJob, String TAG) {
+    public void populateServiceJobDetails(View vDialog, IPI_TaskCarWrapper projectTaskJob, String TAG) {
         this.setViewElements(vDialog, projectTaskJob);
     }
 

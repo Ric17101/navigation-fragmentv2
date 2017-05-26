@@ -17,9 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.DrawingFormFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1.PISSTaskListFragment;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFinalFragment;
+import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListCARFragment;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.IPITaskListFragment;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 
@@ -229,7 +228,7 @@ public class ProjectJobFragmentTab extends Fragment {
                 case 0:
                     return IPITaskListFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B2);
                 case 1:
-                    return IPITaskListFinalFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B2);
+                    return IPITaskListCARFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B2);
             }
             return null;
         }
@@ -239,7 +238,7 @@ public class ProjectJobFragmentTab extends Fragment {
                 case 0:
                     return IPITaskListFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B3);
                 case 1:
-                    return IPITaskListFinalFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B3);
+                    return IPITaskListCARFragment.newInstance(mProjectJob, PROJECT_JOB_FORM_B3);
             }
             return null;
         }
@@ -280,7 +279,7 @@ public class ProjectJobFragmentTab extends Fragment {
         private CharSequence setPageTitleB2B3(int position) {
             switch (position) {
                 case 0: return "TASK LIST";
-                case 1: return "FINAL";
+                case 1: return "CAR"; //case 1: return "FINAL";
             }
             return "";
         }

@@ -25,18 +25,17 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.IPIFinalTaskListener;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskCarWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
 
-public class PJ_IPIFinalTaskListAdapter extends RecyclerView.Adapter<PJ_IPIFinalTaskListAdapter.ViewHolder> {
+public class PJ_IPICarTaskListAdapter extends RecyclerView.Adapter<PJ_IPICarTaskListAdapter.ViewHolder> {
 
-    private static final String TAG = PJ_IPIFinalTaskListAdapter.class.getSimpleName();
+    private static final String TAG = PJ_IPICarTaskListAdapter.class.getSimpleName();
 
-    private List<IPI_TaskFinalWrapper> mDataSet = new ArrayList<>();
-    private IPI_TaskFinalWrapper dataSet;
+    private List<IPI_TaskCarWrapper> mDataSet = new ArrayList<>();
+    private IPI_TaskCarWrapper dataSet;
     private IPIFinalTaskListener mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
@@ -47,7 +46,7 @@ public class PJ_IPIFinalTaskListAdapter extends RecyclerView.Adapter<PJ_IPIFinal
 
     private FragmentSetListHelper_ProjectJob mSetHelper;
 
-    public PJ_IPIFinalTaskListAdapter(Context context) {
+    public PJ_IPICarTaskListAdapter(Context context) {
         mContext = context;
 
         // .. Attach the interface
@@ -60,12 +59,12 @@ public class PJ_IPIFinalTaskListAdapter extends RecyclerView.Adapter<PJ_IPIFinal
         System.gc();
     }
 
-    public PJ_IPIFinalTaskListAdapter(List<IPI_TaskFinalWrapper> serviceJobList) {
+    public PJ_IPICarTaskListAdapter(List<IPI_TaskCarWrapper> serviceJobList) {
         this.mDataSet = serviceJobList;
         notifyDataSetChanged();
     }
 
-    public void swapData(List<IPI_TaskFinalWrapper> mNewDataSet) {
+    public void swapData(List<IPI_TaskCarWrapper> mNewDataSet) {
         mDataSet = mNewDataSet;
         notifyDataSetChanged();
     }
@@ -90,14 +89,14 @@ public class PJ_IPIFinalTaskListAdapter extends RecyclerView.Adapter<PJ_IPIFinal
         holder.textViewDay.setText(dataSet.getSerialNo()); // GREYED Below BIG Number
         holder.textViewDateNumber.setText(dataSet.getID() + ""); // BIG Number
         holder.textViewDate.setText(dataSet.getCarNo()); // BLACK Date Below
-        holder.textViewServiceNum.setText(dataSet.getRemarks());
+        holder.textViewServiceNum.setText(dataSet.getSerialNo());
         holder.textViewCustomer.setText(dataSet.getDescription());
         holder.textViewEngineer.setText(dataSet.getTargetRemedyDate());
         // holder.textViewStatus.setText(this.mSetHelper.setStatusComment(dataSet.getStatusComment()+""));
         holder.textViewStatus.setText(dataSet.getCarNo());
         holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getRemarks() + ""));
-        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
-        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getDisposition() + ""));
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText_IPIFinalTask(dataSet.getStatusFlag())));
+        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatusFlag()));
 
         Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getSerialNo());
 
@@ -106,7 +105,7 @@ public class PJ_IPIFinalTaskListAdapter extends RecyclerView.Adapter<PJ_IPIFinal
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
         }
 
-        holder.textViewLabelDetail1.setText("Comments");
+        holder.textViewLabelDetail1.setText("Serial No.");
         holder.textViewLabelDetail2.setText("Descriptions");
         holder.textViewLabelDetail3.setText("Conformance");
         holder.textViewLabelDetail4.setText("Car No.");

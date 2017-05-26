@@ -19,7 +19,6 @@ package admin4.techelm.com.techelmtechnologies.model.projectjob;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 public class ProjectJobWrapper implements Parcelable {
 
     public static final Creator<ProjectJobWrapper> CREATOR = new Creator<ProjectJobWrapper>() {
@@ -34,11 +33,11 @@ public class ProjectJobWrapper implements Parcelable {
         }
     };
 
-    //private variables 12 + 2
+    //private variables 17
     // TODO: Add CPCode Here....
     private int _id; // ProjectJob ID from the WEB API, should exist only once on local DB
     private String _proj_ref;
-    private String _project_site;
+    private String _project_site; // This is define on the `customer` TABLE from CLOUD
     private String _taget_completion_date;
     private String _first_inspector;
     private String _second_inspector;
@@ -48,6 +47,8 @@ public class ProjectJobWrapper implements Parcelable {
     private String _start_date;
     private String _end_date;
     private int _status_flag;
+    private int _locked_to_user;
+    private String _locked_to_user_name;
     private String _engineer_name;
 
     // My Custom Attributes from the WEB
@@ -70,9 +71,11 @@ public class ProjectJobWrapper implements Parcelable {
         _start_date = in.readString();
         _end_date = in.readString();
         _status_flag = in.readInt();
+        _locked_to_user = in.readInt();
+        _locked_to_user_name = in.readString();
+        _engineer_name = in.readString();
         _fax = in.readString();
         _telephone = in.readString();
-        _engineer_name = in.readString();
     }
 
     @Override
@@ -89,9 +92,11 @@ public class ProjectJobWrapper implements Parcelable {
         dest.writeString(_start_date);
         dest.writeString(_end_date);
         dest.writeInt(_status_flag);
+        dest.writeInt(_locked_to_user);
+        dest.writeString(_locked_to_user_name);
+        dest.writeString(_engineer_name);
         dest.writeString(_fax);
         dest.writeString(_telephone);
-        dest.writeString(_engineer_name);
     }
 
     @Override
@@ -108,6 +113,8 @@ public class ProjectJobWrapper implements Parcelable {
                 "\nStart Date : " + this._start_date +
                 "\nEnd Date : " + this._end_date +
                 "\nStatus : " + this._status_flag +
+                "\n_locked_to_user : " + this._locked_to_user +
+                "\n_locked_to_user_name : " + this._locked_to_user_name +
                 "\n1st Inspector : " + this._first_inspector +
                 "\n2nd Inspector : " + this._second_inspector +
                 "\n3rd Inspector : " + this._third_inspector +
@@ -195,11 +202,28 @@ public class ProjectJobWrapper implements Parcelable {
         this._end_date = val;
     }
 
-    public int getStatus() {
-        return this._status_flag;
+    public int getStatus() { return this._status_flag; }
+    public void setStatus(int data) { this._status_flag = data; }
+
+    public int getLockedToUser() {
+        return this._locked_to_user;
     }
-    public void setStatus(int data) {
-        this._status_flag = data;
+    public void setLockedToUser(int data) {
+        this._locked_to_user = data;
+    }
+
+    public String getLockedToUserName() {
+        return this._locked_to_user_name;
+    }
+    public void setLockedToUserName(String val) {
+        this._locked_to_user_name = val;
+    }
+
+    public String getEngineerName() {
+        return this._engineer_name;
+    }
+    public void setEngineerName(String val) {
+        this._engineer_name = val;
     }
 
     public String getFax() {
@@ -212,12 +236,5 @@ public class ProjectJobWrapper implements Parcelable {
     }
     public void setTelephone(String val) {
         this._telephone = val;
-    }
-
-    public String getEngineerName() {
-        return this._engineer_name;
-    }
-    public void setEngineerName(String val) {
-        this._engineer_name = val;
     }
 }

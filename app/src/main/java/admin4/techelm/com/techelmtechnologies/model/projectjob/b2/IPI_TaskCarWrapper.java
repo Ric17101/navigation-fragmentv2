@@ -20,39 +20,42 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class IPI_TaskFinalWrapper implements Parcelable {
+public class IPI_TaskCarWrapper implements Parcelable {
 
-    public static final Creator<IPI_TaskFinalWrapper> CREATOR = new Creator<IPI_TaskFinalWrapper>() {
+    public static final Creator<IPI_TaskCarWrapper> CREATOR = new Creator<IPI_TaskCarWrapper>() {
         @Override
-        public IPI_TaskFinalWrapper createFromParcel(Parcel in) {
-            return new IPI_TaskFinalWrapper(in);
+        public IPI_TaskCarWrapper createFromParcel(Parcel in) {
+            return new IPI_TaskCarWrapper(in);
         }
 
         @Override
-        public IPI_TaskFinalWrapper[] newArray(int size) {
-            return new IPI_TaskFinalWrapper[size];
+        public IPI_TaskCarWrapper[] newArray(int size) {
+            return new IPI_TaskCarWrapper[size];
         }
     };
 
-    //private variables 10
+    //private variables 12
     /*
-    GET : http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/projectjob/get_ipi_tasks?projectjob_ipi_pw_id=2&form_type=PW
+    GET : http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/projectjob/get_ipi_correctiveAction?projectjob_id=1&form_type=PW
         {
            "projectlist_ipi_correctiveactions":[
-            {
-                "id":"7",
-                "projectjob_ipi_pw_id":"3",
-                "serial_no":"3",
-                "car_no":"test3",
-                "description":"test desc 3.3",
-                "target_remedy_date":"2017-05-28",
-                "completion_date":"0000-00-00",
-                "remarks":"test",
-                "dispostion":"test",
-                "form_type":"PW"
-            },
-         {...}
-     */
+              {
+                 "id":"1",
+                 "projectjob_id":"1",
+                 "serial_no":"1",
+                 "car_no":"test",
+                 "description":"test desc1.1",
+                 "target_remedy_date":"2017-05-20",
+                 "completion_date":"0000-00-00",
+                 "remarks":"test",
+                 "disposition":"test",
+                 "status_flag":"0",
+                 "date_updated":"0000-00-00 00:00:00",
+                 "form_type":"PW"
+              }
+           ]
+        }
+    */
     private int _id;
     private int _projectjob_id;
     private String _serial_no;
@@ -62,12 +65,14 @@ public class IPI_TaskFinalWrapper implements Parcelable {
     private String _completion_date;
     private String _remarks;
     private String _disposition;
+    private String _status_flag;
+    private String _date_updated;
     private String _form_type;
 
     // Empty constructor
-    public IPI_TaskFinalWrapper() { }
+    public IPI_TaskCarWrapper() { }
 
-    protected IPI_TaskFinalWrapper(Parcel in) {
+    protected IPI_TaskCarWrapper(Parcel in) {
         _id = in.readInt();
         _projectjob_id = in.readInt();
         _serial_no = in.readString();
@@ -77,6 +82,8 @@ public class IPI_TaskFinalWrapper implements Parcelable {
         _completion_date = in.readString();
         _remarks = in.readString();
         _disposition = in.readString();
+        _status_flag = in.readString();
+        _date_updated = in.readString();
         _form_type = in.readString();
     }
 
@@ -91,6 +98,8 @@ public class IPI_TaskFinalWrapper implements Parcelable {
         dest.writeString(_completion_date);
         dest.writeString(_remarks);
         dest.writeString(_disposition);
+        dest.writeString(_status_flag);
+        dest.writeString(_date_updated);
         dest.writeString(_form_type);
     }
 
@@ -109,6 +118,8 @@ public class IPI_TaskFinalWrapper implements Parcelable {
             "\n_completion_date : " + this._completion_date +
             "\n_remarks : " + this._remarks +
             "\n_disposition : " + this._disposition +
+            "\n_status_flag : " + this._status_flag +
+            "\n_date_updated : " + this._date_updated +
             "\n_form_type : " + this._form_type
             ;
     }
@@ -173,6 +184,16 @@ public class IPI_TaskFinalWrapper implements Parcelable {
         return this._disposition;
     }
     public void setDisposition(String val) { this._disposition = val; }
+
+    public String getStatusFlag() {
+        return this._status_flag;
+    }
+    public void setStatusFlag(String val) { this._status_flag = val; }
+
+    public String getDateUpdated() {
+        return this._date_updated;
+    }
+    public void setDateUpdated(String val) { this._date_updated = val; }
 
     public String getFormType() {
         return this._form_type;

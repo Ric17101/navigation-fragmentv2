@@ -15,7 +15,7 @@ import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListene
 import admin4.techelm.com.techelmtechnologies.adapter.listener.PISSTaskListener;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
-import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskFinalWrapper;
+import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskCarWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_CHOOSE_FORM;
@@ -68,17 +68,30 @@ public class FragmentSetListHelper_ProjectJob {
 
     public int setColor(String status) {
         switch (status) {
-            case "" : return Color.BLACK;
-            case PROJECT_JOB_CHOOSE_FORM: return Color.RED;
-            default: return Color.BLUE;
+            case "" :
+                return Color.BLACK;
+
+            case PROJECT_JOB_PENDING:
+            case PROJECT_JOB_ON_PROCESS:
+                return Color.RED;
+
+            case PROJECT_JOB_NEW:
+            case PROJECT_JOB_COMPLETED:
+            default:
+                return Color.BLUE;
         }
     }
 
     // Called in ServiceJobAdapter
     public int setIconTask(String stringTask) {
         switch (stringTask) {
-            case "" : return R.mipmap.conti_icon;
-            case PROJECT_JOB_CHOOSE_FORM: return R.mipmap.uploaded_icon;
+            case "" :
+            case PROJECT_JOB_PENDING:
+            case PROJECT_JOB_ON_PROCESS:
+                return R.mipmap.conti_icon;
+            case PROJECT_JOB_COMPLETED:
+                return R.mipmap.uploaded_icon;
+            case PROJECT_JOB_NEW:
             default: return R.mipmap.begin_icon;
         }
     }
@@ -90,6 +103,39 @@ public class FragmentSetListHelper_ProjectJob {
             case PROJECT_JOB_START_TASK: taskText = "<u><b>Start task >></b></u>";
                 break;
             case PROJECT_JOB_CONTINUE_TASK: taskText = "<u><b>Continue task >></b></u>";
+                break;
+            default : taskText = "";
+                break;
+        }
+        return taskText;
+    }
+
+    // For PISS Task List only
+    public String setTaskText_PISSTask(String taskText) {
+        switch (taskText) {
+            case PROJECT_JOB_CHOOSE_FORM: taskText = "<u><b>On Process</b></u>";
+            case PROJECT_JOB_COMPLETED: taskText = "<u><b>Completed</b></u>";
+                break;
+            case PROJECT_JOB_NEW: taskText = "<u><b>Start task >></b></u>";
+                break;
+            case PROJECT_JOB_PENDING:
+            case PROJECT_JOB_ON_PROCESS:
+            case PROJECT_JOB_CONTINUE_TASK: taskText = "<u><b>Continue >></b></u>";
+                break;
+            default : taskText = "";
+                break;
+        }
+        return taskText;
+    }
+
+    public String setTaskText_IPIFinalTask(String taskText) {
+        switch (taskText) {
+            case PROJECT_JOB_COMPLETED: taskText = "<u><b>Completed</b></u>";
+                break;
+            case PROJECT_JOB_NEW: taskText = "<u><b>Start task >></b></u>";
+                break;
+            case PROJECT_JOB_PENDING:
+            case PROJECT_JOB_ON_PROCESS: taskText = "<u><b>Continue >></b></u>";
                 break;
             default : taskText = "";
                 break;
@@ -137,6 +183,8 @@ public class FragmentSetListHelper_ProjectJob {
 
     public void setActionOnClick(PISSTaskListener mCallback, int adapterPosition, PISSTaskWrapper pissTaskWrapper, String mode) {
         switch (mode) {
+            case PROJECT_JOB_COMPLETED:
+                break;
             case PROJECT_JOB_TASK_START_DRAWING :
                 mCallback.onHandleSelection(adapterPosition, pissTaskWrapper,  ACTION_TASK_START_DRAWING);
                 break;
@@ -154,7 +202,7 @@ public class FragmentSetListHelper_ProjectJob {
         }
     }
 
-    public void setActionOnClick(IPIFinalTaskListener mCallback, int adapterPosition, IPI_TaskFinalWrapper ipiCorrectiveActionFinalWrapper, String mode) {
+    public void setActionOnClick(IPIFinalTaskListener mCallback, int adapterPosition, IPI_TaskCarWrapper ipiCorrectiveActionFinalWrapper, String mode) {
         switch (mode) {
             case PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM :
                 mCallback.onHandleSelection(adapterPosition, ipiCorrectiveActionFinalWrapper, ACTION_START_IPI_CORRECTIVE_ACTION_TASK_FORM);
