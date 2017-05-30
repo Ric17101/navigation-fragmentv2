@@ -107,7 +107,6 @@ public class ProjectJobLastFormFragment extends Fragment {
 
         this.mContext = container.getContext();
 
-
         initButton(view);
 
         initFormView(view);
@@ -383,11 +382,15 @@ public class ProjectJobLastFormFragment extends Fragment {
             counter++;
             post.addMultipleFile(this.mSignatureUtil.getFile(), this.mSignatureUtil.getFile().getName(), "image/jpeg", "1")
                 .addParam("hasContractorSign", hasSignatureDispositionendBy + "");
+        } else {
+            post.addParam("hasContractorSign", "false");
         }
 
         if (hasSignatureSubContractor) {
             post.addMultipleFile(this.mSignatureUtil.getFile(), this.mSignatureUtil.getFile().getName(), "image/jpeg", "2")
                     .addParam("hasSignatureSubContractor", hasSignatureSubContractor + "");
+        } else {
+            post.addParam("hasSignatureSubContractor", "false");
         }
         post.startUpload();
     }

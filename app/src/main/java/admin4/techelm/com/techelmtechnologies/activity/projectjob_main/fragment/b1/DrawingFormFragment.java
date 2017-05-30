@@ -28,6 +28,7 @@ import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.FIRSTCM_DOMAIN_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.NEW_DOMAIN_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL;
@@ -194,7 +195,7 @@ public class DrawingFormFragment extends Fragment {
     private void downloadImage(View view) {
         //((ProjectJobViewPagerActivity) getActivity()).downloadImageFromURL(DrawingCanvasFragment.this, IMAGE_URL, mockImageView);
 
-        String URI = NEW_DOMAIN_URL + this.mPissTask.getDrawingBefore();
+        String URI = FIRSTCM_DOMAIN_URL + this.mPissTask.getDrawingBefore();
         ((ProjectJobViewPagerActivity) getActivity())
             .downloadImageFromURL(
                 DrawingFormFragment.this,

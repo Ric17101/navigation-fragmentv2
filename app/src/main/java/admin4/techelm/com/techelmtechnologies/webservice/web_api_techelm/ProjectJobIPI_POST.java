@@ -56,10 +56,22 @@ public class ProjectJobIPI_POST {
 
     /*add parameter*/
         webServiceInfo.addParam("projectjob_task_id", ipiTaskWrapper.getID() + "");
+        webServiceInfo.addParam("projectjob_id", ipiTaskWrapper.getProjectJob_ID() + "");
         webServiceInfo.addParam("comment", ipiTaskWrapper.getStatusComment());
+        webServiceInfo.addParam("issue_CAR", ipiTaskWrapper.getToIssueCar());
+
+        switch (ipiTaskWrapper.getStatusComment()) { // Sets the form for IPI Form A, then insert to IPI_TASKCar if yes
+            case "YES" :
+                ipiTaskWrapper.setNonConformance("");
+                ipiTaskWrapper.setCorrectiveActions("");
+                ipiTaskWrapper.setTargetCompletionDate("");
+                break;
+            default: break;
+        }
         webServiceInfo.addParam("nonconformance", ipiTaskWrapper.getNonConformance());
         webServiceInfo.addParam("corrective_actions", ipiTaskWrapper.getCorrectiveActions());
         webServiceInfo.addParam("completion_date", ipiTaskWrapper.getTargetCompletionDate());
+
         webServiceInfo.addParam("form_type", ipiTaskWrapper.getFormType());
 
     /*postStartDate command*/

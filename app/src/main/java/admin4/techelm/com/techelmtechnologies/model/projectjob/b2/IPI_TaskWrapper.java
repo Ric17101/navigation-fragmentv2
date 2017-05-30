@@ -61,7 +61,7 @@ public class IPI_TaskWrapper implements Parcelable {
     private String _form_type;
 
     // Mobile Inputs
-    // private String _target_date;
+     private String _to_issue_car;
 
     // Empty constructor
     public IPI_TaskWrapper() { }
@@ -180,6 +180,11 @@ public class IPI_TaskWrapper implements Parcelable {
         return this._form_type;
     }
     public void setFormType(String val) { this._form_type = val; }
+
+    public String getToIssueCar() {
+        return this._to_issue_car;
+    }
+    public void setToIssueCar(String val) { this._to_issue_car = val; }
 
 //    public String getCompletionDate() {
 //        return this._target_date;

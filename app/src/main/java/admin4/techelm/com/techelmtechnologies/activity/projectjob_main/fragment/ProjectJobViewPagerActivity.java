@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -49,6 +51,7 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.NonConformanceAndDateFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.PopulateProjectJob_IPIFinalTaskViewDetails;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.PopulateProjectJob_IPITaskViewDetails;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.ServiceReport_TaskCompleted_5;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.IPITaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.IPIFinalTaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.PISSTaskListener;
@@ -83,6 +86,7 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
 
 public class ProjectJobViewPagerActivity extends FragmentActivity implements
         ProjectJobListener,
@@ -410,7 +414,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 .getActiveFragment(this.mPagerAdapter.getViewPager(), FRAGMENT_POSITION_IPI_TASK_LIST);
 
     }
-    private IPITaskListCARFragment getFragmentIPITaskListFinal() {
+    public IPITaskListCARFragment getFragmentIPITaskListCar() {
         return (IPITaskListCARFragment) this.mPagerAdapter
                 .getActiveFragment(this.mPagerAdapter.getViewPager(), FRAGMENT_POSITION_IPI_FINAL);
     }
@@ -523,6 +527,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         DrawingCanvasFragment canvas = DrawingCanvasFragment.newInstamce(taskWrapper);
         FragmentTransaction trans = mFragmentManager.beginTransaction(); // OR getSupportFragmentManager().beginTransaction();
         trans.replace(R.id.containerView, canvas).addToBackStack(FRAGMENT_BACK_STACK);
+        trans.setCustomAnimations(R.anim.enter, R.anim.exit);
         trans.commit();
     }
 
@@ -581,6 +586,9 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     /*************** B2 - In-process inspection (PW) ***************/
     /*************** B3 - In-process inspection (EPS) ***************/
+    /**
+     * Form C for ProjectJob B2 and B3
+     */
     public void showProjectJobLastFormFragment(/*IPI_TaskCarWrapper task*/) {
         System.out.println("showDrawingFormFragment");
         ProjectJobLastFormFragment form = ProjectJobLastFormFragment.newInstance(this.mProjectJob, this.mTypeOfForm);
@@ -592,6 +600,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
     /**
      * A.) IPI PW/EPS Task List Form
      * Confirmation Date Form Dialog
+     * TODO: Add these method to the fragment where it is shown, OK?
      */
     private void showB2B3ConfirmationDateFormDialog(final IPI_TaskWrapper ipiTaskWrapper) {
         MaterialDialog md2 = new MaterialDialog.Builder(ProjectJobViewPagerActivity.this)
@@ -607,14 +616,24 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         View view = dialog.getCustomView();
 
+                        EditText editTextB1Remarks = (EditText) view.findViewById(R.id.editTextB1Remarks);
+                        EditText editTextCorrectiveAction = (EditText) view.findViewById(R.id.editTextCorrectiveAction);
+                        EditText editTextB2RectificationDate = (EditText) view.findViewById(R.id.editTextB2RectificationDate);
+
+                        LinearLayout layoutSpinnerCommnent = (LinearLayout) view.findViewById(R.id.layoutSpinnerCommnent);
+                        LinearLayout layoutSpinnerToIssueCar = (LinearLayout) view.findViewById(R.id.layoutSpinnerToIssueCar);
+                        Spinner spinnerComment = (Spinner) layoutSpinnerCommnent.findViewById(R.id.spinnerComment);
+                        Spinner spinnerToIssueCar = (Spinner) layoutSpinnerToIssueCar.findViewById(R.id.spinnerCommentToIssueCar);
+
                         IPI_TaskWrapper task = ipiTaskWrapper;
                         // pissWrapper.setID(Integer.parseInt(((EditText) view.findViewById(R.id.editTextPO)).getText().toString()));
                         task.setProjectJob_ID(mProjectJob.getID());
                         task.setID(ipiTaskWrapper.getID());
-                        task.setStatusComment(((Spinner) view.findViewById(R.id.spinnerComment)).getSelectedItem().toString());
-                        task.setNonConformance(((EditText) view.findViewById(R.id.editTextB1Remarks)).getText().toString());
-                        task.setCorrectiveActions(((EditText) view.findViewById(R.id.editTextCorrectiveAction)).getText().toString());
-                        task.setTargetCompletionDate(((EditText) view.findViewById(R.id.editTextB2RectificationDate)).getText().toString());
+                        task.setStatusComment(spinnerComment.getSelectedItem().toString());
+                        task.setToIssueCar(spinnerToIssueCar.getSelectedItem().toString());
+                        task.setNonConformance(editTextB1Remarks.getText().toString());
+                        task.setCorrectiveActions(editTextCorrectiveAction.getText().toString());
+                        task.setTargetCompletionDate(editTextB2RectificationDate.getText().toString());
                         task.setFormType(ipiTaskWrapper.getFormType());
 
                         getFragmentIPITaskList().startPostB2ProjectJobFormA(task, dialog);
@@ -628,11 +647,82 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                 })
                 .build();
 
+        /* SET UP View Listeners */
+        final View view = md2.getCustomView();
+
+        final ExpandableRelativeLayout expandableLayoutToIssueCar = (ExpandableRelativeLayout) view.findViewById(R.id.expandableLayoutToIssueCar);
+        expandableLayoutToIssueCar.move(0);
+
+        final ExpandableRelativeLayout expandableLayoutTCD = (ExpandableRelativeLayout) view.findViewById(R.id.expandableLayoutTCD);
+        expandableLayoutTCD.move(0);
+
         // Set Spinner Comment
-        Spinner spinner = new FragmentSetListHelper_ProjectJob().setSpinnerComment(ProjectJobViewPagerActivity.this, md2.getCustomView(), ipiTaskWrapper.getNonConformance());
+        LinearLayout layoutSpinnerCommnent = (LinearLayout) view.findViewById(R.id.layoutSpinnerCommnent);
+        final Spinner spinnerComment = new FragmentSetListHelper_ProjectJob()
+                .setSpinnerComment(
+                        ProjectJobViewPagerActivity.this,
+                        layoutSpinnerCommnent,
+                        ipiTaskWrapper.getNonConformance());
+
+        LinearLayout layoutSpinnerToIssueCar = (LinearLayout) view.findViewById(R.id.layoutSpinnerToIssueCar);
+        final Spinner spinnerToIssueCar = new FragmentSetListHelper_ProjectJob()
+                .setSpinnerCommentToIssueCar(
+                        ProjectJobViewPagerActivity.this,
+                        layoutSpinnerToIssueCar,
+                        "NO");
+
+        spinnerComment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String isYes = spinnerComment.getSelectedItem().toString();
+                Log.e(TAG, "onItemSelected isYes=" + isYes);
+
+                if (isYes.equals("NO")) {
+                    if (!expandableLayoutToIssueCar.isExpanded()) { // Show
+                        expandableLayoutToIssueCar.toggle();
+                    }
+                } else { // Hide
+                     expandableLayoutTCD.move(0);
+                    if (expandableLayoutToIssueCar.isExpanded()) { // Hide ToIssueCar Layout
+                        expandableLayoutToIssueCar.move(0);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerToIssueCar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String isYes = spinnerToIssueCar.getSelectedItem().toString();
+                Log.e(TAG, "onItemSelected isYes=" + isYes);
+
+                if (isYes.equals("YES")) {
+                    if (!expandableLayoutTCD.isExpanded()) { // Show
+                        expandableLayoutTCD.toggle();
+                    }
+                } else { // Hide
+                    expandableLayoutTCD.move(0);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        TextView spinnerTextView = (TextView) layoutSpinnerCommnent.findViewById(R.id.spinnerTextView);
+        spinnerTextView.setText("Update comments?");
+
+        TextView spinnerTextViewToIssueCar = (TextView) layoutSpinnerToIssueCar.findViewById(R.id.spinnerTextViewToIssueCar);
+        spinnerTextViewToIssueCar.setText("To issue CAR?  State Required Corrective Actions");
+
 
         // Set up EditText for Date Picker Dialog date
-        final View view = md2.getCustomView();
         editTextB2RectificationDate = (EditText) view.findViewById(R.id.editTextB2RectificationDate);
         editTextB2RectificationDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -675,7 +765,7 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
                         task.setDisposition(((EditText) view.findViewById(R.id.editTextDispostion)).getText().toString());
                         task.setFormType(ipiTaskFinalWrapper.getFormType());
 
-                        getFragmentIPITaskListFinal().startPostB2ProjectJobFormB(task, dialog);
+                        getFragmentIPITaskListCar().startPostB2ProjectJobFormB(task, dialog);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {

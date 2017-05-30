@@ -71,7 +71,7 @@ public class IPITaskListCARFragment extends Fragment
     private SwipeRefreshLayout swipeRefreshServiceJobLayout;
 
     private List<IPI_TaskCarWrapper> results = null;
-    private PJFinalTask_RenderList mAuthTask = null;
+    private PJCarTask_RenderList mAuthTask = null;
 
     // Instance Variable
     private int mTypeOfForm;
@@ -219,9 +219,11 @@ public class IPITaskListCARFragment extends Fragment
         robotoCalendarView.setVisibility(View.GONE);
     }
 
+    public void renderCarTaskList() { renderListFromCalendar(Calendar.getInstance()); }
+
     private void renderListFromCalendar(Calendar daySelectedCalendar) {
         String formattedDate = new CalendarFragment().convertLongDateToSimpleDate(daySelectedCalendar); // TODO: Should remove this from other Class on Section B
-        mAuthTask = new PJFinalTask_RenderList(formattedDate, "", mContext);
+        mAuthTask = new PJCarTask_RenderList(formattedDate, "", mContext);
         mAuthTask.execute((Void) null);
         //name.setText(formattedDate);
     }
@@ -265,7 +267,7 @@ public class IPITaskListCARFragment extends Fragment
      * Called on click of Date CAlendar the render a list of Services at CardView
      * Show a list of SJ retrieved from API
      */
-    private class PJFinalTask_RenderList extends AsyncTask<Void, Void, List<IPI_TaskCarWrapper>> {
+    private class PJCarTask_RenderList extends AsyncTask<Void, Void, List<IPI_TaskCarWrapper>> {
 
         public final String TAG = CalendarFragment.class.getSimpleName();
 
@@ -276,7 +278,7 @@ public class IPITaskListCARFragment extends Fragment
         private GetCommand getCommand;
         private ArrayList<String> projectIPITaskList = new ArrayList<>();
 
-        public PJFinalTask_RenderList(String date, String id, Context context) {
+        public PJCarTask_RenderList(String date, String id, Context context) {
             mDate = date;
             mID = id;
             mContext = context;

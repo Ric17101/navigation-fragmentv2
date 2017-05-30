@@ -145,6 +145,7 @@ public class FragmentSetListHelper_ProjectJob {
 
     public Spinner setSpinnerComment(Context context, View view, String compareValue) {
         ArrayList<String> options = new ArrayList<>();
+        // options.add("Accept?");
         options.add("YES");
         options.add("NO");
         options.add("N/A");
@@ -152,6 +153,25 @@ public class FragmentSetListHelper_ProjectJob {
                 android.R.layout.simple_spinner_item, options);
 
         Spinner spinnerComment = (Spinner) view.findViewById(R.id.spinnerComment);
+        spinnerComment.setAdapter(adapter);
+
+        if (!compareValue.equals(null)) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            spinnerComment.setSelection(spinnerPosition);
+        }
+        return spinnerComment;
+    }
+
+    public Spinner setSpinnerCommentToIssueCar(Context context, View view, String compareValue) {
+        ArrayList<String> options = new ArrayList<>();
+        // options.add("Accept?");
+        options.add("YES");
+        options.add("NO");
+        options.add("N/A");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
+                android.R.layout.simple_spinner_item, options);
+
+        Spinner spinnerComment = (Spinner) view.findViewById(R.id.spinnerCommentToIssueCar);
         spinnerComment.setAdapter(adapter);
 
         if (!compareValue.equals(null)) {

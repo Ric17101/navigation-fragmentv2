@@ -454,8 +454,9 @@ public class IPITaskListFragment extends Fragment
 
             @Override
             public void onEventResult(WebResponse response) {
+                WebResponse response2 = response;
                 Log.e(TAG, response.getStringResponse());
-                Log.e(TAG, response.getStringResponse());
+                //Log.e(TAG, response.getStringResponse());
                 dialog.dismiss();
 
                 // prompt user
@@ -466,7 +467,9 @@ public class IPITaskListFragment extends Fragment
                         .show();
 
                 // Goto Main Page
-                ((ProjectJobViewPagerActivity)getActivity()).backToLandingPage(1);
+                renderTaskList();
+                ((ProjectJobViewPagerActivity) getActivity()).fromFragmentNavigate(1);
+                ((ProjectJobViewPagerActivity) getActivity()).getFragmentIPITaskListCar().renderCarTaskList();
             }
         });
         projectJob.postIPITaskFormA(pissWrapper);

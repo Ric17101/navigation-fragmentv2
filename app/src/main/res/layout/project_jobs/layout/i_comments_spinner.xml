@@ -2,18 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/card_margin"
     android:orientation="vertical">
+
     <TextView
+        android:id="@+id/spinnerTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:layout_marginTop="18sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18sp"
         android:text="Comment"
         android:textSize="18sp"
         android:textStyle="normal|bold" />
+
     <Spinner
         android:id="@+id/spinnerComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
         android:focusable="true"/>
+
 </LinearLayout>

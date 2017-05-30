@@ -39,6 +39,7 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.ProjectJobViewPagerActivity;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.FIRSTCM_DOMAIN_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.NEW_DOMAIN_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
 
@@ -141,7 +142,7 @@ public class DrawingCanvasFragment extends Fragment implements
         mGestureView = (GestureView) view.findViewById(R.id.gestureView);
         mockImageView = (ImageView) view.findViewById(R.id.mockImageView);
 
-        String URI = NEW_DOMAIN_URL + this.mPissTask.getDrawingBefore();
+        String URI = FIRSTCM_DOMAIN_URL + this.mPissTask.getDrawingBefore();
         ((ProjectJobViewPagerActivity) getActivity())
                 .downloadImageFromURL(
                         DrawingCanvasFragment.this,

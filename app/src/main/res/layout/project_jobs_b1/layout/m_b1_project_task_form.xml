@@ -8,4 +8,5 @@
     <include layout="@layout/i_b1_task_form" />
 
     <include layout="@layout/i_edit_text_remarks" />
+
 </LinearLayout>

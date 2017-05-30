@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/activity_horizontal_margin"
@@ -8,94 +9,62 @@
 
     <include layout="@layout/include_this_then_no_edit_text_is_focus" />
 
-    <include layout="@layout/i_comments_spinner" />
-
-    <TextView
-        android:id="@+id/textViewTitleCommentRemarks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18sp"
-        android:text="Non-conformance comment"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
-
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
+        android:id="@+id/layoutSpinnerCommnent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/editTextB1Remarks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
-            android:background="@color/white"
-            android:fadeScrollbars="false"
-            android:gravity="top|left"
-            android:hint="comment"
-            android:inputType="textMultiLine"
-            android:lines="6"
-            android:overScrollMode="always"
-            android:scrollHorizontally="false"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </android.support.design.widget.TextInputLayout>
+        <include layout="@layout/i_comments_spinner" />
 
-    <TextView
-        android:id="@+id/textView14"
+    </LinearLayout>
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayoutToIssueCar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36sp"
-        android:text="Corrective Actions"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
+        android:background="@color/transparent"
+        app:ael_duration="500"
+        app:ael_interpolator="accelerateDecelerate"
+        app:ael_orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/editTextCorrectiveAction"
+        <LinearLayout
+            android:id="@+id/layoutSpinnerToIssueCar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18sp"
-            android:background="@color/white"
-            android:fadeScrollbars="false"
-            android:gravity="top|left"
-            android:hint="Corrective Actions"
-            android:overScrollMode="always"
-            android:scrollHorizontally="false"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical" />
-    </android.support.design.widget.TextInputLayout>
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView15"
+            <include layout="@layout/i_non_confirmance_text_area" />
+
+            <TextView
+                android:id="@+id/spinnerTextViewToIssueCar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18sp"
+                android:text="Comment"
+                android:textSize="18sp"
+                android:textStyle="normal|bold" />
+
+            <Spinner
+                android:id="@+id/spinnerCommentToIssueCar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+
+        </LinearLayout>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayoutTCD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36sp"
-        android:text="Completion Date"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
+        android:background="@color/transparent"
+        app:ael_duration="500"
+        app:ael_interpolator="accelerateDecelerate"
+        app:ael_orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <include layout="@layout/i_to_issue_car_hiding_panel" />
 
-        <EditText
-            android:id="@+id/editTextB2RectificationDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18sp"
-            android:background="@color/white"
-            android:fadeScrollbars="false"
-            android:focusable="false"
-            android:gravity="top|left"
-            android:hint="Completion Date DD/MM/YYYY"
-            android:overScrollMode="always"
-            android:scrollHorizontally="false"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical" />
-    </android.support.design.widget.TextInputLayout>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
 </LinearLayout>

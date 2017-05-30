@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36sp"
+        android:text="Corrective Actions"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextCorrectiveAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18sp"
+            android:background="@color/white"
+            android:fadeScrollbars="false"
+            android:gravity="top|left"
+            android:hint="Corrective Actions"
+            android:overScrollMode="always"
+            android:scrollHorizontally="false"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36sp"
+        android:text="Rectification Date"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextB2RectificationDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18sp"
+            android:background="@color/white"
+            android:fadeScrollbars="false"
+            android:focusable="false"
+            android:gravity="top|left"
+            android:hint="Rectification Date DD/MM/YYYY"
+            android:overScrollMode="always"
+            android:scrollHorizontally="false"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical" />
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

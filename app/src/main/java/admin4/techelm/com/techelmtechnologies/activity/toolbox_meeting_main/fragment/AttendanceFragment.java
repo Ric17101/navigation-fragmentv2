@@ -28,8 +28,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -61,6 +63,7 @@ import me.sudar.zxingorient.Barcode;
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_ATTENDEES_DELETE_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_ATTENDEES_UPLOAD_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_IMAGE_UPLOAD_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOX_MEETING_KEY;
@@ -72,7 +75,8 @@ import static android.Manifest.permission.CAMERA;
 public class AttendanceFragment extends Fragment implements View.OnClickListener {
 
     private Context mContext;
-    Button btnScanCode;
+    Button btnScanCode, btnAdd;
+    EditText editTextEmpCode;
     private static final String TAG = AttendanceFragment.class.getSimpleName();
     private static final int REQUEST_CAMERA = 0x00000011;
     ArrayList<String> list;
@@ -99,9 +103,11 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     private ImageButton mButtonViewUploadImage;
     private ProgressBar mProgressBarUploading;
 
-    private String attendees = "", fileName , filePath;
+    private String attendees = "", fileName , filePath , item;
 
     private ToolboxMeetingWrapper toolboxMeetingWrapper;
+
+    private ArrayAdapter<String> arrayAdapter;
 
     public static AttendanceFragment newInstance(ToolboxMeetingWrapper projectJobWrapper) {
         AttendanceFragment fragment = new AttendanceFragment();
@@ -138,8 +144,14 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         btnScanCode = (Button) view.findViewById(R.id.btnScanCode);
         btnScanCode.setOnClickListener(this);
 
+        btnAdd = (Button) view.findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(this);
+
         list = new ArrayList<>();
 
+        editTextEmpCode = (EditText) view.findViewById(R.id.editTextEmpCode);
+
+        arrayAdapter = new ArrayAdapter<String>(this.mContext,android.R.layout.simple_list_item_1, list);
 
         return view;
     }
@@ -186,7 +198,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                 overridePendingTransition(R.anim.enter, R.anim.exit);*/
 
                 uploadImage();
-                uploadAttendees();
                 ((ToolboxMeetingPagerActivity) getActivity()).fromFragmentNavigate(1);
             }
         });
@@ -220,6 +231,27 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                 // Handle ListView touch events.
                 v.onTouchEvent(event);
                 return true;
+            }
+        });
+        listAttendees.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                item = list.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                // Add the buttons
+                builder.setMessage("Delete "+ item + "?")
+                        .setTitle("DELETE")
+                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                list.remove(position);
+                                deleteAttendee(item);
+                                arrayAdapter.notifyDataSetChanged();
+                                Toast.makeText(getActivity(), "You delected : " + item, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                // Set other dialog properties
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }
@@ -256,6 +288,17 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
 
                 break;
+            case R.id.btnAdd:
+
+                Log.e("Added",editTextEmpCode.getText().toString());
+                list.add(editTextEmpCode.getText().toString());
+                listAttendees.setAdapter(arrayAdapter);
+                uploadAttendee(editTextEmpCode.getText().toString());
+                arrayAdapter.notifyDataSetChanged();
+                editTextEmpCode.setText("");
+
+
+                break;
         }
     }
 
@@ -272,18 +315,11 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         if (scanResult != null && scanResult.getContents() != null) {
 
             list.add(scanResult.getContents());
-
-
-            ArrayAdapter<String> arrayAdapter =
-                    new ArrayAdapter<String>(this.mContext,android.R.layout.simple_list_item_1, list);
-            // Set The Adapter
+            uploadAttendee(scanResult.getContents());
             listAttendees.setAdapter(arrayAdapter);
 
             Toast.makeText(getActivity(),
                     scanResult.getContents() + " has been scanned.", Toast.LENGTH_LONG).show();
-			for (String scanned : list){
-                Log.i("Scanned Items: ", scanned);
-            }
         }
         Bitmap bitmap;
         if (resultCode == Activity.RESULT_OK && scanResult == null) {
@@ -719,7 +755,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
     /*********** B. END CAMERA SETUP ***********/
 
-    private void uploadAttendees() {
+    /*private void uploadAttendees() {
 
         for (String scanned : list){
 
@@ -750,21 +786,16 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         // post.addParam("form_type", ipiWrapper.)
 
         post.startUpload();
-    }
+    }*/
 
-    private void uploadImage() {
+    private void uploadAttendee(String attendee) {
 
+        Log.e("ProjectJobID: ",mPojectjobID +"");
         UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
-
-        File file = new File(filePath);
-        Log.e(TAG, "Readable:"+ file.canRead());
-        Log.e("FILEPATH: ",filePath);
-
-        post.setContext(getActivity())
-                .setLink(TOOLBOXMEETING_IMAGE_UPLOAD_URL)
-                .addParam("projectjob_id", mPojectjobID+"")
-                .addParam("meeting_image","true")
-                .addImageFile(file, fileName,"image/jpeg")
+        post.setContext(this.mContext)
+                .setLink(TOOLBOXMEETING_ATTENDEES_UPLOAD_URL)
+                .addParam("projectjob_id", toolboxMeetingWrapper.getID()+"")
+                .addParam("meeting_attendee", attendee)
                 .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
                     @Override
                     public void onError(String msg, int success) {
@@ -776,7 +807,73 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                         Log.e(TAG, "Message " + msg + " Success:" + success);
                         //uploadTask.sleep();
                     }
-                }).build();
+                });
+
+        // TODO: Form Type based on th mode of Signature...
+        // post.addParam("form_type", ipiWrapper.)
+
+        post.startUpload();
+    }
+
+    private void deleteAttendee(String attendee) {
+
+        Log.e("ProjectJobID: ",">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
+        post.setContext(this.mContext)
+                .setLink(TOOLBOXMEETING_ATTENDEES_DELETE_URL)
+                .addParam("projectjob_id", toolboxMeetingWrapper.getID()+"")
+                .addParam("meeting_attendee", attendee)
+                .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
+                    @Override
+                    public void onError(String msg, int success) {
+                        Log.e(TAG, "Message " + msg + " Error:" + success);
+                    }
+
+                    @Override
+                    public void onSuccess(String msg, int success) {
+                        Log.e(TAG, "Message " + msg + " Success:" + success);
+                        //uploadTask.sleep();
+                    }
+                });
+
+        // TODO: Form Type based on th mode of Signature...
+        // post.addParam("form_type", ipiWrapper.)
+
+        post.startUpload();
+    }
+
+    private void uploadImage() {
+
+        UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
+        File file;
+        post.setContext(getActivity())
+                .setLink(TOOLBOXMEETING_IMAGE_UPLOAD_URL)
+                .addParam("projectjob_id", mPojectjobID+"");
+
+        if(filePath != null){
+            Log.wtf("IMAGE ATTENDANCE: ", filePath);
+            file = new File(filePath);
+            if(file.canRead()){
+
+                post.addParam("meeting_image","true")
+                        .addImageFile(file, fileName,"image/jpeg");
+            }
+        }
+        else{
+            post.addParam("meeting_image","false");
+        }
+        post.setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
+            @Override
+            public void onError(String msg, int success) {
+                Log.e(TAG, "Message " + msg + " Error:" + success);
+            }
+
+            @Override
+            public void onSuccess(String msg, int success) {
+                Log.e(TAG, "Message " + msg + " Success:" + success);
+                //uploadTask.sleep();
+            }
+        }).build();
 
         post.startUpload();
     }

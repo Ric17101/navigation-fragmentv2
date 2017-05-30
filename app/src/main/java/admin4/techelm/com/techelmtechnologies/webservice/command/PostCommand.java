@@ -1,6 +1,8 @@
 package admin4.techelm.com.techelmtechnologies.webservice.command;
 
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
@@ -12,6 +14,7 @@ import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 public class PostCommand implements WebCommand {
     private WebServiceInfo webInfo;
     private HttpURLConnection con;
+    private final static String TAG = PostCommand.class.getSimpleName();
 
     public PostCommand(WebServiceInfo webInfo) {
         this.webInfo = webInfo;
@@ -28,6 +31,7 @@ public class PostCommand implements WebCommand {
 			/*get data*/
             int responseCode = con.getResponseCode();
             String result = UtilNetConnection.inputStreamToString(con.getInputStream());
+            Log.e(TAG, "WebResponse execute() " + result);
 			/*set data*/
             response.setResponseCode(responseCode);
             response.setStringResponse(result);

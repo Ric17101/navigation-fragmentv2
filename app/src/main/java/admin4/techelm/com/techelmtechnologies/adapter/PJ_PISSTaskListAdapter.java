@@ -26,6 +26,7 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.Fr
 import admin4.techelm.com.techelmtechnologies.adapter.listener.PISSTaskListener;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSTaskWrapper;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_TASK_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_TASK_START_DRAWING;
@@ -198,7 +199,7 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
                             mCallback,
                             getAdapterPosition(),
                             mDataSet.get(getAdapterPosition()),
-                            mDataSet.get(getAdapterPosition()).getStatus());
+                            PROJECT_JOB_TASK_START_DRAWING);
                 }
             }
 

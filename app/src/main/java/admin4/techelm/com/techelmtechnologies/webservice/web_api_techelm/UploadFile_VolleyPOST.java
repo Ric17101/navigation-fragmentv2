@@ -285,8 +285,6 @@ public class UploadFile_VolleyPOST {
         }
     }
 
-
-
     /**
      * to convert a file object into a drawable
      * @return null if not convertable into (mime data like "image/jpeg")

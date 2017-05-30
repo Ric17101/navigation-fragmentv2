@@ -419,18 +419,28 @@ public class PISSTaskListFragment extends Fragment
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         View view = dialog.getCustomView();
+                        EditText editTextB1Remarks = (EditText) view.findViewById(R.id.editTextB1Remarks);
+                        editTextB1Remarks.setLines(6);
+                        EditText editTextPO = (EditText) view.findViewById(R.id.editTextPO);
+                        EditText editTextPOTel = (EditText) view.findViewById(R.id.editTextPOTel);
+                        EditText editTextPOBranch = (EditText) view.findViewById(R.id.editTextPOBranch);
+                        EditText editTextPOMobile = (EditText) view.findViewById(R.id.editTextPOMobile);
+                        EditText editTextTC = (EditText) view.findViewById(R.id.editTextTC);
+                        EditText editTextTCTel = (EditText) view.findViewById(R.id.editTextTCTel);
+                        EditText editTextTCEmail = (EditText) view.findViewById(R.id.editTextTCEmail);
+                        EditText editTextTCMobile = (EditText) view.findViewById(R.id.editTextTCMobile);
 
                         PISSWrapper pissWrapper = new PISSWrapper();
                         // pissWrapper.setID(Integer.parseInt(((EditText) view.findViewById(R.id.editTextPO)).getText().toString()));
                         pissWrapper.setProjectJobID(mProjectJob.getID() + "");
-                        pissWrapper.setPropertyOfficer(((EditText) view.findViewById(R.id.editTextPO)).getText().toString());
-                        pissWrapper.setPropertyOfficerTelNo(((EditText) view.findViewById(R.id.editTextPOTel)).getText().toString());
-                        pissWrapper.setPropertyOfficerBranch(((EditText) view.findViewById(R.id.editTextPOBranch)).getText().toString());
-                        pissWrapper.setPropertyOfficerMobileNo(((EditText) view.findViewById(R.id.editTextPOMobile)).getText().toString());
-                        pissWrapper.setTCLew(((EditText) view.findViewById(R.id.editTextTC)).getText().toString());
-                        pissWrapper.setTCLewTelNo(((EditText) view.findViewById(R.id.editTextTCTel)).getText().toString());
-                        pissWrapper.setTCLewEmail(((EditText) view.findViewById(R.id.editTextTCEmail)).getText().toString());
-                        pissWrapper.setTCLewMobileNo(((EditText) view.findViewById(R.id.editTextTCMobile)).getText().toString());
+                        pissWrapper.setPropertyOfficer(editTextPO.getText().toString());
+                        pissWrapper.setPropertyOfficerTelNo(editTextPOTel.getText().toString());
+                        pissWrapper.setPropertyOfficerBranch(editTextPOBranch.getText().toString());
+                        pissWrapper.setPropertyOfficerMobileNo(editTextPOMobile.getText().toString());
+                        pissWrapper.setTCLew(editTextTC.getText().toString());
+                        pissWrapper.setTCLewTelNo(editTextTCTel.getText().toString());
+                        pissWrapper.setTCLewEmail(editTextTCEmail.getText().toString());
+                        pissWrapper.setTCLewMobileNo(editTextTCMobile.getText().toString());
 
                         startPostB1ProjectJobForm(pissWrapper, dialog);
                     }
