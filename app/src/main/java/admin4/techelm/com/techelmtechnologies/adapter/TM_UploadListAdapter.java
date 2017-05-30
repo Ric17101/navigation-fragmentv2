@@ -1,4 +1,4 @@
-package admin4.techelm.com.techelmtechnologies.adapter.listener;
+package admin4.techelm.com.techelmtechnologies.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingUploadsWrapper;
 
@@ -26,7 +25,7 @@ import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetin
 
 public class TM_UploadListAdapter extends RecyclerView.Adapter<TM_UploadListAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = "UplaodsListAdapter";
+    private static final String TAG = TM_UploadListAdapter.class.getSimpleName();
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
     private List<ToolboxMeetingUploadsWrapper> mDataSet = new ArrayList<>();
@@ -47,7 +46,7 @@ public class TM_UploadListAdapter extends RecyclerView.Adapter<TM_UploadListAdap
             mCallback = (TM_UploadListAdapter.CallbackInterface) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         // System.gc();
     }
@@ -77,9 +76,9 @@ public class TM_UploadListAdapter extends RecyclerView.Adapter<TM_UploadListAdap
     @Override
     public void onBindViewHolder(final TM_UploadListAdapter.ViewHolder holder, final int position) {
         serviceUploadDataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewNameRecord.setText(serviceUploadDataSet.getUploadName() + " uploaded.");
+        holder.textViewNameRecord.setText(serviceUploadDataSet.getFilePath() + " uploaded.");
 
-        Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
+        Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
                 serviceUploadDataSet.getFilePath() + serviceUploadDataSet.getUploadName());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
@@ -156,7 +155,7 @@ public class TM_UploadListAdapter extends RecyclerView.Adapter<TM_UploadListAdap
 
             // ImageButtons
             imageButtonDelete = (ImageButton) view.findViewById(R.id.imageButtonDelete);
-            imageButtonDelete.setVisibility(View.GONE);
+            // imageButtonDelete.setVisibility(View.GONE);
             imageButtonDelete.setOnClickListener(this);
 
             imageButtonUploaded = (ImageButton) view.findViewById(R.id.imageButtonUploaded);

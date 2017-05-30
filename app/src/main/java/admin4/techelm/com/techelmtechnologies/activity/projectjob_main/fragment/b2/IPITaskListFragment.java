@@ -455,8 +455,7 @@ public class IPITaskListFragment extends Fragment
             @Override
             public void onEventResult(WebResponse response) {
                 WebResponse response2 = response;
-                Log.e(TAG, response.getStringResponse());
-                //Log.e(TAG, response.getStringResponse());
+                Log.e(TAG, response.getStringResponse().toString());
                 dialog.dismiss();
 
                 // prompt user

@@ -17,7 +17,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper
 
 public class AddReplacementPart_FRGMT_3 extends Fragment {
 
-    private static final String TAG = "AddReplacementPart_FRGMT_3";
+    private static final String TAG = AddReplacementPart_FRGMT_3.class.getSimpleName();
     private Context mContext;
 
     private Spinner spinnerReplacementParts;
@@ -58,6 +58,7 @@ public class AddReplacementPart_FRGMT_3 extends Fragment {
         this.mContext = container.getContext();
 
         initSpinner(view);
+
         initButton(view);
 
         return view;

@@ -150,6 +150,7 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
         public final TextView textViewTask;
 
         private final FrameLayout frameLayoutButtonSJ;
+        public final FrameLayout buttonTaskFrameLayout;
 
         public final TextView textViewLabelDetail1;
         public final TextView textViewLabelDetail2;
@@ -172,7 +173,9 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
 
             // ImageButtons
             buttonTask = (ImageButton) view.findViewById(R.id.buttonTask);
-            buttonTask.setOnClickListener(this);
+            // buttonTask.setOnClickListener(this);
+            buttonTaskFrameLayout = (FrameLayout) view.findViewById(R.id.buttonTaskFrameLayout);
+            buttonTaskFrameLayout.setOnClickListener(this);
 
             // ImageButton Links
             textViewTask = (TextView) view.findViewById(R.id.textViewTask);
@@ -193,7 +196,7 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_TASK);
                 }
-            } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
+            } else if (v.getId() == buttonTaskFrameLayout.getId()) {
                 if (mCallback != null) {
                     mSetHelper.setActionOnClick(
                             mCallback,

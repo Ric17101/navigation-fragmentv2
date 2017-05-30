@@ -145,6 +145,7 @@ public class PJ_IPICarTaskListAdapter extends RecyclerView.Adapter<PJ_IPICarTask
 
         public final ImageButton buttonTask;
         public final TextView textViewTask;
+        public final FrameLayout buttonTaskFrameLayout;
 
         private final FrameLayout frameLayoutButtonSJ;
 
@@ -169,7 +170,9 @@ public class PJ_IPICarTaskListAdapter extends RecyclerView.Adapter<PJ_IPICarTask
 
             // ImageButtons
             buttonTask = (ImageButton) view.findViewById(R.id.buttonTask);
-            buttonTask.setOnClickListener(this);
+            //buttonTask.setOnClickListener(this);
+            buttonTaskFrameLayout = (FrameLayout) view.findViewById(R.id.buttonTaskFrameLayout);
+            buttonTaskFrameLayout.setOnClickListener(this);
 
             // ImageButton Links
             textViewTask = (TextView) view.findViewById(R.id.textViewTask);
@@ -190,7 +193,7 @@ public class PJ_IPICarTaskListAdapter extends RecyclerView.Adapter<PJ_IPICarTask
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_TASK);
                 }
-            } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
+            } else if (v.getId() == buttonTaskFrameLayout.getId()) {
                 if (mCallback != null) {
                     mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), PROJECT_JOB_IPI_CORRECTIVE_ACTION_TASK_FORM);
                 }

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.fragment.FragmentSetListHelper_ToolboxMeeting;
+import admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.helper.FragmentSetListHelper_ToolboxMeeting;
 import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_TOOLBOX_MEETING;
@@ -157,6 +157,7 @@ public class TM_ListAdapter extends RecyclerView.Adapter<TM_ListAdapter.ViewHold
         public final TextView textViewTask;
 
         private final FrameLayout frameLayoutButtonSJ;
+        public final FrameLayout buttonTaskFrameLayout;
 
         public ViewHolder(View view) {
             super(view);
@@ -174,7 +175,9 @@ public class TM_ListAdapter extends RecyclerView.Adapter<TM_ListAdapter.ViewHold
 
             // ImageButtons
             buttonTask = (ImageButton) view.findViewById(R.id.buttonTask);
-            buttonTask.setOnClickListener(this);
+            //buttonTask.setOnClickListener(this);
+            buttonTaskFrameLayout = (FrameLayout) view.findViewById(R.id.buttonTaskFrameLayout);
+            buttonTaskFrameLayout.setOnClickListener(this);
 
             // ImageButton Links
             textViewTask = (TextView) view.findViewById(R.id.textViewTask);
@@ -190,7 +193,7 @@ public class TM_ListAdapter extends RecyclerView.Adapter<TM_ListAdapter.ViewHold
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
 
                 }
-            } else if (v.getId() == buttonTask.getId() || v.getId() == textViewTask.getId()) {
+            } else if (v.getId() == buttonTaskFrameLayout.getId()) {
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_TOOLBOX_MEETING);
                 }

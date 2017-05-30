@@ -12,13 +12,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOX_MEETING_KEY;
 
 public class ToolboxMeetingFragmentTab extends Fragment {
 
@@ -36,7 +42,7 @@ public class ToolboxMeetingFragmentTab extends Fragment {
         ToolboxMeetingFragmentTab fragment = new ToolboxMeetingFragmentTab();
         Bundle args = new Bundle();
 
-        args.putParcelable("TOOLBOX_MEETING", toolboxMeetingWrapper);
+        args.putParcelable(TOOLBOX_MEETING_KEY, toolboxMeetingWrapper);
         fragment.setArguments(args);
 
         return fragment;
@@ -48,6 +54,10 @@ public class ToolboxMeetingFragmentTab extends Fragment {
         fromBundle();
     }
 
+    private void fromBundle() {
+        this.toolboxMeetingWrapper = getArguments().getParcelable(TOOLBOX_MEETING_KEY);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +65,8 @@ public class ToolboxMeetingFragmentTab extends Fragment {
          *Inflate tab_layout and setup Views.
          */
         View view = inflater.inflate(R.layout.tab_layout, null); // View x = inflater.inflate(R.layout.tab_layout, container, false);
+
+        setHeaderVisibilityByFragmentPosition(view);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         hScrollViewTab = (HorizontalScrollView) view.findViewById(R.id.hScrollViewTab);
@@ -88,13 +100,13 @@ public class ToolboxMeetingFragmentTab extends Fragment {
             }
         });
 
+        initHeader(view);
         return view;
     }
 
-    private void fromBundle() {
-
-        this.toolboxMeetingWrapper = getArguments().getParcelable("TOOLBOX_MEETING");
-        //toolboxMeetingUploadsWrapper.setProjectjobID(toolboxMeetingWrapper.getID());
+    private void initHeader(View view) {
+        inti_B2HeaderDetails(view);
+        Log.e(TAG, "initHeader");
     }
 
     // Just to Initialize the Button Next, Prev in ProjectJobViewPagerActivty
@@ -115,6 +127,34 @@ public class ToolboxMeetingFragmentTab extends Fragment {
 
     private int getCurrentPosition() { return viewPager.getCurrentItem(); }
     private int getItem(int i) { return getCurrentPosition() + i; }
+
+    // Just to show the Header Layout ONLY FOR THE ProjectJob - SECTION B
+    private void setHeaderVisibilityByFragmentPosition(View view) {
+        LinearLayout projectJobLayoutB2B3Header = (LinearLayout) view.findViewById(R.id.projectJobLayoutB2B3Header);
+        projectJobLayoutB2B3Header.setVisibility(View.VISIBLE);
+    }
+
+    // Header for B2 and B3
+    private void inti_B2HeaderDetails(View view) {
+        TextView textViewLabelProjRef = (TextView) view.findViewById(R.id.textViewLabelProjRef);
+        TextView textViewLabelDateOfSiteWalk2 = (TextView) view.findViewById(R.id.textViewLabelDateOfSiteWalk2); // This is not used...
+        TextView textViewLabelProjectSite = (TextView) view.findViewById(R.id.textViewLabelProjectSite);
+        TextView textViewLabelSubContractor = (TextView) view.findViewById(R.id.textViewLabelSubContractor);
+        TextView textViewLabelInspectionDate = (TextView) view.findViewById(R.id.textViewLabelInspectionDate);
+        TextView textViewLabelWorkCompletionDate = (TextView) view.findViewById(R.id.textViewLabelWorkCompletionDate);
+        TextView textViewLabelSignature = (TextView) view.findViewById(R.id.textViewLabelSignature);
+
+        textViewLabelProjRef.setText(this.toolboxMeetingWrapper.getProjectRef());
+        textViewLabelProjectSite.setText(this.toolboxMeetingWrapper.getProjectSite());
+        textViewLabelSubContractor.setText(this.toolboxMeetingWrapper.getSecondInspector());
+        textViewLabelInspectionDate.setText(this.toolboxMeetingWrapper.getStartDate());
+        textViewLabelWorkCompletionDate.setText(this.toolboxMeetingWrapper.getTargetCompletionDate());
+        textViewLabelSignature.setText(this.toolboxMeetingWrapper.getStatus() + "");
+
+        // Title of the TAB
+        TextView textViewLabelTitleTab = (TextView) view.findViewById(R.id.textViewLabelTitleTab);
+        textViewLabelTitleTab.setText("Toolbox Meeting");
+    }
 
     class MyAdapter extends FragmentPagerAdapter {
         public MyAdapter(FragmentManager fm) {

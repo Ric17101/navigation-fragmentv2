@@ -31,6 +31,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -44,8 +45,8 @@
         app:pstsIndicatorColor="@color/white"
         app:pstsTabSwitch="true"
         app:pstsIndicatorHeight="2sp"
-        app:pstsActivateTextColor="#FF666666"
-        app:pstsDeactivateTextColor="#FF666666"/>
+        app:pstsActivateTextColor="@color/white"
+        app:pstsDeactivateTextColor="@color/white"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

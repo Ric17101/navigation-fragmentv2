@@ -61,6 +61,7 @@ public class JSONHelper {
             Log.d("InputStream",result);
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
+            Log.d("InputStream Exception", e.getMessage());
             result = "error";
         }
 

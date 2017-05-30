@@ -24,8 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -36,8 +34,9 @@ import java.util.HashMap;
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
-import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.FragmentSetListHelper_ProjectJob;
+import admin4.techelm.com.techelmtechnologies.adapter.TM_UploadListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.toolboxmeeting.UploadsTMDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
@@ -49,12 +48,11 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.NAVIGATIO
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B1;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_B3;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FORM_TYPE_KEY;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOX_MEETING_KEY;
 
 public class ToolboxMeetingPagerActivity extends FragmentActivity implements
         // TM_ListAdapter.ProjectJobListener,
+        TM_UploadListAdapter.CallbackInterface,
         DatePickerDialog.OnDateSetListener,
         UploadsTMDBUtil.OnDatabaseChangedListener,
         OpenDialog {
@@ -585,6 +583,20 @@ public class ToolboxMeetingPagerActivity extends FragmentActivity implements
 
     @Override
     public void onUploadsDBEntryDeleted() {
+
+    }
+
+    // TM_UploadListAdapter Listener
+    @Override
+    public void onHandleUploadsSelection(int position, ToolboxMeetingUploadsWrapper serviceJobRecordingWrapper, int mode) {
+
+    }
+    @Override
+    public void onHandleDeleteUploadsFromListSelection(int id) {
+
+    }
+    @Override
+    public void onHandleViewUploadFromListSelection(ToolboxMeetingUploadsWrapper serviceJobRecordingWrapper) {
 
     }
 

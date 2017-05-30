@@ -33,7 +33,7 @@
         android:textColor="@color/white"
         app:pstsTabSwitch="false"
         app:pstsShouldExpand="true"
-        app:pstsIndicatorHeight="2sp"
+        app:pstsIndicatorHeight="6sp"
         app:tabMaxWidth="0dp"
         app:tabMode="fixed"
         app:tabGravity="fill"

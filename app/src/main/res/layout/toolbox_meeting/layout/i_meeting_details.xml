@@ -5,11 +5,14 @@
     android:layout_height="match_parent"
     android:layout_alignParentStart="true"
     android:layout_alignParentTop="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:paddingBottom="@dimen/card_margin"
     android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10sp">
 
@@ -19,31 +22,35 @@
             android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="Meeting Details"
             android:textSize="18sp"
-            android:textStyle="normal|bold"
-            android:layout_marginTop="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textStyle="normal|bold" />
 
-        <EditText
-            android:id="@+id/editTextMeetingDetails"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:gravity="top|left"
-            android:inputType="textMultiLine"
-            android:overScrollMode="always"
-            android:scrollbarStyle="insideInset"
-            android:fadeScrollbars="false"
-            android:scrollbars="vertical"
-            android:lines="30"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:scrollHorizontally="false"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/textView13"
-            android:layout_alignParentStart="true" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editTextMeetingDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView13"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:fadeScrollbars="false"
+                android:gravity="top|left"
+                android:hint="Input attendee's name"
+                android:inputType="textMultiLine"
+                android:lines="30"
+                android:overScrollMode="always"
+                android:scrollHorizontally="false"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 </ScrollView>

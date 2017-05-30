@@ -191,7 +191,7 @@ public class SJ_UnsignedListAdapter extends RecyclerView.Adapter<SJ_UnsignedList
 //        private final TextView textViewEditDetails;
 //        private final TextView textViewViewDetails;
 
-//        private final FrameLayout frameLayoutButtonResults;
+        public final FrameLayout buttonTaskFrameLayout;
         private final FrameLayout frameLayoutButtonSJ;
 
         private ViewHolder(View view) {
@@ -219,7 +219,9 @@ public class SJ_UnsignedListAdapter extends RecyclerView.Adapter<SJ_UnsignedList
             buttonViewDetails = (ImageButton) view.findViewById(R.id.buttonViewDetails);
             buttonViewDetails.setOnClickListener(this);*/
             buttonTask = (ImageButton) view.findViewById(R.id.buttonTask);
-            buttonTask.setOnClickListener(this);
+            //buttonTask.setOnClickListener(this);
+            buttonTaskFrameLayout = (FrameLayout) view.findViewById(R.id.buttonTaskFrameLayout);
+            buttonTaskFrameLayout.setOnClickListener(this);
 
             // ImageButton Links
             /*textViewEditDetails = (TextView) view.findViewById(R.id.textViewEditDetails);
@@ -240,7 +242,7 @@ public class SJ_UnsignedListAdapter extends RecyclerView.Adapter<SJ_UnsignedList
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
                 }
-            } else if (v.getId() == buttonTask.getId()/*v.getId() == buttonEditDetails.getId()*/) {
+            } else if (v.getId() == buttonTaskFrameLayout.getId()) {
                 if (mCallback != null) {
                     mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), mDataSet.get(getAdapterPosition()).getStatus());
                 }

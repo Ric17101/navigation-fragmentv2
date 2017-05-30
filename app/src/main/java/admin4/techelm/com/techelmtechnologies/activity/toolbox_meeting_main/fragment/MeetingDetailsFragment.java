@@ -27,6 +27,7 @@ import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_MEETING_DETAILS_UPLOAD_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOX_MEETING_KEY;
 
 /**
  *
@@ -49,7 +50,7 @@ public class MeetingDetailsFragment extends Fragment {
         MeetingDetailsFragment fragment = new MeetingDetailsFragment();
         Bundle args = new Bundle();
 
-        args.putParcelable("TOOLBOX_MEETING", projectJobWrapper);
+        args.putParcelable(TOOLBOX_MEETING_KEY, projectJobWrapper);
         fragment.setArguments(args);
 
         return fragment;
@@ -63,7 +64,7 @@ public class MeetingDetailsFragment extends Fragment {
     }
 
     private void fromBundle() {
-        this.toolboxMeetingWrapper = getArguments().getParcelable("TOOLBOX_MEETING");
+        this.toolboxMeetingWrapper = getArguments().getParcelable(TOOLBOX_MEETING_KEY);
     }
 
     @Nullable
@@ -75,6 +76,7 @@ public class MeetingDetailsFragment extends Fragment {
         this.mContext = container.getContext();
 
         initButton(view);
+
         initFormView(view);
 
         initPermissions();
@@ -138,8 +140,6 @@ public class MeetingDetailsFragment extends Fragment {
                 MaterialDialog md = showSigningDialog(view);
             }
         });
-
-
     }
 
     private void initPermissions() {

@@ -42,12 +42,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.88"
-                    android:gravity="center_vertical"
-                    android:text="@string/image_name_jpg_uploaded"
-                    android:scrollHorizontally="true"
                     android:ellipsize="marquee"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
-                    android:textSize="12sp" />
+                    android:scrollHorizontally="true"
+                    android:text="@string/image_name_jpg_uploaded"
+                    android:textSize="14sp" />
 
 
                 <ImageButton
@@ -70,7 +70,7 @@
                     android:layout_marginRight="10sp"
                     android:gravity="center_vertical"
                     android:text="@string/delete"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </TableRow>
 
         </TableLayout>

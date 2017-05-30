@@ -2,6 +2,7 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 
 /**
  * Created by admin 4 on 16/02/2017.
+ *
  */
 
 import android.content.Context;
@@ -32,7 +33,7 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.*;
 
 public class SJ_CalendarListAdapter extends RecyclerView.Adapter<SJ_CalendarListAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = "RecyclerViewAdapter";
+    private static final String TAG = SJ_CalendarListAdapter.class.getSimpleName();
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
 
@@ -100,7 +101,7 @@ public class SJ_CalendarListAdapter extends RecyclerView.Adapter<SJ_CalendarList
         holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
 
-        Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
+        Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
@@ -185,7 +186,8 @@ public class SJ_CalendarListAdapter extends RecyclerView.Adapter<SJ_CalendarList
         private final TextView textViewEditDetails;
         private final TextView textViewViewDetails;
 
-         private final FrameLayout frameLayoutButtonSJ;
+        private final FrameLayout frameLayoutButtonSJ;
+        public final FrameLayout buttonTaskFrameLayout;
 
         private ViewHolder(View view) {
             super(view);
@@ -210,7 +212,9 @@ public class SJ_CalendarListAdapter extends RecyclerView.Adapter<SJ_CalendarList
 
             // ImageButtons
             buttonTask = (ImageButton) view.findViewById(R.id.buttonTask);
-            buttonTask.setOnClickListener(this);
+            // buttonTask.setOnClickListener(this);
+            buttonTaskFrameLayout = (FrameLayout) view.findViewById(R.id.buttonTaskFrameLayout);
+            buttonTaskFrameLayout.setOnClickListener(this);
 
             // ImageButton Links
             textViewEditDetails = (TextView) view.findViewById(R.id.textViewEditDetails);
@@ -229,7 +233,7 @@ public class SJ_CalendarListAdapter extends RecyclerView.Adapter<SJ_CalendarList
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
                 }
             } else
-            if (v.getId() == buttonTask.getId()) {
+            if (v.getId() == buttonTaskFrameLayout.getId()) {
                 if (mCallback != null) {
                     mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), mDataSet.get(getAdapterPosition()).getStatus());
                 }

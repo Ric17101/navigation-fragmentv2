@@ -14,6 +14,7 @@
 
     <!-- CheeseCake Sampler -->
     <dimen name="detail_backdrop_height">256sp</dimen>
+    <dimen name="button_margin">8sp</dimen>
     <dimen name="card_margin">16sp</dimen>
     <dimen name="fab_margin">16sp</dimen>
     <dimen name="list_item_avatar_size">40sp</dimen>

@@ -10,7 +10,7 @@
             android:scrollHorizontally="true"
             android:ellipsize="marquee"
             android:maxLines="1"
-            android:title="SERVICES JOB" />
+            android:title="SERVICE JOB" />
         <item
             android:id="@+id/nav_projectjobs"
             android:checked="true"

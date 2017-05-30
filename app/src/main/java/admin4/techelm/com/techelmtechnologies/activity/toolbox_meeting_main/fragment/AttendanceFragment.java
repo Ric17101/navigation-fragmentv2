@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,9 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
-import admin4.techelm.com.techelmtechnologies.adapter.listener.TM_UploadListAdapter;
-import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.adapter.TM_UploadListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.toolboxmeeting.UploadsTMDBUtil;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingUploadsWrapper;
@@ -122,7 +121,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     @Override
     public void onCreate(@Nullable Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-
         fromBundle();
     }
 
@@ -134,13 +132,23 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.attendance_layout, null);
+
         initButton(view);
+
         initPermission();
+
         initSpinnerProgessBar(view);
+
         setUpViews(view);
 
         this.mContext = container.getContext();
 
+        initScanner(view);
+
+        return view;
+    }
+
+    private void initScanner(View view) {
         btnScanCode = (Button) view.findViewById(R.id.btnScanCode);
         btnScanCode.setOnClickListener(this);
 
@@ -151,9 +159,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
         editTextEmpCode = (EditText) view.findViewById(R.id.editTextEmpCode);
 
-        arrayAdapter = new ArrayAdapter<String>(this.mContext,android.R.layout.simple_list_item_1, list);
-
-        return view;
+        arrayAdapter = new ArrayAdapter<String>(this.mContext, android.R.layout.simple_list_item_1, list);
     }
 
     /**
@@ -277,18 +283,17 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnScanCode:
-
                 new ZxingOrient(AttendanceFragment.this)
                         .setInfo("QR code Scanner")
-                        //.setToolbarColor("#c099cc00")
-                        //.setInfoBoxColor("#c099cc00")
+                        .setToolbarColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.colorPrimary1)))
+                        .setInfoBoxColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.colorPrimary1)))
+                        .setIcon(R.mipmap.logo_icon)
                         .setBeep(false)
                         .setVibration(true)
                         .initiateScan(Barcode.QR_CODE);
-
-
                 break;
             case R.id.btnAdd:
+                if (editTextEmpCode.getText().toString() == "") break;
 
                 Log.e("Added",editTextEmpCode.getText().toString());
                 list.add(editTextEmpCode.getText().toString());
@@ -296,8 +301,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                 uploadAttendee(editTextEmpCode.getText().toString());
                 arrayAdapter.notifyDataSetChanged();
                 editTextEmpCode.setText("");
-
-
                 break;
         }
     }

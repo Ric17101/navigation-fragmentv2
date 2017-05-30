@@ -19,18 +19,8 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:layout_alignParentStart="true">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription=""
-            android:paddingTop="30sp"
-            app:srcCompat="@mipmap/complete_icon"
-            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/textViewSignIn"
@@ -38,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="TASK COMPETED"
             android:textAlignment="center"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:textStyle="normal|bold" />
 
         <TextView
@@ -47,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="Thank you."
             android:textAlignment="center"
-            android:textSize="@dimen/small_text_size_for_employee_only" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textViewTextForStaffOnly2"
@@ -55,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="The report will be automatically sent to your customer"
             android:textAlignment="center"
-            android:textSize="@dimen/small_text_size_for_employee_only" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textViewTextForStaffOnly3"
@@ -63,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="via their email address."
             android:textAlignment="center"
-            android:textSize="@dimen/small_text_size_for_employee_only" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/buttonShowDetailsOnTheWeb"
@@ -73,6 +63,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30sp"
             android:background="@color/colorBlueButtonThemed"
+            android:clickable="true"
             android:contentDescription="@string/app_name"
             android:paddingEnd="10sp"
             android:paddingLeft="10sp"
@@ -80,7 +71,8 @@
             android:paddingStart="10sp"
             android:text="SHOW ON DETAILS ON THE WEB"
             android:textAlignment="center"
-            android:textColor="@color/textColorWhite" />
+            android:textColor="@color/textColorWhite"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <FrameLayout
@@ -100,6 +92,17 @@
             android:text="BACK TO TASK"
             android:textColor="@color/textColorWhite" />
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:contentDescription="Image Task Completed"
+        android:paddingTop="30sp"
+        app:srcCompat="@mipmap/complete_icon"
+        tools:ignore="ContentDescription"
+        android:layout_above="@+id/email_login_form"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

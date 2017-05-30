@@ -14,5 +14,7 @@
     tools:showIn="@layout/m_add_replacement_part">
 
     <include layout="@layout/i_new_replacement_part" />
+
     <include layout="@layout/button_previous_next" />
+
 </RelativeLayout>

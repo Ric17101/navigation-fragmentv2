@@ -275,9 +275,12 @@
                             android:layout_height="match_parent">
 
                             <FrameLayout
+                                android:id="@+id/buttonTaskFrameLayout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentEnd="true"
+                                android:background="?selectableItemBackgroundBorderless"
+                                android:clickable="true"
                                 android:layout_alignParentTop="true">
 
                                 <LinearLayout
@@ -289,7 +292,6 @@
                                     android:paddingRight="10dp"
                                     android:paddingStart="10dp">
 
-
                                     <ImageButton
                                         android:id="@+id/buttonTask"
                                         android:layout_width="50sp"
@@ -297,25 +299,22 @@
                                         android:layout_gravity="end"
                                         android:layout_margin="10sp"
                                         android:adjustViewBounds="false"
-                                        android:background="?selectableItemBackgroundBorderless"
-                                        android:clickable="true"
                                         android:padding="7sp"
                                         android:scaleType="fitCenter"
+                                        android:background="@null"
+                                        android:clickable="false"
                                         android:src="@mipmap/begin_icon" />
 
                                     <TextView
                                         android:id="@+id/textViewTask"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:clickable="true"
                                         android:text="View>>"
                                         android:textAlignment="center"
                                         android:textColorLink="@color/colorAccent"
                                         android:textSize="10sp" />
                                 </LinearLayout>
                             </FrameLayout>
-
-
                         </RelativeLayout>
 
                     </LinearLayout>

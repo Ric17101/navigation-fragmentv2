@@ -143,6 +143,7 @@ public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.View
         public final TextView textViewTask;
 
         private final FrameLayout frameLayoutButtonSJ;
+        private final FrameLayout buttonTaskFrameLayout;
 
         public ViewHolder(View view) {
             super(view);
@@ -160,7 +161,9 @@ public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.View
 
             // ImageButtons
             buttonTask = (ImageButton) view.findViewById(R.id.buttonTask);
-            buttonTask.setOnClickListener(this);
+            // buttonTask.setOnClickListener(this);
+            buttonTaskFrameLayout = (FrameLayout) view.findViewById(R.id.buttonTaskFrameLayout);
+            buttonTaskFrameLayout.setOnClickListener(this);
 
             // ImageButton Links
             textViewTask = (TextView) view.findViewById(R.id.textViewTask);
@@ -176,7 +179,7 @@ public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.View
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_DETAILS);
 
                 }
-            } else if (v.getId() == buttonTask.getId() || v.getId() == textViewTask.getId()) {
+            } else if (v.getId() == buttonTaskFrameLayout.getId()) {
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_CHOOSE_FORM);
                 }

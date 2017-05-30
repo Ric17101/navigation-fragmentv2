@@ -148,6 +148,7 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
         public final TextView textViewTask;
 
         private final FrameLayout frameLayoutButtonSJ;
+        public final FrameLayout buttonTaskFrameLayout;
 
         public final TextView textViewLabelDetail1;
         public final TextView textViewLabelDetail2;
@@ -170,7 +171,9 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
 
             // ImageButtons
             buttonTask = (ImageButton) view.findViewById(R.id.buttonTask);
-            buttonTask.setOnClickListener(this);
+            //buttonTask.setOnClickListener(this);
+            buttonTaskFrameLayout = (FrameLayout) view.findViewById(R.id.buttonTaskFrameLayout);
+            buttonTaskFrameLayout.setOnClickListener(this);
 
             // ImageButton Links
             textViewTask = (TextView) view.findViewById(R.id.textViewTask);
@@ -191,7 +194,7 @@ public class PJ_IPITaskListAdapter extends RecyclerView.Adapter<PJ_IPITaskListAd
                 if (mCallback != null) {
                     mCallback.onHandleSelection(getAdapterPosition(), mDataSet.get(getAdapterPosition()), ACTION_VIEW_TASK);
                 }
-            } else if (v.getId() == buttonTask.getId() /*|| v.getId() == textViewTask.getId()*/) {
+            } else if (v.getId() == buttonTaskFrameLayout.getId() /*|| v.getId() == textViewTask.getId()*/) {
                 if (mCallback != null) {
                     mSetHelper.setActionOnClick(mCallback, getAdapterPosition(), mDataSet.get(getAdapterPosition()), PROJECT_JOB_CONFIRMATION_DATE_FORM);
                 }

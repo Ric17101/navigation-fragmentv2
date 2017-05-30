@@ -39,11 +39,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.88"
-                    android:text="Image_Name.jpg uploaded."
-                    android:scrollHorizontally="true"
                     android:ellipsize="marquee"
                     android:maxLines="1"
-                    android:textSize="12sp" />
+                    android:scrollHorizontally="true"
+                    android:text="Image_Name.jpg uploaded."
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/imageView3"
@@ -62,7 +62,7 @@
                     android:layout_marginLeft="5sp"
                     android:layout_marginRight="10sp"
                     android:text="Delete"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </TableRow>
 
         </TableLayout>

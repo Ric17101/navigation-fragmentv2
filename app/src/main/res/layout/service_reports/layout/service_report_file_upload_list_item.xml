@@ -40,11 +40,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.88"
-                    android:text="New Replacement Part Added."
-                    android:scrollHorizontally="true"
                     android:ellipsize="marquee"
                     android:maxLines="1"
-                    android:textSize="12sp"
+                    android:scrollHorizontally="true"
+                    android:text="New Replacement Part Added."
+                    android:textSize="14sp"
                     android:textStyle="normal|bold|italic" />
 
             </TableRow>
