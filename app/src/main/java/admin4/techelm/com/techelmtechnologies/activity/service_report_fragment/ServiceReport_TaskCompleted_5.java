@@ -28,7 +28,6 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
     private static final String TAG = ServiceReport_TaskCompleted_5.class.getSimpleName();
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,8 +119,9 @@ public class ServiceReport_TaskCompleted_5 extends AppCompatActivity {
      * Show the Details on the WEB using WEBVIEW
      */
     private void setContentWebView() {
+        Log.e(TAG, "setContentWebView " + this.mServiceJobFromBundle.toString());
         new FinestWebView.Builder(ServiceReport_TaskCompleted_5.this)
-                .titleDefault("Service Job Details " + this.mServiceJobFromBundle.getServiceNumber())
+                .titleDefault("Service Job Details sss" + this.mServiceJobFromBundle.getServiceNumber())
                 .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
                 .webViewBuiltInZoomControls(true)
                 .titleDefault(getString(R.string.app_name))

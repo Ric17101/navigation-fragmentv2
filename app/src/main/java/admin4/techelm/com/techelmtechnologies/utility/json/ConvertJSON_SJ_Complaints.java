@@ -1,0 +1,234 @@
+package admin4.techelm.com.techelmtechnologies.utility.json;
+
+/**
+ * Created by admin 4 on 01/06/2017.
+ * Used to convert JSON string in to WRAPPERS
+ */
+
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
+
+/**
+ * GET : http://techelm2012.firstcomdemolinks.com/api/ci-rest-api-techelm/servicejob/get_all_servicejob_complaint_to_json_by_sjid/92
+    {
+       "sj_complaints":{
+          "sj_complaints_list":[
+             {
+                "id":"2",
+                "servicejob_id":"92",
+                "servicejob_category_id":"1",
+                "servicejob_complaint_fault_id":"1",
+                "servicejob_action_service_repair_id":"1",
+                "date_created":"2017-06-01",
+                "active":"1"
+             },
+             {
+                "id":"3",
+                "servicejob_id":"92",
+                "servicejob_category_id":"1",
+                "servicejob_complaint_fault_id":"1",
+                "servicejob_action_service_repair_id":"1",
+                "date_created":"2017-06-01",
+                "active":"1"
+             }
+          ],
+          "sj_complaints_list_count":2,
+          "sj_complaint_fault_list":[
+             {
+                "id":"1",
+                "servicejob_category_id":"1",
+                "complaint":"TEST Complaint1",
+                "date_created":"2017-06-01 00:00:00",
+                "active":"1"
+             },
+             {
+                "id":"2",
+                "servicejob_category_id":"1",
+                "complaint":"TEST Complaint1",
+                "date_created":"2017-06-01 00:00:00",
+                "active":"1"
+             }
+          ],
+          "sj_complaint_fault_list_count":2,
+          "sj_ccomplaint_action_list":[  ],
+          "sj_ccomplaint_action_list_count":0
+       }
+    }
+ */
+
+public class ConvertJSON_SJ_Complaints {
+
+    private static final String TAG = ConvertJSON_SJ_Complaints.class.getSimpleName();
+    private static final String SJ_JSON_KEY = "sj_complaints";
+
+    private boolean mResult = false;
+
+    private ArrayList<ServiceJobComplaint_MobileWrapper> complaintMobileList;
+    private ArrayList<ServiceJobComplaint_CFWrapper> complaintCFList;
+    private ArrayList<ServiceJobComplaint_ASRWrapper> complaintASRList;
+
+    public ConvertJSON_SJ_Complaints(String JSONResult) {
+
+        /* ServiceJob Complaints Mobile */
+        try {
+            this.complaintMobileList = getResponseJSONfromServiceJobComplaintMobile(JSONResult);
+        } catch (JSONException e) {
+            this.complaintMobileList = null;
+        }
+
+        /* ServiceJob Complaints CF */
+        try {
+            this.complaintCFList = getResponseJSONfromServiceJobComplaintCF(JSONResult);
+        } catch (JSONException e) {
+            this.complaintCFList = null;
+        }
+
+        /* ServiceJob Complaints ASR */
+        try {
+            this.complaintASRList = getResponseJSONfromServiceJobComplaintASR(JSONResult);
+        } catch (JSONException e) {
+            this.complaintASRList = null;
+        }
+    }
+
+    public ArrayList<ServiceJobComplaint_MobileWrapper> getSJComplaintMobileList() {
+        return this.complaintMobileList;
+    }
+
+    public ArrayList<ServiceJobComplaint_CFWrapper> getSJComplaintCFList() {
+        return this.complaintCFList;
+    }
+
+    public ArrayList<ServiceJobComplaint_ASRWrapper> getSJComplaintASRList() {
+        return this.complaintASRList;
+    }
+
+    /**
+     * FALSE - BAD
+     * TRUE - GOOD
+     * @return
+     */
+    public boolean hasResult() {
+        return mResult;
+    }
+
+    /**
+     * This is called at ServiceJobJSON_POST after after posting Posting NewParts to web in JSON form
+     *   sj_complaints_list
+     * @throws JSONException
+     */
+    private ArrayList<ServiceJobComplaint_MobileWrapper> getResponseJSONfromServiceJobComplaintMobile(String JSONResult) throws JSONException {
+
+        ArrayList<ServiceJobComplaint_MobileWrapper> list = new ArrayList<>();
+        JSONObject json = new JSONObject(JSONResult);
+
+        JSONObject ob1 = json.getJSONObject(SJ_JSON_KEY);
+        JSONArray jsonArray = ob1.getJSONArray("sj_complaints_list");
+
+        /* Test Length of JSONArray */
+        int jsonLen = jsonArray.length();
+        if (jsonLen == 0) {
+            return null;
+        } else {
+            this.mResult = jsonLen >= 0;
+        }
+
+        Log.d(TAG, "Status" + json.getInt("id")+"");
+        Log.d(TAG, "data " + ob1.toString());
+
+        if (jsonArray.length() != 0)
+            Log.d(TAG, "servicejob_id " + jsonArray.getJSONObject(0).getString("servicejob_id"));
+
+        /* Store Data from Decoded JSON Array */
+        int i = 0;
+        do { // 6
+            ServiceJobComplaint_MobileWrapper item = new ServiceJobComplaint_MobileWrapper();
+            item.setId(jsonArray.getJSONObject(i).getInt("id"));
+            item.setServiceJobID(jsonArray.getJSONObject(i).getInt("servicejob_id"));
+            item.setSJCategoryId(jsonArray.getJSONObject(i).getInt("servicejob_category_id"));
+            item.setSJComplaintFaultID(jsonArray.getJSONObject(i).getInt("servicejob_complaint_fault_id"));
+            item.setSJASRID(jsonArray.getJSONObject(i).getInt("servicejob_action_service_repair_id"));
+            item.setDateCreated(jsonArray.getJSONObject(i).getString("date_created"));
+            list.add(item);
+            // Log.d(TAG, jsonArray.getJSONObject(i););
+            i++;
+        } while (jsonLen > i);
+
+        return list;
+    }
+
+    private ArrayList<ServiceJobComplaint_CFWrapper> getResponseJSONfromServiceJobComplaintCF(String JSONResult) throws JSONException {
+
+        ArrayList<ServiceJobComplaint_CFWrapper> list = new ArrayList<>();
+        JSONObject json = new JSONObject(JSONResult);
+
+        JSONObject ob1 = json.getJSONObject(SJ_JSON_KEY);
+        JSONArray jsonArray = ob1.getJSONArray("sj_complaint_fault_list");
+
+        /* Test Length of JSONArray */
+        int jsonLen = jsonArray.length();
+        if (jsonLen == 0) {
+            return null;
+        } else {
+            this.mResult = jsonLen >= 0;
+        }
+
+        /* Store Data from Decoded JSON Array */
+        int i = 0;
+        do { // 4
+            ServiceJobComplaint_CFWrapper item = new ServiceJobComplaint_CFWrapper();
+
+            item.setId(jsonArray.getJSONObject(i).getInt("id"));
+            item.setSJCategoryId(jsonArray.getJSONObject(i).getInt("servicejob_category_id"));
+            item.setComplaint(jsonArray.getJSONObject(i).getString("complaint"));
+            item.setDateCreated(jsonArray.getJSONObject(i).getString("date_created"));
+            list.add(item);
+            i++;
+        } while (jsonLen > i);
+
+        return list;
+    }
+
+    private ArrayList<ServiceJobComplaint_ASRWrapper> getResponseJSONfromServiceJobComplaintASR(String JSONResult) throws JSONException {
+
+        ArrayList<ServiceJobComplaint_ASRWrapper> list = new ArrayList<>();
+        JSONObject json = new JSONObject(JSONResult);
+
+        JSONObject ob1 = json.getJSONObject(SJ_JSON_KEY);
+        JSONArray jsonArray = ob1.getJSONArray("sj_complaint_fault_list");
+
+        /* Test Length of JSONArray */
+        int jsonLen = jsonArray.length();
+        if (jsonLen == 0) {
+            return null;
+        } else {
+            this.mResult = jsonLen >= 0;
+        }
+
+        /* Store Data from Decoded JSON Array */
+        int i = 0;
+        do { // 4
+            ServiceJobComplaint_ASRWrapper item = new ServiceJobComplaint_ASRWrapper();
+
+            item.setId(jsonArray.getJSONObject(i).getInt("id"));
+            item.setSJCategoryId(jsonArray.getJSONObject(i).getInt("servicejob_category_id"));
+            item.setAction(jsonArray.getJSONObject(i).getString("action"));
+            item.setDateCreated(jsonArray.getJSONObject(i).getString("date_created"));
+            list.add(item);
+            i++;
+        } while (jsonLen > i);
+
+        return list;
+    }
+
+}

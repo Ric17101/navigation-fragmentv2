@@ -2,6 +2,7 @@ package admin4.techelm.com.techelmtechnologies.activity.menu;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -48,17 +49,21 @@ import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.ServiceJo
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobListener;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
-import admin4.techelm.com.techelmtechnologies.utility.UIThreadHandler;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
+import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ_Complaints;
 import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobComplaints_POST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.*;
 
@@ -551,7 +556,8 @@ public class MainActivity extends FragmentActivity implements
 
             @Override
             public void onEventResult(WebResponse response) {
-                proceedViewPagerActivity(serviceJob, status, response.getStringResponse());
+                // proceedViewPagerActivity(serviceJob, status, response.getStringResponse());
+                servicesJobStarComplaintsTask(serviceJob, status, response.getStringResponse());
             }
         });
 
@@ -559,32 +565,123 @@ public class MainActivity extends FragmentActivity implements
         beginServiceJob.postGetListOfReplacementPartsDate();
     }
 
-    /**
-     * Proceed to EDIT, BEGIN, SIGN or UNSIGNED the ServiceJob
-     * @param serviceJob - Data to process
-     * @param mode - mode of process or action
-     * @param JSONListPartsRate
-     */
-    private void proceedViewPagerActivity(ServiceJobWrapper serviceJob, String mode, String JSONListPartsRate) {
-        try {
-            ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList = new ConvertJSON_SJ().getResponseJSONPartReplacementRate(JSONListPartsRate);
-            Log.e(TAG, rateList.toString());
+    private void servicesJobStarComplaintsTask(final ServiceJobWrapper serviceJob, final String status, final String startTaskReponse) {
+        final ServiceJobComplaints_POST beginServiceJob = new ServiceJobComplaints_POST();
+        beginServiceJob.setOnEventListener(new ServiceJobComplaints_POST.OnEventListener() {
+            @Override
+            public void onEvent() {
+                // TODO: Close progress dialog here
+                // TODO: Test Response if OK or not
+            }
 
-            startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .putExtra(SERVICE_JOB_SERVICE_KEY, serviceJob)
-                    .putExtra(SERVICE_JOB_PREVIOUS_STATUS_KEY, mode)
-                    .putExtra(SERVICE_JOB_PARTS_REPLACEMENT_LIST, rateList));
-            overridePendingTransition(R.anim.enter, R.anim.exit);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            @Override
+            public void onError(String message) {
+                // TODO: Close progress dialog then try again if connected to internet
+            }
+
+            @Override
+            public void onEventResult(WebResponse response) {
+                // proceedViewPagerActivity(serviceJob, status, response.getStringResponse());
+                new ServiceJobTask(serviceJob, status, startTaskReponse, response.getStringResponse()).execute((Void) null);
+            }
+        });
+
+        // To Start the Activity
+        beginServiceJob.postComplaintTask(serviceJob.getID());
+    }
+
+    private class ServiceJobTask extends AsyncTask<Void, Void, Boolean> {
+        // Instance Variables
+        private ServiceJobWrapper atServicejob;
+        private String atStatus;
+        private String atStartTaskResponse;
+        private String atComplaintsResponse;
+
+        // Resulting Data
+        private ArrayList<ServiceJobNewReplacementPartsRatesWrapper> atRateList;
+        ConvertJSON_SJ_Complaints atComplaints;
+
+        ServiceJobTask(ServiceJobWrapper serviceJob, String status, String startTaskResponse, String complaintsResponse) {
+            this.atServicejob = serviceJob;
+            this.atStatus = status;
+            this.atStartTaskResponse = startTaskResponse;
+            this.atComplaintsResponse = complaintsResponse;
         }
 
-        // Will Prpomt User that Prices for the form isnot ok
-        SnackBarNotificationUtil
-                .setSnackBar(findViewById(android.R.id.content), "Error on Parsing Parts Replacement Rates")
-                .setColor(getResources().getColor(R.color.colorPrimary1))
-                .show();
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                this.atRateList = new ConvertJSON_SJ().getResponseJSONPartReplacementRate(this.atStartTaskResponse);
+                this.atComplaints = new ConvertJSON_SJ_Complaints(this.atComplaintsResponse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+            try {
+                // Simulate network access.
+                Thread.sleep(2000);
+                // init_DrawerNav();
+            } catch (InterruptedException e) {
+                return false;
+            }
+            // TO DO: register the new account here.
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean aSuccess) {
+            if (aSuccess) {
+                proceedViewPagerActivity(atServicejob, atStatus, this.atRateList, this.atComplaints);
+            } else {
+                onCancelled();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            // Will Prpomt User that Prices for the form isnot ok
+            SnackBarNotificationUtil
+                    .setSnackBar(findViewById(android.R.id.content), "Error on Parsing Parts Replacement Rates")
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
+        }
+    }
+
+    /**
+     * Proceed to EDIT, BEGIN, SIGN or UNSIGNED the ServiceJob
+     * @param status - mode of process or action
+     * @param rateList - ratesList
+     * @param serviceJob - Data to process
+     * @param atComplaints - Complaints Object with ASR, CF and Complaints
+     */
+    private void proceedViewPagerActivity(ServiceJobWrapper serviceJob, String status, ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList, ConvertJSON_SJ_Complaints atComplaints) {
+
+        ArrayList<ServiceJobComplaint_MobileWrapper> atComplaintMobileList;
+        ArrayList<ServiceJobComplaint_CFWrapper> atComplaintCFList;
+        ArrayList<ServiceJobComplaint_ASRWrapper> atComplaintASRList;
+
+        atComplaintMobileList = atComplaints.getSJComplaintMobileList();
+        atComplaintCFList = atComplaints.getSJComplaintCFList();
+        atComplaintASRList = atComplaints.getSJComplaintASRList();
+
+        Log.e(TAG, rateList.toString());
+
+        startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .putExtra(SERVICE_JOB_SERVICE_KEY, serviceJob)
+                .putExtra(SERVICE_JOB_PREVIOUS_STATUS_KEY, status)
+                .putExtra(SERVICE_JOB_PARTS_REPLACEMENT_LIST_KEY, rateList)
+                .putExtra(SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY, atComplaintMobileList)
+                .putExtra(SERVICE_JOB_COMPLAINTS_CF_LIST_KEY, atComplaintCFList)
+                .putExtra(SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY, atComplaintASRList)
+        );
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
     /**
@@ -614,11 +711,11 @@ public class MainActivity extends FragmentActivity implements
     /*************************** A. END SERVICE JOB *****************************/
     /**
      * Represents an asynchronous Task
-     * UITask mAuthTask = new UITask();
+     * ServiceJobTask mAuthTask = new ServiceJobTask();
      mAuthTask.execute((Void) null);
      */
-    /*public class UITask extends AsyncTask<Void, Void, Boolean> {
-        UITask() {
+    /*public class ServiceJobTask extends AsyncTask<Void, Void, Boolean> {
+        ServiceJobTask() {
         }
 
         @Override

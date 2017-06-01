@@ -2,9 +2,7 @@ package admin4.techelm.com.techelmtechnologies.activity.service_report_fragment;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,18 +16,21 @@ import android.widget.LinearLayout;
 import com.astuetz.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_PartsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobComplaintsCFListener;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.PartsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.LicensesFragment;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPartsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobRecordingWrapper;
@@ -40,7 +41,10 @@ import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_PARTS_REPLACEMENT_LIST;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_CF_LIST_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_PARTS_REPLACEMENT_LIST_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_PREVIOUS_STATUS_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
 
@@ -52,7 +56,8 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         ServiceJobDBUtil.OnDatabaseChangedListener, // [A & B & D]
         UploadsSJDBUtil.OnDatabaseChangedListener,
         SJ_PartsListAdapter.CallbackInterface, // B. PartReplacement_FRGMT_2
-        PartsSJDBUtil.OnDatabaseChangedListener//,
+        PartsSJDBUtil.OnDatabaseChangedListener,
+        ServiceJobComplaintsCFListener
         // OnTaskKill.onStopCallbackInterface // TODO: if user close the app permanently
 {
 
@@ -61,9 +66,15 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     private static final int FRAGMENT_POSITION_SERVICE_REPORT_AFTER = 1;
     private static final int FRAGMENT_POSITION_PART_REPLACEMENT = 2;
     private static final int FRAGMENT_POSITION_SIGNING_OFF = 3;
+
+    // Instance Variables
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
     private String mPreviousStatusFromBundle; // From Calling Activity
-    private ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList;
+    private ArrayList<ServiceJobNewReplacementPartsRatesWrapper> mRateList;
+    // Access Publicly for fast processing fo Data
+    public ArrayList<ServiceJobComplaint_MobileWrapper> mComplaintMobileList;
+    public ArrayList<ServiceJobComplaint_CFWrapper> mComplaintCFList;
+    public ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList;
 
     private ServiceJobDBUtil mSJDB; // For saving and delete of the Service Job
 
@@ -109,16 +120,20 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
          * Here , we are inflating the TabFragment as the first Fragment
          */
         mViewPager = (ViewPager) findViewById(R.id.pager);
+
         mPagerAdapter = new ServiceJobFragmentPagerAdapter(getSupportFragmentManager(),
                 this.mServiceJobFromBundle,
-                this.rateList);
+                this.mRateList,
+                this.mComplaintMobileList,
+                this.mComplaintCFList,
+                this.mComplaintASRList);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOffscreenPageLimit(3); // Set to Four Pages
         mTabPager = (PagerSlidingTabStrip) findViewById(R.id.tabsStrip);
         mTabPager.setViewPager(mViewPager);
 
         // Save Service Job from Bundle
-        createdServiceJob(this.mServiceJobFromBundle);
+        saveServiceJob(this.mServiceJobFromBundle);
     }
 
     /**
@@ -139,10 +154,11 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
+        deleteServiceJob();
         backToLandingPage(1);
     }
 
-    private void createdServiceJob(final ServiceJobWrapper sign) {
+    private void saveServiceJob(final ServiceJobWrapper sign) {
         Runnable run = new Runnable() {
             @Override
             public void run() {
@@ -215,7 +231,12 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     private ServiceJobWrapper fromBundle() {
         Intent intent = getIntent();
         this.mPreviousStatusFromBundle = intent.getStringExtra(SERVICE_JOB_PREVIOUS_STATUS_KEY);
-        this.rateList = intent.getParcelableArrayListExtra(SERVICE_JOB_PARTS_REPLACEMENT_LIST);
+
+        this.mRateList = intent.getParcelableArrayListExtra(SERVICE_JOB_PARTS_REPLACEMENT_LIST_KEY);
+        this.mComplaintMobileList = intent.getParcelableArrayListExtra(SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY);
+        this.mComplaintCFList = intent.getParcelableArrayListExtra(SERVICE_JOB_COMPLAINTS_CF_LIST_KEY);
+        this.mComplaintASRList = intent.getParcelableArrayListExtra(SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY);
+
         return this.mServiceJobFromBundle = (ServiceJobWrapper) intent.getParcelableExtra(SERVICE_JOB_SERVICE_KEY);
     }
 
@@ -231,6 +252,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    // TODO: Apply this on the MainPage???
     public void openLicenses() {
         LicensesFragment licensesFragment = new LicensesFragment();
         licensesFragment.show(getSupportFragmentManager().beginTransaction(), "dialog_licenses");
@@ -348,6 +370,11 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onSJEntryDeleted();
         getFragmentSigningOff().fromActivity_onSJEntryDeleted();
+    }
+
+    @Override
+    public void onHandleSelection(int position, ServiceJobComplaint_CFWrapper serviceJobComplaint_cfWrapper, int mode) {
+        Log.e(TAG, serviceJobComplaint_cfWrapper.toString());
     }
 
     /******* A. END CALLBACKS from ServiceReport_FRGMT_BEFORE & ServiceReport_FRGMT_AFTER ********/

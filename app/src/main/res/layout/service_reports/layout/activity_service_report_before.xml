@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".activity.service_report_fragment.ServiceReport_FRGMT_BEFORE">
 
-    <include layout="@layout/content_service_report" />
+    <include layout="@layout/content_service_report_before" />
 
 </android.support.design.widget.CoordinatorLayout>

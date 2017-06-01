@@ -4,18 +4,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewReplacementPartsRatesWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 
 public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
 
+    private static final String TAG = ServiceJobFragmentPagerAdapter.class.getSimpleName();
     private ServiceJobWrapper mServiceJobFromBundle;
     private FragmentManager mFragmentManager;
-    private ArrayList<ServiceJobNewReplacementPartsRatesWrapper> mServiceJobPartsRatesFromBundle;
+    private ArrayList<ServiceJobNewReplacementPartsRatesWrapper> mSJPartsRatesFromBundle;
+
+    private ArrayList<ServiceJobComplaint_MobileWrapper> mSJComplaintMobileList;
+    private ArrayList<ServiceJobComplaint_CFWrapper> mSJComplaintCFList;
+    private ArrayList<ServiceJobComplaint_ASRWrapper> mSJComplaintASRList;
 
     private String[] titles = {
             "1. BEFORE",
@@ -24,23 +33,31 @@ public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
             "4. SIGNING OFF"
     };
 
-    public ServiceJobFragmentPagerAdapter(FragmentManager fm, ServiceJobWrapper serviceJob, ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList) {
+    public ServiceJobFragmentPagerAdapter(FragmentManager fm, ServiceJobWrapper serviceJob,
+                                          ArrayList<ServiceJobNewReplacementPartsRatesWrapper> rateList,
+                                          ArrayList<ServiceJobComplaint_MobileWrapper> mComplaintMobileList,
+                                          ArrayList<ServiceJobComplaint_CFWrapper> mComplaintCFList,
+                                          ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList) {
         super(fm);
         this.mFragmentManager = fm;
         this.mServiceJobFromBundle = serviceJob;
-        this.mServiceJobPartsRatesFromBundle = rateList;
+        this.mSJPartsRatesFromBundle = rateList;
+
+        this.mSJComplaintMobileList = mComplaintMobileList;
+        this.mSJComplaintCFList = mComplaintCFList;
+        this.mSJComplaintASRList = mComplaintASRList;
     }
 
     @Override
     public Fragment getItem(int position) {
-        System.out.print("ServiceJobFragmentPagerAdapter : This is from getITEM ");
+        Log.e(TAG, "This is from getITEM:"+ position);
         switch (position) {
             case 0 :
-                return ServiceReport_FRGMT_BEFORE.newInstance(position, this.mServiceJobFromBundle);
+                return ServiceReport_FRGMT_BEFORE.newInstance(position, this.mServiceJobFromBundle, this.mSJComplaintCFList);
             case 1 :
                 return ServiceReport_FRGMT_AFTER.newInstance(position, this.mServiceJobFromBundle);
             case 2 :
-                return PartReplacement_FRGMT_2.newInstance(position, this.mServiceJobFromBundle, this.mServiceJobPartsRatesFromBundle);
+                return PartReplacement_FRGMT_2.newInstance(position, this.mServiceJobFromBundle, this.mSJPartsRatesFromBundle);
             case 3 :
                 return SigningOff_FRGMT_4.newInstance(position, this.mServiceJobFromBundle);
 

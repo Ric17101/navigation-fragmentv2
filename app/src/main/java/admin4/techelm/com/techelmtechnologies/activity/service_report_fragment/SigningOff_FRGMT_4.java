@@ -633,16 +633,18 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
     // This is called inside the doInBackground so use runonUiThread
     private void goTaskCompleted() {
-        getActivity().runOnUiThread(new Runnable() {
+        startActivity(new Intent(getActivity(), ServiceReport_TaskCompleted_5.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .putExtra(SERVICE_JOB_SERVICE_KEY, mServiceJobFromBundle));
+        getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
+        getActivity().finish();
+
+        /*getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getActivity(), ServiceReport_TaskCompleted_5.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        .putExtra(SERVICE_JOB_SERVICE_KEY, mServiceJobFromBundle));
-                getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
-                getActivity().finish();
+
             }
-        });
+        });*/
     }
 
     /**
@@ -717,25 +719,25 @@ public class SigningOff_FRGMT_4 extends Fragment {
                     if (signatureFile.canRead()) { // File exists on the Directory
                         post.setContext(this.mContext)
                             .setLink(SERVICE_JOB_UPLOAD_CAPTURE_URL)
-                                .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter + "")
-                                .addMultipleParam("taken", sjuw.getTaken(), counter + "")
-                                .addParam("count", mUploadResults.size() + "")
-                                .addParam("servicejob_id", sjuw.getServiceId() + "")
-                                .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
-                                    @Override
-                                    public void onError(String msg, int success) {
-                                        Log.e(TAG, "Message " + msg + " Error:" + success);
-                                        uploadTask.incrementProgressNotification(PROGRESS_ERROR);
-                                    }
+                            .addMultipleFile(signatureFile, sjuw.getUploadName(), "image/jpeg", counter + "")
+                            .addMultipleParam("taken", sjuw.getTaken(), counter + "")
+                            .addParam("count", mUploadResults.size() + "")
+                            .addParam("servicejob_id", sjuw.getServiceId() + "")
+                            .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
+                                @Override
+                                public void onError(String msg, int success) {
+                                    Log.e(TAG, "Message " + msg + " Error:" + success);
+                                    uploadTask.incrementProgressNotification(PROGRESS_ERROR);
+                                }
 
-                                    @Override
-                                    public void onSuccess(String msg, int success) {
-                                        Log.e(TAG, "Message " + msg + " Success:" + success);
-                                        //uploadTask.sleep();
-                                        uploadTask.incrementProgressNotification(PROGRESS_CAPTURES);
-                                    }
+                                @Override
+                                public void onSuccess(String msg, int success) {
+                                    Log.e(TAG, "Message " + msg + " Success:" + success);
+                                    //uploadTask.sleep();
+                                    uploadTask.incrementProgressNotification(PROGRESS_CAPTURES);
+                                }
 
-                                });
+                            });
                         counter++;
                     }
                 }

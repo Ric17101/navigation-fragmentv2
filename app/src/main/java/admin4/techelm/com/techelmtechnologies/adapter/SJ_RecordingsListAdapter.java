@@ -2,6 +2,7 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 
 /**
  * Created by admin 4 on 16/02/2017.
+ *
  */
 
 import android.content.Context;
@@ -23,7 +24,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobRecordi
 
 public class SJ_RecordingsListAdapter extends RecyclerView.Adapter<SJ_RecordingsListAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = "RecordingsListAdapter";
+    private static final String LOG_TAG = SJ_RecordingsListAdapter.class.getSimpleName();
     private final int CHECK_CODE = 0x1;
     private final int SHORT_DURATION = 1000;
     private List<ServiceJobRecordingWrapper> mDataSet = new ArrayList<>();

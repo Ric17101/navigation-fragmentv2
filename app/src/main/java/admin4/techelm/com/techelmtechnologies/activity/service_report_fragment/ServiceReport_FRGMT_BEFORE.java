@@ -1,6 +1,5 @@
 package admin4.techelm.com.techelmtechnologies.activity.service_report_fragment;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
@@ -50,11 +48,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_Complaint_CFListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobRecordingWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploadsWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
@@ -66,9 +68,9 @@ import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_CF_LIST_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_ID_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_TAKEN_KEY;
-import static admin4.techelm.com.techelmtechnologies.utility.PermissionUtil.REQUEST_EXTERNAL_STORAGE;
 
 public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         RecordingService.OnTimerChangedListener {
@@ -118,22 +120,35 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     private Chronometer mChronometer = null;
     long timeWhenPaused = 0; //stores time when user clicks pause button
 
-    private SJ_RecordingsListAdapter mListAdapter; // ListView Setup
+    private SJ_RecordingsListAdapter mRecordingListAdapter; // ListView Setup
     private RecyclerView mRecordResultsList;
     private List<ServiceJobRecordingWrapper> mResultsList = null;
     private RecordingSJDBUtil mRecodingDB;
+
+    // From Activity Objects
+    private ArrayList<ServiceJobComplaint_MobileWrapper> mComplaintMobileList = null;
+
+    private SJ_Complaint_CFListAdapter mComplaintCFListAdapter; // ListView Setup
+    private RecyclerView mComplaintCFResultsList;
+    private ArrayList<ServiceJobComplaint_CFWrapper> mSJComplaintCFList = null;
+
+    private SJ_Complaint_CFListAdapter mComplaintASRListAdapter; // ListView Setup
+    private RecyclerView mComplaintASRResultsList;
+    private ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList = null;
 
     // SlidingPager Tab Set Up, Instance Variables
     private static final String ARG_POSITION = "position";
     private int mPosition;
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
-    public static ServiceReport_FRGMT_BEFORE newInstance(int position, ServiceJobWrapper serviceJob) {
+    public static ServiceReport_FRGMT_BEFORE newInstance(int position, ServiceJobWrapper serviceJob,
+                 ArrayList<ServiceJobComplaint_CFWrapper> cfWrappers) {
         ServiceReport_FRGMT_BEFORE frag = new ServiceReport_FRGMT_BEFORE();
         Bundle args = new Bundle();
 
         args.putInt(ARG_POSITION, position);
         args.putParcelable(SERVICE_JOB_ID_KEY, serviceJob);
+        args.putParcelableArrayList(SERVICE_JOB_COMPLAINTS_CF_LIST_KEY, cfWrappers);
         frag.setArguments(args);
 
         return frag;
@@ -144,6 +159,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         super.onCreate(savedInstanceState);
         mPosition = getArguments().getInt(ARG_POSITION);
         mServiceJobFromBundle = getArguments().getParcelable(SERVICE_JOB_ID_KEY);
+        mSJComplaintCFList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_CF_LIST_KEY);
     }
 
     @Override
@@ -154,12 +170,14 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_service_report, container, false);
+        View view = inflater.inflate(R.layout.activity_service_report_before, container, false);
 
         this.mContext = container.getContext();
 
         initSpinnerProgessBar(view);
+
         initButton(view);
+
         initPermission();
 
         setUpViews(view);
@@ -194,6 +212,13 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             setupUploadsResultsList();
             populateUploadsCardList();
             if (mUploadResults == null) {
+            }
+
+            // Complaints List
+            setUpComplaintsRecyclerView(view);
+            setupComplaintsResultsList();
+            populateComplaintsCardList();
+            if (mResultsList == null) {
             }
         } else {
             SnackBarNotificationUtil
@@ -852,8 +877,8 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     }
 
     public void setupRecordingsResultsList() {
-        mListAdapter = new SJ_RecordingsListAdapter(this.mContext);
-        mRecordResultsList.setAdapter(mListAdapter);
+        mRecordingListAdapter = new SJ_RecordingsListAdapter(this.mContext);
+        mRecordResultsList.setAdapter(mRecordingListAdapter);
         mRecordResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
     }
 
@@ -870,13 +895,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             mRecordResultsList.setHasFixedSize(true);
             mRecordResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
             mRecordResultsList.setItemAnimator(new DefaultItemAnimator());
-            mListAdapter.swapData(mResultsList);
-            /*new UIThreadHandler(getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                }
-            });*/
+            mRecordingListAdapter.swapData(mResultsList);
         }
     }
 
@@ -1099,4 +1118,29 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
 
     /*********** C. END SOUND RECORDING ***********/
 
+    /*********** D. SERVICE JOB COMPLAINTS ***********/
+    public void setUpComplaintsRecyclerView(View view) {
+        mComplaintCFResultsList = (RecyclerView) view.findViewById(R.id.complaint_fault_service_job_list);
+    }
+
+    public void setupComplaintsResultsList() {
+        mComplaintCFListAdapter = new SJ_Complaint_CFListAdapter(getActivity());
+        mComplaintCFResultsList.setAdapter(mComplaintCFListAdapter);
+        mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
+    }
+
+    private void populateComplaintsCardList() {
+        // mSJComplaintCFList = ((ServiceJobViewPagerActivity) getActivity()).mComplaintCFList;
+
+        if (mSJComplaintCFList != null) {
+            //Log.e(TAG, "DATA: " + mResultsList.get(0).toString());
+            mComplaintCFResultsList.setHasFixedSize(true);
+            mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
+            mComplaintCFResultsList.setItemAnimator(new DefaultItemAnimator());
+            mComplaintCFListAdapter.swapData(mSJComplaintCFList);
+        }
+    }
+
+
+    /*********** D. END SERVICEJOB COMPLAINTS ***********/
 }

@@ -1,6 +1,11 @@
 package admin4.techelm.com.techelmtechnologies.utility;
 
+import java.util.ArrayList;
+
 import admin4.techelm.com.techelmtechnologies.BuildConfig;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
 
 /**
  * Created by admin 4 on 03/04/2017.
@@ -37,7 +42,7 @@ public final class Constants {
     public static final String VERSION = BuildConfig.VERSION_NAME;
     public static final String HTTP_AUTHENTICATION_ACCESS = "firstcom:opendemolink88"; // REMOVE THIS if web server has no Authentication
     public static final String NEW_DOMAIN_URL = "http://techelm2012.firstcomdemolinks.com/api/ci-rest-api-techelm/";
-    public static final String FIRSTCM_DOMAIN_URL = "http://techelm2012.firstcomdemolinks.com"; ///system/backend/web/projectjob/drawings/projectjobid70/Reverse_White_Logo.jpg
+    public static final String FIRSTCM_DOMAIN_URL = "http://techelm2012.firstcomdemolinks.com/system/backend/web/"; ///system/backend/web/projectjob/drawings/projectjobid70/Reverse_White_Logo.jpg
     public static final String DOMAIN_URL = "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/";
 
     public static final String LOGIN_URL = NEW_DOMAIN_URL + "auth/user?user=%s&password=%s";
@@ -61,6 +66,7 @@ public final class Constants {
     // public static final String SERVICE_JOB_BY_MONTH_URL = NEW_SERVICE_JOB_URL + "get_date_services_by_month";
     public static final String SERVICE_JOB_BY_MONTH_URL = NEW_SERVICE_JOB_URL + "get_date_services_by_month_and_by_employee_id";
     public static final String SERVICE_JOB_SEND_EMAIL_URL = NEW_SERVICE_JOB_URL + "send_email";
+    public static final String SERVICE_JOB_POST_ALL_COMPLAINTS_URL = NEW_SERVICE_JOB_URL + "get_all_servicejob_complaint_to_json_by_sjid";
 
     public static final String PROJECT_JOB_URL = DOMAIN_URL + "projectjob/";
     public static final String NEW_PROJECT_JOB_URL = NEW_DOMAIN_URL + "projectjob/";
@@ -122,7 +128,13 @@ public final class Constants {
     /** Type is String. */
     public static final String SERVICE_JOB_TAKEN_KEY = "TAKEN";
     /** Type is Object ServiceJobNewReplacementPartsRatesWrapper. */
-    public static final String SERVICE_JOB_PARTS_REPLACEMENT_LIST = "REPLACEMENT_LIST";
+    public static final String SERVICE_JOB_PARTS_REPLACEMENT_LIST_KEY = "REPLACEMENT_LIST";
+    /** Type is Object ArrayList<ServiceJobComplaint_MobileWrapper>. */
+    public static final String SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY = "SJ_COMPLAINTS_MOBILE_LIST";
+    /** Type is Object ArrayList<ServiceJobComplaint_CFWrapper>. */
+    public static final String SERVICE_JOB_COMPLAINTS_CF_LIST_KEY = "SJ_COMPLAINTS_CF_LIST";
+    /** Type is Object ArrayList<ServiceJobComplaint_ASRWrapper>. */
+    public static final String SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY = "SJ_COMPLAINTS_ASR_LIST";
     /** Type is String. */
     public static final String PROJECT_JOB_FORM_TYPE_KEY = "TYPE_OF_FORM";
     /** Type is ProjectJobWrapper Object. */

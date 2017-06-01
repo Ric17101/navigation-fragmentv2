@@ -1,6 +1,5 @@
 package admin4.techelm.com.techelmtechnologies.activity.service_report_fragment;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
@@ -97,6 +95,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
 
     private ImageButton mButtonViewUploadImage;
     private ProgressBar mProgressBarUploading;
+    private ProgressBar mProgressBarLoadingAction;
 
     // C. Recording controls
     private MaterialDialog mRecordingDialog;
@@ -148,12 +147,14 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_service_report, container, false);
+        View view = inflater.inflate(R.layout.activity_service_report_after, container, false);
 
         this.mContext = container.getContext();
 
         initSpinnerProgessBar(view);
+
         initButton(view);
+
         initPermission();
 
         setUpViews(view);
@@ -202,6 +203,8 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private void initSpinnerProgessBar(View view) {
         mProgressBarUploading = (ProgressBar) view.findViewById(R.id.progressBarUploading);
         mProgressBarUploading.setVisibility(View.GONE);
+        mProgressBarLoadingAction = (ProgressBar) view.findViewById(R.id.progressBarLoadingAction);
+        mProgressBarLoadingAction.setVisibility(View.GONE);
     }
 
     private void initPermission() {
