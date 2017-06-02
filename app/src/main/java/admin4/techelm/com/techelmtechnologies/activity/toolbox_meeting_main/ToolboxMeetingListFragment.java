@@ -41,6 +41,7 @@ import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 import admin4.techelm.com.techelmtechnologies.webservice.command.GetCommand;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.NEW_TOOLBOX_MEETING_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_LIST_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -232,7 +233,7 @@ public class ToolboxMeetingListFragment extends Fragment
         private String getLink() {
             SessionManager mSession = new SessionManager(getActivity());
             int employee_id = Integer.parseInt(mSession.getUserDetails().get(SessionManager.KEY_USER_ID));
-            return String.format(PROJECT_JOB_LIST_URL, employee_id);
+            return String.format(NEW_TOOLBOX_MEETING_URL);
         }
 
         /**
@@ -250,8 +251,8 @@ public class ToolboxMeetingListFragment extends Fragment
                 JSONObject json = new JSONObject(JSONResult);
                 String str = "";
 
-                JSONArray jsonArray = json.getJSONArray("projectlist");
-                int jsonLen = json.getJSONArray("projectlist").length();
+                JSONArray jsonArray = json.getJSONArray("toolbox_meeting_list");
+                int jsonLen = json.getJSONArray("toolbox_meeting_list").length();
                 if (jsonLen == 0)
                     return "null";
 
@@ -320,8 +321,8 @@ public class ToolboxMeetingListFragment extends Fragment
                             .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("fax"))
                             .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("phone_no"))
-                            .append(LIST_DELIM)
+                            /*.append(jsonArray.getJSONObject(i).getString("phone_no"))
+                            .append(LIST_DELIM)*/
                             .append(jsonArray.getJSONObject(i).getString("engineer_name"))
                             .append(LIST_DELIM)
                     ;

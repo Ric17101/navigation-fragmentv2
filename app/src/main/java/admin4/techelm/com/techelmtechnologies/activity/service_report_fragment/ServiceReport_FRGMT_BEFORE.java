@@ -125,7 +125,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     private List<ServiceJobRecordingWrapper> mResultsList = null;
     private RecordingSJDBUtil mRecodingDB;
 
-    // From Activity Objects
+    // D. From Activity Objects
     private ArrayList<ServiceJobComplaint_MobileWrapper> mComplaintMobileList = null;
 
     private SJ_Complaint_CFListAdapter mComplaintCFListAdapter; // ListView Setup
@@ -214,7 +214,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             if (mUploadResults == null) {
             }
 
-            // Complaints List
+            // D. Complaints List
             setUpComplaintsRecyclerView(view);
             setupComplaintsResultsList();
             populateComplaintsCardList();
