@@ -1,6 +1,8 @@
 package admin4.techelm.com.techelmtechnologies.activity.toolbox_meeting_main.helper;
 
 import android.graphics.Color;
+import android.util.TypedValue;
+import android.widget.TextView;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ProjectJobListener;
@@ -81,6 +83,19 @@ public class FragmentSetListHelper_ToolboxMeeting {
                 break;
         }
         return taskText;
+    }
+
+    public void setTextNumberSize(TextView textViewDateNumber, String text) {
+        switch (text.length()) {
+            case 3 :
+                textViewDateNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+                textViewDateNumber.setPadding(textViewDateNumber.getPaddingLeft(), 14, textViewDateNumber.getPaddingRight(), 14);
+                break;
+            case 4 :
+                textViewDateNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+                textViewDateNumber.setPadding(textViewDateNumber.getPaddingLeft(), 12, textViewDateNumber.getPaddingRight(), 12);
+                break;
+        }
     }
 
     // Called at PJ_PISSTaskListAdapter Only

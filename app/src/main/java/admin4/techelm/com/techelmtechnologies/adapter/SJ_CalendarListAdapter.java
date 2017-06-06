@@ -38,7 +38,7 @@ public class SJ_CalendarListAdapter extends RecyclerView.Adapter<SJ_CalendarList
     private final int SHORT_DURATION = 1000;
 
     private List<ServiceJobWrapper> mDataSet = new ArrayList<>();
-    private ServiceJobWrapper serviceJobDataSet;
+    private ServiceJobWrapper dataSet;
     private CallbackInterface mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
@@ -88,20 +88,21 @@ public class SJ_CalendarListAdapter extends RecyclerView.Adapter<SJ_CalendarList
     public void onBindViewHolder(ViewHolder holder, int position) {
         this.mSetHelper = new FragmentSetListHelper_ServiceJob();
 
-        serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewDay.setText(serviceJobDataSet.getServiceNumber());
-        //holder.textViewDateNumber.setText(getCalendarDate(serviceJobDataSet.getStartDate()));
-        holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
-        holder.textViewDate.setText(serviceJobDataSet.getStartDate());
-        holder.textViewServiceNum.setText(serviceJobDataSet.getServiceNumber());
-        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
-        holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
-        holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()));
-        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()));
-        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()));
-        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(serviceJobDataSet.getStatus())));
+        dataSet = mDataSet.get(holder.getAdapterPosition());
+        holder.textViewDay.setText(dataSet.getServiceNumber());
+        //holder.textViewDateNumber.setText(getCalendarDate(dataSet.getStartDate()));
+        // this.mSetHelper.setTextNumberSize(holder.textViewDateNumber, dataSet.getID()+"");
+        holder.textViewDateNumber.setText(dataSet.getID() + "");
+        holder.textViewDate.setText(dataSet.getStartDate());
+        holder.textViewServiceNum.setText(dataSet.getServiceNumber());
+        holder.textViewCustomer.setText(dataSet.getCustomerName());
+        holder.textViewEngineer.setText(dataSet.getEngineerName());
+        holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()));
+        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatus()));
+        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatus()));
+        holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(dataSet.getStatus())));
 
-        Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getServiceNumber());
+        Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getServiceNumber());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;

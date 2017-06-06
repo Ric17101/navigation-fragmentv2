@@ -276,6 +276,31 @@ public class ProjectJobChooseFormFragment extends Fragment
                 Log.d(TAG, "parseJSON: " + str);
 
                 // jsonLen += 1;
+                /*
+                 "projectlist":[
+      {
+         "id":"16",
+         "project_ref":"PRJ000016",
+         "customer_id":"4",
+         "employee_id":"6",
+         "start_date":"2017-05-15",
+         "end_date":"0000-00-00",
+         "target_completion_date":"0000-00-00",
+         "first_inspector":"6",
+         "second_inspector":"6",
+         "third_inspector":"6",
+         "status_flag":"3",
+         "locked_to_user":"0",
+         "active":"1",
+         "locked_to_user_name":"0",
+         "fullname":"Customer3",
+         "job_site":"HG10",
+         "fax":"232323",
+         "phone_no":"78988",
+         "engineer_name":"Administrator",
+         "pa_engineer":"6"
+                  */
+
                 int i = 0;
                 do { // 12
                     StringBuilder jsonRes = new StringBuilder();

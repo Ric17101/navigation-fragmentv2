@@ -167,8 +167,8 @@ public class CustomerWrapper implements Parcelable {
     public String getComplaintsOrSymptoms() { return this._contact_no; }
     public void setComplaintsOrSymptoms(String data) { this._contact_no = data; }
 
-    public String getActionsOrRemarks() { return this._phone_no; }
-    public void setActionsOrRemarks(String data) { this._phone_no = data; }
+    public String getRemarks() { return this._phone_no; }
+    public void setRemarks(String data) { this._phone_no = data; }
 
     public String getEquipmentType() { return this._race; }
     public void setEquipmentType(String data) { this._race = data; }

@@ -346,7 +346,7 @@ public class SigningOff_4 extends AppCompatActivity implements
         for (int i = 0; i < mSJResultList.size(); i++) {
             Log.e(LOG_TAG, "DATA: " + mSJResultList.get(i).toString());
             textViewLabelCustomerName.setText(mSJResultList.get(i).getCustomerName());
-            textViewLabelJobSite.setText(mSJResultList.get(i).getActionsOrRemarks());
+            textViewLabelJobSite.setText(mSJResultList.get(i).getRemarks());
             textViewLabelServiceNo.setText(mSJResultList.get(i).getServiceNumber());
             textViewLabelTypeOfService.setText(mSJResultList.get(i).getTypeOfService());
             textViewLabelTelephone.setText(mSJResultList.get(i).getTelephone());
@@ -354,7 +354,7 @@ public class SigningOff_4 extends AppCompatActivity implements
             textViewLabelEquipmentType.setText(mSJResultList.get(i).getEquipmentType());
             textViewLabelModel.setText(mSJResultList.get(i).getModelOrSerial());
             textViewComplaints.setText(mSJResultList.get(i).getComplaintsOrSymptoms());
-            textViewRemarksActions.setText(mSJResultList.get(i).getActionsOrRemarks());
+            textViewRemarksActions.setText(mSJResultList.get(i).getRemarks());
         }
     }
     /*********** A. END SERVICE DETAILS ***********/

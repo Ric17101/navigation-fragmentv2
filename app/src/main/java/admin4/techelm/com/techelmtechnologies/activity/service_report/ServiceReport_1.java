@@ -286,7 +286,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
         for (int i = 0; i < mSJResultList.size(); i++) { // Only one is enough
             Log.e(TAG, "DATA: " + mSJResultList.get(i).toString());
             textViewLabelCustomerName.setText(mSJResultList.get(i).getCustomerName());
-            textViewLabelJobSite.setText(mSJResultList.get(i).getActionsOrRemarks());
+            textViewLabelJobSite.setText(mSJResultList.get(i).getRemarks());
             textViewLabelServiceNo.setText(mSJResultList.get(i).getServiceNumber());
             textViewLabelTypeOfService.setText(mSJResultList.get(i).getTypeOfService());
             textViewLabelTelephone.setText(mSJResultList.get(i).getTelephone());
@@ -294,7 +294,7 @@ public class ServiceReport_1 extends AppCompatActivity implements
             textViewLabelEquipmentType.setText(mSJResultList.get(i).getEquipmentType());
             textViewLabelModel.setText(mSJResultList.get(i).getModelOrSerial());
             textViewComplaints.setText(mSJResultList.get(i).getComplaintsOrSymptoms());
-            textViewRemarksActions.setText(mSJResultList.get(i).getActionsOrRemarks());
+            textViewRemarksActions.setText(mSJResultList.get(i).getRemarks());
         }
     }
 

@@ -88,6 +88,7 @@ public class PJ_PISSTaskListAdapter extends RecyclerView.Adapter<PJ_PISSTaskList
 
         dataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(dataSet.getSerialNo()); // GREYED Below BIG Number
+        // this.mSetHelper.setTextNumberSize(holder.textViewDateNumber, dataSet.getID()+"");
         holder.textViewDateNumber.setText(dataSet.getID() + ""); // BIG Number
         holder.textViewDate.setText(dataSet.getStatus()); // BLACK Date Below
         holder.textViewServiceNum.setText(dataSet.getComments());

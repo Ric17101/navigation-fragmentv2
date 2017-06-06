@@ -33,6 +33,10 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.HTTP_AUTH
 
 public class JSONHelper {
 
+//    final static int CONN_WAIT_TIME = 3000;
+    final static int CONN_WAIT_TIME = 20000;
+    final static int CONN_DATA_WAIT_TIME = 2000;
+
     public static String GET(String urlLink){
         InputStream inputStream = null;
         String result = "";
@@ -46,9 +50,18 @@ public class JSONHelper {
             // make GET request to the given URL
             String encoding = Base64.encodeToString(HTTP_AUTHENTICATION_ACCESS.getBytes(), Base64.DEFAULT);
             connection.setRequestMethod("GET");
+//            connection.setConnectTimeout(CONN_WAIT_TIME);
+//            connection.setReadTimeout(CONN_DATA_WAIT_TIME);
             connection.addRequestProperty("Authorization", "Basic " + encoding);
             connection.connect();
 
+            /*BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder answer = new StringBuilder(100000);
+            while ((inputLine = in.readLine()) != null) {
+                answer.append(inputLine);
+                answer.append("\n");
+            }*/
             // receive response as inputStream
             inputStream = connection.getInputStream();
 
@@ -58,7 +71,7 @@ public class JSONHelper {
             else
                 result = "null"; // aResponse = "Did not work!";
 
-            Log.d("InputStream",result);
+            Log.d("InputStream", result);
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
             Log.d("InputStream Exception", e.getMessage());

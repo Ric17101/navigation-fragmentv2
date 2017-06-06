@@ -89,6 +89,7 @@ public class PJ_B1ListAdapter extends RecyclerView.Adapter<PJ_B1ListAdapter.View
 
         serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(serviceJobDataSet.getProjectRef());
+        // this.mSetHelper.setTextNumberSize(holder.textViewDateNumber, serviceJobDataSet.getID()+"");
         holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
         holder.textViewDate.setText(serviceJobDataSet.getStartDate());
         holder.textViewServiceNum.setText(serviceJobDataSet.getStatus() + "");

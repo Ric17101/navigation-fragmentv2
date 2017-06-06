@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -56,7 +55,6 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_J
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_CAPTURE_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_RECORDING_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_UPLOAD_SIGNATURE_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 
 public class SigningOff_FRGMT_4 extends Fragment {
 
@@ -401,7 +399,7 @@ public class SigningOff_FRGMT_4 extends Fragment {
 
         private void notifyUserOnSubmit(ServiceJobWrapper sjw) {
             uploadTask = new UploadDataWithNotificationTASK();
-            uploadTask.setIdRemarks(sjw.getID(), sjw.getActionsOrRemarks())
+            uploadTask.setIdRemarks(sjw.getID(), sjw.getRemarks())
                     .setSignatureFile(sjw.getSignaturePath(), sjw.getSignatureName())
                     .execute((Void) null);
         }

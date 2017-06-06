@@ -288,8 +288,8 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);*/
         remarks = "";
         /*if (mPosition == 0) {
-            remarks = (null == mServiceJobFromBundle.getActionsOrRemarks() ?
-                    "" : mServiceJobFromBundle.getActionsOrRemarks());
+            remarks = (null == mServiceJobFromBundle.getRemarks() ?
+                    "" : mServiceJobFromBundle.getRemarks());
         } else {*/
             mSJDB = new ServiceJobDBUtil(getActivity());
             mSJDB.open();

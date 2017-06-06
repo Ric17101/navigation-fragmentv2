@@ -62,6 +62,7 @@ import me.sudar.zxingorient.Barcode;
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_ATTENDEES_DELETE_ALL_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_ATTENDEES_DELETE_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_ATTENDEES_UPLOAD_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.TOOLBOXMEETING_IMAGE_UPLOAD_URL;
@@ -74,7 +75,7 @@ import static android.Manifest.permission.CAMERA;
 public class AttendanceFragment extends Fragment implements View.OnClickListener {
 
     private Context mContext;
-    Button btnScanCode, btnAdd;
+    Button btnScanCode, btnAdd, btnDeleteAll;
     EditText editTextEmpCode;
     private static final String TAG = AttendanceFragment.class.getSimpleName();
     private static final int REQUEST_CAMERA = 0x00000011;
@@ -154,6 +155,9 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
         btnAdd = (Button) view.findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
+
+        btnDeleteAll = (Button) view.findViewById(R.id.btnDeleteAll);
+        btnDeleteAll.setOnClickListener(this);
 
         list = new ArrayList<>();
 
@@ -293,14 +297,32 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                         .initiateScan(Barcode.QR_CODE);
                 break;
             case R.id.btnAdd:
-                if (editTextEmpCode.getText().toString() == "") break;
 
-                Log.e("Added",editTextEmpCode.getText().toString());
-                list.add(editTextEmpCode.getText().toString());
-                listAttendees.setAdapter(arrayAdapter);
-                uploadAttendee(editTextEmpCode.getText().toString());
+                String ed_text = editTextEmpCode.getText().toString().trim();
+
+                if (ed_text.isEmpty() || ed_text.length() == 0 || ed_text.equals("") || ed_text == null) {
+
+                    SnackBarNotificationUtil
+                            .setSnackBar(getActivity().findViewById(android.R.id.content),
+                                    "No code to add")
+                            .setColor(getResources().getColor(R.color.colorPrimary1))
+                            .show();
+                }else {
+
+                    Log.e("Added", editTextEmpCode.getText().toString());
+                    list.add(editTextEmpCode.getText().toString());
+                    listAttendees.setAdapter(arrayAdapter);
+                    uploadAttendee(editTextEmpCode.getText().toString());
+                    arrayAdapter.notifyDataSetChanged();
+                    editTextEmpCode.setText("");
+                }
+                break;
+            case R.id.btnDeleteAll:
+
+                Log.e("ArrayList","Delete All");
+                list.clear();
+                deleteAttendees();
                 arrayAdapter.notifyDataSetChanged();
-                editTextEmpCode.setText("");
                 break;
         }
     }
@@ -826,6 +848,31 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                 .setLink(TOOLBOXMEETING_ATTENDEES_DELETE_URL)
                 .addParam("projectjob_id", toolboxMeetingWrapper.getID()+"")
                 .addParam("meeting_attendee", attendee)
+                .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
+                    @Override
+                    public void onError(String msg, int success) {
+                        Log.e(TAG, "Message " + msg + " Error:" + success);
+                    }
+
+                    @Override
+                    public void onSuccess(String msg, int success) {
+                        Log.e(TAG, "Message " + msg + " Success:" + success);
+                        //uploadTask.sleep();
+                    }
+                });
+
+        // TODO: Form Type based on th mode of Signature...
+        // post.addParam("form_type", ipiWrapper.)
+
+        post.startUpload();
+    }
+
+    private void deleteAttendees() {
+
+        UploadFile_VolleyPOST post = new UploadFile_VolleyPOST();
+        post.setContext(this.mContext)
+                .setLink(TOOLBOXMEETING_ATTENDEES_DELETE_ALL_URL)
+                .addParam("projectjob_id", toolboxMeetingWrapper.getID()+"")
                 .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
                     @Override
                     public void onError(String msg, int success) {

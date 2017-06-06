@@ -19,10 +19,50 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 
+    /*
+    POST :
+        http://techelm2012.firstcomdemolinks.com/api/ci-rest-api-techelm/servicejob/get_date_services_by_month_and_by_employee_id
+    PARAMETERS :
+        employee_id: 6
+        month: 6
+        year: 2017
+    RESPONSE :
+        "servicelist": [
+            {
+                "id": "98",
+                "service_no": "SEV2017061003",
+                "customer_id": "1",
+                "service_id": "6",
+                "type_of_service": "",
+                "complaint": "",
+                "engineer_id": "6",
+                "locked_to_user": "0",
+                "remarks": "asdsad",
+                "remarks_before": "",
+                "remarks_after": "",
+                "equipment_type": "EQUIP00001",
+                "serial_no": "21asdsad",
+                "start_date": "2017-06-01 05:04:50",
+                "end_date": "0000-00-00 00:00:00",
+                "status": "0",
+                "signature_name": "",
+                "start_date_task": "0000-00-00 00:00:00",
+                "end_date_task": "0000-00-00 00:00:00",
+                "date_created": "2017-06-01 05:04:50",
+                "active": "1",
+                "customer_name": "Customer1",
+                "job_site": "Schenker Phils. Inc",
+                "fax": "1234567",
+                "phone_no": "23323",
+                "engineer_name": "Administrator",
+                "locked_to": null
+            },
+     */
 public class ConvertJSON_SJ {
 
     private static final String TAG = ConvertJSON_SJ.class.getSimpleName();
     private boolean mResult = false;
+    private boolean mHasResponse = false;
 
     public ConvertJSON_SJ() { }
 
@@ -31,22 +71,17 @@ public class ConvertJSON_SJ {
      * TRUE - GOOD
      * @return
      */
-    public boolean hasResult() {
-        return mResult;
-    }
+    public boolean hasResult() { return mResult; }
+    public boolean hasResponse() { return mHasResponse; }
 
     public ArrayList<ServiceJobWrapper> parseServiceListJSON(String JSONResult) throws JSONException {
-        ArrayList<ServiceJobWrapper> translationList = new ArrayList<>();
-        JSONObject json = new JSONObject(JSONResult);
-        String str = "";
+        ArrayList<ServiceJobWrapper> translationList = new ArrayList<ServiceJobWrapper>();
 
-        JSONArray jsonArray = json.getJSONArray("servicelist");
+        JSONObject json = new JSONObject(JSONResult); // TODO: what error will be displayed on the list
+        JSONArray jsonArray = json.getJSONArray("servicelist"); // TODO: no result or just readable.
         int jsonLen = jsonArray.length();
-        this.mResult = jsonLen >= 0;
-
-        /*if (jsonArray == null){
-            return null;
-        }*/
+        this.mResult = jsonLen > 0;
+        this.mHasResponse = true; // Passed thru the JSONObject Conversion
         int i = 0;
         do { // 24
             ServiceJobWrapper sw = new ServiceJobWrapper();
@@ -54,10 +89,11 @@ public class ConvertJSON_SJ {
             sw.setServiceNumber(jsonArray.getJSONObject(i).getString("service_no"));
             sw.setCustomerID(jsonArray.getJSONObject(i).getString("customer_id"));
             sw.setServiceID(jsonArray.getJSONObject(i).getString("service_id"));
-            sw.setEngineerID(jsonArray.getJSONObject(i).getString("engineer_id"));
-            sw.setPriceID(jsonArray.getJSONObject(i).getString("price_id"));
+            sw.setTypeOfService(jsonArray.getJSONObject(i).getString("type_of_service"));
             sw.setComplaintsOrSymptoms(jsonArray.getJSONObject(i).getString("complaint"));
-            sw.setActionsOrRemarks(jsonArray.getJSONObject(i).getString("remarks"));
+            sw.setEngineerID(jsonArray.getJSONObject(i).getString("engineer_id"));
+            sw.setLockedToUser(jsonArray.getJSONObject(i).getString("locked_to"));
+            sw.setRemarks(jsonArray.getJSONObject(i).getString("remarks"));
             sw.setBeforeRemarks(jsonArray.getJSONObject(i).getString("remarks_before"));
             sw.setAfterRemarks(jsonArray.getJSONObject(i).getString("remarks_after"));
             sw.setEquipmentType(jsonArray.getJSONObject(i).getString("equipment_type"));
@@ -65,27 +101,29 @@ public class ConvertJSON_SJ {
             sw.setStartDate(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0]);
             sw.setEndDate(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0]);
             sw.setStatus(jsonArray.getJSONObject(i).getString("status"));
-            sw.setContractServicing(jsonArray.getJSONObject(i).getString("contract_servicing"));
-            sw.setWarrantyServicing(jsonArray.getJSONObject(i).getString("warranty_servicing"));
-            sw.setCharges(jsonArray.getJSONObject(i).getString("charges"));
-            sw.setContractRepair(jsonArray.getJSONObject(i).getString("contract_repair"));
-            sw.setWarrantyRepair(jsonArray.getJSONObject(i).getString("warranty_repair"));
-            sw.setOthers(jsonArray.getJSONObject(i).getString("others"));
-            sw.setTypeOfService(jsonArray.getJSONObject(i).getString("type_of_service"));
             sw.setSignatureName(jsonArray.getJSONObject(i).getString("signature_name"));
-            sw.setCustomerName(jsonArray.getJSONObject(i).getString("fullname"));
+            sw.setStartDateTask(jsonArray.getJSONObject(i).getString("start_date_task"));
+            sw.setEndDateTask(jsonArray.getJSONObject(i).getString("end_date_task"));
+            sw.setDateCreated(jsonArray.getJSONObject(i).getString("date_created"));
+            sw.setCustomerName(jsonArray.getJSONObject(i).getString("customer_name"));
             sw.setJobSite(jsonArray.getJSONObject(i).getString("job_site"));
             sw.setFax(jsonArray.getJSONObject(i).getString("fax"));
-            sw.setTelephone(jsonArray.getJSONObject(i).getString("phone_no"));
+            sw.setTelephone(jsonArray.getJSONObject(i).getString("telephone"));
+            sw.setPhone(jsonArray.getJSONObject(i).getString("phone_no"));
             sw.setEngineerName(jsonArray.getJSONObject(i).getString("engineer_name"));
-            // Log.d(TAG, sw.toString());
+            // sw.setSignaturePath(jsonArray.getJSONObject(i).getString("signature_file_path"));
+
+            Log.d(TAG, sw.toString());
+
             translationList.add(sw);
+
             i++;
         } while (jsonLen > i);
         return translationList;
     }
 
     /**
+     * NOT USED 02/06/2017
      * 24 Columns + 2
      * Index 0 to 25
      * Parse JSON String from ':'
@@ -95,10 +133,6 @@ public class ConvertJSON_SJ {
      */
     public ArrayList<ServiceJobWrapper> serviceJobList(List<String> parsedServiceJob) {
         ArrayList<ServiceJobWrapper> translationList = new ArrayList<>();
-       /* if (parsedServiceJob.size() == 0 || parsedServiceJob.isEmpty()) {
-            this.aResponse = true; // No result
-            return null;
-        }*/
 
         this.mResult = parsedServiceJob.size() >= 0;
 
@@ -111,31 +145,31 @@ public class ConvertJSON_SJ {
             sw.setCustomerID(pieces[2]);
             sw.setServiceID(pieces[3]);
             sw.setEngineerID(pieces[4]);
-            sw.setPriceID(pieces[5]);
-            sw.setComplaintsOrSymptoms(pieces[6]);
-            sw.setActionsOrRemarks(pieces[7]);
-            sw.setBeforeRemarks(pieces[8]);
-            sw.setAfterRemarks(pieces[9]);
-            sw.setEquipmentType(pieces[10]);
-            sw.setModelOrSerial(pieces[11]);
-            sw.setStartDate(pieces[12]);
-            sw.setEndDate(pieces[13]);
-            sw.setStatus(pieces[14]);
-            sw.setContractServicing(pieces[15]);
-            sw.setWarrantyServicing(pieces[16]);
-            sw.setCharges(pieces[17]);
-            sw.setContractRepair(pieces[18]);
-            sw.setWarrantyRepair(pieces[19]);
-            sw.setOthers(pieces[20]);
-            sw.setTypeOfService(pieces[21]);
-            sw.setSignatureName(pieces[22]);
-//            sw.setStartDateTask(pieces[23]);
-//            sw.setEndDateTask(pieces[24]);
-            sw.setCustomerName(pieces[25]);
-            sw.setJobSite(pieces[26]);
-            sw.setFax(pieces[27]);
-            sw.setTelephone(pieces[28]);
-            sw.setEngineerName(pieces[29]);
+            // sw.setPriceID(pieces[5]);
+            sw.setComplaintsOrSymptoms(pieces[5]);
+            sw.setRemarks(pieces[6]);
+            sw.setBeforeRemarks(pieces[7]);
+            sw.setAfterRemarks(pieces[8]);
+            sw.setEquipmentType(pieces[9]);
+            sw.setModelOrSerial(pieces[10]);
+            sw.setStartDate(pieces[11]);
+            sw.setEndDate(pieces[12]);
+            sw.setStatus(pieces[13]);
+            //sw.setContractServicing(pieces[14]);
+            /*sw.setWarrantyServicing(pieces[14]);
+            sw.setCharges(pieces[15]);
+            sw.setContractRepair(pieces[16]);
+            sw.setWarrantyRepair(pieces[17]);
+            sw.setOthers(pieces[18]);*/
+            sw.setTypeOfService(pieces[14]);
+            sw.setSignatureName(pieces[15]);
+//            sw.setStartDateTask(pieces[16]);
+//            sw.setEndDateTask(pieces[17]);
+            sw.setCustomerName(pieces[18]);
+            sw.setJobSite(pieces[19]);
+            sw.setFax(pieces[20]);
+            sw.setTelephone(pieces[21]);
+            sw.setEngineerName(pieces[22]);
             // Log.d(TAG, sw.toString());
             translationList.add(sw);
         }

@@ -37,7 +37,7 @@ public class TM_ListAdapter extends RecyclerView.Adapter<TM_ListAdapter.ViewHold
     private final int SHORT_DURATION = 1000;
 
     private List<ToolboxMeetingWrapper> mDataSet = new ArrayList<>();
-    private ToolboxMeetingWrapper serviceJobDataSet;
+    private ToolboxMeetingWrapper dataSet;
     private CallbackInterface mCallback;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
@@ -87,19 +87,20 @@ public class TM_ListAdapter extends RecyclerView.Adapter<TM_ListAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         this.mSetHelper = new FragmentSetListHelper_ToolboxMeeting();
 
-        serviceJobDataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewDay.setText(serviceJobDataSet.getProjectRef());
-        holder.textViewDateNumber.setText(serviceJobDataSet.getID() + "");
-        holder.textViewDate.setText(serviceJobDataSet.getStartDate());
-        holder.textViewServiceNum.setText(serviceJobDataSet.getStatus() + "");
-        holder.textViewCustomer.setText(serviceJobDataSet.getCustomerName());
-        holder.textViewEngineer.setText(serviceJobDataSet.getEngineerName());
-        holder.textViewStatus.setText(this.mSetHelper.setStatus(serviceJobDataSet.getStatus()+""));
-        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(serviceJobDataSet.getStatus()+""));
+        dataSet = mDataSet.get(holder.getAdapterPosition());
+        holder.textViewDay.setText(dataSet.getProjectRef());
+        // this.mSetHelper.setTextNumberSize(holder.textViewDateNumber, dataSet.getID()+"");
+        holder.textViewDateNumber.setText(dataSet.getID() + "");
+        holder.textViewDate.setText(dataSet.getStartDate());
+        holder.textViewServiceNum.setText(dataSet.getStatus() + "");
+        holder.textViewCustomer.setText(dataSet.getCustomerName());
+        holder.textViewEngineer.setText(dataSet.getEngineerName());
+        holder.textViewStatus.setText(this.mSetHelper.setStatus(dataSet.getStatus()+""));
+        holder.textViewStatus.setTextColor(this.mSetHelper.setColor(dataSet.getStatus()+""));
         holder.textViewTask.setText(Html.fromHtml(this.mSetHelper.setTaskText(PROJECT_JOB_START_TASK)));
-        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(serviceJobDataSet.getStatus()+""));
+        holder.buttonTask.setImageResource(this.mSetHelper.setIconTask(dataSet.getStatus()+""));
 
-        Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + serviceJobDataSet.getProjectRef());
+        Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + dataSet.getProjectRef());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;

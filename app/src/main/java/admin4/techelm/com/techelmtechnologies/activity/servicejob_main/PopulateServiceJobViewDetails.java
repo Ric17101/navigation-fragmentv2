@@ -66,7 +66,7 @@ public class PopulateServiceJobViewDetails {
         textViewLabelEquipmentType.setText(serviceJob.getEquipmentType());
         textViewLabelModel.setText(serviceJob.getModelOrSerial());
         textViewComplaints.setText(serviceJob.getComplaintsOrSymptoms());
-        textViewRemarksActions.setText(serviceJob.getActionsOrRemarks());
+        textViewRemarksActions.setText(serviceJob.getRemarks());
     }
 
     /**

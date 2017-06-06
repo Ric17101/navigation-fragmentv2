@@ -19,9 +19,7 @@ import android.widget.TextView;
 import com.marcohc.robotocalendar.RobotoCalendarView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
@@ -46,7 +44,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_BY_MONTH_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_LIST_URL;
 import static android.app.Activity.RESULT_CANCELED;
@@ -572,146 +569,6 @@ public class CalendarFragment extends Fragment implements
             SessionManager mSession = new SessionManager(getActivity());
             int employee_id = Integer.parseInt(mSession.getUserDetails().get(SessionManager.KEY_USER_ID));
             return String.format(SERVICE_JOB_LIST_URL, employee_id, mDate);
-            // return SERVICE_JOB_LIST_URL + mDate;
-        }
-
-        public String getServiceJobLink() {
-            StringBuilder sb = new StringBuilder();
-            //sb.append(SERVICE_JOB_URL);
-            sb.append("detail/" + mID);
-            return sb.toString();
-        }
-
-        /**
-         *
-         * @param JSONResult
-         * @return
-         *      null - no data
-         *      '' - no internet connection/ server error
-         *      String - successful aResponse
-         *      TODO: Do this on the ConvertJSON_SJ.java
-         *          Same with Unsigned and Service Job classes
-         */
-        private String parseServiceListJSON(String JSONResult) {
-            if (JSONResult == null || JSONResult == "")
-                return "";
-            try {
-                JSONObject json = new JSONObject(JSONResult);
-                String str = "";
-
-                JSONArray jsonArray = json.getJSONArray("servicelist");
-                int jsonLen = json.getJSONArray("servicelist").length();
-                if (jsonLen == 0)
-                    return "null";
-
-                str += "names: " + jsonArray.getJSONObject(0).names();
-                str += "\n--------\n";
-                str += "jsonA length = " + jsonLen;
-                str += "\n--------\n";
-                str += "ID: " + jsonArray.getJSONObject(0).getString("id");
-                str += "\n--------\n";
-                str += "Service No: " + jsonArray.getJSONObject(0).getString("service_no");
-                str += "\n--------\n";
-                str += "Customer ID: " + jsonArray.getJSONObject(0).getString("customer_id");
-                str += "\n--------\n";
-                str += "Service ID: " + jsonArray.getJSONObject(0).getString("service_id");
-                str += "\n--------\n";
-                str += "Engineer id: " + jsonArray.getJSONObject(0).getString("engineer_id");
-                str += "\n--------\n";
-                str += "Price ID: " + jsonArray.getJSONObject(0).getString("price_id");
-                str += "\n--------\n";
-                str += "Complaint: " + jsonArray.getJSONObject(0).getString("complaint");
-                str += "\n--------\n";
-                str += "Remarks: " + jsonArray.getJSONObject(0).getString("remarks");
-                str += "\n--------\n";
-                str += "Equipment Type: " + jsonArray.getJSONObject(0).getString("equipment_type");
-                str += "\n--------\n";
-                str += "Serial No: " + jsonArray.getJSONObject(0).getString("serial_no");
-                str += "\n--------\n";
-                str += "Start Date: " + jsonArray.getJSONObject(0).getString("start_date");
-                str += "\n--------\n";
-                str += "End Date: " + jsonArray.getJSONObject(0).getString("end_date");
-                str += "\n--------\n";
-                str += "Status: " + jsonArray.getJSONObject(0).getString("status");
-
-                Log.d(TAG, "parseJSON: " + str);
-
-                // jsonLen += 1;
-                int i = 0;
-                do { // 24 + 2
-                    StringBuilder jsonRes = new StringBuilder();
-                    jsonRes.append(jsonArray.getJSONObject(i).getString("id"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("service_no"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("customer_id"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("service_id"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("engineer_id"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("price_id"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("complaint"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("remarks"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("remarks_before"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("remarks_after"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("equipment_type"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("serial_no"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0])
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0])
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("status"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("contract_servicing"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("warranty_servicing"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("charges"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("contract_repair"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("warranty_repair"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("others"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("type_of_service"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("signature_name"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("start_date_task"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("end_date_task"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("fullname"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("job_site"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("fax"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("phone_no"))
-                            .append(LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("engineer_name"))
-                            .append(LIST_DELIM)
-                    ;
-
-                    serviceList.add(jsonRes.toString());
-                    i++;
-                } while (jsonLen > i);
-
-                return "ok";
-            } catch (JSONException e) {
-                e.printStackTrace();
-                // mCallback.onHandleShowDetails(e.toString());
-            }
-            return "";
         }
 
         // TO DO: Network API activity
@@ -747,44 +604,64 @@ public class CalendarFragment extends Fragment implements
             });
         }
 
-        @Override
-        protected void onPreExecute() { super.onPreExecute(); }
+        private void simulateNetworkAccess() {
+            // Simulate network access. For 2 Seconds.
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
+        private boolean hasInternet() {
+            return new JSONHelper().isConnected(getActivity());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // super.onPreExecute();
+
+        }
+
+        private void noResponse() {
+            messageFromTask("There's no data on the Date " + mDate);
+            mCalendarResultsList.setVisibility(View.GONE);
+            textViewCalendarResult.setText("There's no service job on the Date \n" + mDate + ".");
+            // textViewCalendarResult.setText("No service job this time.");
+            textViewCalendarResult.setVisibility(View.VISIBLE);
+        }
         /**
          * resultStatus
          * 0 - Default no Internet
          * 1 - ok, with data
          * 2 - no response or no Data
-         * 3 - no internet??? or blank reponse
+         * 3 - no internet??? or blank response
+         *   - NO CONNECTION
+         *
+         *  OLD IMPLEMENTATION
+         *  null - no data
+         *      '' - no internet connection/ server error
+         *      String - successful aResponse
          */
         @Override
         protected List<ServiceJobWrapper> doInBackground(Void... params) {
-            String parsedServiceJob = "";
+            if (!hasInternet()) {
+                resultStatus = 3;
+                return null;
+            }
+
+            ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
             try {
-                parsedServiceJob = parseServiceListJSON(JSONHelper.GET(getLink()));
-                switch (parsedServiceJob) {
-                    case "ok":
-                        ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
-                        ArrayList<ServiceJobWrapper> resultList = cJSON.serviceJobList(serviceList);
-                        resultStatus = (cJSON.hasResult() ? 1 : 3);
-                        // return (resultStatus == 1 ? resultList : null);
-                        return resultList;
-                    case "null":
-                        resultStatus = 2;
-                        return null;
-                    case "":
-                        // NO CONNECTION
-                        resultStatus = 3;
-                        return null;
-                    default:
-                        Thread.sleep(2000); // Simulate network access.
-
-                        return null; // Data Return is null or either no internet
-
-                }
-            } catch (InterruptedException e) {
+                ArrayList<ServiceJobWrapper> resultList = cJSON.parseServiceListJSON(JSONHelper.GET(getLink()));
+                resultStatus = (cJSON.hasResult()) ? 1 : 2;
+                return resultList;
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            simulateNetworkAccess();
+            resultStatus = (cJSON.hasResult() ? 3 : 2);
+            // resultStatus = 3;
             return null;
         }
 
@@ -792,19 +669,19 @@ public class CalendarFragment extends Fragment implements
         protected void onPostExecute(List<ServiceJobWrapper> list) {
             switch (resultStatus) {
                 case 1 :
-                    results = list;
-                    mCalendarResultsList.setItemAnimator(new DefaultItemAnimator());
-                    mListAdapter.swapData(list);
-                    mCalendarResultsList.setVisibility(View.VISIBLE);
-                    textViewCalendarResult.setVisibility(View.GONE);
-                    // populateCardList();
+                    if (list != null) {
+                        results = list;
+                        mCalendarResultsList.setItemAnimator(new DefaultItemAnimator());
+                        mListAdapter.swapData(list);
+                        mCalendarResultsList.setVisibility(View.VISIBLE);
+                        textViewCalendarResult.setVisibility(View.GONE);
+                        // populateCardList();
+                    } else {
+                        noResponse();
+                    }
                     break;
                 case 2 :
-                    messageFromTask("There's no data on the Date " + mDate);
-                    mCalendarResultsList.setVisibility(View.GONE);
-                    textViewCalendarResult.setText("There's no service job on the Date \n" + mDate + ".");
-                    // textViewCalendarResult.setText("No service job this time.");
-                    textViewCalendarResult.setVisibility(View.VISIBLE);
+                    noResponse();
                     break;
                 case 3 :
                 default :

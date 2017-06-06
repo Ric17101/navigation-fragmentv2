@@ -2,9 +2,11 @@ package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -141,6 +143,19 @@ public class FragmentSetListHelper_ProjectJob {
                 break;
         }
         return taskText;
+    }
+
+    public void setTextNumberSize(TextView textViewDateNumber, String text) {
+        switch (text.length()) {
+            case 3 :
+                textViewDateNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+                textViewDateNumber.setPadding(textViewDateNumber.getPaddingLeft(), 14, textViewDateNumber.getPaddingRight(), 14);
+                break;
+            case 4 :
+                textViewDateNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+                textViewDateNumber.setPadding(textViewDateNumber.getPaddingLeft(), 12, textViewDateNumber.getPaddingRight(), 12);
+                break;
+        }
     }
 
     public Spinner setSpinnerComment(Context context, View view, String compareValue) {

@@ -87,6 +87,7 @@ public class PJ_IPICarTaskListAdapter extends RecyclerView.Adapter<PJ_IPICarTask
 
         dataSet = mDataSet.get(holder.getAdapterPosition());
         holder.textViewDay.setText(dataSet.getSerialNo()); // GREYED Below BIG Number
+        // this.mSetHelper.setTextNumberSize(holder.textViewDateNumber, dataSet.getID()+"");
         holder.textViewDateNumber.setText(dataSet.getID() + ""); // BIG Number
         holder.textViewDate.setText(dataSet.getCarNo()); // BLACK Date Below
         holder.textViewServiceNum.setText(dataSet.getSerialNo());

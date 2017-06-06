@@ -44,9 +44,9 @@ import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceLis
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_BY_MONTH_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_LIST_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -453,7 +453,6 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
     private class CalendarSJTask_RenderList extends AsyncTask<Void, Void, List<ServiceJobWrapper>> {
 
         public final String TAG = CalendarFragment.class.getSimpleName();
-        private final String SJ_LIST_DELIM = ":-:";
 
         private String mDate;
         private String mID;
@@ -515,8 +514,8 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
                 str += "Service ID: " + jsonArray.getJSONObject(0).getString("service_id");
                 str += "\n--------\n";
                 str += "Engineer id: " + jsonArray.getJSONObject(0).getString("engineer_id");
-                str += "\n--------\n";
-                str += "Price ID: " + jsonArray.getJSONObject(0).getString("price_id");
+                /*str += "\n--------\n";
+                str += "Price ID: " + jsonArray.getJSONObject(0).getString("price_id");*/
                 str += "\n--------\n";
                 str += "Complaint: " + jsonArray.getJSONObject(0).getString("complaint");
                 str += "\n--------\n";
@@ -539,63 +538,63 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
                 do { // 24 + 2
                     StringBuilder jsonRes = new StringBuilder();
                     jsonRes.append(jsonArray.getJSONObject(i).getString("id"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("service_no"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("customer_id"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("service_id"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("engineer_id"))
-                            .append(SJ_LIST_DELIM)
-                            .append(jsonArray.getJSONObject(i).getString("price_id"))
-                            .append(SJ_LIST_DELIM)
+                            /*.append(LIST_DELIM)
+                            .append(jsonArray.getJSONObject(i).getString("price_id"))*/
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("complaint"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("remarks"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("remarks_before"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("remarks_after"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("equipment_type"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("serial_no"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("start_date").split(" ")[0])
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("end_date").split(" ")[0])
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("status"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("contract_servicing"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("warranty_servicing"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("charges"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("contract_repair"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("warranty_repair"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("others"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("signature_name"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("start_date_task"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("end_date_task"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("fullname"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("job_site"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("fax"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("phone_no"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                             .append(jsonArray.getJSONObject(i).getString("engineer_name"))
-                            .append(SJ_LIST_DELIM)
+                            .append(LIST_DELIM)
                     ;
                     serviceList.add(jsonRes.toString());
                     i++;
@@ -660,7 +659,7 @@ public class ServiceJobFragment_with_Calendar extends Fragment implements
                 switch (parsedServiceJob) {
                     case "ok":
                         ConvertJSON_SJ cJSON = new ConvertJSON_SJ();
-                        ArrayList<ServiceJobWrapper> resultList = cJSON.serviceJobList(serviceList);
+                        ArrayList<ServiceJobWrapper> resultList = null;//cJSON.serviceJobList(serviceList);
                         resultStatus = (cJSON.hasResult() ? 1 : 3);
                         return (resultStatus == 1 ? resultList : null);
                     case "null":

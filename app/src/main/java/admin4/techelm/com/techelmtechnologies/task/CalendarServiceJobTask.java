@@ -21,7 +21,6 @@ import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_DETAILS_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_URL;
 
 /**
  * Represents an asynchronous login/registration task used to authenticate
@@ -232,7 +231,7 @@ public class CalendarServiceJobTask extends AsyncTask<Void, Void, List<ServiceJo
             sw.setEngineerID(pieces[4]);
             sw.setTypeOfService(pieces[5]);
             sw.setComplaintsOrSymptoms(pieces[6]);
-            sw.setActionsOrRemarks(pieces[7]);
+            sw.setRemarks(pieces[7]);
             sw.setEquipmentType(pieces[8]);
             sw.setModelOrSerial(pieces[9]);
             sw.setStartDate(pieces[10]);

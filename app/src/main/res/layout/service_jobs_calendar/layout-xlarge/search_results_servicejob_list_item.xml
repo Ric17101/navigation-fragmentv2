@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:id="@+id/text_number_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingEnd="16dp"
@@ -27,7 +27,7 @@
         <LinearLayout
             android:id="@+id/src_content_number_scroll"
             style="@style/card_content"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:scrollbars="vertical">
@@ -47,21 +47,23 @@
                     android:padding="10dp">
 
                     <RelativeLayout
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/textViewDateNumber"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1"
+                            android:layout_centerHorizontal="true"
+                            android:maxLines="1"
+                            android:text="100"
                             android:textAlignment="center"
                             android:textSize="60sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textViewDate"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/textViewDay"
                             android:layout_centerHorizontal="true"
@@ -72,10 +74,11 @@
 
                         <TextView
                             android:id="@+id/textViewDay"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_below="@+id/textViewDateNumber"
+                            android:layout_centerHorizontal="true"
                             android:text="Day"
                             android:textAlignment="center"
                             android:textStyle="italic" />

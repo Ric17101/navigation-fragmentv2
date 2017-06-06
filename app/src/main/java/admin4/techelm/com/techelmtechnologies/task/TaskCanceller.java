@@ -51,7 +51,7 @@ import admin4.techelm.com.techelmtechnologies.utility.json.JSONHelper;
 public class TaskCanceller implements Runnable {
 
     private final static long LONG_DELAY = 20000;
-    private long taskDelay = 5*1000; // 2 Seconds if not connected to internet
+    private long taskDelay = 2*1000; // 2 Seconds if not connected to internet
 
     private AsyncTask task;
     private Handler mHandler = null;

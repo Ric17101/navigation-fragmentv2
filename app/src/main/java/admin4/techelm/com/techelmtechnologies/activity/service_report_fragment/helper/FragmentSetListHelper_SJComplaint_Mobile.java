@@ -14,7 +14,6 @@ public class FragmentSetListHelper_SJComplaint_Mobile {
 
     public FragmentSetListHelper_SJComplaint_Mobile() {}
 
-
     // Called at PJ_PISSTaskListAdapter Only
     public void setActionOnClick(SJ_Compaint_MobileListAdapter.CallbackInterface mCallback, int adapterPosition, ServiceJobComplaint_MobileWrapper serviceJobComplaint_mobileWrapper, int mode) {
         switch (mode) {

@@ -91,6 +91,8 @@ public final class Constants {
     // public static final String TOOLBOXMEETING_ATTENDEES_UPLOAD_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_save_attendees/";
     public static final String TOOLBOXMEETING_ATTENDEES_UPLOAD_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_save_attendee/";
     public static final String TOOLBOXMEETING_ATTENDEES_DELETE_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_delete_attendee/";
+    public static final String TOOLBOXMEETING_ATTENDEES_DELETE_ALL_URL = NEW_TOOLBOX_MEETING_URL + "toolboxmeeeting_delete_all_attendees/";
+
 
     public static final String LIST_DELIM = ":-:";
 
