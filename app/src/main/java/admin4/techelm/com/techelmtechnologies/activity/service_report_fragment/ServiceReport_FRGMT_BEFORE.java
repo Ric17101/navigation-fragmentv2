@@ -32,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,9 +46,11 @@ import com.melnykov.fab.FloatingActionButton;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_ComplaintListExpandableAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_Complaint_CFListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
@@ -68,7 +71,9 @@ import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_CF_LIST_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_ID_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_TAKEN_KEY;
 
@@ -136,19 +141,29 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     private RecyclerView mComplaintASRResultsList;
     private ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList = null;
 
+    // SJ_ComplaintListExpandableAdapter listAdapter; // Complaints List Adapter SetUp
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
+
     // SlidingPager Tab Set Up, Instance Variables
     private static final String ARG_POSITION = "position";
     private int mPosition;
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
     public static ServiceReport_FRGMT_BEFORE newInstance(int position, ServiceJobWrapper serviceJob,
-                 ArrayList<ServiceJobComplaint_CFWrapper> cfWrappers) {
+             ArrayList<ServiceJobComplaint_CFWrapper> cfWrappers,
+             ArrayList<ServiceJobComplaint_MobileWrapper> complaintMobileWrappers,
+             ArrayList<ServiceJobComplaint_ASRWrapper> complaintAsrWrappers)
+    {
         ServiceReport_FRGMT_BEFORE frag = new ServiceReport_FRGMT_BEFORE();
         Bundle args = new Bundle();
 
         args.putInt(ARG_POSITION, position);
         args.putParcelable(SERVICE_JOB_ID_KEY, serviceJob);
+        args.putParcelableArrayList(SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY, complaintMobileWrappers);
         args.putParcelableArrayList(SERVICE_JOB_COMPLAINTS_CF_LIST_KEY, cfWrappers);
+        args.putParcelableArrayList(SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY, complaintAsrWrappers);
         frag.setArguments(args);
 
         return frag;
@@ -159,7 +174,9 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         super.onCreate(savedInstanceState);
         mPosition = getArguments().getInt(ARG_POSITION);
         mServiceJobFromBundle = getArguments().getParcelable(SERVICE_JOB_ID_KEY);
+        mComplaintMobileList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY);
         mSJComplaintCFList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_CF_LIST_KEY);
+        mComplaintASRList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY);
     }
 
     @Override
@@ -1132,15 +1149,14 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     private void populateComplaintsCardList() {
         // mSJComplaintCFList = ((ServiceJobViewPagerActivity) getActivity()).mComplaintCFList;
 
-        if (mSJComplaintCFList != null) {
+        if (mSJComplaintCFList != null && mComplaintMobileList != null && mComplaintASRList != null) {
             //Log.e(TAG, "DATA: " + mResultsList.get(0).toString());
             mComplaintCFResultsList.setHasFixedSize(true);
             mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
             mComplaintCFResultsList.setItemAnimator(new DefaultItemAnimator());
-            mComplaintCFListAdapter.swapData(mSJComplaintCFList);
+            mComplaintCFListAdapter.swapData(mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, true);
         }
     }
-
 
     /*********** D. END SERVICEJOB COMPLAINTS ***********/
 }

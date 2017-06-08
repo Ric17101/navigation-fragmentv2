@@ -66,7 +66,7 @@ public class ServiceJobComplaint_CategoryWrapper implements Parcelable {
     }
 
     public String toString() {
-        return "ID : " + this.mId +
+        return "\nID : " + this.mId +
                 "\nmSJCategoryID: " + this.mSJCategoryID +
                 "\nmCategory: " + this.mCategory +
                 "\nmDateCreated : " + this.mDateCreated;

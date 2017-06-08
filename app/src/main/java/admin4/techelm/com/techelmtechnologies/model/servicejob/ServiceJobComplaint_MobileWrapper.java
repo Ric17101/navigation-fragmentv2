@@ -8,12 +8,10 @@ import android.os.Parcelable;
  */
 public class ServiceJobComplaint_MobileWrapper implements Parcelable {
     private int mId;                    //id in database
-    private int mServiceJobID;          // servicejob_category_id in database
+    private int mServiceJobID;          // servicejob_id in database
     private int mSJCategoryID;          // servicejob_category_id in database
-    private int mSJASRID;               // Action Service Repair ID in database
-    private int mSJComplaintFaultID;    // servicejob_category_id in database
-    // private String mAction;             // Complaint
-    private String mDateCreated;        // Date created
+    private String mDateCreated;        // date_created
+    private String mCategory;           // category in database
 
     public ServiceJobComplaint_MobileWrapper() { }
 
@@ -21,10 +19,8 @@ public class ServiceJobComplaint_MobileWrapper implements Parcelable {
         mId = in.readInt();
         mServiceJobID = in.readInt();
         mSJCategoryID = in.readInt();
-        mSJASRID = in.readInt();
-        mSJComplaintFaultID = in.readInt();
-        //mAction = in.readString();
         mDateCreated = in.readString();
+        mCategory = in.readString();
     }
 
     public static final Creator<ServiceJobComplaint_MobileWrapper> CREATOR = new Creator<ServiceJobComplaint_MobileWrapper>() {
@@ -42,10 +38,8 @@ public class ServiceJobComplaint_MobileWrapper implements Parcelable {
         dest.writeInt(mId);
         dest.writeInt(mServiceJobID);
         dest.writeInt(mSJCategoryID);
-        dest.writeInt(mSJASRID);
-        dest.writeInt(mSJComplaintFaultID);
-        //dest.writeString(mAction);
         dest.writeString(mDateCreated);
+        dest.writeString(mCategory);
     }
 
     @Override
@@ -70,36 +64,20 @@ public class ServiceJobComplaint_MobileWrapper implements Parcelable {
     }
     public void setSJCategoryId(int val) { mSJCategoryID = val; }
 
-    public int getSJASRID() {
-        return mSJASRID;
-    }
-    public void setSJASRID(int val) { mSJASRID = val; }
+    public String getDateCreated() { return mDateCreated; }
+    public void setDateCreated(String val) { mDateCreated = val; }
 
-    public int getSJComplaintFaultID() {
-        return mSJComplaintFaultID;
+    public String getSJCategory() {
+        return mCategory;
     }
-    public void setSJComplaintFaultID(int val) { mSJComplaintFaultID = val; }
-
-    public String getDateCreated() {
-        return mDateCreated;
-    }
-    public void setDateCreated(String val) {
-        mDateCreated = val;
-    }
-
-    /*public String getAction() { return mAction; }
-    public void setAction(String val) {
-        mAction = val;
-    }*/
+    public void setSJCategory(String val) { mCategory = val; }
 
     public String toString() {
-        return "ID : " + this.mId +
+        return "\nID : " + this.mId +
                 "\nmServiceJobID: " + this.mServiceJobID +
                 "\nmSJCategoryID: " + this.mSJCategoryID +
-                "\nmSJASRID: " + this.mSJASRID +
-                "\nmSJComplaintFaultID: " + this.mSJComplaintFaultID +
-                "\nmDateCreated : " + this.mDateCreated
-                //"\nmAction: " + this.mAction
-                ;
+                "\nmDateCreated : " + this.mDateCreated +
+                "\nmCategory: " + this.mCategory
+            ;
     }
 }

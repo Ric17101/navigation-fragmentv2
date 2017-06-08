@@ -77,7 +77,7 @@ public class SJ_Compaint_CategoryListAdapter extends RecyclerView.Adapter<SJ_Com
         this.mSetHelper = new FragmentSetListHelper_SJComplaint_Category();
 
         dataSet = mDataSet.get(holder.getAdapterPosition());
-        holder.textViewComplaints_CF.setText(position + ".)" + dataSet.getCategory());
+        holder.textViewComplaints_CF.setText("\t"+ (position + 1) + ".)  " + dataSet.getCategory());
 
         Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
                 dataSet.getCategory());

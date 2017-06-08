@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -38,7 +39,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -50,13 +53,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
+import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_Complaint_CFListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.ComplaintActionDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaintWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
@@ -68,7 +74,13 @@ import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.utility.PlaybackFragment;
 import admin4.techelm.com.techelmtechnologies.utility.RecordingService;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
+import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
+import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobComplaints_POST;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_CF_LIST_KEY;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_ID_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_TAKEN_KEY;
 
@@ -130,21 +142,29 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private SJ_Complaint_CFListAdapter mComplaintASRListAdapter; // ListView Setup
     private RecyclerView mComplaintASRResultsList;
     private ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList = null;
+    private Spinner mSpinnerAction;
 
     // SlidingPager Tab Set Up, Instance Varible
     private static final String ARG_POSITION = "position";
     private int mPosition;
     private ServiceJobWrapper mServiceJobFromBundle; // From Calling Activity
 
-    public static ServiceReport_FRGMT_AFTER newInstance(int position, ServiceJobWrapper serviceJob) {
+    public static ServiceReport_FRGMT_AFTER newInstance(int position, ServiceJobWrapper serviceJob,
+            ArrayList<ServiceJobComplaint_CFWrapper> mSJComplaintCFList,
+            ArrayList<ServiceJobComplaint_MobileWrapper> mSJComplaintMobileList,
+            ArrayList<ServiceJobComplaint_ASRWrapper> mSJComplaintASRList)
+    {
         ServiceReport_FRGMT_AFTER frag = new ServiceReport_FRGMT_AFTER();
         Bundle args = new Bundle();
 
         args.putInt(ARG_POSITION, position);
         args.putParcelable(SERVICE_JOB_ID_KEY, serviceJob);
+        args.putParcelableArrayList(SERVICE_JOB_COMPLAINTS_CF_LIST_KEY, mSJComplaintCFList);
+        args.putParcelableArrayList(SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY, mSJComplaintMobileList);
+        args.putParcelableArrayList(SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY, mSJComplaintASRList);
         frag.setArguments(args);
 
-        return (frag);
+        return frag;
     }
 
     @Override
@@ -152,6 +172,9 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         super.onCreate(savedInstanceState);
         mPosition = getArguments().getInt(ARG_POSITION);
         mServiceJobFromBundle = getArguments().getParcelable(SERVICE_JOB_ID_KEY);
+        mComplaintMobileList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY);
+        mSJComplaintCFList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_CF_LIST_KEY);
+        mComplaintASRList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY);
     }
 
     @Override
@@ -361,7 +384,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         mSJDB.open();
         mSJDB.updateRequestIDRemarks_AFTER(mServiceID, remarks);
         mSJDB.close();
-        Log.e(TAG, "AFTERsaveRemarksOnThread++");
+        Log.e(TAG, "saveRemarksOnThread++");
         SnackBarNotificationUtil
                 .setSnackBar(getActivity().findViewById(android.R.id.content), "Remarks saved.")
                 .setColor(getResources().getColor(R.color.colorPrimary1))
@@ -421,7 +444,202 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     public void fromActivity_onSJEntryRenamed(String remarks) {
         mEditTextRemarks.setText(remarks);
     }
-    public void fromActivity_onSJEntryDeleted() {
+    public void fromActivity_onSJEntryDeleted() { }
+
+    public void fromActivity_onSJEntryAddAction(ServiceJobComplaint_MobileWrapper mobileWrapper,
+            String clickedItemValue) {
+        Log.e(TAG, "fromActivity_onSJEntryAddAction " + mobileWrapper.toString());
+
+        ServiceJobComplaintWrapper complaintWrapper = new ServiceJobComplaintWrapper();
+        complaintWrapper.setServiceJobID(mobileWrapper.getServiceJobID());
+        complaintWrapper.setSJ_CM_CF_ID(getCMCFIDFromArrayList(clickedItemValue));
+        complaintWrapper.setComplaint(getComplaintFromArrayList(clickedItemValue));
+        complaintWrapper.setComplaintFaultID(getComplaintFaultIDFromArrayList(clickedItemValue));
+        complaintWrapper.setComplaintMobileID(mobileWrapper.getID());
+        complaintWrapper.setCategoryID(mobileWrapper.getSJCategoryId());
+        complaintWrapper.setCategory(mobileWrapper.getSJCategory());
+        /*
+        complaintWrapper.setActionID(mobileWrapper.getAc());
+        complaintWrapper.setAction(mobileWrapper.get());
+        */
+
+        showAddActionDialog(mobileWrapper, clickedItemValue, complaintWrapper);
+    }
+
+    /**
+     * Search and Get Value Complaint Name Clicked ID
+     * @param complaintToSearch - clicked sub category complaint name
+     * @return ID else 0 if none
+     */
+    private int getComplaintFaultIDFromArrayList(String complaintToSearch) {
+        for (ServiceJobComplaint_CFWrapper cf : this.mSJComplaintCFList) {
+            if (cf.getComplaint() != null && cf.getComplaint().contains(complaintToSearch))
+                return cf.getSJComplaintFaultIDID();
+        }
+        return 0;
+    }
+
+    private int getCMCFIDFromArrayList(String complaintToSearch) {
+        for (ServiceJobComplaint_CFWrapper cf : this.mSJComplaintCFList) {
+            if (cf.getComplaint() != null && cf.getComplaint().contains(complaintToSearch))
+                return cf.getSJ_CM_CF_ID();
+        }
+        return 0;
+    }
+
+    private String getComplaintFromArrayList(String complaintToSearch) {
+        for (ServiceJobComplaint_CFWrapper cf : this.mSJComplaintCFList) {
+            if (cf.getComplaint() != null && cf.getComplaint().contains(complaintToSearch))
+                return cf.getComplaint();
+        }
+        return "";
+    }
+
+    private int getActionIDFromArrayList(String actionToSearch) {
+        for (ServiceJobComplaint_ASRWrapper asr : this.mComplaintASRList) {
+            if (asr.getAction() != null && asr.getAction().contains(actionToSearch))
+                return asr.getID();
+        }
+        return 0;
+    }
+
+    public MaterialDialog showAddActionDialog(ServiceJobComplaint_MobileWrapper mobileWrapper,
+            String clickedItemValue, final ServiceJobComplaintWrapper complaintWrapper) {
+        boolean wrapInScrollView = false;
+        MaterialDialog md = new MaterialDialog.Builder(this.mContext)
+                .title("NEW ACTION")
+                .customView(R.layout.m_service_report_add_action, wrapInScrollView)
+                .negativeText("Save")
+                .positiveText("Close")
+                .iconRes(R.mipmap.replacepart_icon)
+                .autoDismiss(false)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Log.e(TAG, "mSpinnerAction = " + mSpinnerAction.getSelectedItem().toString());
+
+                        if (mSpinnerAction != null && mSpinnerAction.getSelectedItemPosition() > 0) {
+                            String action = mSpinnerAction.getSelectedItem().toString();
+                            int actionID = getActionIDFromArrayList(action);
+                            complaintWrapper.setAction(action);
+                            complaintWrapper.setActionID(actionID);
+
+                            Log.e(TAG, "showAddActionDialog YES " + complaintWrapper.toString());
+                            new ActionSaveOperation().execute(complaintWrapper);
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(mContext, "You must Select Action before save.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+
+        // Getting Category for Dropdown
+        StringBuilder sbFaults = new StringBuilder();
+        Log.e(TAG, "showAddActionDialog " + mobileWrapper.toString());
+        for (int i = 0; mComplaintASRList.size() > i; i++) {
+            if (mobileWrapper.getSJCategoryId() == mComplaintASRList.get(i).getSJCategoryId()) {
+                sbFaults.append(mComplaintASRList.get(i).getAction());
+                sbFaults.append(LIST_DELIM);
+            }
+        }
+
+        // Preparing Action Drop Down
+        final String[] aSubItem = sbFaults.toString().split(LIST_DELIM);
+
+        initActionSpinner(md.getCustomView(), clickedItemValue, aSubItem);
+        return md;
+    }
+
+    private void initActionSpinner(View customView, String clickedItemValue, String[] aSubItem) {
+        ArrayList<String> options = new ArrayList<>();
+        options.add("Select Action");
+        for (String action : aSubItem) {
+            options.add(action);
+        }
+
+        // Spinner 1
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, options);
+        mSpinnerAction = (Spinner) customView.findViewById(R.id.spinnerAction);
+        mSpinnerAction.setAdapter(adapter);
+
+        // TextView
+        TextView textViewActionTitle = (TextView) customView.findViewById(R.id.textViewActionTitle);
+        textViewActionTitle.setText("Actions for \""+ clickedItemValue +"\".");
+    }
+
+    private class ActionSaveOperation extends AsyncTask<ServiceJobComplaintWrapper, Void, Boolean> {
+
+        private ComplaintActionDBUtil cActionDB;
+        private ServiceJobComplaintWrapper cComplaint;
+
+        @Override
+        protected void onPreExecute() {
+            cActionDB = new ComplaintActionDBUtil(mContext);
+        }
+
+        @Override
+        protected Boolean doInBackground(ServiceJobComplaintWrapper... params) {
+            if (params[0] != null) {
+                cActionDB.open();
+                cActionDB.addNewAction(params[0]);
+                cActionDB.close();
+                cComplaint = params[0];
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean onSuccess) {
+            String msg = "Unable to save action.";
+            if (onSuccess) {
+                msg = "Action saved.";
+
+                cActionDB.open();
+                Log.e(TAG, cActionDB.getAllParts().toString());
+                cActionDB.close();
+                servicesJobStarComplaintsTask(cComplaint);
+            }
+            SnackBarNotificationUtil
+                    .setSnackBar(getActivity().findViewById(android.R.id.content), msg)
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
+    }
+
+    private void servicesJobStarComplaintsTask(final ServiceJobComplaintWrapper complaintWrapper) {
+        final ServiceJobComplaints_POST beginServiceJob = new ServiceJobComplaints_POST();
+        beginServiceJob.setOnEventListener(new ServiceJobComplaints_POST.OnEventListener() {
+            @Override
+            public void onEvent() {
+                // TODO: Close progress dialog here
+                // TODO: Test Response if OK or not
+            }
+
+            @Override
+            public void onError(String message) {
+                // TODO: Close progress dialog then try again if connected to internet
+            }
+
+            @Override
+            public void onEventResult(WebResponse response) {
+                // proceedViewPagerActivity(serviceJob, status, response.getStringResponse());
+                Log.e(TAG, "onEventResult " + response.getStringResponse());
+                // new MainActivity.ServiceJobTask(serviceJob, status, startTaskResponse, response.getStringResponse()).execute((Void) null);
+            }
+        });
+
+        // To Start the Activity
+        beginServiceJob.postAddComplaint(complaintWrapper);
     }
 
     /*********** A. END SERVICE DETAILS ***********/
@@ -485,7 +703,6 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
 
         dialog.show();
     }
-
 
     public MaterialDialog showCameraDialog() {
         final CameraUtil camU = new CameraUtil(getActivity(), "CAPTURE_" + UPLOAD_TAKEN);
@@ -1087,12 +1304,13 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private void populateComplaintsCardList() {
         // mSJComplaintCFList = ((ServiceJobViewPagerActivity) getActivity()).mComplaintCFList;
 
-        if (mSJComplaintCFList != null) {
-            //Log.e(TAG, "DATA: " + mResultsList.get(0).toString());
+        if (mSJComplaintCFList != null && mComplaintMobileList != null && mComplaintASRList != null) {
             mComplaintCFResultsList.setHasFixedSize(true);
             mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
             mComplaintCFResultsList.setItemAnimator(new DefaultItemAnimator());
-            mComplaintCFListAdapter.swapData(mSJComplaintCFList);
+            mComplaintCFListAdapter.swapData(mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, false);
+        } else {
+            Log.e(TAG, "else populateComplaintsCardList: " + mResultsList.get(0).toString());
         }
     }
 

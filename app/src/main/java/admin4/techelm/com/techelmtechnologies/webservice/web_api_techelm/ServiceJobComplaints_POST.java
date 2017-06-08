@@ -3,12 +3,14 @@ package admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm;
 import android.util.Log;
 import android.view.View;
 
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaintWrapper;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceListener;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_POST_ACTION_COMPLAINTS_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_POST_ALL_COMPLAINTS_URL;
 
 /**
@@ -53,7 +55,31 @@ public class ServiceJobComplaints_POST {
         executeWebServiceRequest();
     }
 
-    // TODO: parse reponse
+    /*
+    public function servicejob_upload_actions(){
+
+      $complaint_mobile_id = $_POST["complaint_mobile_id"];
+      $action_service_repair_id = $_POST["action_service_repair_id"];
+      $cm_cf_id = $_POST["cm_cf_id"];
+     */
+    public void postAddComplaint(ServiceJobComplaintWrapper complaint) {
+    /*web info*/
+        WebServiceInfo webServiceInfo = new WebServiceInfo();
+        webServiceInfo.setUrl(SERVICE_JOB_POST_ACTION_COMPLAINTS_URL);
+
+    /*add parameter*/
+        webServiceInfo.addParam("complaint_mobile_id", complaint.getComplaintMobileID() + "");
+        webServiceInfo.addParam("action_service_repair_id", complaint.getActionID() + "");
+        webServiceInfo.addParam("cm_cf_id", complaint.getSJ_CM_CF_ID() + "");
+
+    /*postStartDate command*/
+        postCommand = new PostCommand(webServiceInfo);
+
+    /*request*/
+        executeWebServiceRequest();
+    }
+
+    // TODO: parse response
     private void executeWebServiceRequest() {
         WebServiceRequest webServiceRequest = new WebServiceRequest(postCommand);
         webServiceRequest.execute();

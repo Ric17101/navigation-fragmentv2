@@ -75,7 +75,7 @@ public class UploadsTMDBUtil extends DatabaseAccess {
         if (cursor.moveToFirst()) {
             do {
                 ServiceJobUploadsWrapper item = new ServiceJobUploadsWrapper();
-                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setID(Integer.parseInt(cursor.getString(0)));
                 item.setServiceId(Integer.parseInt(cursor.getString(1)));
                 item.setUploadName(cursor.getString(2));
                 item.setFilePath(cursor.getString(3));
@@ -134,7 +134,7 @@ public class UploadsTMDBUtil extends DatabaseAccess {
         if (cursor.moveToFirst()) {
             do {
                 ServiceJobUploadsWrapper item = new ServiceJobUploadsWrapper();
-                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setID(Integer.parseInt(cursor.getString(0)));
                 item.setServiceId(Integer.parseInt(cursor.getString(1)));
                 item.setUploadName(cursor.getString(2));
                 item.setFilePath(cursor.getString(3));
@@ -157,7 +157,7 @@ public class UploadsTMDBUtil extends DatabaseAccess {
         Cursor cursor = getDB().rawQuery(selectQuery, null);
         ServiceJobUploadsWrapper item = new ServiceJobUploadsWrapper();
         if (cursor.moveToPosition(position)) {
-            item.setId(Integer.parseInt(cursor.getString(0)));
+            item.setID(Integer.parseInt(cursor.getString(0)));
             item.setServiceId(Integer.parseInt(cursor.getString(1)));
             item.setUploadName(cursor.getString(2));
             item.setFilePath(cursor.getString(3));

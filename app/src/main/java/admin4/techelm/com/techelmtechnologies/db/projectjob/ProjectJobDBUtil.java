@@ -20,7 +20,7 @@ import admin4.techelm.com.techelmtechnologies.model.projectjob.ProjectJobWrapper
 
 public class ProjectJobDBUtil extends DatabaseAccess {
 
-    private static final String TAG = "ProjectJobDBUtil";
+    private static final String TAG = ProjectJobDBUtil.class.getSimpleName();
 
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "projectjob";

@@ -22,7 +22,7 @@ import admin4.techelm.com.techelmtechnologies.model.UserLoginWrapper;
 
 public class ServiceJobDBUtil extends DatabaseAccess {
 
-    private static final String LOG_TAG = "ServiceJobDBUtil";
+    private static final String TAG = ServiceJobDBUtil.class.getSimpleName();
 
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "servicejob";
@@ -78,7 +78,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
@@ -91,7 +91,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
      */
     public ServiceJobDBUtil(Context context, String message) {
         super(context);
-        Log.e(LOG_TAG, message);
+        Log.e(TAG, message);
     }
 
     public int addServiceJob(ServiceJobWrapper item) {
@@ -128,13 +128,13 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         if (db.insert(DBHelperItem.TABLE_NAME, null, cv) < 0) { // Update if Already existed on the SQLite DB
             int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                     DBHelperItem.COLUMN_NAME_SJ_ID + "=" + item.getID(), null);
-            Log.e(LOG_TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
+            Log.e(TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
         }
 
-        Log.e(LOG_TAG, "addServiceJob INSERTED ID " + item.getID());
-        Log.e(LOG_TAG, "addServiceJob SJ NUM " + item.getServiceNumber());
-        Log.e(LOG_TAG, "addServiceJob SJ ID " + item.getServiceID());
-        Log.e(LOG_TAG, "addServiceJob INSERTED " + getAllJSDetailsByServiceJobID(item.getID()).toString());
+        Log.e(TAG, "addServiceJob INSERTED ID " + item.getID());
+        Log.e(TAG, "addServiceJob SJ NUM " + item.getServiceNumber());
+        Log.e(TAG, "addServiceJob SJ ID " + item.getServiceID());
+        Log.e(TAG, "addServiceJob INSERTED " + getAllJSDetailsByServiceJobID(item.getID()).toString());
         return item.getID();
     }
 
@@ -144,7 +144,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         db.delete(DBHelperItem.TABLE_NAME,
                 DBHelperItem.COLUMN_NAME_SJ_SERVICE_ID + "=?", whereArgs);
 
-        Log.e(LOG_TAG, "removeServiceJob " + serviceID);
+        Log.e(TAG, "removeServiceJob " + serviceID);
     }
 
     public List<ServiceJobWrapper> getAllDetailsOfServiceJob() {
@@ -227,7 +227,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
 
     private UserLoginWrapper getUserDetails(String engineerID, SQLiteDatabase db) {
         UserLoginWrapper user = new UserDBUtil(getContext()).getUserInfoByEngineerID(engineerID, db);
-        Log.e(LOG_TAG, "getUserDetails: " + user.toString());
+        Log.e(TAG, "getUserDetails: " + user.toString());
         return user;
     }
 
@@ -313,7 +313,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
             item.setEngineerName(cursor.getString(25));
             item.setSignaturePath(cursor.getString(26));
         }
-        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
+        // Log.e(TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
 
         if (!cursor.isClosed()) {
             cursor.close();
@@ -332,7 +332,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_SJ_REMARKS, remarks);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id, null);
-        Log.e(LOG_TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onSJEntryUpdated(remarks);
         }
@@ -350,7 +350,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_SJ_REMARKS_BEFORE, remarks);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id, null);
-        Log.e(LOG_TAG, "updateRequestIDRemarks_BEFORE ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDRemarks_BEFORE ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             ((Activity)getContext()).runOnUiThread(new Runnable() {
                 @Override
@@ -372,7 +372,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_SJ_REMARKS_AFTER, remarks);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + id, null);
-        Log.e(LOG_TAG, "updateRequestIDRemarks_AFTER ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDRemarks_AFTER ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onSJEntryUpdated(remarks);
         }
@@ -385,7 +385,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_SJ_SIGNATURE_FILE_PATH, signatureFilePath);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_SJ_ID + "=" + requestID, null);
-        Log.e(LOG_TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
 
         if (mOnDatabaseChangedListener != null) {
             // mOnDatabaseChangedListener.onIPI_DEntryUpdated(item.getServiceNumber());
@@ -443,7 +443,7 @@ public class ServiceJobDBUtil extends DatabaseAccess {
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onSJEntryDeleted();
         }
-        Log.e(LOG_TAG, "addRecording " + id);
+        Log.e(TAG, "addRecording " + id);
     }
 
     public int getCount() {

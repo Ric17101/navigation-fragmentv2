@@ -32,9 +32,9 @@ import admin4.techelm.com.techelmtechnologies.utility.view.ExpandableHeightListV
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 
-public class SJ_Complaint_CFListAdapter extends RecyclerView.Adapter<SJ_Complaint_CFListAdapter.ViewHolder> {
+public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Complaint__ASRListAdapter.ViewHolder> {
 
-    private static final String TAG = SJ_Complaint_CFListAdapter.class.getSimpleName();
+    private static final String TAG = SJ_Complaint__ASRListAdapter.class.getSimpleName();
 
     private ArrayList<ServiceJobComplaint_MobileWrapper> mMobileDataSet = new ArrayList<>();
     private ArrayList<ServiceJobComplaint_CFWrapper> mComplaintDataSet = new ArrayList<>();
@@ -54,7 +54,7 @@ public class SJ_Complaint_CFListAdapter extends RecyclerView.Adapter<SJ_Complain
 
     private FragmentSetListHelper_SJComplaint_CF mSetHelper;
 
-    public SJ_Complaint_CFListAdapter(Activity activity) {
+    public SJ_Complaint__ASRListAdapter(Activity activity) {
         mContext = activity;
 
         // .. Attach the interface
@@ -67,7 +67,7 @@ public class SJ_Complaint_CFListAdapter extends RecyclerView.Adapter<SJ_Complain
         // System.gc();
     }
 
-    public SJ_Complaint_CFListAdapter(ArrayList<ServiceJobComplaint_MobileWrapper> serviceJobList) {
+    public SJ_Complaint__ASRListAdapter(ArrayList<ServiceJobComplaint_MobileWrapper> serviceJobList) {
         this.mMobileDataSet = serviceJobList;
         notifyDataSetChanged();
     }
@@ -89,7 +89,7 @@ public class SJ_Complaint_CFListAdapter extends RecyclerView.Adapter<SJ_Complain
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.service_report_complaints_fault_list_item, parent, false);
+                .inflate(R.layout.service_report_complaints_action_list_item, parent, false);
         mContext = view.getContext();
         return new ViewHolder(view);
     }

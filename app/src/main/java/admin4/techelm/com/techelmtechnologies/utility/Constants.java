@@ -67,6 +67,7 @@ public final class Constants {
     public static final String SERVICE_JOB_BY_MONTH_URL = NEW_SERVICE_JOB_URL + "get_date_services_by_month_and_by_employee_id";
     public static final String SERVICE_JOB_SEND_EMAIL_URL = NEW_SERVICE_JOB_URL + "send_email";
     public static final String SERVICE_JOB_POST_ALL_COMPLAINTS_URL = NEW_SERVICE_JOB_URL + "get_all_servicejob_complaint_to_json_by_sjid";
+    public static final String SERVICE_JOB_POST_ACTION_COMPLAINTS_URL = NEW_SERVICE_JOB_URL + "servicejob_upload_actions";
 
     public static final String PROJECT_JOB_URL = DOMAIN_URL + "projectjob/";
     public static final String NEW_PROJECT_JOB_URL = NEW_DOMAIN_URL + "projectjob/";

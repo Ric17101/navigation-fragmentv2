@@ -20,7 +20,7 @@ import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_Wrapper;
 
 public class IPI_DBUtil extends DatabaseAccess {
 
-    private static final String LOG_TAG = "PISS_DBUtil";
+    private static final String TAG = IPI_DBUtil.class.getSimpleName();
 
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "projectjob_ipi";
@@ -53,7 +53,7 @@ public class IPI_DBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
@@ -66,7 +66,7 @@ public class IPI_DBUtil extends DatabaseAccess {
      */
     public IPI_DBUtil(Context context, String message) {
         super(context);
-        Log.e(LOG_TAG, message);
+        Log.e(TAG, message);
     }
 
     public int addServiceJob(IPI_Wrapper item) {
@@ -80,11 +80,11 @@ public class IPI_DBUtil extends DatabaseAccess {
         if (db.insert(DBHelperItem.TABLE_NAME, null, cv) < 0) { // Update if Already existed on the SQLite DB
             int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                     DBHelperItem.COLUMN_NAME_IPI_ID + "=" + item.getID(), null);
-            Log.e(LOG_TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
+            Log.e(TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
         }
 
-        Log.e(LOG_TAG, "addServiceJob INSERTED ID " + item.getID());
-        Log.e(LOG_TAG, "addServiceJob INSERTED " + getAllJSDetailsByServiceJobID(item.getID()).toString());
+        Log.e(TAG, "addServiceJob INSERTED ID " + item.getID());
+        Log.e(TAG, "addServiceJob INSERTED " + getAllJSDetailsByServiceJobID(item.getID()).toString());
         return item.getID();
     }
 
@@ -94,7 +94,7 @@ public class IPI_DBUtil extends DatabaseAccess {
         db.delete(DBHelperItem.TABLE_NAME,
                 DBHelperItem.COLUMN_NAME_IPI_SERVICE_ID + "=?", whereArgs);
 
-        Log.e(LOG_TAG, "removeServiceJob " + serviceID);
+        Log.e(TAG, "removeServiceJob " + serviceID);
     }
 
     public List<IPI_Wrapper> getAllDetailsOfServiceJob() {
@@ -187,7 +187,7 @@ public class IPI_DBUtil extends DatabaseAccess {
             item.setSubContractor(cursor.getString(2));
             item.setDateInspected(cursor.getString(3));
         }
-        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
+        // Log.e(TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
 
         if (!cursor.isClosed()) {
             cursor.close();
@@ -206,7 +206,7 @@ public class IPI_DBUtil extends DatabaseAccess {
         // cv.put(DBHelperItem.COLUMN_NAME_IPI_REMARKS, remarks);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_IPI_ID + "=" + id, null);
-        Log.e(LOG_TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onIPI_DEntryUpdated(remarks);
         }
@@ -223,7 +223,7 @@ public class IPI_DBUtil extends DatabaseAccess {
         // cv.put(DBHelperItem.COLUMN_NAME_IPI_REMARKS_AFTER, remarks);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_IPI_ID + "=" + id, null);
-        Log.e(LOG_TAG, "updateRequestIDRemarks_AFTER ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDRemarks_AFTER ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onIPI_DEntryUpdated(remarks);
         }
@@ -236,7 +236,7 @@ public class IPI_DBUtil extends DatabaseAccess {
 //        cv.put(DBHelperItem.COLUMN_NAME_IPI_SIGNATURE_FILE_PATH, signatureFilePath);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_IPI_ID + "=" + requestID, null);
-        Log.e(LOG_TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
 
         if (mOnDatabaseChangedListener != null) {
             // mOnDatabaseChangedListener.onIPI_DEntryUpdated(item.getServiceNumber());
@@ -271,7 +271,7 @@ public class IPI_DBUtil extends DatabaseAccess {
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onIPI_DEntryDeleted();
         }
-        Log.e(LOG_TAG, "addRecording " + id);
+        Log.e(TAG, "addRecording " + id);
     }
 
     public int getCount() {

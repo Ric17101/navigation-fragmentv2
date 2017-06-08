@@ -20,7 +20,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobNewPart
 
 public class PartsSJDBUtil extends DatabaseAccess {
 
-    private static final String LOG_TAG = "PartsSJDBUtil";
+    private static final String TAG = PartsSJDBUtil.class.getSimpleName();
 
     // TODO: Will be used if and only if momre than one fragments calss use this
     private int setFragmentState(String fragmentName) {
@@ -64,7 +64,7 @@ public class PartsSJDBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
@@ -77,7 +77,7 @@ public class PartsSJDBUtil extends DatabaseAccess {
      */
     public PartsSJDBUtil(Context context, String message) {
         super(context);
-        Log.e(LOG_TAG, message);
+        Log.e(TAG, message);
     }
 
     public List<ServiceJobNewPartsWrapper> getAllParts() {
@@ -177,7 +177,7 @@ public class PartsSJDBUtil extends DatabaseAccess {
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onPartsEntryDeleted();
         }
-        Log.e(LOG_TAG, "addParts " + id);
+        Log.e(TAG, "addParts " + id);
     }
 
     public int getCount() {

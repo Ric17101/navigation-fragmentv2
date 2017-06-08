@@ -69,7 +69,7 @@ public class ServiceJobComplaint_ASRWrapper implements Parcelable {
     }
 
     public String toString() {
-        return "ID : " + this.mId +
+        return "\nID : " + this.mId +
                 "\nmSJCategoryID: " + this.mSJCategoryID +
                 "\nmDateCreated : " + this.mDateCreated +
                 "\nmAction: " + this.mAction;

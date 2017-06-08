@@ -19,7 +19,7 @@ import admin4.techelm.com.techelmtechnologies.model.projectjob.b1.PISSWrapper;
 
 public class PISS_DBUtil extends DatabaseAccess {
 
-    private static final String LOG_TAG = "PISS_DBUtil";
+    private static final String TAG = PISS_DBUtil.class.getSimpleName();
 
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "projectjob_piss";
@@ -60,7 +60,7 @@ public class PISS_DBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
@@ -73,7 +73,7 @@ public class PISS_DBUtil extends DatabaseAccess {
      */
     public PISS_DBUtil(Context context, String message) {
         super(context);
-        Log.e(LOG_TAG, message);
+        Log.e(TAG, message);
     }
 
     public int addServiceJob(PISSWrapper item) {
@@ -96,11 +96,11 @@ public class PISS_DBUtil extends DatabaseAccess {
         if (db.insert(DBHelperItem.TABLE_NAME, null, cv) < 0) { // Update if Already existed on the SQLite DB
             int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                     DBHelperItem.COLUMN_NAME_PJ_ID + "=" + item.getID(), null);
-            Log.e(LOG_TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
+            Log.e(TAG, "addServiceJob ROWS AFFECTED " + rowaffected);
         }
 
-        Log.e(LOG_TAG, "addServiceJob INSERTED ID " + item.getID());
-        Log.e(LOG_TAG, "addServiceJob INSERTED " + getAllJSDetailsByServiceJobID(item.getID()).toString());
+        Log.e(TAG, "addServiceJob INSERTED ID " + item.getID());
+        Log.e(TAG, "addServiceJob INSERTED " + getAllJSDetailsByServiceJobID(item.getID()).toString());
         return item.getID();
     }
 
@@ -110,7 +110,7 @@ public class PISS_DBUtil extends DatabaseAccess {
         db.delete(DBHelperItem.TABLE_NAME,
                 DBHelperItem.COLUMN_NAME_PJ_SERVICE_ID + "=?", whereArgs);
 
-        Log.e(LOG_TAG, "removeServiceJob " + serviceID);
+        Log.e(TAG, "removeServiceJob " + serviceID);
     }
 
     /*public List<PISSWrapper> getAllDetailsOfServiceJob() {
@@ -231,7 +231,7 @@ public class PISS_DBUtil extends DatabaseAccess {
             item.setRemarks(cursor.getString(11));
             item.setDateSiteWalk(cursor.getString(12));
         }
-        // Log.e(LOG_TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
+        // Log.e(TAG, "getAllJSDetailsByServiceJobID: " + item.toString());
 
         if (!cursor.isClosed()) {
             cursor.close();
@@ -250,7 +250,7 @@ public class PISS_DBUtil extends DatabaseAccess {
         cv.put(DBHelperItem.COLUMN_NAME_PJ_REMARKS, remarks);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_PJ_ID + "=" + id, null);
-        Log.e(LOG_TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDRemarks ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onPISSEntryUpdated(remarks);
         }
@@ -267,7 +267,7 @@ public class PISS_DBUtil extends DatabaseAccess {
         // cv.put(DBHelperItem.COLUMN_NAME_PJ_REMARKS_AFTER, remarks);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_PJ_ID + "=" + id, null);
-        Log.e(LOG_TAG, "updateRequestIDRemarks_AFTER ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDRemarks_AFTER ROWS AFFECTED " + rowaffected);
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onPISSEntryUpdated(remarks);
         }
@@ -280,7 +280,7 @@ public class PISS_DBUtil extends DatabaseAccess {
 //        cv.put(DBHelperItem.COLUMN_NAME_PJ_SIGNATURE_FILE_PATH, signatureFilePath);
         int rowaffected = db.update(DBHelperItem.TABLE_NAME, cv,
                 DBHelperItem.COLUMN_NAME_PJ_ID + "=" + requestID, null);
-        Log.e(LOG_TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
+        Log.e(TAG, "updateRequestIDSignature ROWS AFFECTED " + rowaffected);
 
         if (mOnDatabaseChangedListener != null) {
             // mOnDatabaseChangedListener.onIPI_DEntryUpdated(item.getServiceNumber());
@@ -322,7 +322,7 @@ public class PISS_DBUtil extends DatabaseAccess {
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onPISSEntryDeleted();
         }
-        Log.e(LOG_TAG, "addRecording " + id);
+        Log.e(TAG, "addRecording " + id);
     }
 
     public int getCount() {

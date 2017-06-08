@@ -20,6 +20,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplai
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
 
+// NOT USED
 public class SJ_Complaint_ASRListAdapter extends RecyclerView.Adapter<SJ_Complaint_ASRListAdapter.ViewHolder> {
 
     private static final String TAG = SJ_Complaint_ASRListAdapter.class.getSimpleName();

@@ -23,11 +23,14 @@ import admin4.techelm.com.techelmtechnologies.adapter.SJ_PartsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobComplaintsCFListener;
+import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobComplaintsCategoryListener;
+import admin4.techelm.com.techelmtechnologies.db.servicejob.ComplaintActionDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.PartsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.RecordingSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ServiceJobDBUtil;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.UploadsSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.activity.fragment_sample.LicensesFragment;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaintWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
@@ -57,7 +60,9 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         UploadsSJDBUtil.OnDatabaseChangedListener,
         SJ_PartsListAdapter.CallbackInterface, // B. PartReplacement_FRGMT_2
         PartsSJDBUtil.OnDatabaseChangedListener,
-        ServiceJobComplaintsCFListener
+        ServiceJobComplaintsCFListener,
+        ServiceJobComplaintsCategoryListener,
+        ComplaintActionDBUtil.OnDatabaseChangedListener
         // OnTaskKill.onStopCallbackInterface // TODO: if user close the app permanently
 {
 
@@ -346,7 +351,6 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
             getFragmentServiceReport_AFTER().fromActivity_onRecordingsEntryDeleted();
     }
-
     @Override
     public void onNewSJEntryAdded(String serviceNum) {
         if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_BEFORE)
@@ -374,7 +378,26 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     @Override
     public void onHandleSelection(int position, ServiceJobComplaint_CFWrapper serviceJobComplaint_cfWrapper, int mode) {
-        Log.e(TAG, serviceJobComplaint_cfWrapper.toString());
+        Log.e(TAG, "ServiceJobComplaint_MobileWrapper " + serviceJobComplaint_cfWrapper.toString());
+    }
+
+    @Override
+    public void onHandleSelection(int position, ServiceJobComplaint_MobileWrapper mobileWrapper, String clickedItemValue, int mode) {
+        Log.e(TAG, "ServiceJobComplaint_MobileWrapper " + mobileWrapper.toString());
+
+        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
+            getFragmentServiceReport_AFTER()
+                    .fromActivity_onSJEntryAddAction(
+                            mobileWrapper,
+                            clickedItemValue);
+    }
+
+    @Override
+    public void onNewActionEntryAdded(String partName) {
+    }
+
+    @Override
+    public void onActionEntryDeleted() {
     }
 
     /******* A. END CALLBACKS from ServiceReport_FRGMT_BEFORE & ServiceReport_FRGMT_AFTER ********/

@@ -53,9 +53,11 @@ public class ServiceJobFragmentPagerAdapter extends FragmentPagerAdapter {
         Log.e(TAG, "This is from getITEM:"+ position);
         switch (position) {
             case 0 :
-                return ServiceReport_FRGMT_BEFORE.newInstance(position, this.mServiceJobFromBundle, this.mSJComplaintCFList);
+                return ServiceReport_FRGMT_BEFORE.newInstance(position, this.mServiceJobFromBundle,
+                        this.mSJComplaintCFList, this.mSJComplaintMobileList, this.mSJComplaintASRList);
             case 1 :
-                return ServiceReport_FRGMT_AFTER.newInstance(position, this.mServiceJobFromBundle);
+                return ServiceReport_FRGMT_AFTER.newInstance(position, this.mServiceJobFromBundle,
+                        this.mSJComplaintCFList, this.mSJComplaintMobileList, this.mSJComplaintASRList);
             case 2 :
                 return PartReplacement_FRGMT_2.newInstance(position, this.mServiceJobFromBundle, this.mSJPartsRatesFromBundle);
             case 3 :

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<admin4.techelm.com.techelmtechnologies.utility.view.ExpandableHeightListView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lvComplaints"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:cacheColorHint="#00000000"
+    android:fadingEdge="none"
+    android:focusable="false"
+    android:isScrollContainer="false"
+    android:scrollbars="none"
+    android:layout_marginTop="0dp"
+    android:layout_marginBottom="0dp"
+    android:paddingLeft="20sp"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="0dp" />

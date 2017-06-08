@@ -21,7 +21,7 @@ import admin4.techelm.com.techelmtechnologies.utility.FileUtility;
 
 public class RecordingSJDBUtil extends DatabaseAccess {
 
-    private static final String LOG_TAG = "RecordingSJDBUtil";
+    private static final String TAG = RecordingSJDBUtil.class.getSimpleName();
 
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "servicejob_recordings";
@@ -55,7 +55,7 @@ public class RecordingSJDBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
@@ -68,7 +68,7 @@ public class RecordingSJDBUtil extends DatabaseAccess {
      */
     public RecordingSJDBUtil(Context context, String message) {
         super(context);
-        Log.e(LOG_TAG, message);
+        Log.e(TAG, message);
     }
 
     public List<ServiceJobRecordingWrapper> getAllRecordings() {
@@ -189,7 +189,7 @@ public class RecordingSJDBUtil extends DatabaseAccess {
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onRecordingsEntryDeleted();
         }
-        Log.e(LOG_TAG, "addRecording " + id);
+        Log.e(TAG, "addRecording " + id);
     }
 
     public int getCount() {

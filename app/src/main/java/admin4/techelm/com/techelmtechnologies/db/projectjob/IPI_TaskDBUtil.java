@@ -21,7 +21,7 @@ import admin4.techelm.com.techelmtechnologies.utility.FileUtility;
 
 public class IPI_TaskDBUtil extends DatabaseAccess {
 
-    private static final String LOG_TAG = "RecordingSJDBUtil";
+    private static final String TAG = IPI_TaskDBUtil.class.getSimpleName();
 
     public static abstract class DBHelperItem implements BaseColumns {
         public static final String TABLE_NAME = "projectjob_ipi_tasks";
@@ -57,7 +57,7 @@ public class IPI_TaskDBUtil extends DatabaseAccess {
             mOnDatabaseChangedListener = (OnDatabaseChangedListener) context;
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e(LOG_TAG, "Must implement the ProjectJobListener in the Activity", ex);
+            Log.e(TAG, "Must implement the ProjectJobListener in the Activity", ex);
         }
         System.gc();
     }
@@ -70,7 +70,7 @@ public class IPI_TaskDBUtil extends DatabaseAccess {
      */
     public IPI_TaskDBUtil(Context context, String message) {
         super(context);
-        Log.e(LOG_TAG, message);
+        Log.e(TAG, message);
     }
 
     public List<ServiceJobRecordingWrapper> getAllRecordings() {
@@ -191,7 +191,7 @@ public class IPI_TaskDBUtil extends DatabaseAccess {
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onIPI_TaskEntryDeleted();
         }
-        Log.e(LOG_TAG, "addRecording " + id);
+        Log.e(TAG, "addRecording " + id);
     }
 
     public int getCount() {
@@ -274,7 +274,7 @@ public class IPI_TaskDBUtil extends DatabaseAccess {
             /*FileUtility fileUtil = new FileUtility(getContext());
             do {
                 ServiceJobRecordingWrapper item = new ServiceJobRecordingWrapper();
-                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setID(Integer.parseInt(cursor.getString(0)));
                 item.setServiceId(cursor.getString(1));
                 item.setName(cursor.getString(2));
                 item.setFilePath(cursor.getString(3));
