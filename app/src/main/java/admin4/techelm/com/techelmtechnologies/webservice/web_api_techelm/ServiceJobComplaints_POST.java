@@ -71,6 +71,7 @@ public class ServiceJobComplaints_POST {
         webServiceInfo.addParam("complaint_mobile_id", complaint.getComplaintMobileID() + "");
         webServiceInfo.addParam("action_service_repair_id", complaint.getActionID() + "");
         webServiceInfo.addParam("cm_cf_id", complaint.getSJ_CM_CF_ID() + "");
+        webServiceInfo.addParam("action_details", complaint.getAction());
 
     /*postStartDate command*/
         postCommand = new PostCommand(webServiceInfo);

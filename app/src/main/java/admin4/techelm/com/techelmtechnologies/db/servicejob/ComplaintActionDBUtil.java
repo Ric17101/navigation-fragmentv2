@@ -126,7 +126,7 @@ public class ComplaintActionDBUtil extends DatabaseAccess {
         return list;
     }
 
-    public List<ServiceJobComplaintWrapper> getAllPartsBySJID(int serviceJobID) {
+    public ArrayList<ServiceJobComplaintWrapper> getAllPartsBySJID(int serviceJobID) {
         ArrayList<ServiceJobComplaintWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE servicejob_id="+serviceJobID;
         Cursor cursor = getDB().rawQuery(selectQuery, null);

@@ -53,9 +53,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import admin4.techelm.com.techelmtechnologies.R;
-import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.activity.servicejob_main.PopulateServiceJobViewDetails;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_Complaint_CFListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_Complaint__ASRListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.ComplaintActionDBUtil;
@@ -138,10 +138,12 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private SJ_Complaint_CFListAdapter mComplaintCFListAdapter; // ListView Setup
     private RecyclerView mComplaintCFResultsList;
     private ArrayList<ServiceJobComplaint_CFWrapper> mSJComplaintCFList = null;
+    private TextView textViewComplaintResult;
 
-    private SJ_Complaint_CFListAdapter mComplaintASRListAdapter; // ListView Setup
+    private SJ_Complaint__ASRListAdapter mComplaintASRListAdapter; // ListView Setup
     private RecyclerView mComplaintASRResultsList;
     private ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList = null;
+    private TextView textViewActionResult;
     private Spinner mSpinnerAction;
 
     // SlidingPager Tab Set Up, Instance Varible
@@ -234,6 +236,11 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
             setupComplaintsResultsList();
             populateComplaintsCardList();
             if (mResultsList == null) { }
+
+            // E. Complaint Actions
+            setUpComplaintActionsRecyclerView(view);
+            setupActionsResultList();
+            new PopulateActionOperation().execute(mServiceJobFromBundle.getID()+"");
 
         } else {
             SnackBarNotificationUtil
@@ -602,7 +609,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 msg = "Action saved.";
 
                 cActionDB.open();
-                Log.e(TAG, cActionDB.getAllParts().toString());
+                Log.e(TAG, "onPostExecute " + cActionDB.getAllPartsBySJID(cComplaint.getServiceJobID()).toString());
                 cActionDB.close();
                 servicesJobStarComplaintsTask(cComplaint);
             }
@@ -634,7 +641,9 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
             public void onEventResult(WebResponse response) {
                 // proceedViewPagerActivity(serviceJob, status, response.getStringResponse());
                 Log.e(TAG, "onEventResult " + response.getStringResponse());
+                Log.e(TAG, "complaintWrapper " + complaintWrapper.toString());
                 // new MainActivity.ServiceJobTask(serviceJob, status, startTaskResponse, response.getStringResponse()).execute((Void) null);
+                new PopulateActionOperation().execute(mServiceJobFromBundle.getID()+"");
             }
         });
 
@@ -1291,8 +1300,11 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     /*********** C. END SOUND RECORDING ***********/
 
     /*********** D. SERVICE JOB COMPLAINTS ***********/
+
+    // D.1 COMPLAINTS List, with Add Action
     public void setUpComplaintsRecyclerView(View view) {
         mComplaintCFResultsList = (RecyclerView) view.findViewById(R.id.complaint_fault_service_job_list);
+        textViewComplaintResult = (TextView) view.findViewById(R.id.textViewComplaintResult);
     }
 
     public void setupComplaintsResultsList() {
@@ -1309,8 +1321,91 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
             mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
             mComplaintCFResultsList.setItemAnimator(new DefaultItemAnimator());
             mComplaintCFListAdapter.swapData(mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, false);
+            mComplaintCFResultsList.setVisibility(View.VISIBLE);
+            textViewComplaintResult.setVisibility(View.GONE);
+
         } else {
-            Log.e(TAG, "else populateComplaintsCardList: " + mResultsList.get(0).toString());
+            Log.e(TAG, "else populateComplaintsCardList: " + mResultsList);
+            Log.e(TAG, "else mSJComplaintCFList: " + mSJComplaintCFList);
+            Log.e(TAG, "else mComplaintMobileList: " + mComplaintMobileList);
+            Log.e(TAG, "else mComplaintASRList: " + mComplaintASRList);
+
+            // No Result
+            mComplaintCFResultsList.setVisibility(View.GONE);
+            textViewComplaintResult.setVisibility(View.VISIBLE);
+            textViewComplaintResult.setText("No complaints this time.");
+        }
+    }
+
+
+    // D.2 ACTIONS List, with View and Delete  Action
+    public void setUpComplaintActionsRecyclerView(View view) {
+        mComplaintASRResultsList = (RecyclerView) view.findViewById(R.id.action_service_job_list);
+        textViewActionResult = (TextView) view.findViewById(R.id.textViewActionResult);
+    }
+    public void setupActionsResultList() {
+        mComplaintASRListAdapter = new SJ_Complaint__ASRListAdapter(getActivity());
+        mComplaintASRResultsList.setAdapter(mComplaintASRListAdapter);
+        mComplaintASRResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
+    }
+
+    private void populateActionsCardList(ArrayList<ServiceJobComplaintWrapper> complaints) {
+        // mSJComplaintCFList = ((ServiceJobViewPagerActivity) getActivity()).mComplaintCFList;
+
+        if (complaints != null && mSJComplaintCFList != null && mComplaintMobileList != null && mComplaintASRList != null) {
+            mComplaintASRResultsList.setHasFixedSize(true);
+            mComplaintASRResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
+            mComplaintASRResultsList.setItemAnimator(new DefaultItemAnimator());
+            mComplaintASRListAdapter.swapData(complaints, mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, false);
+
+            textViewActionResult.setVisibility(View.GONE);
+        } else {
+            Log.e(TAG, "else ArrayList ServiceJobComplaintWrapper: " + complaints);
+            Log.e(TAG, "else populateComplaintsCardList: " + mResultsList);
+            Log.e(TAG, "else mSJComplaintCFList: " + mSJComplaintCFList);
+            Log.e(TAG, "else mComplaintMobileList: " + mComplaintMobileList);
+            Log.e(TAG, "else mComplaintASRList: " + mComplaintASRList);
+
+            // No Result
+            textViewActionResult.setVisibility(View.VISIBLE);
+            textViewActionResult.setText("No actions this time.");
+        }
+    }
+
+    private class PopulateActionOperation extends AsyncTask<String, Void, ArrayList<ServiceJobComplaintWrapper>> {
+
+        private ComplaintActionDBUtil cActionDB;
+        private ArrayList<ServiceJobComplaintWrapper> cComplaint;
+
+        @Override
+        protected void onPreExecute() {
+            cActionDB = new ComplaintActionDBUtil(mContext);
+        }
+
+        @Override
+        protected ArrayList<ServiceJobComplaintWrapper> doInBackground(String... params) {
+            if (!params[0].equals("")) {
+                cActionDB.open();
+                cComplaint = cActionDB.getAllPartsBySJID(Integer.parseInt(params[0]));
+                cActionDB.close();
+                return cComplaint;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ServiceJobComplaintWrapper> complaints) {
+            String msg = "No actions from DB.";
+            if (complaints != null) {
+                msg = "Actions retrieved.";
+                Log.e(TAG, "onPostExecute " + complaints.toString());
+                populateActionsCardList(complaints);
+            }
+
+            SnackBarNotificationUtil
+                    .setSnackBar(getActivity().findViewById(android.R.id.content), msg)
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
         }
     }
 

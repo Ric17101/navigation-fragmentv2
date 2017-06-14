@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Action Service Repair
  */
 public class ServiceJobComplaint_MobileWrapper implements Parcelable {
-    private int mId;                    //id in database
+    private int mId;                    // id in database
     private int mServiceJobID;          // servicejob_id in database
     private int mSJCategoryID;          // servicejob_category_id in database
     private String mDateCreated;        // date_created

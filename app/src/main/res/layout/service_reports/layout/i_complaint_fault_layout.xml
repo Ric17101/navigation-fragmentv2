@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Complaints / Fault."
         android:textSize="18sp"
+        android:contentDescription="Tap item on the list to add action(s)."
         android:textStyle="normal|bold" />
 
     <android.support.v7.widget.RecyclerView
@@ -21,4 +22,19 @@
         android:clipToPadding="false"
         android:paddingBottom="70sp"
         android:paddingTop="4sp" />
+
+    <TextView
+        android:id="@+id/textViewComplaintResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingBottom="70sp"
+        android:text="Result"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:visibility="gone" />
+
 </LinearLayout>

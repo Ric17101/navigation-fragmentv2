@@ -28,7 +28,7 @@
             android:paddingRight="4sp"
             android:scrollHorizontally="true"
             android:text="1.)  Air condition"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="normal|bold|italic" />
 
         <com.github.aakira.expandablelayout.ExpandableRelativeLayout

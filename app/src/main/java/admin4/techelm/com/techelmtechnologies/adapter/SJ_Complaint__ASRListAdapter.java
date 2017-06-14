@@ -24,6 +24,7 @@ import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.helper.FragmentSetListHelper_SJComplaint_CF;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobComplaintsCFListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.ServiceJobComplaintsCategoryListener;
+import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaintWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
@@ -36,10 +37,13 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
 
     private static final String TAG = SJ_Complaint__ASRListAdapter.class.getSimpleName();
 
+    private ArrayList<ServiceJobComplaintWrapper> mComplaintToShowOnList = new ArrayList<>();
+    private ArrayList<ServiceJobComplaintWrapper> mComplaintDataSet = new ArrayList<>();
     private ArrayList<ServiceJobComplaint_MobileWrapper> mMobileDataSet = new ArrayList<>();
-    private ArrayList<ServiceJobComplaint_CFWrapper> mComplaintDataSet = new ArrayList<>();
+    private ArrayList<ServiceJobComplaint_CFWrapper> mComplaintCFDataSet = new ArrayList<>();
     private ArrayList<ServiceJobComplaint_ASRWrapper> mASRDataSet = new ArrayList<>();
-    private ServiceJobComplaint_MobileWrapper dataSet;
+    private ServiceJobComplaintWrapper dataSet;
+    private ServiceJobComplaint_MobileWrapper sdataMobileSet;
     private ServiceJobComplaint_CFWrapper dataSubSet;
     //private String[] aSubItem;
     private ServiceJobComplaintsCategoryListener mCallback;
@@ -72,14 +76,99 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
         notifyDataSetChanged();
     }
 
-    public void swapData(ArrayList<ServiceJobComplaint_MobileWrapper> mNewDataSet,
+    public void swapData(ArrayList<ServiceJobComplaintWrapper> complaints,
+                         ArrayList<ServiceJobComplaint_MobileWrapper> mNewDataSet,
                          ArrayList<ServiceJobComplaint_CFWrapper> mComplaintMobileList,
                          ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList, boolean isBEFORE) {
+        mComplaintDataSet = complaints;
         mMobileDataSet = mNewDataSet;
-        mComplaintDataSet = mComplaintMobileList;
+        mComplaintCFDataSet = mComplaintMobileList;
         mASRDataSet = mComplaintASRList;
         isBeforeFragment = isBEFORE;
         notifyDataSetChanged();
+        mComplaintToShowOnList = new ArrayList<ServiceJobComplaintWrapper>();
+        setActionsList(complaints);
+    }
+
+    /*
+        This method get only the Action Per Category,
+            all item already on the list will be ignored
+     */
+    private void setActionsList(ArrayList<ServiceJobComplaintWrapper> complaints) {
+        int counter = 0;
+        for (ServiceJobComplaintWrapper item : complaints) {
+            counter = 0;
+
+            for (int i = 0; complaints.size() > i; i++) {
+                ServiceJobComplaintWrapper itemCompare = complaints.get(i);
+
+                if (item == itemCompare) {
+                    mComplaintToShowOnList.add(item);
+                }
+
+                if (itemCompare.getActionID() == item.getActionID() &&
+                        itemCompare.getCategoryID() == item.getCategoryID()) {
+                    counter++;
+                }
+            }
+
+            if (counter > 1) {
+
+            }
+            /*
+            for (ServiceJobComplaintWrapper itemCompare : complaints) {
+                if (item == itemCompare) {
+                    mComplaintToShowOnList.add(item);
+                }
+
+                if (itemCompare.getActionID() == item.getActionID() &&
+                        itemCompare.getCategoryID() == item.getCategoryID()) {
+                    counter++;
+                }
+            }*/
+        }
+
+        /*for (ServiceJobComplaintWrapper existingItem : mComplaintToShowOnList) {
+            for (ServiceJobComplaintWrapper itemCompare : complaints) {
+                if (existingItem.getCategory())
+            }
+        }*/
+
+        Log.e(TAG, "Count="+mComplaintToShowOnList.size() +
+            " setActionsList:" + mComplaintToShowOnList.toString());
+    }
+
+    private void setActionsList_OLD(ArrayList<ServiceJobComplaintWrapper> complaints) {
+        for (ServiceJobComplaintWrapper item : complaints) {
+            for (int i = 0; complaints.size() > i; i++) {
+                ServiceJobComplaintWrapper itemCompare = complaints.get(i);
+
+                if (itemCompare.getActionID() == item.getActionID() &&
+                    itemCompare.getCategoryID() == item.getCategoryID()) {
+                    break;
+                }
+
+                if (!mComplaintToShowOnList.contains(itemCompare)) {
+                    mComplaintToShowOnList.add(item);
+                    break;
+                }
+            }
+        }
+
+        /*for (ServiceJobComplaintWrapper itemCompare : complaints) {
+            if (itemCompare.getActionID() == item.getActionID() &&
+                itemCompare.getCategoryID() == item.getCategoryID()) {
+                break;
+            }
+
+            if (!mComplaintToShowOnList.contains(itemCompare)) {
+                mComplaintToShowOnList.add(itemCompare);
+                break;
+            }
+        }*/
+
+        Log.e(TAG, "Count="+mComplaintToShowOnList.size() +
+                " setActionsList:" + mComplaintToShowOnList.toString());
     }
 
     public void setItemsOnClickListener(OnItemClickListener onClickListener) {
@@ -98,11 +187,11 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         this.mSetHelper = new FragmentSetListHelper_SJComplaint_CF();
 
-        dataSet = mMobileDataSet.get(holder.getAdapterPosition());
-        holder.textViewComplaints_CF.setText("\t"+ (position + 1) + ".)  " + dataSet.getSJCategory());
+        dataSet = mComplaintToShowOnList.get(holder.getAdapterPosition());
+        holder.textViewComplaints_CF.setText("\t"+ (position + 1) + ".)  " + dataSet.getComplaint());
 
         Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
-                dataSet.getSJCategory());
+                dataSet.getAction());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
@@ -111,10 +200,11 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
 
         ////////// Setting Up Sub List //////////
         StringBuilder sbFaults = new StringBuilder();
-        Log.e(TAG, mComplaintDataSet.toString());
+        Log.e(TAG, "StringBuilder:" + mComplaintCFDataSet.toString());
         for (int i = 0; mComplaintDataSet.size() > i; i++) {
-            if (dataSet.getSJCategoryId() == mComplaintDataSet.get(i).getSJCategoryID()) {
-                sbFaults.append(mComplaintDataSet.get(i).getComplaint());
+            if (dataSet.getActionID() == mComplaintDataSet.get(i).getActionID() /*&&
+                    dataSet.getCategoryID() == mComplaintDataSet.get(i).getCategoryID()*/) {
+                sbFaults.append(mComplaintDataSet.get(i).getAction());
                 sbFaults.append(LIST_DELIM);
             }
         }
@@ -166,7 +256,7 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
 
     @Override
     public int getItemCount() {
-        return mMobileDataSet.size();
+        return mComplaintToShowOnList.size();
     }
 
     private static int getScreenHeight() {

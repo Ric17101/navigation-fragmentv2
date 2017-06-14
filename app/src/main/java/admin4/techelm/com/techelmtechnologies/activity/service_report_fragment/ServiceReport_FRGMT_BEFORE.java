@@ -24,6 +24,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,6 +137,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     private SJ_Complaint_CFListAdapter mComplaintCFListAdapter; // ListView Setup
     private RecyclerView mComplaintCFResultsList;
     private ArrayList<ServiceJobComplaint_CFWrapper> mSJComplaintCFList = null;
+    private TextView textViewComplaintResult;
 
     private SJ_Complaint_CFListAdapter mComplaintASRListAdapter; // ListView Setup
     private RecyclerView mComplaintASRResultsList;
@@ -1136,7 +1138,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
     /*********** C. END SOUND RECORDING ***********/
 
     /*********** D. SERVICE JOB COMPLAINTS ***********/
-    public void setUpComplaintsRecyclerView(View view) {
+    /*public void setUpComplaintsRecyclerView(View view) {
         mComplaintCFResultsList = (RecyclerView) view.findViewById(R.id.complaint_fault_service_job_list);
     }
 
@@ -1155,6 +1157,48 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
             mComplaintCFResultsList.setItemAnimator(new DefaultItemAnimator());
             mComplaintCFListAdapter.swapData(mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, true);
+        }
+    }*/
+
+    // COMPLAINTS List, with Add Action
+    public void setUpComplaintsRecyclerView(View view) {
+        mComplaintCFResultsList = (RecyclerView) view.findViewById(R.id.complaint_fault_service_job_list);
+        /*int pxBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 70, getResources().getDisplayMetrics());
+        mComplaintCFResultsList.setPadding(
+                mComplaintCFResultsList.getPaddingLeft(),
+                mComplaintCFResultsList.getPaddingTop(),
+                mComplaintCFResultsList.getPaddingRight(),
+                pxBottom);*/
+        textViewComplaintResult = (TextView) view.findViewById(R.id.textViewComplaintResult);
+    }
+
+    public void setupComplaintsResultsList() {
+        mComplaintCFListAdapter = new SJ_Complaint_CFListAdapter(getActivity());
+        mComplaintCFResultsList.setAdapter(mComplaintCFListAdapter);
+        mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
+    }
+
+    private void populateComplaintsCardList() {
+        // mSJComplaintCFList = ((ServiceJobViewPagerActivity) getActivity()).mComplaintCFList;
+
+        if (mSJComplaintCFList != null && mComplaintMobileList != null && mComplaintASRList != null) {
+            mComplaintCFResultsList.setHasFixedSize(true);
+            mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
+            mComplaintCFResultsList.setItemAnimator(new DefaultItemAnimator());
+            mComplaintCFListAdapter.swapData(mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, false);
+            mComplaintCFResultsList.setVisibility(View.VISIBLE);
+            textViewComplaintResult.setVisibility(View.GONE);
+
+        } else {
+            Log.e(TAG, "else populateComplaintsCardList: " + mResultsList);
+            Log.e(TAG, "else mSJComplaintCFList: " + mSJComplaintCFList);
+            Log.e(TAG, "else mComplaintMobileList: " + mComplaintMobileList);
+            Log.e(TAG, "else mComplaintASRList: " + mComplaintASRList);
+
+            // No Result
+            mComplaintCFResultsList.setVisibility(View.GONE);
+            textViewComplaintResult.setVisibility(View.VISIBLE);
+            textViewComplaintResult.setText("No complaints this time.");
         }
     }
 

@@ -11,7 +11,7 @@ public class ServiceJobComplaintWrapper implements Parcelable {
     private int mId;                    // id in database
     private int mServiceJobID;          // servicejob_id in database
     private int mSJ_CMCFID;             // cm_cf_id in database
-    private String mSJ_Complaint;          // compllaint in database
+    private String mSJ_Complaint;       // compllaint in database
     private int mSJComplaintFaultID;    // complaint_fault_id in database
     private int mSJComplaintMobileID;   // complaint_mobile_id in database
     private int mSJCategoryID;          // category_id in database
