@@ -44,6 +44,8 @@ import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_DELETE_DETAILS;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_CF_LIST_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY;
@@ -382,14 +384,40 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onHandleSelection(int position, ServiceJobComplaint_MobileWrapper mobileWrapper, String clickedItemValue, int mode) {
+    public void onHandleSelection(int position, ServiceJobComplaint_MobileWrapper mobileWrapper,
+                                  String clickedItemValueActionOrCategory, String clickedItemValue, String cmcf_id, int mode) {
         Log.e(TAG, "ServiceJobComplaint_MobileWrapper " + mobileWrapper.toString());
 
-        if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER)
-            getFragmentServiceReport_AFTER()
-                    .fromActivity_onSJEntryAddAction(
-                            mobileWrapper,
-                            clickedItemValue);
+        switch (mode) {
+            case ACTION_VIEW_TASK:
+                if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER) { // Check After Frament
+                    getFragmentServiceReport_AFTER()
+                            .fromActivity_onSJEntryAddAction(
+                                    mobileWrapper,
+                                    clickedItemValue,
+                                    clickedItemValueActionOrCategory);
+                }
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    @Override
+    public void onHandleDeleteSelection(ServiceJobComplaint_MobileWrapper serviceJobComplaint_mobileWrapper, ServiceJobComplaintWrapper dataSet, int actionDeleteDetails) {
+        switch (actionDeleteDetails) {
+            case ACTION_DELETE_DETAILS:
+                if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER) { // Check After Frament
+                    getFragmentServiceReport_AFTER()
+                        .fromActivity_onSJEntryDeleteAction(
+                                serviceJobComplaint_mobileWrapper,
+                                dataSet);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

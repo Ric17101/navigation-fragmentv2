@@ -99,7 +99,7 @@ public class SJ_Complaint_CFListAdapter extends RecyclerView.Adapter<SJ_Complain
         this.mSetHelper = new FragmentSetListHelper_SJComplaint_CF();
 
         dataSet = mMobileDataSet.get(holder.getAdapterPosition());
-        holder.textViewComplaints_CF.setText("\t"+ (position + 1) + ".)  " + dataSet.getSJCategory());
+        holder.textViewComplaints_CF.setText("\t"+ (position + 1) + ".)  " + dataSet.getSJCategory().toUpperCase());
 
         Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
                 dataSet.getSJCategory());
@@ -110,19 +110,19 @@ public class SJ_Complaint_CFListAdapter extends RecyclerView.Adapter<SJ_Complain
 
 
         ////////// Setting Up Sub List //////////
-        StringBuilder sbFaults = new StringBuilder();
+        StringBuilder sbComplaints = new StringBuilder();
         Log.e(TAG, mComplaintDataSet.toString());
         for (int i = 0; mComplaintDataSet.size() > i; i++) {
             if (dataSet.getSJCategoryId() == mComplaintDataSet.get(i).getSJCategoryID()) {
-                sbFaults.append(mComplaintDataSet.get(i).getComplaint());
-                sbFaults.append(LIST_DELIM);
+                sbComplaints.append(mComplaintDataSet.get(i).getComplaint());
+                sbComplaints.append(LIST_DELIM);
             }
         }
 
         // Preparing SubList Data
-        final String[] aSubItem = sbFaults.toString().split(LIST_DELIM);
+        final String[] aSubItem = sbComplaints.toString().split(LIST_DELIM);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (mContext, android.R.layout.simple_list_item_1, aSubItem);
+                (mContext, R.layout.i_complaint_list_item, aSubItem);
 
         LayoutInflater li = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View vi = li.inflate(R.layout.i_complaint_row_item, holder.linearLayoutLV, false);
@@ -153,11 +153,13 @@ public class SJ_Complaint_CFListAdapter extends RecyclerView.Adapter<SJ_Complain
                 Log.e(TAG, toastMessage);
 
                 if (!isBeforeFragment) {
-                    mSetHelper.setActionOnClick(
+                    mSetHelper.setActionOnClickView(
                             mCallback,
                             position,
                             mMobileDataSet.get(position),
                             clickedItemValue,
+                            mMobileDataSet.get(position).getSJCategory(),
+                            mMobileDataSet.get(position).getSJCategory(),
                             ACTION_VIEW_TASK);
                 }
             }

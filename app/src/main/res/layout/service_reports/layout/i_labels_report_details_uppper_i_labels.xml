@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -37,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".2"
-                android:gravity="fill_vertical"
+                android:gravity="center_vertical"
                 android:text="Customer Name"
                 android:textStyle="normal|bold" />
 
@@ -48,7 +47,7 @@
                 android:layout_column="1"
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
-                android:gravity="fill_vertical"
+                android:gravity="center_vertical"
                 android:text=":" />
 
             <TextView
@@ -57,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
-                android:gravity="fill_vertical"
+                android:gravity="center_vertical"
                 android:scrollHorizontally="true"
                 android:ellipsize="marquee"
                 android:maxLines="1"

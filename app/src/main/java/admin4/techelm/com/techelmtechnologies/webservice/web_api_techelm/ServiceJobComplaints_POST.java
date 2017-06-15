@@ -11,6 +11,7 @@ import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebServiceInfo;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_POST_ACTION_COMPLAINTS_URL;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_POST_ACTION_DELETE_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_POST_ALL_COMPLAINTS_URL;
 
 /**
@@ -72,6 +73,28 @@ public class ServiceJobComplaints_POST {
         webServiceInfo.addParam("action_service_repair_id", complaint.getActionID() + "");
         webServiceInfo.addParam("cm_cf_id", complaint.getSJ_CM_CF_ID() + "");
         webServiceInfo.addParam("action_details", complaint.getAction());
+
+    /*postStartDate command*/
+        postCommand = new PostCommand(webServiceInfo);
+
+    /*request*/
+        executeWebServiceRequest();
+    }
+
+    /*
+        $asr_id = $_POST["servicejob_action_service_repair_id"];
+        $cm_id = $_POST["servicejob_complaint_mobile_id"];
+        $cf_id = $_POST["servicejob_cm_cf_id"];
+    */
+    public void postDeleteComplaint(ServiceJobComplaintWrapper complaint) {
+    /*web info*/
+        WebServiceInfo webServiceInfo = new WebServiceInfo();
+        webServiceInfo.setUrl(SERVICE_JOB_POST_ACTION_DELETE_URL);
+
+    /*add parameter*/
+        webServiceInfo.addParam("servicejob_action_service_repair_id", complaint.getActionID() + "");
+        webServiceInfo.addParam("servicejob_complaint_mobile_id", complaint.getComplaintMobileID() + "");
+        webServiceInfo.addParam("servicejob_cm_cf_id", complaint.getSJ_CM_CF_ID() + "");
 
     /*postStartDate command*/
         postCommand = new PostCommand(webServiceInfo);

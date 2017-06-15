@@ -454,23 +454,56 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     public void fromActivity_onSJEntryDeleted() { }
 
     public void fromActivity_onSJEntryAddAction(ServiceJobComplaint_MobileWrapper mobileWrapper,
-            String clickedItemValue) {
+                                                String clickedItemValue, String clickedItemValueAction) {
         Log.e(TAG, "fromActivity_onSJEntryAddAction " + mobileWrapper.toString());
 
+        ServiceJobComplaintWrapper complaintWrapper = setComplaint(mobileWrapper, clickedItemValue, clickedItemValueAction);
+        showAddActionDialog(mobileWrapper, clickedItemValue, complaintWrapper);
+    }
+
+    public void fromActivity_onSJEntryDeleteAction(ServiceJobComplaint_MobileWrapper mobileWrapper,
+           String clickedItemValue, String cmcf_id, String clickedItemValueActionOrCategory) {
+        Log.e(TAG, "fromActivity_onSJEntryDeleteAction " + mobileWrapper.toString());
+
+        ServiceJobComplaintWrapper complaintWrapper = setComplaintForDelete(mobileWrapper, clickedItemValue, clickedItemValueActionOrCategory, cmcf_id);
+        showDeleteActionDialog(mobileWrapper, complaintWrapper);
+    }
+
+    public void fromActivity_onSJEntryDeleteAction(
+            ServiceJobComplaint_MobileWrapper serviceJobComplaint_mobileWrapper,
+            ServiceJobComplaintWrapper dataSet)
+    {
+        Log.e(TAG, "serviceJobComplaint_mobileWrapper " + serviceJobComplaint_mobileWrapper.toString());
+        Log.e(TAG, "ServiceJobComplaintWrapper " + dataSet.toString());
+        showDeleteActionDialog(serviceJobComplaint_mobileWrapper, dataSet);
+    }
+
+    private ServiceJobComplaintWrapper setComplaintForDelete(ServiceJobComplaint_MobileWrapper mobileWrapper,
+            String clickedItemValue, String clickedItemValueActionOrCategory, String cmcf_id) {
         ServiceJobComplaintWrapper complaintWrapper = new ServiceJobComplaintWrapper();
         complaintWrapper.setServiceJobID(mobileWrapper.getServiceJobID());
-        complaintWrapper.setSJ_CM_CF_ID(getCMCFIDFromArrayList(clickedItemValue));
-        complaintWrapper.setComplaint(getComplaintFromArrayList(clickedItemValue));
+        complaintWrapper.setSJ_CM_CF_ID(Integer.parseInt(cmcf_id));
+        complaintWrapper.setComplaint(clickedItemValueActionOrCategory);
         complaintWrapper.setComplaintFaultID(getComplaintFaultIDFromArrayList(clickedItemValue));
         complaintWrapper.setComplaintMobileID(mobileWrapper.getID());
         complaintWrapper.setCategoryID(mobileWrapper.getSJCategoryId());
         complaintWrapper.setCategory(mobileWrapper.getSJCategory());
-        /*
-        complaintWrapper.setActionID(mobileWrapper.getAc());
-        complaintWrapper.setAction(mobileWrapper.get());
-        */
+        complaintWrapper.setActionID(getActionIDFromArrayList(clickedItemValue));
+        return complaintWrapper;
+    }
 
-        showAddActionDialog(mobileWrapper, clickedItemValue, complaintWrapper);
+    private ServiceJobComplaintWrapper setComplaint(ServiceJobComplaint_MobileWrapper mobileWrapper,
+            String clickedItemValueComplaint, String clickedItemValueAction) {
+        ServiceJobComplaintWrapper complaintWrapper = new ServiceJobComplaintWrapper();
+        complaintWrapper.setServiceJobID(mobileWrapper.getServiceJobID());
+        complaintWrapper.setSJ_CM_CF_ID(getCMCFIDFromArrayList(clickedItemValueComplaint));
+        complaintWrapper.setComplaint(clickedItemValueComplaint);
+        // complaintWrapper.setComplaint(getComplaintFromArrayList(clickedItemValue));
+        complaintWrapper.setComplaintFaultID(getComplaintFaultIDFromArrayList(clickedItemValueComplaint));
+        complaintWrapper.setComplaintMobileID(mobileWrapper.getID());
+        complaintWrapper.setCategoryID(mobileWrapper.getSJCategoryId());
+        complaintWrapper.setCategory(mobileWrapper.getSJCategory());
+        return complaintWrapper;
     }
 
     /**
@@ -511,7 +544,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     }
 
     public MaterialDialog showAddActionDialog(ServiceJobComplaint_MobileWrapper mobileWrapper,
-            String clickedItemValue, final ServiceJobComplaintWrapper complaintWrapper) {
+              String clickedItemValue, final ServiceJobComplaintWrapper complaintWrapper) {
         boolean wrapInScrollView = false;
         MaterialDialog md = new MaterialDialog.Builder(this.mContext)
                 .title("NEW ACTION")
@@ -563,6 +596,42 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         return md;
     }
 
+    public MaterialDialog showDeleteActionDialog(ServiceJobComplaint_MobileWrapper mobileWrapper,
+                                                 final ServiceJobComplaintWrapper complaintWrapper) {
+        boolean wrapInScrollView = false;
+        MaterialDialog md = new MaterialDialog.Builder(this.mContext)
+                .title("DELETE ACTION.")
+                .customView(R.layout.m_service_report_delete_action, wrapInScrollView)
+                .negativeText("Delete")
+                .positiveText("Close")
+                .iconRes(R.mipmap.del_icon)
+                .autoDismiss(false)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Toast.makeText(mContext, "You delete " + complaintWrapper.getAction(), Toast.LENGTH_SHORT).show();
+                        servicesJobStartDeleteComplaintsTask(dialog, complaintWrapper, complaintWrapper.getAction());
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+
+        // Setting Details for Action
+        View view = md.getCustomView();
+        TextView tv = (TextView) view.findViewById(R.id.textViewActionDetails);
+        String details = /*"Category:\t" + complaintWrapper.getCategory().toUpperCase()
+                + "\nComplaint:\t" + complaintWrapper.getComplaint()
+                + "\nActoin:\t" +*/ complaintWrapper.getAction();
+        tv.setText(details);
+        // Getting Category for Dropdown
+        Log.e(TAG, "showAddActionDialog " + mobileWrapper.toString());
+        return md;
+    }
+
     private void initActionSpinner(View customView, String clickedItemValue, String[] aSubItem) {
         ArrayList<String> options = new ArrayList<>();
         options.add("Select Action");
@@ -609,9 +678,9 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 msg = "Action saved.";
 
                 cActionDB.open();
-                Log.e(TAG, "onPostExecute " + cActionDB.getAllPartsBySJID(cComplaint.getServiceJobID()).toString());
+                Log.e(TAG, "onPostExecute " + cActionDB.getAllActionsBySJID(cComplaint.getServiceJobID()).toString());
                 cActionDB.close();
-                servicesJobStarComplaintsTask(cComplaint);
+                servicesJobStartAddComplaintsTask(cComplaint);
             }
             SnackBarNotificationUtil
                     .setSnackBar(getActivity().findViewById(android.R.id.content), msg)
@@ -623,7 +692,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         protected void onProgressUpdate(Void... values) {}
     }
 
-    private void servicesJobStarComplaintsTask(final ServiceJobComplaintWrapper complaintWrapper) {
+    private void servicesJobStartAddComplaintsTask(final ServiceJobComplaintWrapper complaintWrapper) {
         final ServiceJobComplaints_POST beginServiceJob = new ServiceJobComplaints_POST();
         beginServiceJob.setOnEventListener(new ServiceJobComplaints_POST.OnEventListener() {
             @Override
@@ -649,6 +718,38 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
 
         // To Start the Activity
         beginServiceJob.postAddComplaint(complaintWrapper);
+    }
+
+    private void servicesJobStartDeleteComplaintsTask(final MaterialDialog dialog,
+            final ServiceJobComplaintWrapper complaintWrapper, String clickedItemValue) {
+        final ServiceJobComplaints_POST beginServiceJob = new ServiceJobComplaints_POST();
+        beginServiceJob.setOnEventListener(new ServiceJobComplaints_POST.OnEventListener() {
+            @Override
+            public void onEvent() {
+                // TODO: Close progress dialog here
+                // TODO: Test Response if OK or not
+            }
+
+            @Override
+            public void onError(String message) {
+                // TODO: Close progress dialog then try again if connected to internet
+            }
+
+            @Override
+            public void onEventResult(WebResponse response) {
+                // proceedViewPagerActivity(serviceJob, status, response.getStringResponse());
+                Log.e(TAG, "onEventResult " + response.getStringResponse());
+                Log.e(TAG, "complaintWrapper " + complaintWrapper.toString());
+                // new MainActivity.ServiceJobTask(serviceJob, status, startTaskResponse, response.getStringResponse()).execute((Void) null);
+                new PopulateDeleteActionOperation().setComplaint(complaintWrapper).execute(mServiceJobFromBundle.getID()+"");
+                dialog.dismiss();
+            }
+        });
+
+        // To Start the Activity
+        int actionID = getActionIDFromArrayList(clickedItemValue);
+        complaintWrapper.setActionID(actionID);
+        beginServiceJob.postDeleteComplaint(complaintWrapper);
     }
 
     /*********** A. END SERVICE DETAILS ***********/
@@ -1386,7 +1487,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         protected ArrayList<ServiceJobComplaintWrapper> doInBackground(String... params) {
             if (!params[0].equals("")) {
                 cActionDB.open();
-                cComplaint = cActionDB.getAllPartsBySJID(Integer.parseInt(params[0]));
+                cComplaint = cActionDB.getAllActionsBySJID(Integer.parseInt(params[0]));
                 cActionDB.close();
                 return cComplaint;
             }
@@ -1399,13 +1500,64 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
             if (complaints != null) {
                 msg = "Actions retrieved.";
                 Log.e(TAG, "onPostExecute " + complaints.toString());
+                setUpComplaintActionsRecyclerView(getView());
+                setupActionsResultList();
                 populateActionsCardList(complaints);
+                // new PopulateActionOperation().execute(mServiceJobFromBundle.getID()+"");
             }
 
-            SnackBarNotificationUtil
+            /*SnackBarNotificationUtil
                     .setSnackBar(getActivity().findViewById(android.R.id.content), msg)
                     .setColor(getResources().getColor(R.color.colorPrimary1))
-                    .show();
+                    .show();*/
+        }
+    }
+
+    private class PopulateDeleteActionOperation extends AsyncTask<String, Void, ArrayList<ServiceJobComplaintWrapper>> {
+
+        private ComplaintActionDBUtil cActionDB;
+        private ArrayList<ServiceJobComplaintWrapper> cComplaint;
+        private ServiceJobComplaintWrapper Complaint;
+
+        public PopulateDeleteActionOperation setComplaint(ServiceJobComplaintWrapper id) {
+            Complaint = id;
+            return this;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            cActionDB = new ComplaintActionDBUtil(mContext);
+        }
+
+        @Override
+        protected ArrayList<ServiceJobComplaintWrapper> doInBackground(String... params) {
+            if (!params[0].equals("")) {
+                cActionDB.open();
+                cActionDB.removeItemWithId(Complaint);
+                cComplaint = cActionDB.getAllActionsBySJID(Integer.parseInt(params[0]));
+                cActionDB.close();
+                return cComplaint;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ServiceJobComplaintWrapper> complaints) {
+            String msg = "No actions from DB.";
+            if (complaints != null) {
+                msg = "Actions retrieved.";
+                Log.e(TAG, "onPostExecute " + complaints.toString());
+
+                setUpComplaintActionsRecyclerView(getView());
+                setupActionsResultList();
+                populateActionsCardList(complaints);
+                //new PopulateActionOperation().execute(mServiceJobFromBundle.getID()+"");
+            }
+
+            /*SnackBarNotificationUtil
+                    .setSnackBar(getActivity().findViewById(android.R.id.content), msg)
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();*/
         }
     }
 

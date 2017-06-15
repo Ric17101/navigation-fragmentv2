@@ -15,6 +15,7 @@
         android:background="@color/transparent"
         app:ael_duration="500"
         app:ael_interpolator="accelerateDecelerate"
+        app:ael_expanded="false"
         app:ael_orientation="vertical">
 
         <include layout="@layout/i_labels_report_details_i_content" />

@@ -30,7 +30,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplai
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.view.ExpandableHeightListView;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_DELETE_DETAILS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 
 public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Complaint__ASRListAdapter.ViewHolder> {
@@ -79,96 +79,44 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
     public void swapData(ArrayList<ServiceJobComplaintWrapper> complaints,
                          ArrayList<ServiceJobComplaint_MobileWrapper> mNewDataSet,
                          ArrayList<ServiceJobComplaint_CFWrapper> mComplaintMobileList,
-                         ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList, boolean isBEFORE) {
+                         ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList,
+                         boolean isBEFORE) {
         mComplaintDataSet = complaints;
         mMobileDataSet = mNewDataSet;
         mComplaintCFDataSet = mComplaintMobileList;
         mASRDataSet = mComplaintASRList;
         isBeforeFragment = isBEFORE;
+        removeActionCategoryDuplicates(complaints);
         notifyDataSetChanged();
-        mComplaintToShowOnList = new ArrayList<ServiceJobComplaintWrapper>();
-        setActionsList(complaints);
+        Log.e(TAG, "complaintssize:" + complaints.size());
     }
 
-    /*
-        This method get only the Action Per Category,
+    /**
+        This method get only the cm_cf_id Per Category,
             all item already on the list will be ignored
      */
-    private void setActionsList(ArrayList<ServiceJobComplaintWrapper> complaints) {
-        int counter = 0;
-        for (ServiceJobComplaintWrapper item : complaints) {
-            counter = 0;
+    private void removeActionCategoryDuplicates(ArrayList<ServiceJobComplaintWrapper> complaints) {
+        mComplaintToShowOnList = new ArrayList<ServiceJobComplaintWrapper>(complaints);
+        System.out.println("COUNTTTTT:" + mComplaintToShowOnList.size() + " BEFORE Duplicate Remove:" + mComplaintToShowOnList.toString());
 
-            for (int i = 0; complaints.size() > i; i++) {
-                ServiceJobComplaintWrapper itemCompare = complaints.get(i);
-
-                if (item == itemCompare) {
-                    mComplaintToShowOnList.add(item);
-                }
-
-                if (itemCompare.getActionID() == item.getActionID() &&
-                        itemCompare.getCategoryID() == item.getCategoryID()) {
-                    counter++;
+        for (int i = 0; i < mComplaintToShowOnList.size(); i++) {
+            for (int j = i+1; j < mComplaintToShowOnList.size(); j++) {
+                if (mComplaintToShowOnList.get(i).getSJ_CM_CF_ID() == mComplaintToShowOnList.get(j).getSJ_CM_CF_ID() &&
+                        mComplaintToShowOnList.get(i).getCategoryID() == mComplaintToShowOnList.get(j).getCategoryID()) {
+                    mComplaintToShowOnList.remove(j);
+                    j--;
                 }
             }
-
-            if (counter > 1) {
-
-            }
-            /*
-            for (ServiceJobComplaintWrapper itemCompare : complaints) {
-                if (item == itemCompare) {
-                    mComplaintToShowOnList.add(item);
-                }
-
-                if (itemCompare.getActionID() == item.getActionID() &&
-                        itemCompare.getCategoryID() == item.getCategoryID()) {
-                    counter++;
-                }
-            }*/
         }
-
-        /*for (ServiceJobComplaintWrapper existingItem : mComplaintToShowOnList) {
-            for (ServiceJobComplaintWrapper itemCompare : complaints) {
-                if (existingItem.getCategory())
-            }
-        }*/
-
-        Log.e(TAG, "Count="+mComplaintToShowOnList.size() +
-            " setActionsList:" + mComplaintToShowOnList.toString());
+        System.out.println("COUNTTTTT:" + mComplaintToShowOnList.size() + "AFTER Duplicate Remove:" + mComplaintToShowOnList.toString());
     }
 
-    private void setActionsList_OLD(ArrayList<ServiceJobComplaintWrapper> complaints) {
-        for (ServiceJobComplaintWrapper item : complaints) {
-            for (int i = 0; complaints.size() > i; i++) {
-                ServiceJobComplaintWrapper itemCompare = complaints.get(i);
-
-                if (itemCompare.getActionID() == item.getActionID() &&
-                    itemCompare.getCategoryID() == item.getCategoryID()) {
-                    break;
-                }
-
-                if (!mComplaintToShowOnList.contains(itemCompare)) {
-                    mComplaintToShowOnList.add(item);
-                    break;
-                }
-            }
+    private String getComplaintFromArrayList(int complaintIDToSearch) {
+        for (ServiceJobComplaint_CFWrapper cf : this.mComplaintCFDataSet) {
+            if (cf.getSJComplaintFaultIDID() == (complaintIDToSearch))
+                return cf.getComplaint();
         }
-
-        /*for (ServiceJobComplaintWrapper itemCompare : complaints) {
-            if (itemCompare.getActionID() == item.getActionID() &&
-                itemCompare.getCategoryID() == item.getCategoryID()) {
-                break;
-            }
-
-            if (!mComplaintToShowOnList.contains(itemCompare)) {
-                mComplaintToShowOnList.add(itemCompare);
-                break;
-            }
-        }*/
-
-        Log.e(TAG, "Count="+mComplaintToShowOnList.size() +
-                " setActionsList:" + mComplaintToShowOnList.toString());
+        return "";
     }
 
     public void setItemsOnClickListener(OnItemClickListener onClickListener) {
@@ -188,7 +136,9 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
         this.mSetHelper = new FragmentSetListHelper_SJComplaint_CF();
 
         dataSet = mComplaintToShowOnList.get(holder.getAdapterPosition());
-        holder.textViewComplaints_CF.setText("\t"+ (position + 1) + ".)  " + dataSet.getComplaint());
+        dataSet.setComplaint(getComplaintFromArrayList(mComplaintDataSet.get(position).getComplaintFaultID()));
+        String complaintRow = "\t"+ (position + 1) + ".)  " + dataSet.getCategory().toUpperCase() + " - " + dataSet.getComplaint();
+        holder.textViewComplaints_CF.setText(complaintRow);
 
         Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
                 dataSet.getAction());
@@ -199,20 +149,25 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
 
 
         ////////// Setting Up Sub List //////////
-        StringBuilder sbFaults = new StringBuilder();
-        Log.e(TAG, "StringBuilder:" + mComplaintCFDataSet.toString());
+        StringBuilder sbActions = new StringBuilder();
+        Log.e(TAG, "mComplaintDataSetsize:" + mComplaintDataSet.size());
         for (int i = 0; mComplaintDataSet.size() > i; i++) {
-            if (dataSet.getActionID() == mComplaintDataSet.get(i).getActionID() /*&&
-                    dataSet.getCategoryID() == mComplaintDataSet.get(i).getCategoryID()*/) {
-                sbFaults.append(mComplaintDataSet.get(i).getAction());
-                sbFaults.append(LIST_DELIM);
+            Log.e(TAG, "getSJ_CM_CF_IDStringBuilder:" + mComplaintDataSet.get(i).getSJ_CM_CF_ID());
+            if (dataSet.getSJ_CM_CF_ID() == mComplaintDataSet.get(i).getSJ_CM_CF_ID() &&
+                    dataSet.getCategoryID() == mComplaintDataSet.get(i).getCategoryID()) {
+                sbActions.append(mComplaintDataSet.get(i).getAction());
+                sbActions.append(LIST_DELIM);
             }
         }
 
         // Preparing SubList Data
-        final String[] aSubItem = sbFaults.toString().split(LIST_DELIM);
+        final String[] aSubItem = sbActions.toString().split(LIST_DELIM);
+        for (String item : aSubItem) {
+            Log.e(TAG, "aSubItem:" +item);
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (mContext, android.R.layout.simple_list_item_1, aSubItem);
+                (mContext, R.layout.i_complaint_action_list_item, aSubItem);
 
         LayoutInflater li = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View vi = li.inflate(R.layout.i_complaint_row_item, holder.linearLayoutLV, false);
@@ -234,21 +189,16 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
 
                 //Generate a Toast message
                 String toastMessage = "Position : "+ pos + " || Value : " + clickedItemValue;
-
-                //Apply the ListView background color as user selected item value
-                // lvComplaints.setBackgroundColor(Color.parseColor(clickedItemValue));
-
-                //Display user response as a Toast message
-                Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, toastMessage);
 
+                dataSet.setAction(clickedItemValue);
                 if (!isBeforeFragment) {
-                    mSetHelper.setActionOnClick(
+                    mSetHelper.setActionOnClickDelete(
                             mCallback,
                             position,
                             mMobileDataSet.get(position),
-                            clickedItemValue,
-                            ACTION_VIEW_TASK);
+                            dataSet,
+                            ACTION_DELETE_DETAILS);
                 }
             }
         });

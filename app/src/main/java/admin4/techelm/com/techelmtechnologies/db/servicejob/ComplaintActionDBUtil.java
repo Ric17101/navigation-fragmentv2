@@ -126,7 +126,7 @@ public class ComplaintActionDBUtil extends DatabaseAccess {
         return list;
     }
 
-    public ArrayList<ServiceJobComplaintWrapper> getAllPartsBySJID(int serviceJobID) {
+    public ArrayList<ServiceJobComplaintWrapper> getAllActionsBySJID(int serviceJobID) {
         ArrayList<ServiceJobComplaintWrapper> list = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME + " WHERE servicejob_id="+serviceJobID;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
@@ -180,11 +180,16 @@ public class ComplaintActionDBUtil extends DatabaseAccess {
         return item;
     }
 
-    public void removeItemWithId(int id) {
+    public void removeItemWithId(ServiceJobComplaintWrapper item) {
         SQLiteDatabase db = getDB();
-        String[] whereArgs = { String.valueOf(id) };
-        db.delete(DBHelperItem.TABLE_NAME,
-                DBHelperItem.COLUMN_NAME_ID + "=?", whereArgs);
+
+        String whereClause =
+                DBHelperItem.COLUMN_NAME_SERVICE_JOB_CMCF_ID + "=" + item.getSJ_CM_CF_ID() + " AND " +
+                DBHelperItem.COLUMN_NAME_CM_ID + "=" + item.getComplaintMobileID() + " AND " +
+                DBHelperItem.COLUMN_NAME_ACTION_ID + "=" + item.getActionID() + " AND " +
+                DBHelperItem.COLUMN_NAME_SERVICE_JOB_ID + "=" + item.getServiceJobID();
+
+        int id = db.delete(DBHelperItem.TABLE_NAME, whereClause, null);
 
         if (mOnDatabaseChangedListener != null) {
             mOnDatabaseChangedListener.onActionEntryDeleted();

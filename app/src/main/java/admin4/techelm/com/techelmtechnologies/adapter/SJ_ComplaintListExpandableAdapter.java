@@ -57,7 +57,7 @@ public class SJ_ComplaintListExpandableAdapter extends BaseExpandableListAdapter
         }
 
         TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
+                .findViewById(android.R.id.text1);
 
         txtListChild.setText(childText);
         return convertView;

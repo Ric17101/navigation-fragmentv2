@@ -68,6 +68,7 @@ public final class Constants {
     public static final String SERVICE_JOB_SEND_EMAIL_URL = NEW_SERVICE_JOB_URL + "send_email";
     public static final String SERVICE_JOB_POST_ALL_COMPLAINTS_URL = NEW_SERVICE_JOB_URL + "get_all_servicejob_complaint_to_json_by_sjid";
     public static final String SERVICE_JOB_POST_ACTION_COMPLAINTS_URL = NEW_SERVICE_JOB_URL + "servicejob_upload_actions";
+    public static final String SERVICE_JOB_POST_ACTION_DELETE_URL = NEW_SERVICE_JOB_URL + "servicejob_delete_action";
 
     public static final String PROJECT_JOB_URL = DOMAIN_URL + "projectjob/";
     public static final String NEW_PROJECT_JOB_URL = NEW_DOMAIN_URL + "projectjob/";
@@ -109,6 +110,7 @@ public final class Constants {
     public static final int ACTION_VIEW_DETAILS = 2;
     public static final int ACTION_ALREADY_COMPLETED = 3;
     public static final int ACTION_ALREADY_ON_PROCESS = 4; // This already being called as Continue whenever service
+    public static final int ACTION_DELETE_DETAILS = 5;
 
     // STATUS of Service Jobs
     public static final String SERVICE_JOB_NEW = "0";
