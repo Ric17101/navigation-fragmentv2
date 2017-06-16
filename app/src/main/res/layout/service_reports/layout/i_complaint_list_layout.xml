@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TableLayout
+        android:id="@+id/TableLayoutLabels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewProblems"
+                android:layout_width="200sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:text="@string/replacement_parts"
+                android:textStyle="normal|italic" />
+
+            <TextView
+                android:id="@+id/textViewLabel11"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text=":" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="200sp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                card_view:cardCornerRadius="0dp"
+                card_view:cardElevation="0dp"
+                card_view:cardUseCompatPadding="true">
+
+                <Spinner
+                    android:id="@+id/spinnerActions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:textAlignment="textEnd"/>
+
+            </android.support.v7.widget.CardView>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

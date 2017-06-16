@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewProblems"
+        android:layout_width="200sp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginTop="-3dp"
+        android:layout_weight="1"
+        android:ellipsize="marquee"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text="@string/replacement_parts"
+        android:textStyle="normal" />
+
+    <admin4.techelm.com.techelmtechnologies.utility.view.ExpandableHeightListView
+        android:id="@+id/lvActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:cacheColorHint="#00000000"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:focusable="false"
+        android:isScrollContainer="false"
+        android:scrollbars="none" />
+
+</LinearLayout>

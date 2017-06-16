@@ -33,25 +33,13 @@
             android:textSize="16sp"
             android:textStyle="normal|bold|italic" />
 
-        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-            android:id="@+id/expandableLayout"
+        <!-- SubListView for DropDown List -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/action_service_report_complaint_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            app:ael_duration="500"
-            app:ael_interpolator="accelerateDecelerate"
-            app:ael_orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/linearLayoutLV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingLeft="50sp" />
 
     </LinearLayout>
 

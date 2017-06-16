@@ -3,22 +3,19 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.helper.FragmentSetListHelper_SJComplaint_CF;
@@ -28,9 +25,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplai
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;
-import admin4.techelm.com.techelmtechnologies.utility.view.ExpandableHeightListView;
 
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_DELETE_DETAILS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 
 public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Complaint__ASRListAdapter.ViewHolder> {
@@ -42,7 +37,8 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
     private ArrayList<ServiceJobComplaint_MobileWrapper> mMobileDataSet = new ArrayList<>();
     private ArrayList<ServiceJobComplaint_CFWrapper> mComplaintCFDataSet = new ArrayList<>();
     private ArrayList<ServiceJobComplaint_ASRWrapper> mASRDataSet = new ArrayList<>();
-    private ServiceJobComplaintWrapper dataSet;
+    private ArrayList<ServiceJobComplaint_CFWrapper> mActionList = new ArrayList<>();
+    private ServiceJobComplaintWrapper dataSetCategoryToShow;
     private ServiceJobComplaint_MobileWrapper sdataMobileSet;
     private ServiceJobComplaint_CFWrapper dataSubSet;
     //private String[] aSubItem;
@@ -97,23 +93,23 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
      */
     private void removeActionCategoryDuplicates(ArrayList<ServiceJobComplaintWrapper> complaints) {
         mComplaintToShowOnList = new ArrayList<ServiceJobComplaintWrapper>(complaints);
-        System.out.println("COUNTTTTT:" + mComplaintToShowOnList.size() + " BEFORE Duplicate Remove:" + mComplaintToShowOnList.toString());
+        Log.e(TAG, "COUNTTTTT:" + mComplaintToShowOnList.size() + " BEFORE Duplicate Remove:" + mComplaintToShowOnList.toString());
 
         for (int i = 0; i < mComplaintToShowOnList.size(); i++) {
             for (int j = i+1; j < mComplaintToShowOnList.size(); j++) {
-                if (mComplaintToShowOnList.get(i).getSJ_CM_CF_ID() == mComplaintToShowOnList.get(j).getSJ_CM_CF_ID() &&
+                if (//mComplaintToShowOnList.get(i).getSJ_CM_CF_ID() == mComplaintToShowOnList.get(j).getSJ_CM_CF_ID() &&
                         mComplaintToShowOnList.get(i).getCategoryID() == mComplaintToShowOnList.get(j).getCategoryID()) {
                     mComplaintToShowOnList.remove(j);
                     j--;
                 }
             }
         }
-        System.out.println("COUNTTTTT:" + mComplaintToShowOnList.size() + "AFTER Duplicate Remove:" + mComplaintToShowOnList.toString());
+        Log.e(TAG, "COUNTTTTT:" + mComplaintToShowOnList.size() + "AFTER Duplicate Remove:" + mComplaintToShowOnList.toString());
     }
 
     private String getComplaintFromArrayList(int complaintIDToSearch) {
         for (ServiceJobComplaint_CFWrapper cf : this.mComplaintCFDataSet) {
-            if (cf.getSJComplaintFaultIDID() == (complaintIDToSearch))
+            if (cf.getSJComplaintFaultID() == complaintIDToSearch)
                 return cf.getComplaint();
         }
         return "";
@@ -135,73 +131,26 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         this.mSetHelper = new FragmentSetListHelper_SJComplaint_CF();
 
-        dataSet = mComplaintToShowOnList.get(holder.getAdapterPosition());
-        dataSet.setComplaint(getComplaintFromArrayList(mComplaintDataSet.get(position).getComplaintFaultID()));
-        String complaintRow = "\t"+ (position + 1) + ".)  " + dataSet.getCategory().toUpperCase() + " - " + dataSet.getComplaint();
+        dataSetCategoryToShow = mComplaintToShowOnList.get(holder.getAdapterPosition());
+        dataSetCategoryToShow.setComplaint(getComplaintFromArrayList(mComplaintDataSet.get(position).getComplaintFaultID()));
+        String complaintRow = "\t"+ (position + 1) + ".)  " + dataSetCategoryToShow.getCategory().toUpperCase();
+                // + " - " + dataSetCategoryToShow.getComplaint();
         holder.textViewComplaints_CF.setText(complaintRow);
 
+        ////////// Set up the List of Problems === Setting Dropdown Sublist Actions //////////
+        String[] actionList = getActionFromArrayListByCategoryID(dataSetCategoryToShow.getCategoryID());
+        SJ_Complaint__ASRSubListAdapter subList = new SJ_Complaint__ASRSubListAdapter(this.mContext)
+                .swapData(getSJComplaint_CFArrayList(dataSetCategoryToShow), mComplaintDataSet, dataSetCategoryToShow, mASRDataSet);
+
+        holder.action_service_report_complaint_list.setAdapter(subList);
+        holder.action_service_report_complaint_list.setLayoutManager(new LinearLayoutManager(this.mContext));
+
         Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
-                dataSet.getAction());
+                dataSetCategoryToShow.getAction());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
         }
-
-
-        ////////// Setting Up Sub List //////////
-        StringBuilder sbActions = new StringBuilder();
-        Log.e(TAG, "mComplaintDataSetsize:" + mComplaintDataSet.size());
-        for (int i = 0; mComplaintDataSet.size() > i; i++) {
-            Log.e(TAG, "getSJ_CM_CF_IDStringBuilder:" + mComplaintDataSet.get(i).getSJ_CM_CF_ID());
-            if (dataSet.getSJ_CM_CF_ID() == mComplaintDataSet.get(i).getSJ_CM_CF_ID() &&
-                    dataSet.getCategoryID() == mComplaintDataSet.get(i).getCategoryID()) {
-                sbActions.append(mComplaintDataSet.get(i).getAction());
-                sbActions.append(LIST_DELIM);
-            }
-        }
-
-        // Preparing SubList Data
-        final String[] aSubItem = sbActions.toString().split(LIST_DELIM);
-        for (String item : aSubItem) {
-            Log.e(TAG, "aSubItem:" +item);
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (mContext, R.layout.i_complaint_action_list_item, aSubItem);
-
-        LayoutInflater li = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View vi = li.inflate(R.layout.i_complaint_row_item, holder.linearLayoutLV, false);
-        holder.linearLayoutLV.addView(vi);
-
-        final ExpandableHeightListView lvComplaints = (ExpandableHeightListView) vi.findViewById(R.id.lvComplaints);
-
-        //Data bind ListView with ArrayAdapter
-        lvComplaints.setAdapter(adapter);
-        lvComplaints.setExpanded(true);
-        lvComplaints.setDividerHeight(0);
-
-        //Set an Item Click Listener for ListView items
-        lvComplaints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                //Get ListView clicked item's corresponded Array element value
-                String clickedItemValue = Arrays.asList(aSubItem).get(pos);
-
-                //Generate a Toast message
-                String toastMessage = "Position : "+ pos + " || Value : " + clickedItemValue;
-                Log.e(TAG, toastMessage);
-
-                dataSet.setAction(clickedItemValue);
-                if (!isBeforeFragment) {
-                    mSetHelper.setActionOnClickDelete(
-                            mCallback,
-                            position,
-                            mMobileDataSet.get(position),
-                            dataSet,
-                            ACTION_DELETE_DETAILS);
-                }
-            }
-        });
     }
 
     @Override
@@ -226,11 +175,42 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
         void onClick(ServiceJobComplaint_CFWrapper colorWrapper);
     }
 
+    private String[] getActionFromArrayListByCategoryID(int categoryIDToSearch) {
+        StringBuilder sbActions = new StringBuilder();
+        Log.e(TAG, "getActionFromArrayListByCategoryID" + mComplaintDataSet.toString());
+
+        for (ServiceJobComplaintWrapper asr : this.mComplaintDataSet) {
+            if (asr.getCategoryID() == categoryIDToSearch) {
+                sbActions.append(asr.getAction());
+                sbActions.append(LIST_DELIM);
+            }
+        }
+
+        // Preparing SubList Data
+        String[] aSubItem = sbActions.toString().split(LIST_DELIM);
+
+        return aSubItem;
+    }
+
+    private ArrayList<ServiceJobComplaint_CFWrapper> getSJComplaint_CFArrayList(ServiceJobComplaintWrapper category) {
+        Log.e(TAG, "getActionIDFromArrayList" + mComplaintDataSet.toString());
+        mActionList = new ArrayList<>();
+
+        for (ServiceJobComplaint_CFWrapper asr : this.mComplaintCFDataSet) {
+            if (asr.getSJCategoryID() == category.getCategoryID()) {
+                mActionList.add(asr);
+            }
+        }
+
+        return mActionList;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final TextView textViewComplaints_CF;
-        //final ListView lvComplaints;
+        //final ListView lvActions;
         final LinearLayout linearLayoutLV;
         final ExpandableRelativeLayout expandableLayout;
+        final RecyclerView action_service_report_complaint_list;
 
         public ViewHolder(View view) {
             super(view);
@@ -240,18 +220,18 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
             textViewComplaints_CF.setOnClickListener(this);
 
             linearLayoutLV = (LinearLayout) view.findViewById(R.id.linearLayoutLV);
-            //lvComplaints = (ListView) view.findViewById(R.id.lvComplaints);
 
             // Panel Hiding/Showing
             expandableLayout = (ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout);
-            // mSetHelper.hideView(expandableLayout);
+            action_service_report_complaint_list = (RecyclerView)
+                    view.findViewById(R.id.action_service_report_complaint_list);
         }
 
         @Override
         public void onClick(View v) {
             if (v.getId() == textViewComplaints_CF.getId()) {
                 if (mCallback != null) {
-                    mSetHelper.doHideOrShow(expandableLayout);
+                    // mSetHelper.doHideOrShow(expandableLayout);
                 }
             }
         }

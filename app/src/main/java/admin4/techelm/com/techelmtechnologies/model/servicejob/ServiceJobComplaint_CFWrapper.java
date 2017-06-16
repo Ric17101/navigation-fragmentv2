@@ -77,7 +77,7 @@ public class ServiceJobComplaint_CFWrapper implements Parcelable {
         mComplaint = val;
     }
 
-    public int getSJComplaintFaultIDID() {
+    public int getSJComplaintFaultID() {
         return mSJComplaintFaultID;
     }
     public void setSJComplaintFaultID(int val) { mSJComplaintFaultID = val; }

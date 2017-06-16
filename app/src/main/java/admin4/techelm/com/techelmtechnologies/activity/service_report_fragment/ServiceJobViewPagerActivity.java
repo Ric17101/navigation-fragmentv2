@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_Complaint_CFSubListAdapter;
+import admin4.techelm.com.techelmtechnologies.adapter.SJ_Complaint__ASRSubListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_PartsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_RecordingsListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_UploadsListAdapter;
@@ -64,6 +66,8 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         PartsSJDBUtil.OnDatabaseChangedListener,
         ServiceJobComplaintsCFListener,
         ServiceJobComplaintsCategoryListener,
+        SJ_Complaint_CFSubListAdapter.CallbackInterface,
+        SJ_Complaint__ASRSubListAdapter.CallbackInterface,
         ComplaintActionDBUtil.OnDatabaseChangedListener
         // OnTaskKill.onStopCallbackInterface // TODO: if user close the app permanently
 {
@@ -422,10 +426,57 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     @Override
     public void onNewActionEntryAdded(String partName) {
+        Log.e(TAG, "onNewActionEntryAdded: " + partName);
     }
 
     @Override
-    public void onActionEntryDeleted() {
+    public void onActionEntryDeleted() { Log.e(TAG, "onActionEntryDeleted: "); }
+
+    @Override
+    public void onHandleActionsSelection(int position,
+         ServiceJobComplaint_CFWrapper complaintCfWrapper, String clickedItemAction, int mode)
+    {
+        Log.e(TAG, "clickedItemCategory: " + clickedItemAction);
+        Log.e(TAG, "onHandleActionsSelection: " + complaintCfWrapper.toString());
+        switch (mode) {
+            case ACTION_VIEW_TASK:
+                if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER) { // Check After Frament
+                    getFragmentServiceReport_AFTER()
+                            .fromActivity_onHandleActionsSelection(
+                                    complaintCfWrapper,
+                                    clickedItemAction);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onHandleDeleteActionsFromListSelection(int id) {
+        Log.e(TAG, "onHandleDeleteActionsFromListSelection: " + id);
+    }
+
+    @Override
+    public void onHandleASRDeleteSelection(int position, ServiceJobComplaint_CFWrapper cfWrapper,
+           String clickedItemAction, int mode) {
+        switch (mode) {
+            case ACTION_DELETE_DETAILS:
+                if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER) { // Check After Frament
+                    getFragmentServiceReport_AFTER()
+                            .fromActivity_onHandleASRDeleteSelection(
+                                    cfWrapper,
+                                    clickedItemAction);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onHandleDeleteASRFromListSelection(int id) {
+
     }
 
     /******* A. END CALLBACKS from ServiceReport_FRGMT_BEFORE & ServiceReport_FRGMT_AFTER ********/
