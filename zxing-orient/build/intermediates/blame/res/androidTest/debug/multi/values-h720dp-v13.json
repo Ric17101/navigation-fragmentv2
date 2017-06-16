@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\zxing-orient\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-h720dp-v13\\values-h720dp-v13.xml",
+        "outputFile": "C:\\Users\\RIchard\\PROJECT\\TECHELM\\navigation-fragmentv2\\zxing-orient\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-h720dp-v13\\values-h720dp-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 117
                 },
                 "from": {
-                    "file": "C:\\Users\\admin 4\\.android\\build-cache\\512093e1cd6abea2d8c08d90a9d7d4d342e51a72\\output\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
+                    "file": "C:\\Users\\RIchard\\.android\\build-cache\\964b0d4ebe0e8838d309ae9bb89ed397f02f3a35\\output\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,

@@ -7,6 +7,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 /**
  * Created by admin 4 on 26/04/2017.
  * Interface Holder is a just class with a static reference to pass it anywhere around...
+ * You can implement this on Any Class Dialog including:
+ *  OpenDialog
+ *  Material Dialog
+ *  DatePickerDialog
+ * This is Flexible since you can call the first Dialog as any of the above mentioned
+ * then any other Dialog again you wanted to pop up
  */
 
 public class InterfaceDialogHolder {
