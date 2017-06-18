@@ -29,6 +29,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplai
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.view.ExpandableHeightListView;
 
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_DELETE_DETAILS;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.ACTION_VIEW_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.LIST_DELIM;
 
@@ -44,11 +45,11 @@ public class SJ_Complaint__ASRSubListAdapter extends RecyclerView.Adapter<SJ_Com
     private ArrayList<ServiceJobComplaintWrapper> mComplaintActionDataSet = new ArrayList<>();
     private ArrayList<ServiceJobComplaint_ASRWrapper> mActionListDataSet = new ArrayList<>();
     private ArrayList<ServiceJobComplaintWrapper> mComplaintToShowOnList = new ArrayList<>();
-    private ArrayList<ServiceJobComplaint_CFWrapper> mComplaintCFToShowOnList = new ArrayList<>();
+    private ArrayList<ServiceJobComplaintWrapper> mComplaintToShowOnListRemovedDuplicates = new ArrayList<>();
 
     private String[] mActionList;
 
-    private ServiceJobComplaint_CFWrapper serviceJobDataSet;
+    //private ServiceJobComplaint_CFWrapper serviceJobComplaintDataSet;
     private ServiceJobComplaintWrapper mComplaintDataSetToShow;
     private ServiceJobComplaintWrapper mComplaintDataSet;
     private CallbackInterface mCallback;
@@ -79,50 +80,57 @@ public class SJ_Complaint__ASRSubListAdapter extends RecyclerView.Adapter<SJ_Com
 
     public SJ_Complaint__ASRSubListAdapter swapData(ArrayList<ServiceJobComplaint_CFWrapper> mNewDataSet,
             ArrayList<ServiceJobComplaintWrapper> complaintDataSet,
-            ServiceJobComplaintWrapper dataSet, ArrayList<ServiceJobComplaint_ASRWrapper> actionList)
+            ServiceJobComplaintWrapper dataSet,
+            ArrayList<ServiceJobComplaint_ASRWrapper> actionList)
     {
         mDataSet = mNewDataSet;
         mComplaintDataSet = dataSet;
         mActionListDataSet = actionList;
         mComplaintActionDataSet = complaintDataSet;
-        Log.e(TAG, "SJ_Complaint__ASRSubListAdapterswapData:"+mDataSet.toString());
-        Log.e(TAG, "swapDatacomplaintDataSet:"+complaintDataSet.toString());
-        setComplaintLists(mNewDataSet, dataSet);
+        Log.e(TAG, "mDataSet:" + mDataSet.size());
+        Log.e(TAG, "==========mDataSet==========:" + mDataSet.toString());
+        Log.e(TAG, "++++++++++++mComplaintDataSet++++++++++++:" + mComplaintDataSet.toString());
+        Log.e(TAG, "mActionListDataSet:" + mActionListDataSet.size());
+        Log.e(TAG, "==========mActionListDataSet==========:" + mActionListDataSet.toString());
+        Log.e(TAG, "mComplaintActionDataSet:" + mComplaintActionDataSet.size());
+        Log.e(TAG, "==========mComplaintActionDataSet==========:" + mComplaintActionDataSet.toString());
+        setComplaintLists(mComplaintDataSet, mComplaintActionDataSet);
+        Log.e(TAG, "mComplaintToShowOnList:" + mComplaintToShowOnList.size());
+        Log.e(TAG, "==========mComplaintToShowOnList==========:" + mComplaintToShowOnList.toString());
         // removeComplaintDuplicates(complaintDataSet, dataSet);
+        removeComplaintCategoryDuplicates(mComplaintToShowOnList);
         notifyDataSetChanged();
         return this;
     }
 
     /**
      This method get only the cm_cf_id Per Category,
-     all item already on the list will be ignored
+        all item already on the list will be ignored
      */
-    private void removeComplaintDuplicates(ArrayList<ServiceJobComplaintWrapper> complaints,
-           ServiceJobComplaintWrapper dataSet) {
-        // mComplaintToShowOnList = new ArrayList<ServiceJobComplaintWrapper>(complaints);
-        Log.e(TAG, "removeComplaintDuplicatesCOUNTTTTT:" + mComplaintToShowOnList.size() + " BEFORE Duplicate Remove:" + mComplaintToShowOnList.toString());
+    private void removeComplaintCategoryDuplicates(ArrayList<ServiceJobComplaintWrapper> complaints) {
+        mComplaintToShowOnListRemovedDuplicates = new ArrayList<ServiceJobComplaintWrapper>(complaints);
+        Log.e(TAG, "COUNTTTTT:" + mComplaintToShowOnListRemovedDuplicates.size() + " BEFORE Duplicate Remove:" + mComplaintToShowOnListRemovedDuplicates.toString());
 
-        for (int i = 0; i < mComplaintToShowOnList.size(); i++) {
-            for (int j = i+1; j < mComplaintToShowOnList.size(); j++) {
-                if (mComplaintToShowOnList.get(i).getComplaint() == mComplaintToShowOnList.get(j).getComplaint() &&
-                    mComplaintToShowOnList.get(i).getComplaintFaultID() == mComplaintToShowOnList.get(j).getComplaintFaultID())
+        for (int i = 0; i < mComplaintToShowOnListRemovedDuplicates.size(); i++) {
+            for (int j = i+1; j < mComplaintToShowOnListRemovedDuplicates.size(); j++) {
+                if (mComplaintToShowOnList.get(i).getSJ_CM_CF_ID() == mComplaintToShowOnList.get(j).getSJ_CM_CF_ID() &&
+                    mComplaintToShowOnListRemovedDuplicates.get(i).getCategoryID() == mComplaintToShowOnListRemovedDuplicates.get(j).getCategoryID())
                 {
-                    mComplaintToShowOnList.remove(j);
+                    mComplaintToShowOnListRemovedDuplicates.remove(j);
                     j--;
                 }
             }
         }
-        Log.e(TAG, "removeComplaintDuplicatesCOUNTTTTT:" + mComplaintToShowOnList.size() + "AFTER Duplicate Remove:" + mComplaintToShowOnList.toString());
+        Log.e(TAG, "COUNTTTTT:" + mComplaintToShowOnListRemovedDuplicates.size() + "AFTER Duplicate Remove:" + mComplaintToShowOnListRemovedDuplicates.toString());
     }
 
-    private void setComplaintLists(ArrayList<ServiceJobComplaint_CFWrapper> complaints,
-                                   ServiceJobComplaintWrapper dataSet) {
-        mComplaintCFToShowOnList = new ArrayList<>();
-        for (ServiceJobComplaint_CFWrapper item : complaints) {
-            if (item.getSJCategoryID() == dataSet.getCategoryID() &&
-                item.getSJ_CM_CF_ID() == dataSet.getSJ_CM_CF_ID())
+    private void setComplaintLists(ServiceJobComplaintWrapper dataset,
+                                   ArrayList<ServiceJobComplaintWrapper> complaints) {
+        mComplaintToShowOnList = new ArrayList<>();
+        for (ServiceJobComplaintWrapper item : complaints) {
+            if (item.getCategoryID() == dataset.getCategoryID())
             {
-                mComplaintCFToShowOnList.add(item);
+                mComplaintToShowOnList.add(item);
             }
         }
     }
@@ -149,10 +157,11 @@ public class SJ_Complaint__ASRSubListAdapter extends RecyclerView.Adapter<SJ_Com
          *  Callback invoked when clicked
          * @param position - the position
          * @param ServiceJobComplaint_CFWrapper - the text to pass back
+         * @param complaint
          * @param clickedItemAction
          * @param mode
          */
-        void onHandleASRDeleteSelection(int position, ServiceJobComplaint_CFWrapper ServiceJobComplaint_CFWrapper, String clickedItemAction, int mode);
+        void onHandleASRDeleteSelection(int position, ServiceJobComplaint_CFWrapper ServiceJobComplaint_CFWrapper, ServiceJobComplaintWrapper complaint, String clickedItemAction, int mode);
         void onHandleDeleteASRFromListSelection(int id);
     }
 
@@ -170,27 +179,27 @@ public class SJ_Complaint__ASRSubListAdapter extends RecyclerView.Adapter<SJ_Com
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        serviceJobDataSet = mComplaintCFToShowOnList.get(holder.getAdapterPosition());
+        mComplaintDataSetToShow = mComplaintToShowOnListRemovedDuplicates.get(holder.getAdapterPosition());
 
         // Set the Complaints Problem from the List
-        holder.textViewProblems.setText(serviceJobDataSet.getComplaint());
+        holder.textViewProblems.setText(mComplaintDataSetToShow.getComplaint());
 
-        setUpViewHolderContents(holder, position);
+        setUpViewHolderContents(mComplaintDataSetToShow, holder, position);
 
-        // Just to see what inside the Holder
-        Log.d(TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
-                serviceJobDataSet.getComplaint() + " " + serviceJobDataSet.getSJ_CM_CF_ID());
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
             mLastAnimatedItemPosition = holder.getAdapterPosition(); // or mLastAnimatedItemPosition = position;
         }
     }
 
-    private String[] getActionListByCategory()
+    private String[] getActionListByComplaint(ServiceJobComplaintWrapper complaint)
     {
         StringBuilder sbActions = new StringBuilder();
-        for (ServiceJobComplaint_ASRWrapper item : mActionListDataSet) {
-            if (item.getSJCategoryId() == mComplaintDataSet.getCategoryID()) {
+        for (ServiceJobComplaintWrapper item : mComplaintActionDataSet) {
+
+            if (item.getCategoryID() == complaint.getCategoryID() &&
+                item.getSJ_CM_CF_ID() == complaint.getSJ_CM_CF_ID())
+            {
                 sbActions.append(item.getAction());
                 sbActions.append(LIST_DELIM);
             }
@@ -199,11 +208,11 @@ public class SJ_Complaint__ASRSubListAdapter extends RecyclerView.Adapter<SJ_Com
     }
 
     @Override
-    public int getItemCount() { return mComplaintCFToShowOnList.size(); }
+    public int getItemCount() { return mComplaintToShowOnListRemovedDuplicates.size(); }
 
 
-    private void setUpViewHolderContents(final ViewHolder holder, final int position) {
-        mActionList = getActionListByCategory();
+    private void setUpViewHolderContents(final ServiceJobComplaintWrapper complaint, final ViewHolder holder, final int position) {
+        mActionList = getActionListByComplaint(complaint);
         final ArrayList<String> options = setDDOptions(mActionList);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext,
@@ -222,7 +231,7 @@ public class SJ_Complaint__ASRSubListAdapter extends RecyclerView.Adapter<SJ_Com
                 Log.e(TAG, "onItemSelectedtoastMessage: " + toastMessage);
 
                 if (mCallback != null) {
-                    mCallback.onHandleASRDeleteSelection(pos, mDataSet.get(position), clickedItemAction, ACTION_VIEW_TASK);
+                    mCallback.onHandleASRDeleteSelection(pos, mDataSet.get(position), complaint, clickedItemAction, ACTION_DELETE_DETAILS);
                 }
             }
         });
@@ -232,24 +241,11 @@ public class SJ_Complaint__ASRSubListAdapter extends RecyclerView.Adapter<SJ_Com
     private ArrayList<String> setDDOptions(String[] actionList) {
         final ArrayList<String> options = new ArrayList<>();
         Collections.addAll(options, actionList);
-
-        /*int counter = 0;
-        for (String item : mActionList) {
-            if (counter == 0) {
-                options.add("--- Select Action ---");
-                options.add(item);
-            }
-            else
-                options.add(item);
-            counter++;
-        }*/
-
         return options;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textViewProblems;
-        // Spinner spinnerActions;
         final ExpandableHeightListView lvActions;
         final ExpandableRelativeLayout expandableLayout;
         //final LinearLayout linearLayoutActionLV;

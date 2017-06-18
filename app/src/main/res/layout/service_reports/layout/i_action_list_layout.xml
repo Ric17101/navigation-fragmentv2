@@ -16,6 +16,7 @@
         android:maxLines="1"
         android:scrollHorizontally="true"
         android:text="@string/replacement_parts"
+        android:textSize="18sp"
         android:textStyle="normal" />
 
     <admin4.techelm.com.techelmtechnologies.utility.view.ExpandableHeightListView

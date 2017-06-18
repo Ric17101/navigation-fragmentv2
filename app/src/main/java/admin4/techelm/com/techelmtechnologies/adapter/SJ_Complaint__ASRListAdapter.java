@@ -39,8 +39,6 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
     private ArrayList<ServiceJobComplaint_ASRWrapper> mASRDataSet = new ArrayList<>();
     private ArrayList<ServiceJobComplaint_CFWrapper> mActionList = new ArrayList<>();
     private ServiceJobComplaintWrapper dataSetCategoryToShow;
-    private ServiceJobComplaint_MobileWrapper sdataMobileSet;
-    private ServiceJobComplaint_CFWrapper dataSubSet;
     //private String[] aSubItem;
     private ServiceJobComplaintsCategoryListener mCallback;
     private ServiceJobComplaintsCFListener mSubCallback;
@@ -72,19 +70,34 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
         notifyDataSetChanged();
     }
 
-    public void swapData(ArrayList<ServiceJobComplaintWrapper> complaints,
-                         ArrayList<ServiceJobComplaint_MobileWrapper> mNewDataSet,
-                         ArrayList<ServiceJobComplaint_CFWrapper> mComplaintMobileList,
-                         ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList,
+    public void swapData(ArrayList<ServiceJobComplaintWrapper> complaintsToShow,
+                         ArrayList<ServiceJobComplaint_MobileWrapper> complaintMobileCategoryList,
+                         ArrayList<ServiceJobComplaint_CFWrapper> complaintCFList,
+                         ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASR_ActionByCatList,
                          boolean isBEFORE) {
-        mComplaintDataSet = complaints;
-        mMobileDataSet = mNewDataSet;
-        mComplaintCFDataSet = mComplaintMobileList;
-        mASRDataSet = mComplaintASRList;
+        mComplaintDataSet = complaintsToShow;
+        mMobileDataSet = complaintMobileCategoryList;
+        mComplaintCFDataSet = complaintCFList;
+        mASRDataSet = mComplaintASR_ActionByCatList;
         isBeforeFragment = isBEFORE;
-        removeActionCategoryDuplicates(complaints);
+        removeActionCategoryDuplicates(complaintsToShow);
+
+
+        Log.e(TAG, "mDataSet:" + mComplaintDataSet.size());
+        Log.e(TAG, "==========mDataSet==========:" + mComplaintDataSet.toString());
+        Log.e(TAG, "mActionList:" + mActionList.size());
+        Log.e(TAG, "==========mActionList==========:" + mActionList.toString());
+        Log.e(TAG, "mMobileDataSet:" + mMobileDataSet.size());
+        Log.e(TAG, "==========mMobileDataSet==========:" + mMobileDataSet.toString());
+        Log.e(TAG, "mComplaintCFDataSet:" + mComplaintCFDataSet.size());
+        Log.e(TAG, "==========mComplaintCFDataSet==========:" + mComplaintCFDataSet.toString());
+        Log.e(TAG, "mASRDataSet:" + mASRDataSet.size());
+        Log.e(TAG, "==========mASRDataSet==========:" + mASRDataSet.toString());
+        Log.e(TAG, "mComplaintToShowOnList:" + mComplaintToShowOnList.size());
+        Log.e(TAG, "==========mComplaintToShowOnList==========:" + mComplaintToShowOnList.toString());
+
         notifyDataSetChanged();
-        Log.e(TAG, "complaintssize:" + complaints.size());
+        Log.e(TAG, "complaintssize:" + complaintsToShow.size());
     }
 
     /**

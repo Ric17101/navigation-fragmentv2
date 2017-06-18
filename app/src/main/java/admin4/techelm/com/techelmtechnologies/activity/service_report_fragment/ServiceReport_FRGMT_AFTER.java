@@ -133,7 +133,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private RecordingSJDBUtil mRecodingDB;
 
     // D. From Activity Objects
-    private ArrayList<ServiceJobComplaint_MobileWrapper> mComplaintMobileList = null;
+    private ArrayList<ServiceJobComplaint_MobileWrapper> mComplaintMobileCategoryList = null;
 
     private SJ_Complaint_CFListAdapter mComplaintCFListAdapter; // ListView Setup
     private RecyclerView mComplaintCFResultsList;
@@ -142,7 +142,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
 
     private SJ_Complaint__ASRListAdapter mComplaintASRListAdapter; // ListView Setup
     private RecyclerView mComplaintASRResultsList;
-    private ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList = null;
+    private ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASR_ActionByCatList = null;
     private TextView textViewActionResult;
     private Spinner mSpinnerAction;
 
@@ -174,9 +174,9 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         super.onCreate(savedInstanceState);
         mPosition = getArguments().getInt(ARG_POSITION);
         mServiceJobFromBundle = getArguments().getParcelable(SERVICE_JOB_ID_KEY);
-        mComplaintMobileList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY);
+        mComplaintMobileCategoryList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_MOBILE_LIST_KEY);
         mSJComplaintCFList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_CF_LIST_KEY);
-        mComplaintASRList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY);
+        mComplaintASR_ActionByCatList = getArguments().getParcelableArrayList(SERVICE_JOB_COMPLAINTS_ASR_LIST_KEY);
     }
 
     @Override
@@ -480,11 +480,12 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
 
     public void fromActivity_onHandleASRDeleteSelection(
             ServiceJobComplaint_CFWrapper serviceJobComplaint_mobileWrapper,
-            String dataSet)
+            ServiceJobComplaintWrapper complaint, String dataSet)
     {
         Log.e(TAG, "serviceJobComplaint_mobileWrapper " + serviceJobComplaint_mobileWrapper.toString());
         Log.e(TAG, "ServiceJobComplaintWrapper " + dataSet.toString());
-        // servicesJobStartDeleteComplaintsTask(serviceJobComplaint_mobileWrapper, dataSet);
+        Log.e(TAG, "complaint " + complaint.toString());
+        servicesJobStartDeleteComplaintsTask(complaint, dataSet);
     }
 
     public void fromActivity_onHandleActionsSelection(ServiceJobComplaint_CFWrapper mobileWrapper,
@@ -574,7 +575,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     }
 
     private int getActionIDFromArrayList(String actionToSearch) {
-        for (ServiceJobComplaint_ASRWrapper asr : this.mComplaintASRList) {
+        for (ServiceJobComplaint_ASRWrapper asr : this.mComplaintASR_ActionByCatList) {
             if (asr.getAction() != null && asr.getAction().contains(actionToSearch))
                 return asr.getID();
         }
@@ -582,7 +583,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     }
 
     private String getCategoryFromArrayList(int categoryID) {
-        for (ServiceJobComplaint_MobileWrapper cfWrapper : this.mComplaintMobileList) {
+        for (ServiceJobComplaint_MobileWrapper cfWrapper : this.mComplaintMobileCategoryList) {
             if (cfWrapper.getSJCategoryId() == categoryID)
                 return cfWrapper.getSJCategory();
         }
@@ -629,9 +630,9 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         // Getting Category for Dropdown
         StringBuilder sbFaults = new StringBuilder();
         Log.e(TAG, "showAddActionDialog " + mobileWrapper.toString());
-        for (int i = 0; mComplaintASRList.size() > i; i++) {
-            if (mobileWrapper.getSJCategoryId() == mComplaintASRList.get(i).getSJCategoryId()) {
-                sbFaults.append(mComplaintASRList.get(i).getAction());
+        for (int i = 0; mComplaintASR_ActionByCatList.size() > i; i++) {
+            if (mobileWrapper.getSJCategoryId() == mComplaintASR_ActionByCatList.get(i).getSJCategoryId()) {
+                sbFaults.append(mComplaintASR_ActionByCatList.get(i).getAction());
                 sbFaults.append(LIST_DELIM);
             }
         }
@@ -1497,19 +1498,19 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     private void populateComplaintsCardList() {
         // mSJComplaintCFList = ((ServiceJobViewPagerActivity) getActivity()).mComplaintCFList;
 
-        if (mSJComplaintCFList != null && mComplaintMobileList != null && mComplaintASRList != null) {
+        if (mSJComplaintCFList != null && mComplaintMobileCategoryList != null && mComplaintASR_ActionByCatList != null) {
             mComplaintCFResultsList.setHasFixedSize(true);
             mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
             mComplaintCFResultsList.setItemAnimator(new DefaultItemAnimator());
-            mComplaintCFListAdapter.swapData(mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, false);
+            mComplaintCFListAdapter.swapData(mComplaintMobileCategoryList, mSJComplaintCFList, mComplaintASR_ActionByCatList, false);
             mComplaintCFResultsList.setVisibility(View.VISIBLE);
             textViewComplaintResult.setVisibility(View.GONE);
 
         } else {
             Log.e(TAG, "else populateComplaintsCardList: " + mResultsList);
             Log.e(TAG, "else mSJComplaintCFList: " + mSJComplaintCFList);
-            Log.e(TAG, "else mComplaintMobileList: " + mComplaintMobileList);
-            Log.e(TAG, "else mComplaintASRList: " + mComplaintASRList);
+            Log.e(TAG, "else mComplaintMobileCategoryList: " + mComplaintMobileCategoryList);
+            Log.e(TAG, "else mComplaintASR_ActionByCatList: " + mComplaintASR_ActionByCatList);
 
             // No Result
             mComplaintCFResultsList.setVisibility(View.GONE);
@@ -1530,22 +1531,22 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         mComplaintASRResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
     }
 
-    private void populateActionsCardList(ArrayList<ServiceJobComplaintWrapper> complaints) {
+    private void populateActionsCardList(ArrayList<ServiceJobComplaintWrapper> complaintsToShow) {
         // mSJComplaintCFList = ((ServiceJobViewPagerActivity) getActivity()).mComplaintCFList;
 
-        if (complaints != null && mSJComplaintCFList != null && mComplaintMobileList != null && mComplaintASRList != null) {
+        if (complaintsToShow != null && mSJComplaintCFList != null && mComplaintMobileCategoryList != null && mComplaintASR_ActionByCatList != null) {
             mComplaintASRResultsList.setHasFixedSize(true);
             mComplaintASRResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
             mComplaintASRResultsList.setItemAnimator(new DefaultItemAnimator());
-            mComplaintASRListAdapter.swapData(complaints, mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, false);
+            mComplaintASRListAdapter.swapData(complaintsToShow, mComplaintMobileCategoryList, mSJComplaintCFList, mComplaintASR_ActionByCatList, false);
 
             textViewActionResult.setVisibility(View.GONE);
         } else {
-            Log.e(TAG, "else ArrayList ServiceJobComplaintWrapper: " + complaints);
+            Log.e(TAG, "else ArrayList ServiceJobComplaintWrapper: " + complaintsToShow);
             Log.e(TAG, "else populateComplaintsCardList: " + mResultsList);
             Log.e(TAG, "else mSJComplaintCFList: " + mSJComplaintCFList);
-            Log.e(TAG, "else mComplaintMobileList: " + mComplaintMobileList);
-            Log.e(TAG, "else mComplaintASRList: " + mComplaintASRList);
+            Log.e(TAG, "else mComplaintMobileCategoryList: " + mComplaintMobileCategoryList);
+            Log.e(TAG, "else mComplaintASR_ActionByCatList: " + mComplaintASR_ActionByCatList);
 
             // No Result
             textViewActionResult.setVisibility(View.VISIBLE);
