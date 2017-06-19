@@ -3,9 +3,9 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="3dip"
     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-    android:paddingTop="2dip"
+    android:paddingTop="10sp"
+    android:paddingBottom="10sp"
     android:text="List Header"
-    android:textSize="14sp"
+    android:textSize="18sp"
     android:textStyle="normal" />

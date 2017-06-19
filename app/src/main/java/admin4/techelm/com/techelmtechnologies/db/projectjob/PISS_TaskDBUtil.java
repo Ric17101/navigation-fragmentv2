@@ -299,6 +299,29 @@ public class PISS_TaskDBUtil extends DatabaseAccess {
      */
     public boolean hasInsertedDrawings(int projectjob_task_id) {
         String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
+                + " WHERE "+ DBHelperItem.COLUMN_NAME_PISS_TASK_ID + "=" + projectjob_task_id +
+                " AND " + DBHelperItem.COLUMN_NAME_PISS_TASK_DRAWING_AFTER + "!= ''";
+        Cursor cursor = getDB().rawQuery(selectQuery, null);
+
+        // String item = cursor.getString(1);
+
+        boolean result;
+        if (cursor.moveToFirst()) {
+            Log.wtf("BOOLEAN","---------------------------------------TRUE");
+            result = true;
+        } else { // no data
+            Log.wtf("BOOLEAN","---------------------------------------FALSE");
+            result = false;
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return result;
+    }
+
+    public boolean hasInsertedDrawingsID(int projectjob_task_id) {
+        String selectQuery = "SELECT * FROM " + DBHelperItem.TABLE_NAME
                 + " WHERE "+ DBHelperItem.COLUMN_NAME_PISS_TASK_ID + "=" + projectjob_task_id;
         Cursor cursor = getDB().rawQuery(selectQuery, null);
 

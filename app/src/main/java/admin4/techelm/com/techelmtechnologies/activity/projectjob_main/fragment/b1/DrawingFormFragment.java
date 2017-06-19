@@ -198,7 +198,7 @@ public class DrawingFormFragment extends Fragment {
         String URI = FIRSTCM_DOMAIN_URL + this.mPissTask.getDrawingBefore();
         ((ProjectJobViewPagerActivity) getActivity())
             .downloadImageFromURL(
-                DrawingFormFragment.this,
+                this,
                 URI,
                 imageButtonViewDrawing,
                 ProjectJobViewPagerActivity.fragmentType.FORM);
@@ -269,7 +269,7 @@ public class DrawingFormFragment extends Fragment {
             taskDBUtil.open();
 
             int insertedID = 0;
-            if (!taskDBUtil.hasInsertedDrawings(task.getID())) { // Check if already inserted then will not add anymore
+            if (!taskDBUtil.hasInsertedDrawingsID(task.getID())) { // Check if already inserted then will not add anymore
                 insertedID = taskDBUtil.addPISSTask(task);
             }
             mPissTask = taskDBUtil.getDetailsByPISSTaskID(task.getID());
