@@ -3,26 +3,156 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        android:id="@+id/textViewActionTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="normal|bold"
-        android:text="Action" />
-    <TextView
-        android:id="@+id/textViewActionDetails"
+    <TableLayout
+        android:id="@+id/expandableTableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:text="asdasdasdasd ad ad dasd asdas asd asd  asd ada sadsdasdasdasd ad ad dasd asdas asd asd  asd ada sad" />
+        android:weightSum="3">
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
 
+            <TextView
+                android:id="@+id/textViewLabel21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="center_vertical"
+                android:text="Category"
+                android:textStyle="normal|bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewLabel14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_marginTop="-3dp"
+                    android:layout_weight=".1"
+                    android:gravity="center_vertical"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/textViewLabelCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-3dp"
+                    android:layout_weight="2"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:text="Text" />
+
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabel22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="center_vertical"
+                android:text="Complaint"
+                android:textStyle="normal|bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewLabel15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_marginTop="-3dp"
+                    android:layout_weight=".1"
+                    android:gravity="center_vertical"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/textViewLabelComplaint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-3dp"
+                    android:layout_weight="2"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:text="Text" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp">
+
+            <TextView
+                android:id="@+id/textViewLabel23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
+                android:layout_weight=".1"
+                android:gravity="center_vertical"
+                android:text="Action"
+                android:textStyle="normal|bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewLabel16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_marginTop="-3dp"
+                    android:layout_weight=".1"
+                    android:gravity="center_vertical"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/textViewLabelAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-3dp"
+                    android:layout_weight="2"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:text="Text" />
+            </LinearLayout>
+        </TableRow>
+
+    </TableLayout>
 
 </LinearLayout>

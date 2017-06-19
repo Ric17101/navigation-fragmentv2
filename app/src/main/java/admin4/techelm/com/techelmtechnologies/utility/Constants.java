@@ -41,7 +41,7 @@ public final class Constants {
 
     public static final String VERSION = BuildConfig.VERSION_NAME;
     public static final String HTTP_AUTHENTICATION_ACCESS = "firstcom:opendemolink88"; // REMOVE THIS if web server has no Authentication
-    public static final String NEW_DOMAIN_URL = "http://techelm2012.firstcomdemolinks.com/api/ci-rest-api-techelm/";
+    public static final String NEW_DOMAIN_URL = "http://techelm2012.firstcomdemolinks.com/api/ci-rest-api-techelm-test/";
     public static final String FIRSTCM_DOMAIN_URL = "http://techelm2012.firstcomdemolinks.com/system/backend/web/"; ///system/backend/web/projectjob/drawings/projectjobid70/Reverse_White_Logo.jpg
     public static final String DOMAIN_URL = "http://enercon714.firstcomdemolinks.com/sampleREST/ci-rest-api-techelm/index.php/";
 

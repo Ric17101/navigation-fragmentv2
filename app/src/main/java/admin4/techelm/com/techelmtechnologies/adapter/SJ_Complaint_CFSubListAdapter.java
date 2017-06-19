@@ -7,6 +7,7 @@ package admin4.techelm.com.techelmtechnologies.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ public class SJ_Complaint_CFSubListAdapter extends RecyclerView.Adapter<SJ_Compl
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
     private Context mContext;
+    private boolean isBeforeFragment = true;
 
     private OnItemClickListener mItemsOnClickListener;
     private int counterOnBindViewHolder = 0;
@@ -65,9 +67,11 @@ public class SJ_Complaint_CFSubListAdapter extends RecyclerView.Adapter<SJ_Compl
         notifyDataSetChanged();
     }
 
-    public SJ_Complaint_CFSubListAdapter swapData(List<ServiceJobComplaint_CFWrapper> mNewDataSet, String[] categoryList) {
+    public SJ_Complaint_CFSubListAdapter swapData(List<ServiceJobComplaint_CFWrapper> mNewDataSet,
+        String[] categoryList, boolean fragmentMode) {
         mCategoryList = categoryList;
         mDataSet = mNewDataSet;
+        isBeforeFragment = fragmentMode;
         notifyDataSetChanged();
         return this;
     }
@@ -184,14 +188,25 @@ public class SJ_Complaint_CFSubListAdapter extends RecyclerView.Adapter<SJ_Compl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         TextView textViewProblems;
         Spinner spinnerActions;
+        TextView textViewLabelColon;
+        CardView spinnerActionsCardView;
 
         public ViewHolder(View view) {
             super(view);
             // Date Information
             textViewProblems = (TextView) view.findViewById(R.id.textViewProblems);
             spinnerActions = (Spinner) view.findViewById(R.id.spinnerActions);
+
+            // Setting Up the Before and After ListViews
+            textViewLabelColon = (TextView) view.findViewById(R.id.textViewLabelColon);
+            spinnerActionsCardView = (CardView) view.findViewById(R.id.spinnerActionsCardView);
+            if (isBeforeFragment) {
+                textViewLabelColon.setVisibility(View.GONE);
+                spinnerActionsCardView.setVisibility(View.GONE);
+            }
         }
 
         @Override

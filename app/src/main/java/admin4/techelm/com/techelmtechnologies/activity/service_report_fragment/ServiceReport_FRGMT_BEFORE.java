@@ -81,7 +81,7 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_J
 public class ServiceReport_FRGMT_BEFORE extends Fragment implements
         RecordingService.OnTimerChangedListener {
 
-    private static final String TAG = "ServiceReport_BEFORE";
+    private static final String TAG = ServiceReport_FRGMT_BEFORE.class.getSimpleName();
     private static final String UPLOAD_TAKEN = "BEFORE";
     private int mServiceID; // For DB Purpose to save the file on the ServiceID
     private Context mContext;
@@ -1185,7 +1185,7 @@ public class ServiceReport_FRGMT_BEFORE extends Fragment implements
             mComplaintCFResultsList.setHasFixedSize(true);
             mComplaintCFResultsList.setLayoutManager(new LinearLayoutManager(this.mContext));
             mComplaintCFResultsList.setItemAnimator(new DefaultItemAnimator());
-            mComplaintCFListAdapter.swapData(mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, false);
+            mComplaintCFListAdapter.swapData(mComplaintMobileList, mSJComplaintCFList, mComplaintASRList, true);
             mComplaintCFResultsList.setVisibility(View.VISIBLE);
             textViewComplaintResult.setVisibility(View.GONE);
 

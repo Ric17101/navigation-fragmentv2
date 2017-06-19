@@ -459,7 +459,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
     @Override
     public void onHandleASRDeleteSelection(int position, ServiceJobComplaint_CFWrapper cfWrapper,
-                                           ServiceJobComplaintWrapper complaint, String clickedItemAction, int mode) {
+        ServiceJobComplaintWrapper complaint, String clickedItemAction, int mode) {
         switch (mode) {
             case ACTION_DELETE_DETAILS:
                 if (getCurrentPosition() == FRAGMENT_POSITION_SERVICE_REPORT_AFTER) { // Check After Frament

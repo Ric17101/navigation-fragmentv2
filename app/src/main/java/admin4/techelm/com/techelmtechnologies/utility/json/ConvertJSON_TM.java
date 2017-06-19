@@ -117,7 +117,7 @@ public class ConvertJSON_TM {
             sw.setProjectSite(pieces[11]);
             sw.setFax(pieces[12]);
             sw.setTelephone(pieces[13]);
-            sw.setEngineerName(pieces[14]);
+            // sw.setEngineerName(pieces[14]);
             translationList.add(sw);
         }
         return translationList;

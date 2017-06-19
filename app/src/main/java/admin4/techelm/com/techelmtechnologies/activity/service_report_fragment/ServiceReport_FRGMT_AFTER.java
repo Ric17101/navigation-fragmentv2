@@ -25,6 +25,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -446,8 +447,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
 
 
     /*********** A. SERVICE DETAILS ***********/
-    public void fromActivity_onNewSJEntryAdded(String serviceNum) {
-    }
+    public void fromActivity_onNewSJEntryAdded(String serviceNum) { }
     public void fromActivity_onSJEntryRenamed(String remarks) {
         mEditTextRemarks.setText(remarks);
     }
@@ -461,12 +461,13 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         showAddActionDialog(mobileWrapper, clickedItemValue, complaintWrapper);
     }
 
+    // Not USED
     public void fromActivity_onSJEntryDeleteAction(ServiceJobComplaint_MobileWrapper mobileWrapper,
            String clickedItemValue, String cmcf_id, String clickedItemValueActionOrCategory) {
         Log.e(TAG, "fromActivity_onSJEntryDeleteAction " + mobileWrapper.toString());
 
         ServiceJobComplaintWrapper complaintWrapper = setComplaintForDelete(mobileWrapper, clickedItemValue, clickedItemValueActionOrCategory, cmcf_id);
-        showDeleteActionDialog(mobileWrapper, complaintWrapper);
+        // showDeleteActionDialog(mobileWrapper, complaintWrapper);
     }
     // Should NOT USED
     public void fromActivity_onSJEntryDeleteAction(
@@ -475,17 +476,18 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     {
         Log.e(TAG, "serviceJobComplaint_mobileWrapper " + serviceJobComplaint_mobileWrapper.toString());
         Log.e(TAG, "ServiceJobComplaintWrapper " + dataSet.toString());
-        showDeleteActionDialog(serviceJobComplaint_mobileWrapper, dataSet);
+        // showDeleteActionDialog(serviceJobComplaint_mobileWrapper, dataSet);
     }
 
     public void fromActivity_onHandleASRDeleteSelection(
             ServiceJobComplaint_CFWrapper serviceJobComplaint_mobileWrapper,
-            ServiceJobComplaintWrapper complaint, String dataSet)
+            ServiceJobComplaintWrapper complaint, String clickedItemAction)
     {
         Log.e(TAG, "serviceJobComplaint_mobileWrapper " + serviceJobComplaint_mobileWrapper.toString());
-        Log.e(TAG, "ServiceJobComplaintWrapper " + dataSet.toString());
+        Log.e(TAG, "clickedItemAction " + clickedItemAction.toString());
         Log.e(TAG, "complaint " + complaint.toString());
-        servicesJobStartDeleteComplaintsTask(complaint, dataSet);
+        showDeleteActionDialog(complaint, clickedItemAction);
+        // servicesJobStartDeleteComplaintsTask(complaint, clickedItemAction);
     }
 
     public void fromActivity_onHandleActionsSelection(ServiceJobComplaint_CFWrapper mobileWrapper,
@@ -644,7 +646,46 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         return md;
     }
 
-    public MaterialDialog showDeleteActionDialog(ServiceJobComplaint_MobileWrapper mobileWrapper,
+    public MaterialDialog showDeleteActionDialog(final ServiceJobComplaintWrapper mobileWrapper,
+                                                 final String clickedItemAction) {
+        boolean wrapInScrollView = false;
+        MaterialDialog md = new MaterialDialog.Builder(this.mContext)
+                .title("DELETE ACTION.")
+                .customView(R.layout.m_service_report_delete_action, wrapInScrollView)
+                .negativeText("Delete")
+                .positiveText("Close")
+                .iconRes(R.mipmap.del_icon)
+                .autoDismiss(false)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Toast.makeText(mContext, "You delete " + clickedItemAction, Toast.LENGTH_SHORT).show();
+                        servicesJobStartDeleteComplaintsTask(dialog, mobileWrapper, clickedItemAction);
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+
+        // Setting Details for Action
+        View view = md.getCustomView();
+        TextView tvCat = (TextView) view.findViewById(R.id.textViewLabelCategory);
+        TextView tvCom = (TextView) view.findViewById(R.id.textViewLabelComplaint);
+        TextView tvAct = (TextView) view.findViewById(R.id.textViewLabelAction);
+        tvCat.setText(mobileWrapper.getCategory().toUpperCase());
+        tvCom.setText(mobileWrapper.getComplaint());
+        tvAct.setText(mobileWrapper.getAction());
+
+        // Getting Category for Dropdown
+        Log.e(TAG, "showAddActionDialog " + mobileWrapper.toString());
+        return md;
+    }
+
+    // NOT USED
+    public MaterialDialog showDeleteActionDialog_OLD(ServiceJobComplaint_MobileWrapper mobileWrapper,
                                                  final ServiceJobComplaintWrapper complaintWrapper) {
         boolean wrapInScrollView = false;
         MaterialDialog md = new MaterialDialog.Builder(this.mContext)
@@ -658,7 +699,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         Toast.makeText(mContext, "You delete " + complaintWrapper.getAction(), Toast.LENGTH_SHORT).show();
-                        servicesJobStartDeleteComplaintsTask(dialog, complaintWrapper, complaintWrapper.getAction());
+                        servicesJobStartDeleteComplaintsTask_OLD(dialog, complaintWrapper, complaintWrapper.getAction());
                     }
                 })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -769,7 +810,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
     }
 
     // NOT USED
-    private void servicesJobStartDeleteComplaintsTask(final MaterialDialog dialog,
+    private void servicesJobStartDeleteComplaintsTask_OLD(final MaterialDialog dialog,
             final ServiceJobComplaintWrapper complaintWrapper, String clickedItemValue) {
         final ServiceJobComplaints_POST beginServiceJob = new ServiceJobComplaints_POST();
         beginServiceJob.setOnEventListener(new ServiceJobComplaints_POST.OnEventListener() {
@@ -790,7 +831,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 Log.e(TAG, "onEventResult " + response.getStringResponse());
                 Log.e(TAG, "complaintWrapper " + complaintWrapper.toString());
                 // new MainActivity.ServiceJobTask(serviceJob, status, startTaskResponse, response.getStringResponse()).execute((Void) null);
-                new PopulateDeleteActionOperation().setComplaint(complaintWrapper).execute(mServiceJobFromBundle.getID()+"");
+                new PopulateDeleteActionOperation().setComplaint(complaintWrapper, dialog).execute(mServiceJobFromBundle.getID()+"");
                 dialog.dismiss();
             }
         });
@@ -801,8 +842,8 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         beginServiceJob.postDeleteComplaint(complaintWrapper);
     }
 
-    private void servicesJobStartDeleteComplaintsTask(
-            final ServiceJobComplaintWrapper complaintWrapper, String clickedItemValue)
+    private void servicesJobStartDeleteComplaintsTask(final MaterialDialog dialog,
+                                                      final ServiceJobComplaintWrapper complaintWrapper, String clickedItemValue)
     {
         final ServiceJobComplaints_POST beginServiceJob = new ServiceJobComplaints_POST();
         beginServiceJob.setOnEventListener(new ServiceJobComplaints_POST.OnEventListener() {
@@ -823,7 +864,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 Log.e(TAG, "onEventResult " + response.getStringResponse());
                 Log.e(TAG, "complaintWrapper " + complaintWrapper.toString());
                 // new MainActivity.ServiceJobTask(serviceJob, status, startTaskResponse, response.getStringResponse()).execute((Void) null);
-                new PopulateDeleteActionOperation().setComplaint(complaintWrapper).execute(mServiceJobFromBundle.getID()+"");
+                new PopulateDeleteActionOperation().setComplaint(complaintWrapper, dialog).execute(mServiceJobFromBundle.getID()+"");
             }
         });
 
@@ -1599,9 +1640,10 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
         private ComplaintActionDBUtil cActionDB;
         private ArrayList<ServiceJobComplaintWrapper> cComplaint;
         private ServiceJobComplaintWrapper Complaint;
+        private MaterialDialog mDialog;
 
-        public PopulateDeleteActionOperation setComplaint(ServiceJobComplaintWrapper id) {
-            Complaint = id;
+        public PopulateDeleteActionOperation setComplaint(ServiceJobComplaintWrapper complaint, MaterialDialog dialog) {
+            Complaint = complaint;
             return this;
         }
 
@@ -1632,6 +1674,7 @@ public class ServiceReport_FRGMT_AFTER extends Fragment implements
                 setUpComplaintActionsRecyclerView(getView());
                 setupActionsResultList();
                 populateActionsCardList(complaints);
+                mDialog.dismiss();
                 //new PopulateActionOperation().execute(mServiceJobFromBundle.getID()+"");
             }
 

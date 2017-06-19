@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\RIchard\\PROJECT\\TECHELM\\navigation-fragmentv2\\page_tab_library\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+        "outputFile": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,13 +11,13 @@
                     "endOffset": 106
                 },
                 "from": {
-                    "file": "C:\\Users\\RIchard\\PROJECT\\TECHELM\\navigation-fragmentv2\\page_tab_library\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 117,
+                        "startOffset": 114,
                         "endColumn": 55,
-                        "endOffset": 168
+                        "endOffset": 165
                     }
                 }
             },
@@ -30,13 +30,13 @@
                     "endOffset": 165
                 },
                 "from": {
-                    "file": "C:\\Users\\RIchard\\PROJECT\\TECHELM\\navigation-fragmentv2\\page_tab_library\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 57,
+                        "startOffset": 55,
                         "endColumn": 58,
-                        "endOffset": 111
+                        "endOffset": 109
                     }
                 }
             },
@@ -49,13 +49,13 @@
                     "endOffset": 223
                 },
                 "from": {
-                    "file": "C:\\Users\\RIchard\\PROJECT\\TECHELM\\navigation-fragmentv2\\page_tab_library\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 174,
+                        "startOffset": 170,
                         "endColumn": 57,
-                        "endOffset": 227
+                        "endOffset": 223
                     }
                 }
             },
@@ -68,13 +68,13 @@
                     "endOffset": 271
                 },
                 "from": {
-                    "file": "C:\\Users\\RIchard\\PROJECT\\TECHELM\\navigation-fragmentv2\\page_tab_library\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\admin 4\\Downloads\\ANDROID STUDIO\\navigation-fragmentv2-master\\page_tab_library\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 233,
+                        "startOffset": 228,
                         "endColumn": 47,
-                        "endOffset": 276
+                        "endOffset": 271
                     }
                 }
             }

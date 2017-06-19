@@ -136,7 +136,7 @@ public class SJ_Complaint_CFListAdapter extends RecyclerView.Adapter<SJ_Complain
 
         ////////// Set up the List of Problems === Setting Dropdown Sublist Actions //////////
         String[] categoryList = getActionFromArrayListByCategoryID(sdataMobileSet.getSJCategoryId());
-        SJ_Complaint_CFSubListAdapter subList = new SJ_Complaint_CFSubListAdapter(this.mContext).swapData(getSJComplaint_CFArrayList(sdataMobileSet), categoryList);
+        SJ_Complaint_CFSubListAdapter subList = new SJ_Complaint_CFSubListAdapter(this.mContext).swapData(getSJComplaint_CFArrayList(sdataMobileSet), categoryList, isBeforeFragment);
 
         holder.action_complaint_list.setAdapter(subList);
         holder.action_complaint_list.setLayoutManager(new LinearLayoutManager(this.mContext));
