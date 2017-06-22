@@ -29,7 +29,6 @@ import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.UploadFile_VolleyPOST;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.FIRSTCM_DOMAIN_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.NEW_DOMAIN_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL;
 
@@ -48,6 +47,7 @@ public class DrawingFormFragment extends Fragment {
     private Spinner mSpinnerComment;
     private String mCurrentSpinner = "";
     private EditText editTextB1Remarks;
+    private View mView;
 
     public static DrawingFormFragment newInstance(PISSTaskWrapper pissTaskWrapper) {
         DrawingFormFragment fragment = new DrawingFormFragment();
@@ -86,6 +86,10 @@ public class DrawingFormFragment extends Fragment {
 
         this.mContext = container.getContext();
 
+        this.mView = view;
+
+        initTaskInputs(this.mPissTask);
+
         initButton(view);
 
         downloadImage(view);
@@ -100,9 +104,9 @@ public class DrawingFormFragment extends Fragment {
     private void initTaskInputs(PISSTaskWrapper task) {
         Log.e(TAG, "initTaskInputs " + task.toString());
         this.mSpinnerComment = new FragmentSetListHelper_ProjectJob().setSpinnerComment(
-                getActivity(), getView(), task.getConformance());
+                getActivity(), mView, task.getConformance());
 
-        this.editTextB1Remarks = (EditText) getView().findViewById(R.id.editTextB1Remarks);
+        this.editTextB1Remarks = (EditText) mView.findViewById(R.id.editTextB1Remarks);
         this.editTextB1Remarks.setText(task.getComments());
     }
 
@@ -235,8 +239,8 @@ public class DrawingFormFragment extends Fragment {
 
             int insertedID = taskDBUtil.addPISSTask(task);
             mPissTask = taskDBUtil.getDetailsByPISSTaskID(task.getID());
-//            mPissTask.setComments(this.comments);
-//            mPissTask.setConformance(this.conformance);
+            mPissTask.setComments(this.comments);
+            mPissTask.setConformance(this.conformance);
             task = mPissTask;
             Log.e(TAG, "Im on the doInBackground " + taskDBUtil.getAllTask().toString());
 
@@ -259,6 +263,9 @@ public class DrawingFormFragment extends Fragment {
         public SaveTASKProjectTask newInstance(PISSTaskWrapper pissTaskWrapper) {
             Log.e(TAG, "Im on the newInstance00");
             this.task = pissTaskWrapper;
+
+//            this.task.setComments(editTextB1Remarks.getText().toString());
+//            this.task.setConformance(mSpinnerComment.getSelectedItem().toString());
             return this;
         }
 
@@ -328,8 +335,8 @@ public class DrawingFormFragment extends Fragment {
         private void updateSQLDB() {
             PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
             taskDBUtil.open();
+            int insertedID = taskDBUtil.addPISSTask(task);
             mPissTask = taskDBUtil.getDetailsByPISSTaskID(this.task.getID());
-            int insertedID = taskDBUtil.addPISSTask(mPissTask);
             Log.e(TAG, "Im on the doInBackground " + taskDBUtil.getAllTask().toString());
             taskDBUtil.close();
         }
@@ -397,10 +404,14 @@ public class DrawingFormFragment extends Fragment {
     }
 
     private UploadFile_VolleyPOST setDataDrawingVolley(UploadFile_VolleyPOST post, PISSTaskWrapper pissTaskWrapper) {
+//        this.task.setConformance(mSpinnerComment.getSelectedItem().toString());
+//        this.task.setComments(editTextB1Remarks.getText().toString());
+
         post.setContext(this.mContext)
             .setLink(PROJECT_JOB_PISS_TASK_UPLOAD_DRAWING_URL)
             .addParam("projectjob_task_id", pissTaskWrapper.getID() + "")
-            .addParam("description", pissTaskWrapper.getDescription())
+            .addParam("description", pissTaskWrapper.getConformance())
+            // .addParam("conformance", pissTaskWrapper.getConformance())
             .addParam("comments", pissTaskWrapper.getComments())
             .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
                 @Override

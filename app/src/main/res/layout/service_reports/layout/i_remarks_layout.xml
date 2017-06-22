@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Remarks"
-        android:textSize="18sp"
+        android:textSize="@dimen/subListTextSize"
         android:textStyle="normal|bold" />
 
     <!--<ScrollView
@@ -42,6 +42,7 @@
         android:scrollbarStyle="insideInset"
         android:fadeScrollbars="false"
         android:scrollbars="vertical"
+        android:textSize="@dimen/subListTextSize"
         android:lines="6"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:scrollHorizontally="false" />

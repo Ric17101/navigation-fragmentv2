@@ -87,16 +87,16 @@ public class SJ_Complaint__ASRSubListAdapter extends RecyclerView.Adapter<SJ_Com
         mComplaintDataSet = dataSet;
         mActionListDataSet = actionList;
         mComplaintActionDataSet = complaintDataSet;
-        Log.e(TAG, "mDataSet:" + mDataSet.size());
+        /*Log.e(TAG, "mDataSet:" + mDataSet.size());
         Log.e(TAG, "==========mDataSet==========:" + mDataSet.toString());
         Log.e(TAG, "++++++++++++mComplaintDataSet++++++++++++:" + mComplaintDataSet.toString());
         Log.e(TAG, "mActionListDataSet:" + mActionListDataSet.size());
         Log.e(TAG, "==========mActionListDataSet==========:" + mActionListDataSet.toString());
         Log.e(TAG, "mComplaintActionDataSet:" + mComplaintActionDataSet.size());
-        Log.e(TAG, "==========mComplaintActionDataSet==========:" + mComplaintActionDataSet.toString());
+        Log.e(TAG, "==========mComplaintActionDataSet==========:" + mComplaintActionDataSet.toString());*/
         setComplaintLists(mComplaintDataSet, mComplaintActionDataSet);
-        Log.e(TAG, "mComplaintToShowOnList:" + mComplaintToShowOnList.size());
-        Log.e(TAG, "==========mComplaintToShowOnList==========:" + mComplaintToShowOnList.toString());
+        /*Log.e(TAG, "mComplaintToShowOnList:" + mComplaintToShowOnList.size());
+        Log.e(TAG, "==========mComplaintToShowOnList==========:" + mComplaintToShowOnList.toString());*/
         // removeComplaintDuplicates(complaintDataSet, dataSet);
         removeComplaintCategoryDuplicates(mComplaintToShowOnList);
         notifyDataSetChanged();

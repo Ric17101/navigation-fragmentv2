@@ -143,7 +143,7 @@ public class SJ_Complaint_CFSubListAdapter extends RecyclerView.Adapter<SJ_Compl
         final ArrayList<String> options = setDDOptions(mCategoryList);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext,
-                android.R.layout.simple_spinner_item, options);
+                R.layout.i_complaint_fault_spinner_item, options);
         holder.spinnerActions.setAdapter(adapter);
 
         //Set an Item Click Listener for ListView items

@@ -14,7 +14,7 @@
         android:layout_below="@+id/editTextB1Remarks"
         android:layout_marginTop="36dp"
         android:text="Completion Date"
-        android:textSize="18sp"
+        android:textSize="@dimen/topTitleTextSize"
         android:textStyle="normal|bold" />
 
     <EditText
@@ -29,8 +29,10 @@
         android:fadeScrollbars="false"
         android:focusable="false"
         android:gravity="top|left"
+        android:hint="Completion date"
         android:overScrollMode="always"
         android:scrollHorizontally="false"
         android:scrollbarStyle="insideInset"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:textSize="@dimen/subTitleTextSize" />
 </LinearLayout>

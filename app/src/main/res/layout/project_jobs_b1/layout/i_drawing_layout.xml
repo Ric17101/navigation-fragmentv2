@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/previous_newt_height"
     android:orientation="vertical">
 
     <ImageView
@@ -18,13 +19,13 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/btnDraw"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/previous_newt_height"
         android:background="@android:color/white"
         android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <admin4.techelm.com.techelmtechnologies.utility.drawing.CanvasView
                 android:id="@+id/canvas"
                 android:layout_width="wrap_content"
@@ -34,7 +35,8 @@
             <com.alexvasilkov.gestures.views.GestureFrameLayout
                 android:id="@+id/gestureView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:visibility="gone">
+                android:layout_height="match_parent"
+                android:visibility="gone">
                 <!-- GestureFrameLayout can contain only one child -->
 
             </com.alexvasilkov.gestures.views.GestureFrameLayout>
@@ -77,7 +79,7 @@
         android:text="REDO" />
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/btnRestart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/btnRedo"
@@ -90,10 +92,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/btnRedo"
         android:layout_alignBottom="@+id/btnRedo"
-        android:layout_toEndOf="@+id/btnSave"
-        android:layout_toRightOf="@+id/btnSave"
-        android:visibility="gone"
-        android:text="Zoom mode" />
+        android:layout_toEndOf="@+id/btnRestart"
+        android:layout_toRightOf="@+id/btnRestart"
+        android:text="Zoom mode"
+        android:visibility="gone" />
 
 </RelativeLayout>
 

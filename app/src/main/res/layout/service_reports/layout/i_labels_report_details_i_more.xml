@@ -9,4 +9,4 @@
     android:clickable="true"
     android:text="MORE"
     android:textAlignment="center"
-    android:textSize="12sp" />
+    android:textSize="@dimen/subTitleTextSize" />

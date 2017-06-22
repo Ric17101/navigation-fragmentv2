@@ -13,8 +13,7 @@
             android:title="SERVICE JOB" />
         <item
             android:id="@+id/nav_projectjobs"
-            android:checked="true"
-            android:icon="@mipmap/nav1_icon"
+            android:icon="@mipmap/nav2_icon"
             android:scrollHorizontally="true"
             android:ellipsize="marquee"
             android:maxLines="1"

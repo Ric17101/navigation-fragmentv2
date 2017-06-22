@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18sp"
         android:text="Non-conformance comment"
-        android:textSize="18sp"
+        android:textSize="@dimen/topTitleTextSize"
         android:textStyle="normal|bold" />
 
     <android.support.design.widget.TextInputLayout
@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
             android:background="@color/white"
+            android:textSize="@dimen/subTitleTextSize"
             android:fadeScrollbars="false"
             android:gravity="top|left"
             android:hint="comment"

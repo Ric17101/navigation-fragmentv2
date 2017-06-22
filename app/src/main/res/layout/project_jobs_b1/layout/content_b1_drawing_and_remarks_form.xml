@@ -18,17 +18,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/card_margin" >
+            android:padding="@dimen/card_margin"
+            android:paddingBottom="@dimen/previous_newt_height" >
+            
+            <include layout="@layout/include_this_then_no_edit_text_is_focus" />
 
             <include layout="@layout/i_comments_spinner"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
 
             <include layout="@layout/i_drawing_view" />
-
-            <ViewSwitcher
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
             <include layout="@layout/i_edit_text_remarks" />
 

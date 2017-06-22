@@ -1,5 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.activity.servicejob_main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.marcohc.robotocalendar.RobotoCalendarView;
@@ -23,6 +25,7 @@ import org.json.JSONException;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.login.SessionManager;
+import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_CalendarListAdapter;
 import admin4.techelm.com.techelmtechnologies.db.servicejob.CalendarSJDBUtil;
 import admin4.techelm.com.techelmtechnologies.task.TaskCanceller;
@@ -64,6 +67,7 @@ public class CalendarFragment extends Fragment implements
     private TextView textViewCalendarResult;
     private SJ_CalendarListAdapter mListAdapter;
     private RecyclerView mCalendarResultsList;
+    private View mProgressView;
     private RecyclerView.LayoutManager mLayoutManager;
 
     // Swipe Set up
@@ -219,12 +223,23 @@ public class CalendarFragment extends Fragment implements
     private void hideSwipeRefreshing() {
         if (swipeRefreshCalendarLayout != null)
             swipeRefreshCalendarLayout.setRefreshing(false);
+
+        Activity activity = getActivity();
+        if (activity != null && isAdded()) { // Test if this Fragment is already added on the Activity
+            ((MainActivity) getActivity()).showOrHideProgressCalendarTAB(false);
+            // ((MainActivity) getActivity()).showOrHideProgress(false);
+        }
     }
 
     public void setUpRecyclerView(View upRecyclerView) {
         mCalendarResultsList = (RecyclerView) upRecyclerView.findViewById(R.id.calendar_service_job_list);
         textViewCalendarResult = (TextView) upRecyclerView.findViewById(R.id.textViewCalendarResult);
         textViewCalendarResult.setVisibility(View.GONE);
+
+        // initialize the progressDialog View inside the Calendar Fragment, to be hide when progress dialog is shown
+        mProgressView = (View) upRecyclerView.findViewById(R.id.progress_overlayCalendar);
+        RelativeLayout scrollViewRelativeLayout = (RelativeLayout) upRecyclerView.findViewById(R.id.scrollViewRelativeLayout);
+        ((MainActivity) getActivity()).initProgresBarIndicatorCalendarTAB(mProgressView, scrollViewRelativeLayout);
     }
     public void setupResultsList(View view) {
         mListAdapter = new SJ_CalendarListAdapter(view.getContext());
@@ -412,6 +427,11 @@ public class CalendarFragment extends Fragment implements
                 // mCallback.onHandleShowDetails(e.toString());
             }
             return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            ((MainActivity) getActivity()).showOrHideProgressCalendarTAB(true);
         }
 
         @Override
@@ -619,8 +639,7 @@ public class CalendarFragment extends Fragment implements
 
         @Override
         protected void onPreExecute() {
-            // super.onPreExecute();
-
+            ((MainActivity) getActivity()).showOrHideProgressCalendarTAB(true);
         }
 
         private void noResponse() {

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Action / Repair / Service."
-        android:textSize="18sp"
+        android:textSize="@dimen/subListTextSize"
         android:textStyle="normal|bold" />
 
     <ProgressBar
@@ -29,7 +29,7 @@
         android:paddingStart="10dp"
         android:text="Result"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="@dimen/subListTextSize"
         android:textStyle="normal"
         android:visibility="gone" />
     <!--<include layout="@layout/i_create_new_action_button" />-->

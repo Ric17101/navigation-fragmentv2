@@ -21,4 +21,9 @@
 
     <dimen name="recycler_view_list_padding">4sp</dimen>
 
+    <dimen name="titleTextSize">20sp</dimen>
+    <dimen name="subListTextSize">18sp</dimen>
+    <dimen name="topTitleTextSize">16sp</dimen>
+    <dimen name="subTitleTextSize">14sp</dimen>
+
 </resources>

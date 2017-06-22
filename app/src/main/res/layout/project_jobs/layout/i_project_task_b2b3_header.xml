@@ -19,7 +19,7 @@
         android:text="In-process Inspection Description"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="@dimen/topTitleTextSize"
         android:textStyle="normal|bold" />
 
     <TableLayout
@@ -42,6 +42,7 @@
                 android:gravity="fill_vertical"
                 android:text="Project Ref"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -53,7 +54,8 @@
                 android:layout_weight=".1"
                 android:gravity="fill_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -69,7 +71,8 @@
                     android:layout_weight="2"
                     android:gravity="fill_vertical"
                     android:text="Text"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/topTitleTextSize" />
 
                 <TextView
                     android:id="@+id/textViewLabel15"
@@ -79,9 +82,10 @@
                     android:layout_weight=".2"
                     android:gravity="fill_vertical"
                     android:text="Date of Site Walk"
-                    android:visibility="gone"
                     android:textColor="@android:color/white"
-                    android:textStyle="normal|bold" />
+                    android:textSize="@dimen/topTitleTextSize"
+                    android:textStyle="normal|bold"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/textViewLabel14"
@@ -92,8 +96,9 @@
                     android:layout_weight=".1"
                     android:gravity="fill_vertical"
                     android:text=":"
-                    android:visibility="gone"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/topTitleTextSize"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/textViewLabelDateOfSiteWalk2"
@@ -103,8 +108,9 @@
                     android:layout_weight="2"
                     android:gravity="fill_vertical"
                     android:text="Text"
-                    android:visibility="gone"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/topTitleTextSize"
+                    android:visibility="gone" />
             </LinearLayout>
         </TableRow>
 
@@ -122,6 +128,7 @@
                 android:gravity="center_vertical"
                 android:text="Project Site"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -133,7 +140,8 @@
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewLabelProjectSite"
@@ -143,7 +151,8 @@
                 android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:text="Text"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -160,6 +169,7 @@
                 android:gravity="center_vertical"
                 android:text="Sub-Contractor"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -171,7 +181,8 @@
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewLabelSubContractor"
@@ -181,7 +192,8 @@
                 android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:text="Text"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
 
@@ -201,6 +213,7 @@
                 android:gravity="center_vertical"
                 android:text="Date of inspection"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -212,7 +225,8 @@
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewLabelInspectionDate"
@@ -222,7 +236,8 @@
                 android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:text="Text"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -239,6 +254,7 @@
                 android:gravity="center_vertical"
                 android:text="Work completion date as per WI"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -250,7 +266,8 @@
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewLabelWorkCompletionDate"
@@ -260,7 +277,8 @@
                 android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:text="Text"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -277,6 +295,7 @@
                 android:gravity="center_vertical"
                 android:text="Inspection conducted by"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -288,7 +307,8 @@
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewLabelInspectionConductedBy"
@@ -298,7 +318,8 @@
                 android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:text="Text"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -314,6 +335,7 @@
                 android:gravity="center_vertical"
                 android:text="Signature"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -325,7 +347,8 @@
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewLabelSignature"
@@ -334,7 +357,8 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
     </TableLayout>
 

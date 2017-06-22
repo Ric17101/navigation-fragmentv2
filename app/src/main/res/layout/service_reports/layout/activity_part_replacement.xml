@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.service_report_fragment.PartReplacement_FRGMT_2">
+    tools:context=".activity.service_report_fragment.fragment.PartReplacement_FRGMT_2">
 
     <include layout="@layout/content_part_replacement" />
 

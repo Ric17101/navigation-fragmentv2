@@ -39,6 +39,7 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_DRAWING;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_START_TASK;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_TASK_START_DRAWING;
+import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_UNSIGNED;
 
 /**
  * Created by admin 4 on 03/04/2017.
@@ -60,6 +61,7 @@ public class FragmentSetListHelper_ProjectJob {
                 break;
             case PROJECT_JOB_COMPLETED: status = "Completed";
                 break;
+            case PROJECT_JOB_UNSIGNED:
             case PROJECT_JOB_ON_PROCESS: status = "On Process";
                 break;
             default : status = "";
@@ -73,6 +75,7 @@ public class FragmentSetListHelper_ProjectJob {
             case "" :
                 return Color.BLACK;
 
+            case PROJECT_JOB_UNSIGNED:
             case PROJECT_JOB_PENDING:
             case PROJECT_JOB_ON_PROCESS:
                 return Color.RED;
@@ -88,6 +91,7 @@ public class FragmentSetListHelper_ProjectJob {
     public int setIconTask(String stringTask) {
         switch (stringTask) {
             case "" :
+            case PROJECT_JOB_UNSIGNED:
             case PROJECT_JOB_PENDING:
             case PROJECT_JOB_ON_PROCESS:
                 return R.mipmap.conti_icon;
@@ -104,6 +108,7 @@ public class FragmentSetListHelper_ProjectJob {
                 break;
             case PROJECT_JOB_START_TASK: taskText = "<u><b>Start task >></b></u>";
                 break;
+            case PROJECT_JOB_UNSIGNED:
             case PROJECT_JOB_CONTINUE_TASK: taskText = "<u><b>Continue task >></b></u>";
                 break;
             default : taskText = "";
@@ -120,6 +125,7 @@ public class FragmentSetListHelper_ProjectJob {
                 break;
             case PROJECT_JOB_NEW: taskText = "<u><b>Start task >></b></u>";
                 break;
+            case PROJECT_JOB_UNSIGNED:
             case PROJECT_JOB_PENDING:
             case PROJECT_JOB_ON_PROCESS:
             case PROJECT_JOB_CONTINUE_TASK: taskText = "<u><b>Continue >></b></u>";
@@ -208,6 +214,7 @@ public class FragmentSetListHelper_ProjectJob {
             case PROJECT_JOB_START_DRAWING :
                 mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_START_DRAWING);
                 break;
+            case PROJECT_JOB_UNSIGNED:
             case PROJECT_JOB_CONTINUE_TASK :
                 mCallback.onHandleSelection(adapterPosition, ProjectJobWrapper, ACTION_CONTINUE_TASK);
                 break;
@@ -220,6 +227,7 @@ public class FragmentSetListHelper_ProjectJob {
         switch (mode) {
             case PROJECT_JOB_COMPLETED:
                 break;
+            case PROJECT_JOB_UNSIGNED:
             case PROJECT_JOB_TASK_START_DRAWING :
                 mCallback.onHandleSelection(adapterPosition, pissTaskWrapper,  ACTION_TASK_START_DRAWING);
                 break;

@@ -1758,14 +1758,17 @@ containing a value of this type.
         public static int notification_top_pad=0x7f060060;
         public static int notification_top_pad_large_text=0x7f060061;
         public static int roboto_calendar_circle_size=0x7f060062;
-        public static int roboto_calendar_day_of_the_month_background_size=0x7f060063;
-        public static int roboto_calendar_day_of_the_month_font=0x7f060064;
-        public static int roboto_calendar_day_of_week_font=0x7f060065;
-        public static int roboto_calendar_month_font=0x7f060066;
-        public static int roboto_calendar_month_margin_bottom=0x7f060067;
-        public static int roboto_calendar_padding=0x7f060068;
-        public static int roboto_calendar_ring_size=0x7f060069;
-        public static int roboto_calendar_week_margin_bottom=0x7f06006a;
+        public static int roboto_calendar_date_margin=0x7f060063;
+        public static int roboto_calendar_date_size=0x7f060064;
+        public static int roboto_calendar_day_of_the_month_background_size=0x7f060065;
+        public static int roboto_calendar_day_of_the_month_font=0x7f060066;
+        public static int roboto_calendar_day_of_week_font=0x7f060067;
+        public static int roboto_calendar_month_font=0x7f060068;
+        public static int roboto_calendar_month_margin_bottom=0x7f060069;
+        public static int roboto_calendar_month_year=0x7f06006a;
+        public static int roboto_calendar_padding=0x7f06006b;
+        public static int roboto_calendar_ring_size=0x7f06006c;
+        public static int roboto_calendar_week_margin_bottom=0x7f06006d;
     }
     public static final class drawable {
         public static int abc_ab_share_pack_mtrl_alpha=0x7f020000;

@@ -41,7 +41,7 @@
                     android:scrollHorizontally="true"
                     android:ellipsize="marquee"
                     android:maxLines="1"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/subListTextSize"
                     android:text="@string/replacement_parts"
                     android:textStyle="normal|bold" />
 
@@ -51,7 +51,7 @@
                     android:layout_height="match_parent"
                     android:layout_column="1"
                     android:layout_marginTop="-3dp"
-                    android:layout_weight=".05" android:textSize="18sp"
+                    android:layout_weight=".05" android:textSize="@dimen/subListTextSize"
                     android:gravity="center_vertical"
                     android:text=":" />
 
@@ -65,7 +65,7 @@
 
                     <Spinner
                         android:id="@+id/spinnerActions"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/subListTextSize"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 

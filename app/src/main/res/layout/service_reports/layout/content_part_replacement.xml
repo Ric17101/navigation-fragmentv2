@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.service_report_fragment.PartReplacement_FRGMT_2"
+    tools:context=".activity.service_report_fragment.fragment.PartReplacement_FRGMT_2"
     tools:showIn="@layout/activity_part_replacement">
 
     <ScrollView

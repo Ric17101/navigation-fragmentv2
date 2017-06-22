@@ -76,7 +76,6 @@ public class MeetingDetailsFragment extends Fragment {
         this.mContext = container.getContext();
 
         initButton(view);
-
         initFormView(view);
 
         initPermissions();
@@ -140,6 +139,8 @@ public class MeetingDetailsFragment extends Fragment {
                 MaterialDialog md = showSigningDialog(view);
             }
         });
+
+
     }
 
     private void initPermissions() {
@@ -203,7 +204,7 @@ public class MeetingDetailsFragment extends Fragment {
             public void onClear() { }
         });
         Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
-
+        hasSignature = true;
 
         if (mSignatureUtil.addJpgSignatureToGallery(signatureBitmap, "signature")) {
             SnackBarNotificationUtil
@@ -237,21 +238,30 @@ public class MeetingDetailsFragment extends Fragment {
         post.setContext(this.mContext)
                 .setLink(TOOLBOXMEETING_MEETING_DETAILS_UPLOAD_URL)
                 .addParam("projectjob_id", toolboxMeetingWrapper.getID()+"")
-                .addParam("meeting_details", md_Content)
-                .addParam("signature", "true")
-                .addImageFile(this.mSignatureUtil.getFile(), this.mSignatureUtil.getFile().getName(), "image/jpeg")
-                .setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
-                    @Override
-                    public void onError(String msg, int success) {
-                        Log.e("MEETING DETAILS", "Message " + msg + " Error:" + success);
-                    }
+                .addParam("meeting_details", md_Content);
 
-                    @Override
-                    public void onSuccess(String msg, int success) {
-                        Log.e("MEETING DETAILS", "Message " + msg + " Success:" + success);
-                        //uploadTask.sleep();
-                    }
-                });
+        if(hasSignature){
+            Log.wtf("SIGNATURE: ", hasSignature + "");
+            post.addParam("signature", "true")
+                    .addImageFile(this.mSignatureUtil.getFile(), this.mSignatureUtil.getFile().getName(), "image/jpeg");
+        }
+        else{
+            Log.wtf("SIGNATURE: ","FALSE");
+            post.addParam("signature", "false");
+        }
+
+        post.setOnEventListener(new UploadFile_VolleyPOST.OnEventListener() {
+            @Override
+            public void onError(String msg, int success) {
+                Log.e("MEETING DETAILS", "Message " + msg + " Error:" + success);
+            }
+
+            @Override
+            public void onSuccess(String msg, int success) {
+                Log.e("MEETING DETAILS", "Message " + msg + " Success:" + success);
+                //uploadTask.sleep();
+            }
+        });
 
         post.startUpload();
     }

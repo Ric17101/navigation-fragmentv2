@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/roboto_calendar_date_margin"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:tag="dayOfTheWeekLayout1">
@@ -20,7 +21,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:tag="dayOfTheWeekText1"
-            android:text="Mon" />
+            android:text="Mon"
+            android:textSize="@dimen/roboto_calendar_date_size" />
 
     </LinearLayout>
 
@@ -28,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/roboto_calendar_date_margin"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:tag="dayOfTheWeekLayout2">
@@ -38,7 +41,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:tag="dayOfTheWeekText2"
-            android:text="Tue" />
+            android:text="Tue"
+            android:textSize="@dimen/roboto_calendar_date_size" />
 
     </LinearLayout>
 
@@ -46,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/roboto_calendar_date_margin"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:tag="dayOfTheWeekLayout3">
@@ -56,7 +61,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:tag="dayOfTheWeekText3"
-            android:text="Wed" />
+            android:text="Wed"
+            android:textSize="@dimen/roboto_calendar_date_size" />
 
     </LinearLayout>
 
@@ -64,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/roboto_calendar_date_margin"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:tag="dayOfTheWeekLayout4">
@@ -74,7 +81,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:tag="dayOfTheWeekText4"
-            android:text="Thu" />
+            android:text="Thu"
+            android:textSize="@dimen/roboto_calendar_date_size" />
 
     </LinearLayout>
 
@@ -82,6 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/roboto_calendar_date_margin"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:tag="dayOfTheWeekLayout5">
@@ -92,7 +101,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:tag="dayOfTheWeekText5"
-            android:text="Fri" />
+            android:text="Fri"
+            android:textSize="@dimen/roboto_calendar_date_size" />
 
     </LinearLayout>
 
@@ -100,6 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/roboto_calendar_date_margin"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:tag="dayOfTheWeekLayout6">
@@ -110,7 +121,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:tag="dayOfTheWeekText6"
-            android:text="Sat" />
+            android:text="Sat"
+            android:textSize="@dimen/roboto_calendar_date_size" />
 
     </LinearLayout>
 
@@ -118,6 +130,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/roboto_calendar_date_margin"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:tag="dayOfTheWeekLayout7">
@@ -128,7 +141,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:tag="dayOfTheWeekText7"
-            android:text="Sun" />
+            android:text="Sun"
+            android:textSize="@dimen/roboto_calendar_date_size" />
 
     </LinearLayout>
 

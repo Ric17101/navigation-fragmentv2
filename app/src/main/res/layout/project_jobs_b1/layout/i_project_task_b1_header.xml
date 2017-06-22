@@ -42,6 +42,7 @@
                 android:gravity="fill_vertical"
                 android:text="Project Ref./Site"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -53,7 +54,8 @@
                 android:layout_weight=".1"
                 android:gravity="fill_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -67,12 +69,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-3dp"
                     android:layout_weight="2"
-                    android:gravity="fill_vertical"
-                    android:scrollHorizontally="true"
                     android:ellipsize="marquee"
+                    android:gravity="fill_vertical"
                     android:maxLines="1"
+                    android:scrollHorizontally="true"
                     android:text="Text"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/topTitleTextSize" />
 
                 <TextView
                     android:id="@+id/textViewLabel15"
@@ -83,6 +86,7 @@
                     android:gravity="fill_vertical"
                     android:text="Date of Site Walk"
                     android:textColor="@android:color/white"
+                    android:textSize="@dimen/topTitleTextSize"
                     android:textStyle="normal|bold" />
 
                 <TextView
@@ -94,7 +98,8 @@
                     android:layout_weight=".1"
                     android:gravity="fill_vertical"
                     android:text=":"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/topTitleTextSize" />
 
                 <TextView
                     android:id="@+id/textViewLabelDateOfSiteWalk"
@@ -102,12 +107,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-3dp"
                     android:layout_weight="2"
-                    android:gravity="fill_vertical"
-                    android:scrollHorizontally="true"
                     android:ellipsize="marquee"
+                    android:gravity="fill_vertical"
                     android:maxLines="1"
+                    android:scrollHorizontally="true"
                     android:text="Text"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/topTitleTextSize" />
             </LinearLayout>
         </TableRow>
 
@@ -125,6 +131,7 @@
                 android:gravity="center_vertical"
                 android:text="CP Code"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -136,7 +143,8 @@
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewLabelCPCode"
@@ -144,12 +152,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
+                android:gravity="center_vertical"
                 android:maxLines="1"
+                android:scrollHorizontally="true"
                 android:text="Text"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -166,6 +175,7 @@
                 android:gravity="center_vertical"
                 android:text="Attended By"
                 android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -177,7 +187,8 @@
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
                 android:text=":"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewLabelAttendedBy"
@@ -187,7 +198,8 @@
                 android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:text="Text"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
     </TableLayout>
 

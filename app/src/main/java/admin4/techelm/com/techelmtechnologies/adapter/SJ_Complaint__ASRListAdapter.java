@@ -83,7 +83,7 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
         removeActionCategoryDuplicates(complaintsToShow);
 
 
-        Log.e(TAG, "mDataSet:" + mComplaintDataSet.size());
+        /*Log.e(TAG, "mDataSet:" + mComplaintDataSet.size());
         Log.e(TAG, "==========mDataSet==========:" + mComplaintDataSet.toString());
         Log.e(TAG, "mActionList:" + mActionList.size());
         Log.e(TAG, "==========mActionList==========:" + mActionList.toString());
@@ -94,7 +94,7 @@ public class SJ_Complaint__ASRListAdapter extends RecyclerView.Adapter<SJ_Compla
         Log.e(TAG, "mASRDataSet:" + mASRDataSet.size());
         Log.e(TAG, "==========mASRDataSet==========:" + mASRDataSet.toString());
         Log.e(TAG, "mComplaintToShowOnList:" + mComplaintToShowOnList.size());
-        Log.e(TAG, "==========mComplaintToShowOnList==========:" + mComplaintToShowOnList.toString());
+        Log.e(TAG, "==========mComplaintToShowOnList==========:" + mComplaintToShowOnList.toString());*/
 
         notifyDataSetChanged();
         Log.e(TAG, "complaintssize:" + complaintsToShow.size());

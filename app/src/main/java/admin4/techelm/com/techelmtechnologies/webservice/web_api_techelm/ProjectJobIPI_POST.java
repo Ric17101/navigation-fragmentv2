@@ -1,5 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm;
 
+import android.util.Log;
 import android.view.View;
 
 import java.text.SimpleDateFormat;
@@ -7,6 +8,7 @@ import java.util.Calendar;
 
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskCarWrapper;
 import admin4.techelm.com.techelmtechnologies.model.projectjob.b2.IPI_TaskWrapper;
+import admin4.techelm.com.techelmtechnologies.utility.DateUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.WebServiceRequest;
 import admin4.techelm.com.techelmtechnologies.webservice.command.PostCommand;
 import admin4.techelm.com.techelmtechnologies.webservice.interfaces.OnServiceListener;
@@ -66,11 +68,12 @@ public class ProjectJobIPI_POST {
                 ipiTaskWrapper.setCorrectiveActions("");
                 ipiTaskWrapper.setTargetCompletionDate("");
                 break;
-            default: break;
+            default : break;
         }
         webServiceInfo.addParam("nonconformance", ipiTaskWrapper.getNonConformance());
-        webServiceInfo.addParam("corrective_actions", ipiTaskWrapper.getCorrectiveActions());
-        webServiceInfo.addParam("completion_date", ipiTaskWrapper.getTargetCompletionDate());
+        webServiceInfo.addParam("description", ipiTaskWrapper.getCorrectiveActions());
+        webServiceInfo.addParam("completion_date", DateUtil.formatDate(ipiTaskWrapper.getTargetCompletionDate()));
+        // webServiceInfo.addParam("target_remedy_date", DateUtil.formatDate(ipiTaskWrapper.getD()));
 
         webServiceInfo.addParam("form_type", ipiTaskWrapper.getFormType());
 
@@ -94,8 +97,8 @@ public class ProjectJobIPI_POST {
     /*add parameter*/
         webServiceInfo.addParam("projectjob_correctiveActions_id", ipiTaskFinalWrapper.getID() + "");
         webServiceInfo.addParam("description", ipiTaskFinalWrapper.getDescription());
-        webServiceInfo.addParam("target_date", ipiTaskFinalWrapper.getTargetRemedyDate());
-        webServiceInfo.addParam("completion_date", ipiTaskFinalWrapper.getCompletionDate());
+        webServiceInfo.addParam("target_date", DateUtil.formatDate(ipiTaskFinalWrapper.getTargetRemedyDate()));
+        webServiceInfo.addParam("completion_date", DateUtil.formatDate(ipiTaskFinalWrapper.getCompletionDate()));
         webServiceInfo.addParam("remarks", ipiTaskFinalWrapper.getRemarks());
         webServiceInfo.addParam("disposition", ipiTaskFinalWrapper.getDisposition());
         webServiceInfo.addParam("form_type", ipiTaskFinalWrapper.getFormType());
@@ -139,7 +142,7 @@ public class ProjectJobIPI_POST {
             @Override
             public void onServiceCallback(WebResponse response) {
                 if (mOnEventListener != null) {
-                    // Log.e(TAG,  response.getStringResponse());
+                    Log.e(TAG,  response.getStringResponse());
                     mOnEventListener.onEventResult(response);
                 } else {
                     mOnEventListener.onError("Error. Try again later.");

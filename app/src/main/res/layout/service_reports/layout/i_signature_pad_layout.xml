@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="YOUR SIGNATURE"
-        android:textSize="18sp"
+        android:textSize="@dimen/topTitleTextSize"
         android:textStyle="normal|bold" />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Please sign off below before you end your task."
-        android:textSize="12sp"
+        android:textSize="@dimen/subTitleTextSize"
         android:textStyle="normal|italic" />
 
 

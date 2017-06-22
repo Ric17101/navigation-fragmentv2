@@ -14,15 +14,18 @@
     <color name="roboto_calendar_selected_day_background">#1A3E62</color>
     <color name="roboto_calendar_selected_day_background_old">#173E74</color>
     <color name="roboto_calendar_selected_day_font">#FFFFFF</color>
-    <dimen name="roboto_calendar_circle_size">4dp</dimen>
-    <dimen name="roboto_calendar_day_of_the_month_background_size">40dp</dimen>
-    <dimen name="roboto_calendar_day_of_the_month_font">16sp</dimen>
-    <dimen name="roboto_calendar_day_of_week_font">16sp</dimen>
+    <dimen name="roboto_calendar_circle_size">6dp</dimen>
+    <dimen name="roboto_calendar_date_margin">20sp</dimen>
+    <dimen name="roboto_calendar_date_size">20sp</dimen>
+    <dimen name="roboto_calendar_day_of_the_month_background_size">44sp</dimen>
+    <dimen name="roboto_calendar_day_of_the_month_font">18sp</dimen>
+    <dimen name="roboto_calendar_day_of_week_font">18sp</dimen>
     <dimen name="roboto_calendar_month_font">16sp</dimen>
-    <dimen name="roboto_calendar_month_margin_bottom">8dp</dimen>
-    <dimen name="roboto_calendar_padding">8dp</dimen>
+    <dimen name="roboto_calendar_month_margin_bottom">20sp</dimen>
+    <dimen name="roboto_calendar_month_year">22sp</dimen>
+    <dimen name="roboto_calendar_padding">20dp</dimen>
     <dimen name="roboto_calendar_ring_size">18dp</dimen>
-    <dimen name="roboto_calendar_week_margin_bottom">5dp</dimen>
+    <dimen name="roboto_calendar_week_margin_bottom">50sp</dimen>
     <style name="AppBaseTheme" parent="android:Theme.Light"/>
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->

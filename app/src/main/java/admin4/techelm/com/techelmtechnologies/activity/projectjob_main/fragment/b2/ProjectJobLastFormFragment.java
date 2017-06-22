@@ -151,16 +151,11 @@ public class ProjectJobLastFormFragment extends Fragment {
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*startActivity(new Intent(AddReplacementPart_FRGMT_3.this, SigningOff_FRGMT_4.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        .putExtra(RECORD_JOB_SERVICE_KEY, mServiceJobFromBundle));
-                overridePendingTransition(R.anim.enter, R.anim.exit);*/
+                ((ProjectJobViewPagerActivity) getActivity()).showOrHideProgress(true);
                 ipiWrapper.setProjectJobID(mProjectJob.getID());
                 ipiWrapper.setSubContractor(((EditText) getActivity().findViewById(R.id.editTextSubContractor)).getText().toString());
                 ipiWrapper.setDispositionedBy(((EditText) getActivity().findViewById(R.id.editTextDispositioned)).getText().toString());
                 uploadSignatures();
-
-                ((ProjectJobViewPagerActivity)getActivity()).fromFragmentNavigate(1);
             }
         });
     }
@@ -365,12 +360,14 @@ public class ProjectJobLastFormFragment extends Fragment {
                     @Override
                     public void onError(String msg, int success) {
                         Log.e(TAG, "Message " + msg + " Error:" + success);
+                        ((ProjectJobViewPagerActivity) getActivity()).showOrHideProgress(false);
                     }
 
                     @Override
                     public void onSuccess(String msg, int success) {
                         Log.e(TAG, "Message " + msg + " Success:" + success);
                         //uploadTask.sleep();
+                        ((ProjectJobViewPagerActivity) getActivity()).backToLandingPage(1);
                     }
                 });
 

@@ -7,5 +7,5 @@
     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
     android:paddingTop="2dip"
     android:text="List Header"
-    android:textSize="14sp"
+    android:textSize="@dimen/subTitleTextSize"
     android:textStyle="normal" />

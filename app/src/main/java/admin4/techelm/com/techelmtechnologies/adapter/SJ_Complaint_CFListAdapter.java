@@ -70,7 +70,8 @@ public class SJ_Complaint_CFListAdapter extends RecyclerView.Adapter<SJ_Complain
 
     public void swapData(ArrayList<ServiceJobComplaint_MobileWrapper> mNewDataSet,
                          ArrayList<ServiceJobComplaint_CFWrapper> mComplaintMobileList,
-                         ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList, boolean isBEFORE) {
+                         ArrayList<ServiceJobComplaint_ASRWrapper> mComplaintASRList, boolean isBEFORE)
+    {
         mMobileDataSet = mNewDataSet;
         mComplaintDataSet = mComplaintMobileList;
         mASRDataSetList = mComplaintASRList;

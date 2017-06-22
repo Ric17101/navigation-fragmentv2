@@ -1,0 +1,115 @@
+[33m74138592[m HEAD@{0}: rebase -i (finish): returning to refs/heads/master
+[33m74138592[m HEAD@{1}: rebase -i (start): checkout refs/remotes/origin/master
+[33m0f6fa234[m HEAD@{2}: rebase -i (start): checkout master
+[33md3fcfac7[m HEAD@{3}: commit: UI Fix
+[33mbf7fbea6[m HEAD@{4}: reset: moving to HEAD
+[33mbf7fbea6[m HEAD@{5}: commit: Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m693837ac[m HEAD@{6}: commit: Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m3d041476[m HEAD@{7}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33me80453a6[m HEAD@{8}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33md4f8aaf4[m HEAD@{9}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m8e4add22[m HEAD@{10}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33ma199c746[m HEAD@{11}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m5daf6a4f[m HEAD@{12}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m302cad75[m HEAD@{13}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m6eb94645[m HEAD@{14}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33mc4d9d59f[m HEAD@{15}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m80fb5b99[m HEAD@{16}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m057a08a6[m HEAD@{17}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33mf0019ac6[m HEAD@{18}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m047673ab[m HEAD@{19}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m3f983967[m HEAD@{20}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m246f69bb[m HEAD@{21}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m45df6a2a[m HEAD@{22}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m448c90ee[m HEAD@{23}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m7313db9d[m HEAD@{24}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m781e3585[m HEAD@{25}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m261eff8d[m HEAD@{26}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33ma72d2914[m HEAD@{27}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m62c0c7e6[m HEAD@{28}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33mab98d5ed[m HEAD@{29}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33mf56198cc[m HEAD@{30}: commit (amend): Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33mcae80763[m HEAD@{31}: commit: Monday Merge, Project Job Drawing (Patrick ) 2PM
+[33m7e28ae56[m HEAD@{32}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m1fe10422[m HEAD@{33}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33mef1fb7a0[m HEAD@{34}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m5c131ea1[m HEAD@{35}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33mcc0876bd[m HEAD@{36}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m2322c30b[m HEAD@{37}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m00402f97[m HEAD@{38}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m99313c89[m HEAD@{39}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m230aedfe[m HEAD@{40}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m094119a0[m HEAD@{41}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33mda78957d[m HEAD@{42}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m6e7808f0[m HEAD@{43}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m3b80e480[m HEAD@{44}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33mb066752d[m HEAD@{45}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m829a6a5b[m HEAD@{46}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m32017912[m HEAD@{47}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33md616301d[m HEAD@{48}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33maa01ad8c[m HEAD@{49}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m051e7e78[m HEAD@{50}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m85a3e9cb[m HEAD@{51}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33me9fdbe80[m HEAD@{52}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m7bb1e9f5[m HEAD@{53}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m2f82169e[m HEAD@{54}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33m6dd99722[m HEAD@{55}: commit (amend): Monday Merge, Project Job Drawing (Patrick )
+[33mf8d894b6[m HEAD@{56}: commit: Monday Merge, Project Job Drawing (Patrick )
+[33m2aa847ba[m HEAD@{57}: commit: Monday Merge, Project Job Drawing (Patrick )
+[33m740f676c[m HEAD@{58}: reset: moving to HEAD
+[33m740f676c[m HEAD@{59}: commit: Friday - Backup
+[33m6f278aef[m HEAD@{60}: commit: Thursday BackUp
+[33mea73b903[m HEAD@{61}: commit: Complaint Action Bug fixes
+[33m6c4aeedb[m HEAD@{62}: commit: API and UI Bug Fixes
+[33m11d6c539[m HEAD@{63}: commit: API fixing
+[33m1b4c2bbb[m HEAD@{64}: commit: UI Bug fixes and API
+[33m3014f220[m HEAD@{65}: commit: UI Bug fixes and API
+[33m5a6b1401[m HEAD@{66}: commit: UI Bug fixes and API
+[33m99985f50[m HEAD@{67}: commit: Project Job List fix
+[33m3e2c3df5[m HEAD@{68}: commit: API fix, FRI
+[33ma33cf42a[m HEAD@{69}: commit: Merge Toolbox Meeting - Section C
+[33m670ab1d7[m HEAD@{70}: commit: Merge
+[33m14864268[m HEAD@{71}: commit (amend): Authentication Issue fix
+[33mc8236c00[m HEAD@{72}: commit (amend): Authentication Issue fix
+[33m0009b954[m HEAD@{73}: commit: Authentication Issue fix
+[33m8dd461ab[m HEAD@{74}: commit: B2 and B3 Form
+[33m6afd11a3[m HEAD@{75}: commit: Toolbox meeting update by pat
+[33mdee6bffd[m HEAD@{76}: commit: Wed morning back up, patrick layout push
+[33mbcc97c88[m HEAD@{77}: commit: Wed morning back up, patrick layout push
+[33mfb15b769[m HEAD@{78}: commit: API - Upload and save fix seection B1
+[33m28dfad6e[m HEAD@{79}: commit: Http Simple Authentication
+[33m3652c995[m HEAD@{80}: commit (merge): Merge remote-tracking branch 'origin/master' into office_ric
+[33m1bfb5929[m HEAD@{81}: reset: moving to HEAD
+[33m1bfb5929[m HEAD@{82}: commit: Http Simple Authentication
+[33mc7ed4910[m HEAD@{83}: commit: Http Simple Authentication
+[33m0461381a[m HEAD@{84}: commit: UI Drawing and Signature Fix
+[33m579a7e0b[m HEAD@{85}: commit: UI Drawing and Signature Fix
+[33m68d992a1[m HEAD@{86}: commit: MONDAY push
+[33mee505c8f[m HEAD@{87}: commit: Drawing Module
+[33mda69fa2e[m HEAD@{88}: commit: Tuesday, Morning Commit
+[33me68aeb8c[m HEAD@{89}: commit: Thursday, Morning Commit
+[33me4f962eb[m HEAD@{90}: commit: Section B, MONDAY
+[33m860b1ad5[m HEAD@{91}: commit: Section B, Project Job - Add Header and Form
+[33m780a5e0d[m HEAD@{92}: commit: Section B, Calendar Dialog
+[33m6bd0eedb[m HEAD@{93}: commit: Section B, Calendar Dialog
+[33m5fa269b4[m HEAD@{94}: commit: Section B, list form
+[33me18ca0a8[m HEAD@{95}: commit: Add layout list to Project Job
+[33m0f6fa234[m HEAD@{96}: reset: moving to HEAD
+[33m0f6fa234[m HEAD@{97}: checkout: moving from master to office_ric
+[33m0f6fa234[m HEAD@{98}: checkout: moving from master to master
+[33m0f6fa234[m HEAD@{99}: commit: Form UI with Pat
+[33mb9d8a385[m HEAD@{100}: commit: SECTION B - Forms
+[33m61da071e[m HEAD@{101}: commit: SECTION B - Forms
+[33m710c661f[m HEAD@{102}: commit: Starting Section B with Patrick
+[33m2cd4a22a[m HEAD@{103}: commit: Starting Section B
+[33m14aa1630[m HEAD@{104}: commit: Back up before Thurs, Holy week
+[33mc96ef7f1[m HEAD@{105}: commit: Fix actions for the landing page
+[33m324583ae[m HEAD@{106}: commit: Fix UI and DB Query issues
+[33mfcbb7e0c[m HEAD@{107}: commit: Bitbucket first commit
+[33m8b253187[m HEAD@{108}: commit: After work backup
+[33m31907f3f[m HEAD@{109}: commit: Morning backup
+[33m9bc6d7aa[m HEAD@{110}: commit: NOTIFICATION on EndTASk
+[33m42dde7b6[m HEAD@{111}: commit: NOTIFICATION on EndTASk
+[33m19bd4c02[m HEAD@{112}: commit: UPLOAD files using WEB API
+[33m4b10e797[m HEAD@{113}: commit: UPLOAD files using WEB API
+[33m8c223f3b[m 

@@ -14,6 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".3"
+            android:textSize="@dimen/titleTextSize"
             android:gravity="fill_vertical"
             android:text="Total Amount"
             android:textStyle="normal|bold" />
@@ -23,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1"
+            android:textSize="@dimen/titleTextSize"
             android:layout_weight=".1"
             android:gravity="fill_vertical"
             android:text=":" />
@@ -31,6 +33,7 @@
             android:id="@+id/textViewLabelDollar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/titleTextSize"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:text="SGD$ " />
@@ -40,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.6"
+            android:textSize="@dimen/titleTextSize"
             android:gravity="fill_vertical"
             android:scrollHorizontally="true"
             android:ellipsize="marquee"

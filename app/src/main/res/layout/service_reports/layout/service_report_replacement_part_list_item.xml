@@ -64,14 +64,28 @@
                     android:text="Text"
                     android:textAlignment="textEnd"
                     android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/textViewSubTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="0.5"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:text="Text"
+                    android:textAlignment="textEnd"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
             </TableRow>
 
         </TableLayout>
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" >
 
             <TableRow
                 android:layout_width="match_parent"

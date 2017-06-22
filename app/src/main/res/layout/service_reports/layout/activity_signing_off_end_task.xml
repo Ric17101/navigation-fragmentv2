@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.service_report_fragment.SigningOff_FRGMT_4">
+    tools:context=".activity.service_report_fragment.fragment.SigningOff_FRGMT_4">
 
     <include layout="@layout/content_signing_off" />
 

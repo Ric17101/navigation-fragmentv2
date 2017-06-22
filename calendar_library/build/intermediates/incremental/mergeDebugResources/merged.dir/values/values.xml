@@ -313,15 +313,18 @@
     <dimen name="notification_subtext_size">13sp</dimen>
     <dimen name="notification_top_pad">10dp</dimen>
     <dimen name="notification_top_pad_large_text">5dp</dimen>
-    <dimen name="roboto_calendar_circle_size">4dp</dimen>
-    <dimen name="roboto_calendar_day_of_the_month_background_size">40dp</dimen>
-    <dimen name="roboto_calendar_day_of_the_month_font">16sp</dimen>
-    <dimen name="roboto_calendar_day_of_week_font">16sp</dimen>
+    <dimen name="roboto_calendar_circle_size">6dp</dimen>
+    <dimen name="roboto_calendar_date_margin">20sp</dimen>
+    <dimen name="roboto_calendar_date_size">20sp</dimen>
+    <dimen name="roboto_calendar_day_of_the_month_background_size">44sp</dimen>
+    <dimen name="roboto_calendar_day_of_the_month_font">18sp</dimen>
+    <dimen name="roboto_calendar_day_of_week_font">18sp</dimen>
     <dimen name="roboto_calendar_month_font">16sp</dimen>
-    <dimen name="roboto_calendar_month_margin_bottom">8dp</dimen>
-    <dimen name="roboto_calendar_padding">8dp</dimen>
+    <dimen name="roboto_calendar_month_margin_bottom">20sp</dimen>
+    <dimen name="roboto_calendar_month_year">22sp</dimen>
+    <dimen name="roboto_calendar_padding">20dp</dimen>
     <dimen name="roboto_calendar_ring_size">18dp</dimen>
-    <dimen name="roboto_calendar_week_margin_bottom">5dp</dimen>
+    <dimen name="roboto_calendar_week_margin_bottom">50sp</dimen>
     <drawable name="notification_template_icon_bg">#3333B5E5</drawable>
     <drawable name="notification_template_icon_low_bg">#0cffffff</drawable>
     <item name="action_bar_activity_content" type="id"/>

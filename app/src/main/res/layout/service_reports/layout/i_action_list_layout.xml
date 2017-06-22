@@ -6,8 +6,8 @@
 
     <TextView
         android:id="@+id/textViewProblems"
-        android:layout_width="200sp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="-3dp"
         android:layout_weight="1"
@@ -16,7 +16,7 @@
         android:maxLines="1"
         android:scrollHorizontally="true"
         android:text="@string/replacement_parts"
-        android:textSize="18sp"
+        android:textSize="@dimen/subListTextSize"
         android:textStyle="normal" />
 
     <admin4.techelm.com.techelmtechnologies.utility.view.ExpandableHeightListView
@@ -27,6 +27,7 @@
         android:layout_marginTop="0dp"
         android:cacheColorHint="#00000000"
         android:divider="@android:color/transparent"
+        android:textSize="@dimen/subListTextSize"
         android:dividerHeight="0dp"
         android:fadingEdge="none"
         android:focusable="false"

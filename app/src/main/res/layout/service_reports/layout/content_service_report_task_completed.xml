@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.service_report_fragment.ServiceReport_TaskCompleted_5"
+    tools:context=".activity.service_report_fragment.fragment.ServiceReport_TaskCompleted_5"
     tools:showIn="@layout/activity_service_report__task_completed">
 
     <LinearLayout
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="Thank you."
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:textSize="@dimen/subListTextSize" />
 
         <TextView
             android:id="@+id/textViewTextForStaffOnly2"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="The report will be automatically sent to your customer"
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:textSize="@dimen/subListTextSize" />
 
         <TextView
             android:id="@+id/textViewTextForStaffOnly3"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="via their email address."
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:textSize="@dimen/subListTextSize" />
 
         <Button
             android:id="@+id/buttonShowDetailsOnTheWeb"
@@ -72,7 +72,7 @@
             android:text="SHOW ON DETAILS ON THE WEB"
             android:textAlignment="center"
             android:textColor="@color/textColorWhite"
-            android:textSize="18sp" />
+            android:textSize="@dimen/subListTextSize" />
     </LinearLayout>
 
     <FrameLayout

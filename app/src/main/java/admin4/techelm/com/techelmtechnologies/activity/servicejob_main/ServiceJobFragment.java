@@ -168,11 +168,14 @@ public class ServiceJobFragment extends Fragment implements
         mSearchResultsList.setVisibility(View.GONE);
         textViewSJResult.setText(R.string.noInternetPrompt);
         textViewSJResult.setVisibility(View.VISIBLE);
-        SnackBarNotificationUtil
-                .setSnackBar(getActivity().findViewById(android.R.id.content),
-                        getResources().getString(R.string.noInternetConnection))
-                .setColor(getResources().getColor(R.color.colorPrimary1))
-                .show();
+
+        if (getActivity() != null && isAdded()) {
+            SnackBarNotificationUtil
+                    .setSnackBar(getActivity().findViewById(android.R.id.content),
+                            getResources().getString(R.string.noInternetConnection))
+                    .setColor(getResources().getColor(R.color.colorPrimary1))
+                    .show();
+        }
         // removeRobotoCalendarDots();
     }
 

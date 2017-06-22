@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18sp"
         android:text="Comment"
-        android:textSize="18sp"
+        android:textSize="@dimen/topTitleTextSize"
         android:textStyle="normal|bold" />
 
     <Spinner
@@ -18,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
+        android:textAlignment="textStart"
+        android:textSize="@dimen/topTitleTextSize"
         android:focusable="true"/>
 
 </LinearLayout>

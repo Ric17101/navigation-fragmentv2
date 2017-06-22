@@ -21,34 +21,42 @@
             android:layout_gravity="center"
             android:text="SERVICE REPORT"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/titleTextSize"
             android:textStyle="bold" />
     </android.support.v7.widget.Toolbar>
 
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabsStrip"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary1"
-        android:textColor="@color/white"
-        app:pstsTabSwitch="false"
-        app:pstsShouldExpand="true"
-        app:pstsIndicatorHeight="6sp"
-        app:tabMaxWidth="0dp"
-        app:tabMode="fixed"
-        app:tabGravity="fill"
-        app:pstsIndicatorColor="@color/white" />
+    <include layout="@layout/progress_bar" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+    <LinearLayout
+        android:id="@+id/containerView"
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"  />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/tabsStrip"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary1"
+            android:textColor="@color/white"
+            app:pstsIndicatorColor="@color/white"
+            app:pstsIndicatorHeight="6sp"
+            app:pstsShouldExpand="true"
+            app:pstsTabSwitch="false"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed" />
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>

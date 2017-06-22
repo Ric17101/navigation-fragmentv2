@@ -29,7 +29,7 @@
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight=".01"
                     android:paddingRight="4sp"
                     android:paddingLeft="4sp"
@@ -44,7 +44,7 @@
                     android:maxLines="1"
                     android:scrollHorizontally="true"
                     android:text="New Replacement Part Added."
-                    android:textSize="14sp"
+                    android:textSize="@dimen/subListTextSize"
                     android:textStyle="normal|bold|italic" />
 
             </TableRow>

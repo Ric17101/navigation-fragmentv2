@@ -156,9 +156,10 @@ public final class Constants {
     /**** SECTION B ****/
     // STATUS of Project Jobs, the Task Button
     public static final String PROJECT_JOB_NEW = "0";
-    public static final String PROJECT_JOB_PENDING = "1";
-    public static final String PROJECT_JOB_COMPLETED = "2";
-    public static final String PROJECT_JOB_ON_PROCESS = "3";
+    public static final String PROJECT_JOB_UNSIGNED = "1";
+    public static final String PROJECT_JOB_PENDING = "2";
+    public static final String PROJECT_JOB_COMPLETED = "3";
+    public static final String PROJECT_JOB_ON_PROCESS = "4";
 
     // ACTION PROJECT JOB
     public static final int ACTION_CHOOSE_FORM = 10; // PROJECT JOB, Choosing the form

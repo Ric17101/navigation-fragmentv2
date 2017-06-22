@@ -14,6 +14,8 @@
         android:orientation="vertical"
         android:padding="10sp">
 
+        <include layout="@layout/include_this_then_no_edit_text_is_focus" />
+
         <TextView
             android:id="@+id/textView14"
             android:layout_width="match_parent"

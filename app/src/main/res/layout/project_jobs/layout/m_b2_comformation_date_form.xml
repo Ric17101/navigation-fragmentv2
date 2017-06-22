@@ -41,13 +41,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18sp"
                 android:text="Comment"
-                android:textSize="18sp"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <Spinner
                 android:id="@+id/spinnerCommentToIssueCar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/topTitleTextSize"
+                android:textAlignment="textStart"
                 android:focusable="true"
                 android:focusableInTouchMode="true" />
 

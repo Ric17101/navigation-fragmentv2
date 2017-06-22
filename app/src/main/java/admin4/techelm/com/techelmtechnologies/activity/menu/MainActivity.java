@@ -57,6 +57,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper
 import admin4.techelm.com.techelmtechnologies.model.toolboxmeeting.ToolboxMeetingWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
+import admin4.techelm.com.techelmtechnologies.utility.ProgressbarUtil;
 import admin4.techelm.com.techelmtechnologies.utility.SnackBarNotificationUtil;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ;
 import admin4.techelm.com.techelmtechnologies.utility.json.ConvertJSON_SJ_Complaints;
@@ -74,23 +75,28 @@ public class MainActivity extends FragmentActivity implements
         ProjectJobListener,
         TM_ListAdapter.CallbackInterface
         // OnTaskKill.onStopCallbackInterface
-{
-
+    {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    DrawerLayout mDrawerLayout;
-    NavigationView mNavigationView;
-    NavigationView mNavigationUserView;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private NavigationView mNavigationUserView;
     private int navigation_active = 0;
 
-    ActionBarDrawerToggle mDrawerToggle;
-    FragmentManager mFragmentManager;
-    FragmentTransaction mFragmentTransaction;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
 
-    SessionManager mSession;
+    private SessionManager mSession;
 
     // B. Project Job Setup - B2,B3
     private MaterialDialog mProjectJobFormSelectorDialog;
+
+    // Loading Indicator Setup
+    private View mProgressView;
+    private View mMainView;
+    private ProgressbarUtil mProgressIndicator;
+    private ProgressbarUtil mProgressIndicatorCalendarTAB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +106,12 @@ public class MainActivity extends FragmentActivity implements
 
         setContentView(R.layout.activity_main);
 
+        initProgresBarIndicator();
+
         setBackGroundLayout();
 
         loginSessionTest();
+
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
 
@@ -124,6 +133,29 @@ public class MainActivity extends FragmentActivity implements
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    private void initProgresBarIndicator() {
+        mMainView = findViewById(R.id.containerView);
+        mProgressView = findViewById(R.id.progress_overlay);
+        this.mProgressIndicator = new ProgressbarUtil().newInstance(mProgressView, mMainView, getResources());
+    }
+
+    public void showOrHideProgress(boolean mode) {
+        if (this.mProgressIndicator != null) {
+            this.mProgressIndicator.showProgress(mode);
+        }
+    }
+
+    // Initialized and Used only from CalendarFragment.class TAB
+    public void initProgresBarIndicatorCalendarTAB(View progressView, View viewToHide) {
+        this.mProgressIndicatorCalendarTAB = new ProgressbarUtil().newInstance(progressView, viewToHide, getResources());
+    }
+    // ForScrollView Service Job List, Used only for CalendarFragment.class TAB
+    public void showOrHideProgressCalendarTAB(boolean mode) {
+        if (this.mProgressIndicatorCalendarTAB != null) {
+            this.mProgressIndicatorCalendarTAB.showProgress(mode);
+        }
     }
 
     /**
@@ -278,6 +310,8 @@ public class MainActivity extends FragmentActivity implements
 
                 switch (menuItem.getItemId()) {
                     case R.id.nav_servicejobs :
+                        if (menuItem.getItemId() == menuItem.getItemId()) return false;
+
                         FragmentTransaction serviceJobFragmentTransaction = mFragmentManager.beginTransaction();
                         serviceJobFragmentTransaction.replace(R.id.containerView, new ServiceJobFragmentTab()).commit();
                         break;
@@ -566,6 +600,8 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void servicesJobStarComplaintsTask(final ServiceJobWrapper serviceJob, final String status, final String startTaskReponse) {
+        showOrHideProgress(true);
+
         final ServiceJobComplaints_POST beginServiceJob = new ServiceJobComplaints_POST();
         beginServiceJob.setOnEventListener(new ServiceJobComplaints_POST.OnEventListener() {
             @Override
@@ -610,7 +646,7 @@ public class MainActivity extends FragmentActivity implements
 
         @Override
         protected void onPreExecute() {
-
+            // showOrHideProgress(true);
         }
 
         @Override
@@ -641,6 +677,8 @@ public class MainActivity extends FragmentActivity implements
             } else {
                 onCancelled();
             }
+
+            showOrHideProgress(false);
         }
 
         @Override
@@ -650,6 +688,7 @@ public class MainActivity extends FragmentActivity implements
                     .setSnackBar(findViewById(android.R.id.content), "Error on Parsing Parts Replacement Rates")
                     .setColor(getResources().getColor(R.color.colorPrimary1))
                     .show();
+            showOrHideProgress(false);
         }
     }
 
@@ -673,7 +712,8 @@ public class MainActivity extends FragmentActivity implements
         Log.e(TAG, rateList.toString());
 
         startActivity(new Intent(MainActivity.this, ServiceJobViewPagerActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                // .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 .putExtra(SERVICE_JOB_SERVICE_KEY, serviceJob)
                 .putExtra(SERVICE_JOB_PREVIOUS_STATUS_KEY, status)
                 .putExtra(SERVICE_JOB_PARTS_REPLACEMENT_LIST_KEY, rateList)
@@ -835,7 +875,9 @@ public class MainActivity extends FragmentActivity implements
      */
     private void startProjectJobsList(int typeOfForm, ProjectJobWrapper projectJob) {
         Intent i = new Intent(MainActivity.this, ProjectJobViewPagerActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        i
+                //.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 .putExtra(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm)
                 .putExtra(PROJECT_JOB_KEY, projectJob);
         startActivity(i);
@@ -846,8 +888,10 @@ public class MainActivity extends FragmentActivity implements
 
     private void startToolBoxMeetingViewPager(ToolboxMeetingWrapper toolboxmeeting) {
         Intent i = new Intent(MainActivity.this, ToolboxMeetingPagerActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        i
+                //.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 /*.putExtra(PROJECT_JOB_FORM_TYPE_KEY, typeOfForm)*/
+                .setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         	    .putExtra(TOOLBOX_MEETING_KEY, toolboxmeeting);
 		startActivity(i);
         overridePendingTransition(R.anim.enter, R.anim.exit);

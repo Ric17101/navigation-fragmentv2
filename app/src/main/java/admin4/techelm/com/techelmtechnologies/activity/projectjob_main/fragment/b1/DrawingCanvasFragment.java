@@ -1,5 +1,6 @@
 package admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b1;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -17,7 +18,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -42,8 +42,6 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.FIRSTCM_DOMAIN_URL;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.FRAGMENT_BACK_STACK;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.NEW_DOMAIN_URL;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_PISS_TASK_KEY;
 
 /**
@@ -65,7 +63,7 @@ public class DrawingCanvasFragment extends Fragment implements
     Resources resources;
     int BitmapSize = 30;
     int width, height;
-    Button btnAddText,btnUndo,btnRedo,btnDraw,btnBlue,btnSave, btnZoom;
+    Button btnAddText,btnUndo,btnRedo,btnDraw,btnBlue, btnRestart, btnZoom;
     EditText txtAddText;
     String text;
     ImageUtility image;
@@ -107,6 +105,8 @@ public class DrawingCanvasFragment extends Fragment implements
 
         this.resources = getResources();
 
+        canvas = (CanvasView) view.findViewById(R.id.canvas);
+
         new LoadTASKProjectIFExistsTask().newInstance(this.mPissTask, view).execute((Void) null);
 
         return view;
@@ -128,12 +128,15 @@ public class DrawingCanvasFragment extends Fragment implements
     }
 
     private void initCanvasView() {
-        canvas = (CanvasView) getView().findViewById(R.id.canvas);
-        Drawable d = new BitmapDrawable(getResources(), bitmap1);
-        canvas.setBackground(d);
-        canvas.setPaintStrokeWidth(4F);
-        initGestureView(getView());
-        initButton(getView());
+        Activity activity = getActivity();
+        if (isAdded() && activity != null) { // This stupid test solve the crashing on the Drawing MTFKR
+            canvas = (CanvasView) getView().findViewById(R.id.canvas);
+            Drawable d = new BitmapDrawable(getResources(), bitmap1);
+            canvas.setBackground(d);
+            canvas.setPaintStrokeWidth(4F);
+            initGestureView(getView());
+            initButton(getView());
+        }
     }
 
     private void downloadImage(View view, boolean edited) {
@@ -226,14 +229,14 @@ public class DrawingCanvasFragment extends Fragment implements
         btnDraw = (Button) view.findViewById(R.id.btnDraw);
         btnZoom = (Button) view.findViewById(R.id.btnZoom);
         btnBlue = (Button) view.findViewById(R.id.btnBlue);
-        btnSave = (Button) view.findViewById(R.id.btnSave);
+        btnRestart = (Button) view.findViewById(R.id.btnRestart);
 
         btnUndo.setOnClickListener(this);
         btnRedo.setOnClickListener(this);
         btnDraw.setOnClickListener(this);
         btnZoom.setOnClickListener(this);
         btnBlue.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
+        btnRestart.setOnClickListener(this);
 
         /** BUTTON BACK */
         Button button_back = (Button) view.findViewById(R.id.button_back);
@@ -289,7 +292,7 @@ public class DrawingCanvasFragment extends Fragment implements
             case R.id.btnRedo:
                 canvas.redo();   // Redo
                 break;
-            case R.id.btnSave:
+            case R.id.btnRestart:
                 setButtonEnabled(false);
                 saveImage("RESTART");
                 //((ProjectJobViewPagerActivity) getActivity()).showDrawingCanvasFragment(mPissTask);
@@ -308,10 +311,11 @@ public class DrawingCanvasFragment extends Fragment implements
     }
 
     private void setButtonEnabled(boolean mode) {
-        btnSave.setEnabled(mode);
+        btnRestart.setEnabled(mode);
     }
 
     private void saveImage(String mode) {
+
         bitmap2 = canvas.getBitmap();
 
         image = new ImageUtility(getActivity());
@@ -327,14 +331,13 @@ public class DrawingCanvasFragment extends Fragment implements
                 Log.wtf(TAG,"--------------------------RESTART--------------------------");
                 mPissTask.setDrawingAfter("");
                 message = "Drawing restarted..";
-            }
-            else{
+            } else{
 
                 mPissTask.setDrawingAfter(image.loadImageFile().getAbsolutePath());
                 message = "Image saved.";
             }
             Log.e(TAG, "setDrawing After " + image.loadImageFile().getAbsolutePath());
-            new SaveTASKProjectTask().newInstance(mPissTask,mode).execute((Void) null);
+            new SaveTASKProjectTask().newInstance(mPissTask, mode).execute((Void) null);
         } else {
             message = "Can't save image.";
         }
@@ -360,6 +363,11 @@ public class DrawingCanvasFragment extends Fragment implements
         }
 
         @Override
+        protected void onPreExecute() {
+            ((ProjectJobViewPagerActivity) getActivity()).showOrHideProgress(true);
+        }
+
+        @Override
         protected String doInBackground(Void... params) {
             Log.e(TAG, "Im on the doInBackground");
             PISS_TaskDBUtil taskDBUtil = new PISS_TaskDBUtil(getActivity());
@@ -380,15 +388,17 @@ public class DrawingCanvasFragment extends Fragment implements
             setButtonEnabled(true);
 
             Log.e(TAG, "--------------------------------------------------------" + mode);
-            if(mode == "SAVE") {
-
+            if (mode == "SAVE") {
                 ((ProjectJobViewPagerActivity) getActivity()).showDrawingFormFragment(task);
-            }
-            else{
-
+            } else {
                 ((ProjectJobViewPagerActivity) getActivity()).showDrawingCanvasFragment(task);
             }
             // setButtonEnabled(true);
+        }
+
+        @Override
+        protected void onCancelled() {
+            ((ProjectJobViewPagerActivity) getActivity()).showOrHideProgress(false);
         }
     }
 

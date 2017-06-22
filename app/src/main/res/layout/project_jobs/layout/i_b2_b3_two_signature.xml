@@ -24,6 +24,7 @@
                 android:id="@+id/textViewTitlesubContractor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/topTitleTextSize"
                 android:text="Sub-Contractor"
                 android:textStyle="normal|bold" />
 
@@ -35,6 +36,7 @@
                     android:id="@+id/editTextSubContractor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/subTitleTextSize"
                     android:layout_marginBottom="20sp"
                     android:background="@color/white"
                     android:hint="Sub-contractor" />
@@ -56,6 +58,7 @@
                 android:id="@+id/textViewTitleDispositioned"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/topTitleTextSize"
                 android:text="Dispositioned By"
                 android:textStyle="normal|bold" />
 
@@ -68,6 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20sp"
+                    android:textSize="@dimen/subTitleTextSize"
                     android:background="@color/white"
                     android:hint="Dispositioned By"/>
             </android.support.design.widget.TextInputLayout>

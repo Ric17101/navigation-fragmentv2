@@ -41,6 +41,8 @@
             android:name=".activity.menu.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -53,7 +55,7 @@
         </activity>
 
         <activity
-            android:name=".activity.service_report_fragment.ServiceReport_TaskCompleted_5"
+            android:name=".activity.service_report_fragment.fragment.ServiceReport_TaskCompleted_5"
             android:label="@string/title_activity_service_report__task_completed"
             android:launchMode="singleTask"
             android:taskAffinity=""

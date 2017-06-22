@@ -44,9 +44,11 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:orientation="vertical">
-            <!-- MAIN CONTENT-->
 
+            <!-- MAIN CONTENT-->
             <include layout="@layout/content_main" />
+
+            <include layout="@layout/progress_bar" />
 
         </android.support.design.widget.CoordinatorLayout>
 
@@ -80,5 +82,5 @@
         </android.support.design.widget.NavigationView>
 
     </android.support.v4.widget.DrawerLayout>
-    
+
 </LinearLayout>

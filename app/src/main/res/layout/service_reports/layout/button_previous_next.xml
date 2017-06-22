@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/app_name"
+        android:textSize="@dimen/subListTextSize"
         android:text="BACK"
         android:textColor="@color/textColorWhite" />
 
@@ -23,6 +24,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/app_name"
+        android:textSize="@dimen/subListTextSize"
         android:text="NEXT"
         android:textColor="@color/textColorWhite" />
 </LinearLayout>

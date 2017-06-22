@@ -31,29 +31,59 @@
                 <com.marcohc.robotocalendar.RobotoCalendarView
                     android:id="@+id/robotoCalendarPicker"
                     android:layout_width="match_parent"
-                    android:background="@color/transparent"
-                    android:layout_height="wrap_content" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/calendar_service_job_list"
-                    android:layout_below="@+id/robotoCalendarPicker"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:paddingBottom="70sp"
-                    android:paddingTop="4sp" />
+                    android:background="@color/transparent" />
 
-                <TextView
-                    android:id="@+id/textViewCalendarResult"
+                <!-- Progress Dialog -->
+                <FrameLayout android:id="@+id/progress_overlayCalendar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:layout_below="@+id/robotoCalendarPicker"
-                    android:text="Result"
-                    android:textAlignment="center"
-                    android:textSize="16sp"
-                    android:textStyle="normal"
-                    android:visibility="gone" />
+                    android:alpha="0.4"
+                    android:animateLayoutChanges="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:clickable="true" android:visibility="gone">
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyleLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:indeterminate="true">
+
+                    </ProgressBar>
+                </FrameLayout>
+
+                <RelativeLayout
+                    android:id="@+id/scrollViewRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/robotoCalendarPicker">
+
+                    <!-- ServiceJob Task View List-->
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/calendar_service_job_list"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingBottom="70sp"
+                        android:paddingTop="4sp" />
+
+                    <TextView
+                        android:id="@+id/textViewCalendarResult"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Result"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/topTitleTextSize"
+                        android:textStyle="normal"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
             </RelativeLayout>
 
         </android.support.v4.widget.SwipeRefreshLayout>
@@ -69,8 +99,8 @@
         android:background="#ffffff"
         android:clickable="true"
         android:focusable="false"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,7 +119,7 @@
                 android:text="CALENDAR VIEW"
                 android:textAlignment="center"
                 android:textColor="@color/textColorWhite"
-                android:textSize="16sp" />
+                android:textSize="@dimen/topTitleTextSize" />
         </LinearLayout>
 
         <LinearLayout

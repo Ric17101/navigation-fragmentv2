@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -19,6 +20,10 @@ import java.util.ArrayList;
 
 import admin4.techelm.com.techelmtechnologies.R;
 import admin4.techelm.com.techelmtechnologies.activity.menu.MainActivity;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.fragment.PartReplacement_FRGMT_2;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.fragment.ServiceReport_FRGMT_AFTER;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.fragment.ServiceReport_FRGMT_BEFORE;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.fragment.SigningOff_FRGMT_4;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_Complaint_CFSubListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_Complaint__ASRSubListAdapter;
 import admin4.techelm.com.techelmtechnologies.adapter.SJ_PartsListAdapter;
@@ -43,6 +48,7 @@ import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobUploads
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobWrapper;
 import admin4.techelm.com.techelmtechnologies.utility.ImageUtility;
 import admin4.techelm.com.techelmtechnologies.utility.PermissionUtil;
+import admin4.techelm.com.techelmtechnologies.utility.ProgressbarUtil;
 import admin4.techelm.com.techelmtechnologies.webservice.model.WebResponse;
 import admin4.techelm.com.techelmtechnologies.webservice.web_api_techelm.ServiceJobBegin_POST;
 
@@ -94,6 +100,11 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
     private ViewPager mViewPager;
     private ServiceJobFragmentPagerAdapter mPagerAdapter;
 
+    // Loading Indicator Setup
+    private View mProgressView;
+    private View mMainView;
+    private ProgressbarUtil mProgressIndicator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +114,8 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_pager_sliding_tab);
 
         setBackGroundLayout();
+
+        initProgresBarIndicator();
 
         if (fromBundle() != null) { // if Null don't show anything
             init_ViewPager();
@@ -146,6 +159,18 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
         // Save Service Job from Bundle
         saveServiceJob(this.mServiceJobFromBundle);
     }
+    private void initProgresBarIndicator() {
+        mMainView = findViewById(R.id.containerView);
+        mProgressView = findViewById(R.id.progress_overlay);
+        this.mProgressIndicator = new ProgressbarUtil().newInstance(mProgressView, mMainView, getResources());
+    }
+
+    public void showOrHideProgress(boolean mode) {
+        if (this.mProgressIndicator != null) {
+            this.mProgressIndicator.showProgress(mode);
+        }
+    }
+
 
     /**
      * This method uses LargeHeap and Hardware Acceleration on the Androidmanifest file in order to
@@ -206,6 +231,8 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
      * @param mode
      */
     public void backToLandingPage(final int mode) {
+        showOrHideProgress(true);
+
         ServiceJobBegin_POST beginServiceJob = new ServiceJobBegin_POST();
         beginServiceJob.setOnEventListener(new ServiceJobBegin_POST.OnEventListener() {
             @Override
@@ -216,6 +243,7 @@ public class ServiceJobViewPagerActivity extends AppCompatActivity implements
 
             @Override
             public void onError(String message) {
+                showOrHideProgress(false);
             }
 
             @Override

@@ -493,7 +493,7 @@ public class IPITaskListCARFragment extends Fragment
                         .show();
 
                 // Goto Main Page
-                ((ProjectJobViewPagerActivity)getActivity()).backToLandingPage(1);
+                ((ProjectJobViewPagerActivity) getActivity()).backToLandingPage(1);
             }
         });
 

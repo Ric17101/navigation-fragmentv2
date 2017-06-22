@@ -26,6 +26,7 @@
                 android:layout_weight=".2"
                 android:gravity="fill_vertical"
                 android:text="S/No."
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -36,7 +37,8 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
-                android:text=":" />
+                android:text=":"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewSerialNo"
@@ -44,11 +46,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
+                android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="Text" />
+                android:scrollHorizontally="true"
+                android:text="Text"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -65,6 +68,7 @@
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
                 android:text="Car No."
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -74,7 +78,8 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
-                android:text=":" />
+                android:text=":"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewCarNo"
@@ -82,11 +87,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
+                android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="Text" />
+                android:scrollHorizontally="true"
+                android:text="Text"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -103,6 +109,7 @@
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
                 android:text="Description of Corrective Actions"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -113,7 +120,8 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
-                android:text=":" />
+                android:text=":"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewDescriptionCorrectiveAction"
@@ -121,11 +129,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
+                android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="Text" />
+                android:scrollHorizontally="true"
+                android:text="Text"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -142,6 +151,7 @@
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
                 android:text="Target Remedy Date"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -152,7 +162,8 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
-                android:text=":" />
+                android:text=":"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewTargetRemedyDate"
@@ -160,11 +171,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
+                android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="Text" />
+                android:scrollHorizontally="true"
+                android:text="Text"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -181,6 +193,7 @@
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
                 android:text="Target Completion Date"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -190,7 +203,8 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
-                android:text=":" />
+                android:text=":"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewTargetCompletionDate"
@@ -198,11 +212,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
+                android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="Text" />
+                android:scrollHorizontally="true"
+                android:text="Text"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
         <TableRow
@@ -219,6 +234,7 @@
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
                 android:text="Remarks"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -228,7 +244,8 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
-                android:text=":" />
+                android:text=":"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewRemarks"
@@ -236,11 +253,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
+                android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="Text" />
+                android:scrollHorizontally="true"
+                android:text="Text"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
 
@@ -258,6 +276,7 @@
                 android:layout_weight=".2"
                 android:gravity="center_vertical"
                 android:text="Disposition"
+                android:textSize="@dimen/topTitleTextSize"
                 android:textStyle="normal|bold" />
 
             <TextView
@@ -268,7 +287,8 @@
                 android:layout_marginTop="-3dp"
                 android:layout_weight=".1"
                 android:gravity="center_vertical"
-                android:text=":" />
+                android:text=":"
+                android:textSize="@dimen/topTitleTextSize" />
 
             <TextView
                 android:id="@+id/textViewDisposition"
@@ -276,11 +296,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-3dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
+                android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="Text" />
+                android:scrollHorizontally="true"
+                android:text="Text"
+                android:textSize="@dimen/topTitleTextSize" />
         </TableRow>
 
 

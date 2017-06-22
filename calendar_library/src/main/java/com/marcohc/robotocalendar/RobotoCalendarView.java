@@ -197,10 +197,12 @@ public class RobotoCalendarView extends LinearLayout {
             if (shortWeekDays) {
                 dayOfTheWeekString = checkSpecificLocales(dayOfTheWeekString, i);
             } else {
-                dayOfTheWeekString = dayOfTheWeekString.substring(0, 1).toUpperCase() + dayOfTheWeekString.substring(1, 3);
+                // dayOfTheWeekString = dayOfTheWeekString.substring(0, 1).toUpperCase() + dayOfTheWeekString.substring(1, 3);
+                dayOfTheWeekString = dayOfTheWeekString.substring(0, 1).toUpperCase() + dayOfTheWeekString.substring(1, 1);
             }
 
             dayOfWeek.setText(dayOfTheWeekString);
+            dayOfWeek.setTypeface(Typeface.DEFAULT_BOLD);
         }
     }
 
@@ -229,6 +231,8 @@ public class RobotoCalendarView extends LinearLayout {
             dayOfTheMonthText.setTypeface(null, Typeface.NORMAL);
             dayOfTheMonthText.setTextColor(ContextCompat.getColor(context, R.color.roboto_calendar_day_of_the_month_font));
             //dayOfTheMonthText.setPadding(10,10,10,10);
+            dayOfTheMonthText.setTextSize(18);
+
             dayOfTheMonthContainer.setBackgroundResource(android.R.color.transparent);
             dayOfTheMonthContainer.setOnClickListener(null);
             dayOfTheMonthBackground.setBackgroundResource(android.R.color.transparent);
@@ -258,6 +262,7 @@ public class RobotoCalendarView extends LinearLayout {
             dayOfTheMonthContainer.setOnLongClickListener(onDayOfMonthLongClickListener);
             dayOfTheMonthText.setVisibility(View.VISIBLE);
             dayOfTheMonthText.setText(String.valueOf(i));
+            //dayOfTheMonthText.setPadding(20,20,20,20);
         }
 
         for (int i = 36; i < 43; i++) {
@@ -268,6 +273,7 @@ public class RobotoCalendarView extends LinearLayout {
             } else {
                 dayOfTheMonthLayout.setVisibility(VISIBLE);
             }
+            //dayOfTheMonthText.setPadding(20,20,20,20);
         }
     }
 
@@ -297,6 +303,7 @@ public class RobotoCalendarView extends LinearLayout {
 
         TextView dayOfTheMonth = getDayOfMonthText(calendar);
         dayOfTheMonth.setTextColor(ContextCompat.getColor(context, R.color.roboto_calendar_selected_day_font));
+        //dayOfTheMonth.setPadding(20,20,20,20);
 
         ImageView circleImage1 = getCircleImage1(calendar);
         ImageView circleImage2 = getCircleImage2(calendar);
@@ -324,6 +331,7 @@ public class RobotoCalendarView extends LinearLayout {
 
             TextView dayOfTheMonth = getDayOfMonthText(calendar);
             dayOfTheMonth.setTextColor(ContextCompat.getColor(context, R.color.roboto_calendar_day_of_the_month_font));
+            //dayOfTheMonth.setPadding(20,20,20,20);
 
             ImageView circleImage1 = getCircleImage1(calendar);
             ImageView circleImage2 = getCircleImage2(calendar);
@@ -454,6 +462,7 @@ public class RobotoCalendarView extends LinearLayout {
             String tagId = (String) dayOfTheMonthContainer.getTag();
             tagId = tagId.substring(DAY_OF_THE_MONTH_LAYOUT.length(), tagId.length());
             TextView dayOfTheMonthText = (TextView) view.findViewWithTag(DAY_OF_THE_MONTH_TEXT + tagId);
+            //dayOfTheMonthText.setPadding(20,20,20,20);
 
             // Extract the day from the text
             Calendar calendar = Calendar.getInstance();
@@ -481,6 +490,7 @@ public class RobotoCalendarView extends LinearLayout {
             String tagId = (String) dayOfTheMonthContainer.getTag();
             tagId = tagId.substring(DAY_OF_THE_MONTH_LAYOUT.length(), tagId.length());
             TextView dayOfTheMonthText = (TextView) view.findViewWithTag(DAY_OF_THE_MONTH_TEXT + tagId);
+            //dayOfTheMonthText.setPadding(20,20,20,20);
 
             // Extract the day from the text
             Calendar calendar = Calendar.getInstance();

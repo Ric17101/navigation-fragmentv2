@@ -95,7 +95,7 @@ public class LoginActivity2 extends AppCompatActivity implements
 
     private void initProgresBarIndicator() {
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.page_progress);
+        mProgressView = findViewById(R.id.progress_overlay);
         this.mProgressIndicator = new ProgressbarUtil().newInstance(mProgressView, mLoginFormView, getResources());
     }
 
@@ -252,8 +252,7 @@ public class LoginActivity2 extends AppCompatActivity implements
         Intent i = new Intent(LoginActivity2.this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
-        overridePendingTransition(R.anim.abc_popup_enter,
-                R.anim.abc_popup_exit);
+        overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
     }
     /**
      * UpdateJobServiceTask task = new UpdateJobServiceTask(view);

@@ -79,6 +79,7 @@ public class SJ_PartsListAdapter extends RecyclerView.Adapter<SJ_PartsListAdapte
         holder.textViewPartDetail.setText((position + 1) +".) Replacement " + servicePartDataSet.getPartName() + " Added.");
         holder.textViewQuantity.setText(Html.fromHtml("<b>Qty.</b>: " + servicePartDataSet.getQuantity()));
         holder.textViewUnitPrice.setText(Html.fromHtml("<b>Unit Price</b>: " + servicePartDataSet.getUnitPrice()));
+        holder.textViewSubTotal.setText(Html.fromHtml("<b>Total Price</b>: " + servicePartDataSet.getTotalPrice()));
 
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " +
                 servicePartDataSet.getQuantity() + servicePartDataSet.getPartName());
@@ -127,6 +128,7 @@ public class SJ_PartsListAdapter extends RecyclerView.Adapter<SJ_PartsListAdapte
         TextView textViewPartDetail;
         TextView textViewQuantity;
         TextView textViewUnitPrice;
+        TextView textViewSubTotal;
         TextView textViewEdit;
         TextView textViewDelete;
 
@@ -139,6 +141,7 @@ public class SJ_PartsListAdapter extends RecyclerView.Adapter<SJ_PartsListAdapte
             // Part Information
             textViewQuantity = (TextView) view.findViewById(R.id.textViewQuantity);
             textViewUnitPrice = (TextView) view.findViewById(R.id.textViewUnitPrice);
+            textViewSubTotal = (TextView) view.findViewById(R.id.textViewSubTotal);
             textViewPartDetail = (TextView) view.findViewById(R.id.textViewPartDetail);
             textViewPartDetail.setOnClickListener(new View.OnClickListener() {
                 @Override

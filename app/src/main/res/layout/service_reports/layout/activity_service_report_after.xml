@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.service_report_fragment.ServiceReport_FRGMT_AFTER">
+    tools:context=".activity.service_report_fragment.fragment.ServiceReport_FRGMT_AFTER">
 
     <include layout="@layout/content_service_report_after" />
 

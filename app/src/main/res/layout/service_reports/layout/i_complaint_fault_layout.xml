@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Complaints / Fault."
-        android:textSize="18sp"
+        android:textSize="@dimen/subListTextSize"
         android:contentDescription="Tap item on the list to add action(s)."
         android:textStyle="normal|bold" />
 
@@ -33,7 +33,7 @@
         android:paddingBottom="70sp"
         android:text="Result"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="@dimen/subListTextSize"
         android:textStyle="normal"
         android:visibility="gone" />
 

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
+    android:layout_margin="30sp"
     android:paddingTop="10sp">
 
     <ImageView
@@ -21,7 +22,7 @@
         android:background="@drawable/ic_arrow_right"
         android:contentDescription="@android:string/ok"
         android:padding="20sp"
-        card_view:srcCompat="?selectableItemBackgroundBorderless" />
+        android:src="?selectableItemBackgroundBorderless" />
 
     <TextView
         android:id="@+id/monthText"
@@ -33,7 +34,7 @@
         android:tag="dateTitle"
         android:text="MONTH YEAR"
         android:textAllCaps="true"
-        android:textSize="18sp"
+        android:textSize="@dimen/roboto_calendar_month_year"
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
@@ -50,6 +51,6 @@
         android:background="@drawable/ic_arrow_left"
         android:contentDescription="@android:string/ok"
         android:padding="20sp"
-        card_view:srcCompat="?selectableItemBackgroundBorderless" />
+        android:src="?selectableItemBackgroundBorderless" />
 
 </RelativeLayout>

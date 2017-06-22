@@ -7,8 +7,11 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.fragment.PartReplacement_FRGMT_2;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.fragment.ServiceReport_FRGMT_AFTER;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.fragment.ServiceReport_FRGMT_BEFORE;
+import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.fragment.SigningOff_FRGMT_4;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_ASRWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_CFWrapper;
 import admin4.techelm.com.techelmtechnologies.model.servicejob.ServiceJobComplaint_MobileWrapper;

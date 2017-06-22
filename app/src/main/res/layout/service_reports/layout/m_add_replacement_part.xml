@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.service_report_fragment.AddReplacementPart_FRGMT_3">
+    tools:context=".activity.service_report_fragment.fragment.AddReplacementPart_FRGMT_3">
 
     <include layout="@layout/content_add_replacement_part" />
 

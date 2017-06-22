@@ -51,7 +51,6 @@ import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.fragment.b2.NonConformanceAndDateFragmentTest;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.PopulateProjectJob_IPIFinalTaskViewDetails;
 import admin4.techelm.com.techelmtechnologies.activity.projectjob_main.helper.PopulateProjectJob_IPITaskViewDetails;
-import admin4.techelm.com.techelmtechnologies.activity.service_report_fragment.ServiceReport_TaskCompleted_5;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.IPITaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.IPIFinalTaskListener;
 import admin4.techelm.com.techelmtechnologies.adapter.listener.PISSTaskListener;
@@ -86,7 +85,6 @@ import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_J
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_2;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_FRAGMENT_POSITION_3;
 import static admin4.techelm.com.techelmtechnologies.utility.Constants.PROJECT_JOB_KEY;
-import static admin4.techelm.com.techelmtechnologies.utility.Constants.SERVICE_JOB_SERVICE_KEY;
 
 public class ProjectJobViewPagerActivity extends FragmentActivity implements
         ProjectJobListener,
@@ -96,8 +94,8 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         IPIFinalTaskListener,
         DatePickerDialog.OnDateSetListener,
         OpenDialog,
-        UILListener {
-
+        UILListener
+    {
     private static final String TAG = ProjectJobViewPagerActivity.class.getSimpleName();
 
     public enum fragmentType {
@@ -167,8 +165,14 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     private void initProgresBarIndicator() {
         mMainView = findViewById(R.id.containerView);
-        mProgressView = findViewById(R.id.page_progress);
+        mProgressView = findViewById(R.id.progress_overlay);
         this.mProgressIndicator = new ProgressbarUtil().newInstance(mProgressView, mMainView, getResources());
+    }
+
+    public void showOrHideProgress(boolean mode) {
+        if (this.mProgressIndicator != null) {
+            this.mProgressIndicator.showProgress(mode);
+        }
     }
 
     private void initPermissions() {
@@ -529,6 +533,8 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         trans.replace(R.id.containerView, canvas).addToBackStack(FRAGMENT_BACK_STACK);
         trans.setCustomAnimations(R.anim.enter, R.anim.exit);
         trans.commit();
+
+        showOrHideProgress(false);
     }
 
     public void showDrawingFormFragment(PISSTaskWrapper task) {
@@ -537,7 +543,10 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         DrawingFormFragment form = DrawingFormFragment.newInstance(task);
         FragmentTransaction trans = mFragmentManager.beginTransaction();
         trans.replace(R.id.containerView, form).addToBackStack(FRAGMENT_BACK_STACK);
+        // trans.setCustomAnimations(R.anim.enter, R.anim.exit);
         trans.commit();
+
+        showOrHideProgress(false);
     }
 
     // TODO: Should implement also on th DrawingFormFragment.jaca and DrawingCanvasFragment
@@ -562,12 +571,14 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
 
     @Override
     public void OnHandleError(String message) {
+        showOrHideProgress(false);
         Log.e(TAG, "OnHandleError " + message);
     }
 
     @Override
     public void OnHandleStartDownload(String message) {
         Log.e(TAG, "OnHandleStartDownload " + message);
+        showOrHideProgress(true);
     }
 
     @Override
@@ -576,9 +587,15 @@ public class ProjectJobViewPagerActivity extends FragmentActivity implements
         if (this.dcf != null) {
             this.dcf.initCanvasView(imageLoaded);
             this.dcf = null;
+
+            showOrHideProgress(false);
         }
 
-        //if ()
+        if (this.dff != null) {
+            this.dff = null;
+
+            showOrHideProgress(false);
+        }
     }
 
     /*************** END B1 - Pre Installation Site Survey ***************/

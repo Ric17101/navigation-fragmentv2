@@ -4,15 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-
     <TextView
         android:id="@+id/textView14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36sp"
         android:text="Corrective Actions"
-        android:textSize="18sp"
+        android:textSize="@dimen/topTitleTextSize"
         android:textStyle="normal|bold" />
 
     <android.support.design.widget.TextInputLayout
@@ -31,7 +29,8 @@
             android:overScrollMode="always"
             android:scrollHorizontally="false"
             android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:textSize="@dimen/subTitleTextSize" />
     </android.support.design.widget.TextInputLayout>
 
     <TextView
@@ -40,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36sp"
         android:text="Rectification Date"
-        android:textSize="18sp"
+        android:textSize="@dimen/topTitleTextSize"
         android:textStyle="normal|bold" />
 
     <android.support.design.widget.TextInputLayout
@@ -60,7 +59,8 @@
             android:overScrollMode="always"
             android:scrollHorizontally="false"
             android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:textSize="@dimen/subTitleTextSize" />
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Remarks"
+        android:textSize="@dimen/topTitleTextSize"
         android:textStyle="normal|bold" />
 
     <android.support.design.widget.TextInputLayout
@@ -25,6 +26,7 @@
             android:gravity="top|start"
             android:inputType="textMultiLine"
             android:hint="Remarks"
+            android:textSize="@dimen/subTitleTextSize"
             android:lines="30"
             android:overScrollMode="always"
             android:scrollHorizontally="false"
